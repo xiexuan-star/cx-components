@@ -1,0 +1,142 @@
+$size: (
+  large: '9px 16px',
+  medium: '5px 16px',
+  mini: '2px 5px'
+);
+
+$theme: (
+  primary: (
+    main: $color-primary,
+    hover: rgb(41, 159, 255),
+    active: mix(black, $color-primary, 20%),
+    disabled: 'rgba(191, 191, 191, 1)'
+  ),
+  danger: (
+    main: 'rgba(255, 77, 79, 1)',
+    hover: 'rgba(255, 120, 117, 1)',
+    active: 'rgba(207, 19, 34, 1)',
+    disabled: 'rgba(191, 191, 191, 1)'
+  ),
+  info: (
+    main: 'rgba(89, 89, 89, 1)',
+    hover: 'rgba(140, 140, 140, 1)',
+    active: 'rgba(67, 67, 67, 1)',
+    disabled: 'rgba(191, 191, 191, 1)'
+  ),
+  success: (
+    main: 'rgba(36, 180, 126, 1)',
+    hover: 'rgba(70, 194, 144, 1)',
+    active: 'rgba(21, 143, 102, 1)',
+    disabled: 'rgba(191, 191, 191, 1)'
+  )
+);
+
+@mixin colorGroup($theme, $main, $hover, $active, $disabled, $params...) {
+  @each $key in $params {
+    &.cx-btn_#{$theme} {
+      #{$key}: #{$main};
+      &:hover {
+        #{$key}: #{$hover};
+      }
+      &:active {
+        #{$key}: #{$active};
+      }
+      &.cx-btn_disabled {
+        #{$key}: #{$disabled} !important;
+      }
+    }
+  }
+}
+
+.cx-btn_wrapper {
+  font-family: PingFang SC;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  box-sizing: border-box;
+  border-radius: 2px;
+    border-style: solid;
+    border-width: 1px;
+    outline: 0;
+  cursor: pointer;
+  background-color: rgba($color: #000000, $alpha: 0);
+
+  .iconfont{
+    margin-right: 5px;
+  }
+
+  .el-icon-loading{
+    margin-right: 5px;
+  }
+
+  &.cx-btn_disabled {
+    position: relative;
+    i {
+      cursor: not-allowed;
+    }
+  }
+  &.cx-btn_loading {
+    position: relative;
+    pointer-events: none;
+    &::before {
+      position: absolute;
+      pointer-events: none;
+      content: '';
+      left: -1px;
+      top: -1px;
+      right: -1px;
+      bottom: -1px;
+      border-radius: inherit;
+      z-index: 100;
+      background-color: hsla(0, 0%, 100%, 0.35);
+    }
+  }
+  @each $key, $value in $size {
+    &.cx-btn_#{$key} {
+      padding: #{$value};
+    }
+  }
+  &.cx-btn_level_1 {
+    color: #ffffff;
+
+    @each $key, $value in $theme {
+      $main: map-get($value, 'main');
+      $hover: map-get($value, 'hover');
+      $active: map-get($value, 'active');
+      $disabled: map-get($value, 'disabled');
+
+      @include colorGroup($key, $main, $hover, $active, $disabled, 'background','border-color');
+    }
+  }
+  &.cx-btn_level_2 {
+    color: rgba(0, 0, 0, 0.65);
+
+    @each $key, $value in $theme {
+      $hover: map-get($value, 'hover');
+      $active: map-get($value, 'active');
+
+      @include colorGroup($key, 'rgba(0, 0, 0, 0.65)', $hover, $active, 'rgba(0, 0, 0, 0.3)', 'color', 'border-color');
+      
+      &.cx-btn_#{$key} {
+        border-color: rgba($color: #000000, $alpha: 0.3);
+      }
+    }
+  }
+  &.cx-btn_level_3 {
+    border-color: rgba($color: #000000, $alpha: 0);
+    padding-left: 4px!important;
+    padding-right: 4px!important;
+    &:hover{
+      text-decoration-line:underline ;
+    }
+
+    @each $key, $value in $theme {
+      $main: map-get($value, 'main');
+      $hover: map-get($value, 'hover');
+      $active: map-get($value, 'active');
+      $disabled: map-get($value, 'disabled');
+
+      @include colorGroup($key, $main, $hover, $active, $disabled, 'color');
+    }
+  }
+}

@@ -1,0 +1,72 @@
+// 主题色
+$color-primary: #0084ff;
+$color-danger: #f9463f;
+$color-warning: #fa8c16;
+$color-info: #abb2c2;
+$color-success: #24b47e;
+
+$color-red: #ff3333;
+$color-purple: #ff33a9;
+$color-orange: #ff8833;
+$color-blue: #3377ff;
+$color-deep: #2c96ff;
+$color-weak: #b9fdfb;
+$color-gray: #8c939d;
+$color-white: #fff;
+$color-black: #000;
+
+// 文字色
+$color-text-primary: #0084ff;
+$color-text-deep: rgba(0, 0, 0, 0.85);
+$color-text-weak: rgba(0, 0, 0, 0.65);
+$color-text-tip: rgba(0, 0, 0, 0.45);
+$color-text-dark: #333;
+// $color-deep: #555;
+$color-text-gray: #999999;
+// border
+$color-border-dark-primary: #b3b3b3;
+$color-border-weak: #f0f0f0;
+$color-border-dark: #d9d9d9;
+
+$color-line: #f1f1f1;
+$color-bg: #f5f6fa;
+$color-bg-hover: #f0f5ff;
+
+// 混合色
+$color-primary-light-1: mix($color-white, $color-primary, 10%);
+$color-primary-light-2: mix($color-white, $color-primary, 20%);
+$color-primary-light-3: mix($color-white, $color-primary, 30%);
+$color-primary-light-4: mix($color-white, $color-primary, 40%);
+$color-primary-light-5: mix($color-white, $color-primary, 50%);
+$color-primary-light-6: mix($color-white, $color-primary, 60%);
+$color-primary-light-7: mix($color-white, $color-primary, 70%);
+$color-primary-light-8: mix($color-white, $color-primary, 80%);
+$color-primary-light-9: mix($color-white, $color-primary, 90%);
+
+// 背景色
+$bg-bar: #f9f9f9;
+$bg-page: #f3f3f3;
+$bg-page-light: #f9f9f9;
+$bg-color-primary: #fafafa;
+$bg-color-tip: #F0F5FF;
+// $color-bg-hover: #F0F5FF;
+
+$color-bg-hover: $color-primary-light-9;
+
+// --------------- UI规范常量 ---------------
+
+// table
+$table-head-bg-color: #f5f5f5;
+$table-bd-color: #d9d9d9;
+
+// content
+@mixin cxTitle {
+  font-style: normal;
+  font-weight: 500;
+  color: rgba($color: #000000, $alpha: 0.85);
+}
+
+$primary-title-ft-sz: 18px;
+$secondary-title-ft-sz: 16px;
+$third-title-ft-sz: 14px;
+$comment-ft-sz: 12px;
