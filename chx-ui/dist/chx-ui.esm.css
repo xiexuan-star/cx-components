@@ -315,6 +315,174 @@
   color: rgba(191, 191, 191, 1) !important;
 }
 
+.cx-tab_scroll_wrapper {
+  position: relative;
+  background-color: #fff;
+  transition: all 0.2s linear;
+  box-sizing: border-box;
+}
+.cx-tab_scroll_wrapper .cx-tab_item {
+  position: relative;
+  flex-wrap: nowrap;
+}
+.cx-tab_scroll_wrapper .cx-tab_item .cx-tab_badge_1 {
+  display: inline-block;
+  position: relative;
+  height: 20px;
+  min-width: 20px;
+  line-height: 18px;
+  padding: 0px 5px;
+  text-align: center;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: #f9463f;
+  font-size: 12px;
+  color: #fff;
+  margin-left: 5px;
+}
+.cx-tab_scroll_wrapper .cx-tab_item .cx-tab_badge_1 span {
+  zoom: 0.9;
+}
+.cx-tab_scroll_wrapper .cx-tab_item .cx-tab_badge_2,
+.cx-tab_scroll_wrapper .cx-tab_item .cx-tab_badge_3 {
+  display: inline-block;
+  position: relative;
+  margin-left: 5px;
+  height: 20px;
+  min-width: 20px;
+  line-height: 18px;
+  padding: 0px 5px;
+  text-align: center;
+  border-radius: 10px;
+  box-sizing: border-box;
+  transform: translate(0, -1px);
+  background-color: #f9463f;
+  font-size: 12px;
+  color: #fff;
+}
+.cx-tab_scroll_wrapper .cx-tab_item .cx-tab_badge_2 span,
+.cx-tab_scroll_wrapper .cx-tab_item .cx-tab_badge_3 span {
+  zoom: 0.9;
+}
+.cx-tab_scroll_wrapper.level-1_wrapper {
+  max-width: calc(100% + 40px);
+  padding: 0 20px;
+  margin: -20px -20px 20px -20px;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 2px solid #f0f0f0;
+  z-index: 100;
+}
+.cx-tab_scroll_wrapper.level-1_wrapper .cx-tab_item {
+  display: inline-block;
+  padding: 0 32px;
+  line-height: 38px;
+  height: 38px;
+  font-size: 14px;
+}
+.cx-tab_scroll_wrapper.level-1_wrapper .cx-tab_item.cx-tab_item_active {
+  color: #0084ff;
+  background: #fafafa;
+}
+.cx-tab_scroll_wrapper.level-1_wrapper .cx-tab_item.cx-tab_item_active::before {
+  bottom: 0;
+}
+.cx-tab_scroll_wrapper.level-2_wrapper {
+  max-width: 100%;
+  border-bottom: 1px solid #f0f0f0;
+}
+.cx-tab_scroll_wrapper.level-2_wrapper .cx-tab_item {
+  padding: 0px 2px;
+  height: 56px;
+  line-height: 56px;
+  font-size: 14px;
+  margin-right: 32px;
+}
+.cx-tab_scroll_wrapper.level-2_wrapper .cx-tab_item.cx-tab_item_active {
+  color: #0084ff;
+}
+.cx-tab_scroll_wrapper.level-2_wrapper .cx-tab_item.cx-tab_item_active::before {
+  bottom: 0;
+}
+.cx-tab_scroll_wrapper.level-3_wrapper {
+  background-color: #f5f5f5;
+  width: fit-content;
+  padding: 2px;
+}
+.cx-tab_scroll_wrapper.level-3_wrapper .cx-tab_item {
+  padding: 8px 17px;
+  font-size: 14px;
+  border-radius: 2px;
+}
+.cx-tab_scroll_wrapper.level-3_wrapper .cx-tab_item.cx-tab_item_active {
+  background-color: white;
+  color: #0084ff;
+  border-color: #0084ff;
+  z-index: 101;
+}
+.cx-tab_scroll_wrapper.level-3_wrapper .cx-tab_item.cx-tab_item_active::before {
+  display: none;
+}
+.cx-tab_scroll_wrapper .cx-tab_left_arrow,
+.cx-tab_scroll_wrapper .cx-tab_right_arrow {
+  position: absolute;
+  height: 100%;
+  width: 20px;
+  top: 0;
+  background-color: #fff;
+  cursor: pointer;
+}
+.cx-tab_scroll_wrapper .cx-tab_left_arrow {
+  left: 0px;
+}
+.cx-tab_scroll_wrapper .cx-tab_right_arrow {
+  right: 0px;
+}
+.cx-tab_scroll_wrapper .cx-tabs {
+  display: flex;
+}
+.cx-tab_scroll_wrapper .cx-tab_item {
+  text-align: center;
+  box-sizing: border-box;
+  font-family: PingFang SC;
+  font-style: normal;
+  font-weight: 500;
+  position: relative;
+  color: rgba(0, 0, 0, 0.65);
+  transition: background-color, color 0.3s linear;
+}
+.cx-tab_scroll_wrapper .cx-tab_item.cx-tab_item_active {
+  color: #0084ff;
+}
+.cx-tab_scroll_wrapper .cx-tab_item.cx-tab_item_active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #0084ff;
+}
+.cx-tab_scroll_wrapper .cx-tab_item:hover {
+  color: #0084ff;
+}
+
+.cx-tab_disabled .cx-tab_item {
+  cursor: not-allowed !important;
+}
+
+.cx-tab_wrapper {
+  display: flex;
+  justify-content: space-between;
+  z-index: 100;
+  overflow: hidden;
+  word-break: keep-all;
+  transition: all 0.2s linear;
+  flex-wrap: nowrap;
+}
+.cx-tab_wrapper::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
 .cx_card, .card {
   padding: 0 16px 16px 16px !important;
   background-color: #fff !important;

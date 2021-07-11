@@ -1,12 +1,9 @@
 import {
   App,
   computed,
-  createBlock,
   createCommentVNode,
-  createTextVNode,
   createVNode,
   defineComponent,
-  openBlock,
   PropType
 } from 'vue';
 import { SFCWithInstall } from '../../types';
@@ -35,7 +32,7 @@ const script = defineComponent({
     };
 
     const renderIconEle = (className: string) => {
-      return createVNode('i', { class: 'iconfont icon-' + className });
+      return createVNode('i', { class: 'iconfont icon-' + className }, null, PatchFlags.CLASS);
     };
 
     const renderDisabled = () => {
@@ -66,13 +63,13 @@ const script = defineComponent({
             })
         },
         [
-          props.loading ? renderLoadingEle() : null,
-          props.icon ? renderIconEle(props.icon) : null,
+          props.loading ? (cache[1] ? cache[1] : (cache[1] = renderLoadingEle())) : createCommentVNode('v-if', true),
+          props.icon ? renderIconEle(props.icon) : createCommentVNode('v-if', true),
           slots.default ? slots.default({}) : props.content,
-          props.disabled ? renderDisabled() : null
+          props.disabled ? (cache[2] ? cache[2] : (cache[2] = renderDisabled())) : createCommentVNode('v-if', true)
         ],
-        PatchFlags.CLASS
-      );
+        PatchFlags.CLASS | PatchFlags.NEED_PATCH
+      )
     };
   }
 });

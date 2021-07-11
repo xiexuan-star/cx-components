@@ -2,5 +2,3 @@ node_modules
 src
 build
 test
-package.json
-package-lock.json

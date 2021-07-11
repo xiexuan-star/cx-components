@@ -1,2 +1,3 @@
 import CxBtn from './cx-btn';
-export { CxBtn };
+import CxTab from './cx-tab';
+export { CxBtn, CxTab };
