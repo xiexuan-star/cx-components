@@ -1,4 +1,4 @@
-import { App } from "vue";
+import { App } from 'vue';
 export declare type SFCWithInstall<T> = T & {
     install(app: App): void;
 };
@@ -8,4 +8,7 @@ export interface AnyObject {
 export interface NameWithId {
     name: string | number;
     id: string | number;
+}
+export interface Func<T> {
+    (...args: any[]): T;
 }
