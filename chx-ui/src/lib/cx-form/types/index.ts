@@ -43,7 +43,7 @@ export interface CxFormConfig {
 }
 
 export interface CxFormChangeHandle {
-  (payload: { prop: string; val: any; form: AnyObject }): void;
+  (payload: { prop: string; val: any; form: AnyObject,text?:string }): void;
 }
 
 export type CxFormSelectOptions = { name: string; id: string | number; disabled?: boolean }[];

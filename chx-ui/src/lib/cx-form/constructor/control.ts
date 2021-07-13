@@ -67,8 +67,12 @@ export class CxFormControl extends CxFormTemplate {
     placeholder && Reflect.set(this.attrs, 'placeholder', placeholder)
     const { emit } = useContext()
     Reflect.set(this.attrs, 'onChange', (val: any) => {
-      isFunction(emit) && emit('change', { prop: this.prop, val, form: this.form })
-      isFunction(this.config?.onChange) && this.config?.onChange({ prop: this.prop, val, form: this.form })
+      const payload = { prop: this.prop, val, form: this.form }
+      if (Array.isArray(this.attrs.options)) {
+        Reflect.set(payload, 'text', this.attrs.options.find((option) => option.id === val)?.name)
+      }
+      isFunction(emit) && emit('change', payload)
+      isFunction(this.config?.onChange) && this.config?.onChange(payload)
     })
     !isObject(this.attrs?.style) && Reflect.set(this.attrs, 'style', {})
     this.config.width && isObject(this.attrs?.style) && Reflect.set(this.attrs.style, 'width', `${this.config.width}px`)
