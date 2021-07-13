@@ -1,96 +1,96 @@
-import { Slot, Slots, VNode } from 'vue';
-import { AnyObject } from '../../../types';
-import { CxFormControl } from '../constructor';
+import { Slot, Slots, VNode } from 'vue'
+import { AnyObject } from '../../../types'
+import { CxFormControl } from '../constructor'
 
 interface ValidateCallback {
-  (err?: Error): void;
+  (err?: Error): void
 }
 
 interface FormValidateCallback {
-  (isValid: boolean, invalidFields: AnyObject): void;
+  (isValid: boolean, invalidFields: AnyObject): void
 }
 
 export interface ElFormExpose {
-  validate(): Promise<boolean>;
-  validate(callback: ValidateCallback): void;
-  validateField(props: string | string[], callback?: FormValidateCallback): void;
-  clearValidate(props?: string | string[]): void;
-  resetFields(): void;
+  validate(): Promise<boolean>
+  validate(callback: ValidateCallback): void
+  validateField(props: string | string[], callback?: FormValidateCallback): void
+  clearValidate(props?: string | string[]): void
+  resetFields(): void
 }
 
 export interface CxFormTemplateType {
-  name: string;
-  slots: Slots;
-  attrs: AnyObject;
-  init: () => this;
-  propAdaptor: () => this;
-  addSlots: (slots: Slots | Slot) => this;
-  renderVNode: (Comp?: any) => VNode | null;
-  render: () => VNode | null | void;
+  name: string
+  slots: Slots
+  attrs: AnyObject
+  init: () => this
+  propAdaptor: () => this
+  addSlots: (slots: Slots | Slot) => this
+  renderVNode: (Comp?: any) => VNode | null
+  render: () => VNode | null | void
 }
 
 export type CxFormCache = {
-  setCache: (dataSource?: any) => void;
-  getCache: () => void;
-  removeCache: () => void;
-};
+  setCache: (dataSource?: any) => void
+  getCache: () => void
+  removeCache: () => void
+}
 export interface CxFormConfig {
-  inline?: boolean;
-  attrs?: AnyObject;
-  rules?: AnyObject;
-  form: AnyObject;
-  items: CxFormItemConfig[];
+  inline?: boolean
+  attrs?: AnyObject
+  rules?: AnyObject
+  form: AnyObject
+  items: CxFormItemConfig[]
 }
 
 export interface CxFormChangeHandle {
-  (payload: { prop: string; val: any; form: AnyObject,text?:string }): void;
+  (payload: { prop: string; val: any; form: AnyObject; option?: AnyObject }): void
 }
 
-export type CxFormSelectOptions = { name: string; id: string | number; disabled?: boolean }[];
+export type CxFormSelectOptions = { name: string; id: string | number; disabled?: boolean }[]
 
 export type CxFormItemConfig = {
-  prop: string;
+  prop: string
 } & Partial<{
-  label: string;
-  labelWidth: string | number;
-  width: string | number;
-  rule: AnyObject | AnyObject[];
-  hide: boolean;
-  onChange: CxFormChangeHandle;
+  label: string
+  labelWidth: string | number
+  width: string | number
+  rule: AnyObject | AnyObject[]
+  hide: boolean
+  onChange: CxFormChangeHandle
   /**
    * @description 绑定在ElFormItem上的属性
    */
-  itemAttrs: AnyObject;
+  itemAttrs: AnyObject
   /**
    * @description label与control的间距
    */
-  spacing: number;
-  placeholder: string;
+  spacing: number
+  placeholder: string
   /**
    * @description control中的插槽名, 如 slot: { default:defaultSlotName,append:appendSlotName }
    */
-  slot: Record<string, string>;
-  labelSlot: string;
+  slot: Record<string, string>
+  labelSlot: string
   custom: {
     // slot 为custom状态下对应的控件插槽名,与一般的插槽不同,该插槽会自动为最外层的所有元素绑定v-model与custom对象中的的其他属性,无需手动绑定
-    slot: string;
-    [propName: string]: any;
-  };
+    slot: string
+    [propName: string]: any
+  }
   /**
    * @description 输入框控件属性
    */
-  input: { trim?: boolean; searchIcon?: boolean; [propName: string]: any };
-  select: { options: CxFormSelectOptions; [propName: string]: any };
-  search: { options: CxFormSelectOptions; [propName: string]: any };
-  textarea: { showWordLimit?: boolean; [propName: string]: any };
-  selectMultiply: AnyObject;
-  date: AnyObject;
-  dateRange: AnyObject;
-  inscription: AnyObject;
-  radio: AnyObject;
-  checkbox: AnyObject;
-  switchAttr: AnyObject;
-}>;
+  input: { trim?: boolean; searchIcon?: boolean; [propName: string]: any }
+  select: { options: CxFormSelectOptions; [propName: string]: any }
+  search: { options: CxFormSelectOptions; [propName: string]: any }
+  textarea: { showWordLimit?: boolean; [propName: string]: any }
+  selectMultiply: AnyObject
+  date: AnyObject
+  dateRange: AnyObject
+  inscription: AnyObject
+  radio: AnyObject
+  checkbox: AnyObject
+  switchAttr: AnyObject
+}>
 
 export type CxFormItemType =
   | 'input'
@@ -100,8 +100,8 @@ export type CxFormItemType =
   | 'selectMultiply'
   | 'dateRange'
   | 'date'
-  | 'custom';
+  | 'custom'
 
 export interface CxFormAdaptor {
-  (this: CxFormControl): any;
+  (this: CxFormControl): any
 }

@@ -69,7 +69,7 @@ export class CxFormControl extends CxFormTemplate {
     Reflect.set(this.attrs, 'onChange', (val: any) => {
       const payload = { prop: this.prop, val, form: this.form }
       if (Array.isArray(this.attrs.options)) {
-        Reflect.set(payload, 'text', this.attrs.options.find((option) => option.id === val)?.name)
+        Reflect.set(payload, 'option', this.attrs.options.find((option) => option.id === val))
       }
       isFunction(emit) && emit('change', payload)
       isFunction(this.config?.onChange) && this.config?.onChange(payload)
