@@ -31,7 +31,7 @@ declare const _CX_TAB: SFCWithInstall<import("vue").DefineComponent<{
         type: PropType<AnyObject>;
         default: () => {};
     };
-}, () => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
+}, (_: any, cache: any[]) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
 }>, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "change")[], "update:modelValue" | "change", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<{
     level: string | number;

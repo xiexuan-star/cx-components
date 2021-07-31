@@ -65,7 +65,9 @@ export class CxFormControl extends CxFormTemplate {
 
     const placeholder = Reflect.get(this.config ?? {}, 'placeholder')
     placeholder && Reflect.set(this.attrs, 'placeholder', placeholder)
+    
     const { emit } = useContext()
+
     Reflect.set(this.attrs, 'onChange', (val: any) => {
       const payload = { prop: this.prop, val, form: this.form }
       if (Array.isArray(this.attrs.options)) {

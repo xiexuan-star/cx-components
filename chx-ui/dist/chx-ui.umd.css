@@ -575,47 +575,47 @@
 }
 
 .cx_opacity_0 {
-  opacity: 0 0 !important;
+  opacity: 0 !important;
 }
 
 .cx_opacity_10 {
-  opacity: 0 10 !important;
+  opacity: 0.1 !important;
 }
 
 .cx_opacity_20 {
-  opacity: 0 20 !important;
+  opacity: 0.2 !important;
 }
 
 .cx_opacity_30 {
-  opacity: 0 30 !important;
+  opacity: 0.3 !important;
 }
 
 .cx_opacity_40 {
-  opacity: 0 40 !important;
+  opacity: 0.4 !important;
 }
 
 .cx_opacity_50 {
-  opacity: 0 50 !important;
+  opacity: 0.5 !important;
 }
 
 .cx_opacity_60 {
-  opacity: 0 60 !important;
+  opacity: 0.6 !important;
 }
 
 .cx_opacity_70 {
-  opacity: 0 70 !important;
+  opacity: 0.7 !important;
 }
 
 .cx_opacity_80 {
-  opacity: 0 80 !important;
+  opacity: 0.8 !important;
 }
 
 .cx_opacity_90 {
-  opacity: 0 90 !important;
+  opacity: 0.9 !important;
 }
 
 .cx_opacity_100 {
-  opacity: 0 100 !important;
+  opacity: 1 !important;
 }
 
 .cx_b_radius_1 {
