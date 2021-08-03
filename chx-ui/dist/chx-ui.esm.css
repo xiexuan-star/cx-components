@@ -324,6 +324,7 @@
 .cx-tab_scroll_wrapper .cx-tab_item {
   position: relative;
   flex-wrap: nowrap;
+  min-width: max-content;
 }
 .cx-tab_scroll_wrapper .cx-tab_item .cx-tab_badge_1 {
   display: inline-block;
@@ -378,7 +379,6 @@
   line-height: 38px;
   height: 38px;
   font-size: 14px;
-  min-width: max-content;
 }
 .cx-tab_scroll_wrapper.level-1_wrapper .cx-tab_item.cx-tab_item_active {
   color: #0084ff;
