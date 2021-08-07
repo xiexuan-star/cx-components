@@ -6,6 +6,7 @@ import { CxFormConfig, ElFormExpose } from '../types';
 import { CxFormTemplate } from '.';
 import { AnyObject } from '../../../types';
 import { omit } from '../../../utils';
+import { useCxForm } from '../hooks';
 
 export class CxForm extends CxFormTemplate {
   name = 'CxForm';
@@ -35,6 +36,7 @@ export class CxForm extends CxFormTemplate {
     return this;
   }
   render() {
-    return this.renderVNode(resolveComponent('ElForm'));
+    const form = useCxForm().getRenderer('form')?.comp??resolveComponent('ElForm')
+    return this.renderVNode(form);
   }
 }

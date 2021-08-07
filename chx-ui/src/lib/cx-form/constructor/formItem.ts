@@ -5,6 +5,7 @@ import { CxFormItemConfig } from '../types';
 import { CxFormTemplate } from '.';
 import { AnyObject } from '../../../types';
 import { isNumber, isObject } from '../../../utils';
+import { useCxForm } from '../hooks';
 
 export class CxFormItem extends CxFormTemplate {
   name = 'CxFormItem';
@@ -37,6 +38,7 @@ export class CxFormItem extends CxFormTemplate {
     return this;
   }
   render() {
-    return this.renderVNode(resolveComponent('ElFormItem'));
+    const formItem = useCxForm().getRenderer('formItem')?.comp??resolveComponent('ElFormItem')
+    return this.renderVNode(formItem);
   }
 }
