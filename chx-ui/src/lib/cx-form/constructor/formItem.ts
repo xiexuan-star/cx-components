@@ -33,6 +33,7 @@ export class CxFormItem extends CxFormTemplate {
     this.config?.labelWidth && Reflect.set(this.attrs, 'labelWidth', this.config.labelWidth + 'px');
     Reflect.set(this.attrs, 'label', this.config?.label ?? '');
     Reflect.set(this.attrs, 'prop', this.config?.prop ?? '');
+    Reflect.set(this.attrs, 'key', this.config?.prop ?? '');
 
     return this;
   }
