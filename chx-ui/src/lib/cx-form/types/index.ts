@@ -46,7 +46,8 @@ export interface CxFormChangeHandle {
   (payload: { prop: string; val: any; form: AnyObject; option?: AnyObject }): void
 }
 
-export type CxFormSelectOptions = { name: string; id: string | number; disabled?: boolean }[]
+export type option = { name: string; id: string | number; disabled?: boolean }
+export type CxFormSelectOptions = option[] |((payload:{form:AnyObject})=>option[])
 
 export type CxFormItemConfig = {
   prop: string
