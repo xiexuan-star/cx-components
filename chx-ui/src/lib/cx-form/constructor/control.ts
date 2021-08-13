@@ -1,6 +1,6 @@
 import { Slot, Slots } from '@vue/runtime-core'
 
-import { CxFormItemConfig } from '../types'
+import { CxFormConfig, CxFormItemConfig } from '../types'
 import { useCxForm } from '../hooks'
 
 import { CxFormTemplate } from '.'
@@ -11,15 +11,19 @@ export class CxFormControl extends CxFormTemplate {
   name = 'CxFormControl'
   parse: Func<any> | null = null
   config: CxFormItemConfig
+  rootConfig: CxFormConfig
   attrs: AnyObject = {}
   form: AnyObject
   prop: string
+  emit: Func<any>
   type = ''
-  constructor(form: AnyObject, controlConfig: CxFormItemConfig) {
+  constructor(form: AnyObject, controlConfig: CxFormItemConfig, rootConfig: CxFormConfig) {
     super()
     this.form = form
     this.config = controlConfig
+    this.rootConfig = rootConfig
     this.prop = controlConfig.prop
+    this.emit = useContext().emit
     this.init()
   }
   init() {
@@ -65,19 +69,24 @@ export class CxFormControl extends CxFormTemplate {
 
     const placeholder = Reflect.get(this.config ?? {}, 'placeholder')
     placeholder && Reflect.set(this.attrs, 'placeholder', placeholder)
-    
+
     const { emit } = useContext()
 
     Reflect.set(this.attrs, 'onChange', (val: any) => {
       const payload = { prop: this.prop, val, form: this.form }
       if (Array.isArray(this.attrs.options)) {
-        Reflect.set(payload, 'option', this.attrs.options.find((option) => option.id === val))
+        Reflect.set(
+          payload,
+          'option',
+          this.attrs.options.find((option) => option.id === val)
+        )
       }
       isFunction(emit) && emit('change', payload)
       isFunction(this.config?.onChange) && this.config?.onChange(payload)
     })
     !isObject(this.attrs?.style) && Reflect.set(this.attrs, 'style', {})
     this.config.width && isObject(this.attrs?.style) && Reflect.set(this.attrs.style, 'width', `${this.config.width}px`)
+    Reflect.set(this.attrs, 'closable', this.rootConfig?.closable || this.config.closable)
     return this
   }
   render() {
@@ -89,6 +98,6 @@ export class CxFormControl extends CxFormTemplate {
       Control = isFunction(comp) ? (comp as Function)() : comp
     }
 
-    return this.renderVNode(Control)
+    return this.renderControl(Control)
   }
 }

@@ -39,6 +39,7 @@ export interface CxFormConfig {
   attrs?: AnyObject
   rules?: AnyObject
   form: AnyObject
+  closable:boolean
   items: CxFormItemConfig[]
 }
 
@@ -54,6 +55,7 @@ export type CxFormItemConfig = {
 } & Partial<{
   label: string
   labelWidth: string | number
+  closable:boolean
   width: string | number
   rule: AnyObject | AnyObject[]
   hide: boolean

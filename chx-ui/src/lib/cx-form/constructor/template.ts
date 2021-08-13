@@ -27,6 +27,9 @@ export class CxFormTemplate implements CxFormTemplateType {
   renderVNode(Comp?: any) {
     return cxFormRender().renderComp(this.attrs, this.slots, Comp);
   }
+  renderControl(Comp?:any){
+    return cxFormRender().renderControl(this.attrs, this.slots, Comp)
+  }
   render() {
     throw new Error('请重写render方法');
   }
