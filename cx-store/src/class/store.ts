@@ -42,7 +42,7 @@ export default class CxLocalStore implements CxLocalStoreType {
    * @param module 模块名
    * @returns 数据value
    */
-  get(key: string, module = GLOBAL_STORAGE): any | void {
+  get<T = any>(key: string, module = GLOBAL_STORAGE): T | void {
     const moduleStore = this.getModule(module);
     try {
       const result = Reflect.get(moduleStore, key);
