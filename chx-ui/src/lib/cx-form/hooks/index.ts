@@ -42,6 +42,7 @@ export const useCxForm = () => {
         if (!Array.isArray(val)) throw new CxFormError("can't set options with non-array")
         const options = Reflect.get(typeAttrs, 'options')
         Array.isArray(options) ? (options.splice(0), options.push(...val)) : Reflect.set(typeAttrs, 'options', val)
+        Reflect.set(typeAttrs, 'key', Date.now())
       } else {
         Reflect.set(typeAttrs, attr, val)
       }
