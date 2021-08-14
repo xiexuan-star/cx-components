@@ -15,7 +15,6 @@ export class CxFormControl extends CxFormTemplate {
   attrs: AnyObject = {}
   form: AnyObject
   prop: string
-  emit: Func<any>
   type = ''
   constructor(form: AnyObject, controlConfig: CxFormItemConfig, rootConfig: CxFormConfig) {
     super()
@@ -23,7 +22,6 @@ export class CxFormControl extends CxFormTemplate {
     this.config = controlConfig
     this.rootConfig = rootConfig
     this.prop = controlConfig.prop
-    this.emit = useContext().emit
     this.init()
   }
   init() {
@@ -58,7 +56,6 @@ export class CxFormControl extends CxFormTemplate {
   }
   propAdaptor() {
     const { getRendererKeys, getRenderer } = useCxForm()
-    Reflect.set(this.attrs, 'prop', this.prop)
     ;[...getRendererKeys()].find((type) => {
       if (!isObject(Reflect.get(this.config!, type))) return
       const { adaptor } = getRenderer(type) ?? {}
@@ -86,7 +83,10 @@ export class CxFormControl extends CxFormTemplate {
     })
     !isObject(this.attrs?.style) && Reflect.set(this.attrs, 'style', {})
     this.config.width && isObject(this.attrs?.style) && Reflect.set(this.attrs.style, 'width', `${this.config.width}px`)
-    Reflect.set(this.attrs, 'closable', this.rootConfig?.closable || this.config.closable)
+    Reflect.set(this.attrs, '__closable', this.rootConfig?.closable || this.config.closable)
+    Reflect.set(this.attrs, '__emit', emit)
+    Reflect.set(this.attrs, '__prop', this.prop)
+
     return this
   }
   render() {

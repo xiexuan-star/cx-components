@@ -1,6 +1,6 @@
 import { createBlock, createCommentVNode, createVNode, Fragment, openBlock } from 'vue'
 import { AnyObject } from '../../../types'
-import { isFunction } from '../../../utils'
+import { isFunction, omit } from '../../../utils'
 import { PatchFlags } from '../../../constant/enum'
 
 const renderComp = (attrs: AnyObject, slots: AnyObject, Comp?: any) => {
@@ -10,15 +10,15 @@ const renderComp = (attrs: AnyObject, slots: AnyObject, Comp?: any) => {
       Comp
         ? isFunction(Comp)
           ? (function () {
-              const nodes = Comp(attrs)
+              const nodes = Comp(omit(attrs, ['__closable', '__emit', '__prop']))
               // nodes?.forEach?.((node: any) => {
               //   !node.props && Reflect.set(node, 'props', {});
-              //   Object.assign(node?.props, attrs);
+              //   Object.assign(node?.props, omit(attrs,['closable']));
               //   node.PatchFlags = PatchFlags.FULL_PROPS;
               // });
               return nodes
             })()
-          : createVNode(Comp, attrs, slots, PatchFlags.FULL_PROPS)
+          : createVNode(Comp, omit(attrs, ['__closable', '__emit', '__prop']), slots, PatchFlags.FULL_PROPS)
         : createCommentVNode('v-if_component', true),
     ])
   )
@@ -27,23 +27,18 @@ const renderComp = (attrs: AnyObject, slots: AnyObject, Comp?: any) => {
 class CxFormRender {
   renderComp = renderComp
   renderControl(attrs: AnyObject, slots: AnyObject, Comp?: any) {
-    return (
-      openBlock(),
-      createBlock(Fragment, null, [
-        createVNode('div', { style: { position: 'relative' } }, [
-          renderComp(attrs, slots, Comp),
-          attrs.closable
-            ? createVNode('i', {
-                style: { position: 'absolute', right: '-3px', top: '-3px' },
-                class: 'closable-icon',
-                onClick: () => {
-                  isFunction(attrs.emit) && attrs.emit('close', attrs.prop)
-                },
-              })
-            : createCommentVNode('v-if_closable', true),
-        ]),
-      ])
-    )
+    return createVNode('div', { style: { position: 'relative' } }, [
+      renderComp(attrs, slots, Comp),
+      attrs.__closable
+        ? createVNode('i', {
+            style: { position: 'absolute', right: '-3px', top: '-3px' },
+            class: 'iconfont icon-shanchu',
+            onClick: () => {
+              isFunction(attrs.__emit) && attrs.emit('close', attrs.__prop)
+            },
+          })
+        : createCommentVNode('v-if_closable', true),
+    ])
   }
 }
 
