@@ -34,7 +34,7 @@ class CxFormRender {
             style: { position: 'absolute', right: '-3px', top: '-3px' },
             class: 'iconfont icon-shanchu',
             onClick: () => {
-              isFunction(attrs.__emit) && attrs.emit('close', attrs.__prop)
+              isFunction(attrs.__emit) && attrs.__emit('close', attrs.__prop)
             },
           })
         : createCommentVNode('v-if_closable', true),

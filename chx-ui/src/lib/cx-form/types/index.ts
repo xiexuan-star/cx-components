@@ -39,7 +39,7 @@ export interface CxFormConfig {
   attrs?: AnyObject
   rules?: AnyObject
   form: AnyObject
-  closable:boolean
+  closable: boolean
   items: CxFormItemConfig[]
 }
 
@@ -48,14 +48,14 @@ export interface CxFormChangeHandle {
 }
 
 export type option = { name: string; id: string | number; disabled?: boolean }
-export type CxFormSelectOptions = option[] |((payload:{form:AnyObject})=>option[])
+export type CxFormSelectOptions = option[] | ((payload: { form: AnyObject }) => option[])
 
 export type CxFormItemConfig = {
   prop: string
 } & Partial<{
   label: string
   labelWidth: string | number
-  closable:boolean
+  closable: boolean
   width: string | number
   rule: AnyObject | AnyObject[]
   hide: boolean
@@ -89,6 +89,7 @@ export type CxFormItemConfig = {
   selectMultiply: AnyObject
   date: AnyObject
   dateRange: AnyObject
+  time: AnyObject
   inscription: AnyObject
   radio: AnyObject
   checkbox: AnyObject
@@ -104,6 +105,7 @@ export type CxFormItemType =
   | 'dateRange'
   | 'date'
   | 'custom'
+  | 'time'
 
 export interface CxFormAdaptor {
   (this: CxFormControl): any
