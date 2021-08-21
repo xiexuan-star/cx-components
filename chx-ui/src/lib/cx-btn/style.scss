@@ -61,14 +61,6 @@ $theme: (
   cursor: pointer;
   background-color: rgba($color: #000000, $alpha: 0);
 
-  .iconfont{
-    margin-right: 5px;
-  }
-
-  .el-icon-loading{
-    margin-right: 5px;
-  }
-
   &.cx-btn_disabled {
     position: relative;
     i {

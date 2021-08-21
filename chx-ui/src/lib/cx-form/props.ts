@@ -9,4 +9,5 @@ export const CxFormProps = {
   closable: { type: Boolean, default: false },
   items: { type: Array as PropType<CxFormItemConfig[]>, default: (): any[] => [] },
   class: { type: [Array, Object, String], default: (): any[] => [] },
+  formAttrs: { type: Object as PropType<AnyObject> },
 }

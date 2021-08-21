@@ -11,12 +11,6 @@
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0);
 }
-.cx-btn_wrapper .iconfont {
-  margin-right: 5px;
-}
-.cx-btn_wrapper .el-icon-loading {
-  margin-right: 5px;
-}
 .cx-btn_wrapper.cx-btn_disabled {
   position: relative;
 }

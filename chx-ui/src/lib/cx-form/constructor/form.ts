@@ -22,7 +22,8 @@ export class CxForm extends CxFormTemplate {
     return this.ref;
   }
   propAdaptor() {
-    Object.assign(this.attrs, cxFormDefaultConfig.form(), omit(this.config, ['items']));
+    Object.assign(this.attrs, cxFormDefaultConfig.form(), omit(this.config, ['items','formAttrs']));
+    this.config.formAttrs&&Object.assign(this.attrs,omit(this.config.formAttrs,['form','inline','disabled','closable','items','class']))
     Reflect.set(this.attrs, 'ref', this.ref);
     Reflect.set(this.attrs, 'model', this.config?.form ?? {});
     Reflect.set(

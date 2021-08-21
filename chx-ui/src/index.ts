@@ -15,7 +15,7 @@ const CxUI: Plugin = {
 export default CxUI
 
 // 局部引入
-export const comps = components
+export * from './lib'
 
 // 导出各组件hooks
 export * from './lib/cx-form/hooks/index'

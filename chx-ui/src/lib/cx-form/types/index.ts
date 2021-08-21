@@ -41,6 +41,7 @@ export interface CxFormConfig {
   form: AnyObject
   closable: boolean
   items: CxFormItemConfig[]
+  formAttrs?:AnyObject
 }
 
 export interface CxFormChangeHandle {
