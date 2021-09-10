@@ -4,7 +4,6 @@ import { CxFormConfig, CxFormItemConfig } from '../types'
 import { useCxForm } from '../hooks'
 
 import { CxFormTemplate } from '.'
-import { useContext } from 'vue'
 import { AnyObject, Func } from '../../../types'
 import { isFunction, isObject } from '../../../utils'
 export class CxFormControl extends CxFormTemplate {
@@ -16,9 +15,11 @@ export class CxFormControl extends CxFormTemplate {
   form: AnyObject
   prop: string
   type = ''
-  constructor(form: AnyObject, controlConfig: CxFormItemConfig, rootConfig: CxFormConfig) {
+  emit
+  constructor(form: AnyObject, controlConfig: CxFormItemConfig, rootConfig: CxFormConfig, emit: Func<any>) {
     super()
     this.form = form
+    this.emit = emit
     this.config = controlConfig
     this.rootConfig = rootConfig
     this.prop = controlConfig.prop
@@ -67,8 +68,6 @@ export class CxFormControl extends CxFormTemplate {
     const placeholder = Reflect.get(this.config ?? {}, 'placeholder')
     placeholder && Reflect.set(this.attrs, 'placeholder', placeholder)
 
-    const { emit } = useContext()
-
     Reflect.set(this.attrs, 'onChange', (val: any) => {
       const payload = { prop: this.prop, val, form: this.form }
       if (Array.isArray(this.attrs.options)) {
@@ -78,13 +77,13 @@ export class CxFormControl extends CxFormTemplate {
           this.attrs.options.find((option) => option.id === val)
         )
       }
-      isFunction(emit) && emit('change', payload)
+      isFunction(this.emit) && this.emit('change', payload)
       isFunction(this.config?.onChange) && this.config?.onChange(payload)
     })
     !isObject(this.attrs?.style) && Reflect.set(this.attrs, 'style', {})
     this.config.width && isObject(this.attrs?.style) && Reflect.set(this.attrs.style, 'width', `${this.config.width}px`)
     Reflect.set(this.attrs, '__closable', this.rootConfig?.closable || this.config.closable)
-    Reflect.set(this.attrs, '__emit', emit)
+    Reflect.set(this.attrs, '__emit', this.emit)
     Reflect.set(this.attrs, '__prop', this.prop)
 
     return this
