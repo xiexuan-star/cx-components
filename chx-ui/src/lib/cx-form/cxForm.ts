@@ -12,7 +12,7 @@ export default defineComponent({
   emits: ['change', 'register', 'close'],
   setup(props, { slots, emit, expose }) {
     function renderControl(itemConfig: CxFormItemConfig) {
-      return new CxFormControl(props.form, itemConfig,props).addSlots(slots).render()
+      return new CxFormControl(props.form, itemConfig, props,emit).addSlots(slots).render()
     }
 
     function renderFormItem(itemConfig: CxFormItemConfig) {
@@ -34,7 +34,7 @@ export default defineComponent({
 
     expose({
       trigger: (prop: string) => {
-        emit('change', { prop, val: props.form[prop] })
+        emit('change', { prop, val: props.form[prop], form: props.form })
       },
     })
 

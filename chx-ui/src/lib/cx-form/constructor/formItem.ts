@@ -28,11 +28,11 @@ export class CxFormItem extends CxFormTemplate {
   propAdaptor() {
     // 以下顺序请勿变更
     isNumber(this.config?.spacing) && Reflect.set(this.attrs, 'style', { paddingRight: this.config?.spacing + 'px' })
+    Reflect.set(this.attrs, 'key', this.config?.prop ?? '')
     Object.assign(this.attrs, this.config?.itemAttrs ?? {})
     this.config?.labelWidth && Reflect.set(this.attrs, 'labelWidth', this.config.labelWidth + 'px')
     Reflect.set(this.attrs, 'label', this.config?.label ?? '')
     Reflect.set(this.attrs, 'prop', this.config?.prop ?? '')
-    Reflect.set(this.attrs, 'key', this.config?.prop ?? '')
 
     return this
   }
