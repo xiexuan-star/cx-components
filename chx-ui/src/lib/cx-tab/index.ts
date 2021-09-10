@@ -150,7 +150,9 @@ const script = defineComponent({
         timer = setTimeout(cb, delay)
       }
     }
-    const tabsResize = debounce(isShowArrow,100)
+    const tabsResize = debounce(() => {
+      showArrow.value = isShowArrow()
+    },100)
     onMounted(() => {
       window.addEventListener('resize', tabsResize);
     })
