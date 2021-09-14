@@ -10,7 +10,8 @@ const renderComp = (attrs: AnyObject, slots: AnyObject, Comp?: any) => {
       Comp
         ? isFunction(Comp)
           ? (function () {
-              const nodes = Comp(omit(attrs, ['__closable', '__emit', '__prop']))
+              const prop = attrs.__prop
+              const nodes = Comp(Object.assign(omit(attrs, ['__closable', '__emit', '__prop']), { prop }))
               // nodes?.forEach?.((node: any) => {
               //   !node.props && Reflect.set(node, 'props', {});
               //   Object.assign(node?.props, omit(attrs,['closable']));
