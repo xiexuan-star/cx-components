@@ -5,6 +5,8 @@ import {
   createVNode,
   defineComponent,
   nextTick,
+  onBeforeUnmount,
+  onMounted,
   PropType,
   ref,
   watch,
@@ -69,11 +71,11 @@ const script = defineComponent({
             item.name,
             badgeValue
               ? createVNode(
-                  'div',
-                  { class: `cx-tab_badge_${props.level}` },
-                  `${badgeValue}${badgeUnit}`,
-                  PatchFlags.CLASS | PatchFlags.TEXT
-                )
+                'div',
+                { class: `cx-tab_badge_${props.level}` },
+                `${badgeValue}${badgeUnit}`,
+                PatchFlags.CLASS | PatchFlags.TEXT
+              )
               : createCommentVNode('v-if_badge', true),
           ],
           PatchFlags.NEED_PATCH | PatchFlags.CLASS
@@ -136,6 +138,27 @@ const script = defineComponent({
     }
 
     const showArrow = ref(isShowArrow())
+
+    // const MutationObserver = window.MutationObserver;
+    // const observer = new MutationObserver(() => {
+    // })
+
+    const debounce = (cb: any, delay:number) => {
+      let timer;
+      return () => {
+        clearTimeout(timer);
+        timer = setTimeout(cb, delay)
+      }
+    }
+    const tabsResize = debounce(() => {
+      showArrow.value = isShowArrow()
+    },100)
+    onMounted(() => {
+      window.addEventListener('resize', tabsResize);
+    })
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', tabsResize);
+    });
 
     watch(
       () => tabs.value,
