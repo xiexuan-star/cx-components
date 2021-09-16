@@ -617,8 +617,28 @@
   border-radius: 1px !important;
 }
 
-.cx_b_radius_to {
-  border-radius: topx !important;
+.cx_b_radius_2 {
+  border-radius: 2px !important;
+}
+
+.cx_b_radius_3 {
+  border-radius: 3px !important;
+}
+
+.cx_b_radius_4 {
+  border-radius: 4px !important;
+}
+
+.cx_b_radius_5 {
+  border-radius: 5px !important;
+}
+
+.cx_b_radius_6 {
+  border-radius: 6px !important;
+}
+
+.cx_b_radius_7 {
+  border-radius: 7px !important;
 }
 
 .cx_b_radius_8 {
