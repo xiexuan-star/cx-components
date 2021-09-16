@@ -88,7 +88,7 @@
   float: left;
 }
 
-@each $val in 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 {
+@each $val in 0, 10, 20, 30, 40, 45, 50, 60, 70, 80, 85, 90, 100 {
   .cx_opacity_#{$val} {
     opacity: #{$val/100} !important;
   }
