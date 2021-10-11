@@ -1,4 +1,4 @@
-import { AnyObject, Func } from '../types'
+import { AnyObject, Func, FunctionParams } from '../types'
 import { isObject } from './is'
 import * as R from 'ramda'
 
@@ -26,7 +26,7 @@ export function useEnumOptions<T>(obj: AnyObject, name = 'name', id = 'id'): T[]
   return result
 }
 
-export function throttle(func: Func<any>, wait = 100, options?: { leading?: boolean; trailing?: boolean }) {
+export function throttle<T extends Func<any>>(func:T , wait = 100, options?: { leading?: boolean; trailing?: boolean }) {
   let timeout, context, args, result
   let previous = 0
   if (!options) options = {}
@@ -38,12 +38,11 @@ export function throttle(func: Func<any>, wait = 100, options?: { leading?: bool
     if (!timeout) context = args = null //显示地释放内存，防止内存泄漏
   }
 
-  function throttled() {
+  function throttled(...args:FunctionParams<T>) {
     var now = Date.now()
     if (!previous && options.leading === false) previous = now
     var remaining = wait - (now - previous)
     context = this
-    args = arguments
     if (remaining <= 0 || remaining > wait) {
       if (timeout) {
         clearTimeout(timeout)

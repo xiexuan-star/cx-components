@@ -16,3 +16,11 @@ export interface NameWithId {
 export interface Func<T> {
   (...args: any[]): T
 }
+
+export interface SResponse<T = any> {
+  state: number
+  message: string
+  data: T
+}
+
+export type FunctionParams<T> = T extends (...payload: infer P) => any ? P : any
