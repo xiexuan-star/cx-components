@@ -5,5 +5,5 @@ import CxForm from './cx-form'
 export {
   CxBtn,
   CxTab,
-  CxForm
+  CxForm,
 }
