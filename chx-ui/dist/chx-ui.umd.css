@@ -589,6 +589,10 @@
   opacity: 0.4 !important;
 }
 
+.cx_opacity_45 {
+  opacity: 0.45 !important;
+}
+
 .cx_opacity_50 {
   opacity: 0.5 !important;
 }
@@ -603,6 +607,10 @@
 
 .cx_opacity_80 {
   opacity: 0.8 !important;
+}
+
+.cx_opacity_85 {
+  opacity: 0.85 !important;
 }
 
 .cx_opacity_90 {
