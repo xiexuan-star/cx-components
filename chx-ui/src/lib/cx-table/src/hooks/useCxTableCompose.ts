@@ -3,7 +3,6 @@ import { FormConfigAdaptor } from '../utils/formConfigAdaptor';
 import * as R from 'ramda';
 import { arrFlat, changeDynamicIdToText, cxTableWarn, formatFormDefaultValue } from '../utils';
 import { CxFormItemConfig } from '../../../..';
-import { AnyObject } from '../../../../types';
 import { unsafeGet, splat, truthy, Maybe, unsafePush, unsafeWhenDevCall } from '../../../../utils/functor';
 
 export const useCxTableCompose = () => {

@@ -9,7 +9,6 @@ import {
   ComputedRef,
   onBeforeUpdate
 } from 'vue';
-import { Func } from '../types';
 
 interface GetState<T> {
   (isRef: true): Ref<UnwrapRef<T>>;

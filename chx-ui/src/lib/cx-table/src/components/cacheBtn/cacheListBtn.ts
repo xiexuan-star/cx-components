@@ -1,13 +1,12 @@
 import { createVNode, defineComponent, inject, PropType } from 'vue';
-import { CxTableDynamicColumn, CxTablePropType } from '../../types';
-import { BasicDialogActions } from '@/components/global/Dialog';
-import { TableDataVisitor } from '../../hooks/useCxSort';
+import { CxTableDynamicColumn, CxTablePropType, TableDataVisitor } from '../../types';
 import cacheListDialog from './cacheListDialog';
-import { useState } from '@/hooks/state';
 import TeleportBtn from './teleportBtn';
 import * as R from 'ramda';
-import { IO, map, Maybe } from '@/utils/functor';
 import { PATCH_FLAG } from '../../constant/enum';
+import { useState } from '../../../../../hooks/state';
+import { CxDialogActions } from '../../../../cx-dialog/types';
+import { IO, map, Maybe } from '../../../../../utils/functor';
 
 export default defineComponent({
   name: 'CacheListBtn',
@@ -18,7 +17,7 @@ export default defineComponent({
   setup(props) {
     const rootProp = inject<CxTablePropType>('rootProp')!;
 
-    const [dialogRef, setDialogRef] = useState<BasicDialogActions | null>(null);
+    const [dialogRef, setDialogRef] = useState<CxDialogActions | null>(null);
 
     const dialogRefIO = IO.of(dialogRef);
     const setCacheIO = dialogRefIO.map(

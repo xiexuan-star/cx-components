@@ -7,9 +7,8 @@ import {
 import { calcInnerOptions, getOptionsDeps } from '../configAdaptor/adaptorUtils';
 import { isObject } from '../is';
 import * as R from 'ramda';
-import { map, Maybe, unsafeDeleteProperty, unsafeSet } from '@/utils/functor';
-import { AnyObject } from '@/types';
-import { CxFormItemConfig } from 'src';
+import { map, Maybe, unsafeDeleteProperty, unsafeSet } from '../../../../../utils/functor';
+import { CxFormItemConfig } from '../../../../..';
 
 const onInits: Array<CxTableFormAdaptorPlugin['onInit']> = [];
 const onOutputs: Array<CxTableFormAdaptorPlugin['onOutput']> = [];

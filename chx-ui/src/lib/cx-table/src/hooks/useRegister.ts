@@ -6,10 +6,9 @@ import {
   registScrollEvent,
   wrapperScrollEventHandle
 } from '../helper/eventHelper';
-import { CxTableBaseObj, CxTablePropType } from '../types';
+import { CxTableBaseObj, CxTablePropType, TableDataVisitor } from '../types';
 import { EventBus } from '../utils';
 import { useAutoWidth } from './useAutoWidth';
-import { TableDataVisitor } from './useCxSort';
 import { useScrollState } from './useScrollState';
 
 export const useRegister = (

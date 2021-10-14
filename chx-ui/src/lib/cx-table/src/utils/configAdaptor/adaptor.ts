@@ -11,6 +11,7 @@ import { CxControlConfig } from './controlConfig';
 import { isFunction, isNumber } from '../is';
 import * as R from 'ramda';
 
+
 const onInits: Array<CxTableAdaptorPlugin['onInit']> = [];
 const onOutputs: Array<CxTableAdaptorPlugin['onOutput']> = [];
 export class CxConfigAdaptor {

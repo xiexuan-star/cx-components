@@ -1,5 +1,4 @@
 import * as R from 'ramda';
-import { Func } from '../../types';
 export * from './utils';
 import { functorWarn } from './utils';
 
@@ -101,8 +100,8 @@ export class IO<T, P> {
 }
 
 export class Task {
-  fork;
-  cleanup;
+  fork:Func<any>;
+  cleanup:Func<any>;
   constructor(
     fork: (reject: Func<any>, resolve: Func<any>) => any,
     cleanup: Func<any> = () => void 0

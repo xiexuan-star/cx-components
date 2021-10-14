@@ -1,4 +1,6 @@
 import CxBtn from './cx-btn';
 import CxTab from './cx-tab';
 import CxForm from './cx-form';
-export { CxBtn, CxTab, CxForm, };
+import CxDialog from './cx-dialog';
+import CxTable from './cx-table';
+export { CxBtn, CxTab, CxForm, CxDialog, CxTable };

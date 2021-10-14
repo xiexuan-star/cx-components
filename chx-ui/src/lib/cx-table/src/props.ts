@@ -1,4 +1,3 @@
-import { AnyObject } from '@/types';
 import { CSSProperties, PropType } from 'vue';
 import {
   CxIgnoreControl,

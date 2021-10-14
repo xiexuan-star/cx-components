@@ -1,5 +1,3 @@
-import $factory from '@/api';
-import { sessionStore } from '@/utils/storage';
 import { nextTick, watch, ref, useContext } from 'vue';
 import * as R from 'ramda';
 import {
@@ -11,7 +9,7 @@ import {
 import { CxTableDynamicColumn, CxTableItem, CxTablePropType, DYNAMIC_CONFIG } from '../types';
 import { CxConfigAdaptor, cxTableWarn, debounce, isFunction, isNumber, isObject } from '../utils';
 import { useCxTable } from './useCxTable';
-import { Func, SResponse } from '../../../../types';
+import { sessionStore } from '../../../../utils/storage';
 
 const cacheMap: Record<string, Func<any>[]> = {};
 
@@ -56,7 +54,7 @@ export const getCxDynamicHead = async (dynamic: DYNAMIC_CONFIG) => {
         return reject();
       }
 
-      $factory
+      useCxTable()?.getContext()?.dynamicRequestInstance
         .get(url, { ...dynamic, random: Math.random() })
         .then(resolve)
         .catch(reject);
@@ -114,11 +112,11 @@ export const useDynamicConfig = (props: CxTablePropType) => {
   if (isObject(props.dynamic)) {
     watch(
       () => props.dynamic,
-      () => forceUpdate(true),
+      R.converge(forceUpdate,[R.T]),
       { deep: true, immediate: true }
     );
   } else {
-    watch(() => props.tableConfig.items, forceUpdate, { deep: true, immediate: true });
+    watch(() => props.tableConfig.items, R.converge(forceUpdate,[R.F]), { deep: true, immediate: true });
   }
   return { columnProxy, loading, forceUpdate, dynamicColumn };
 };

@@ -1,5 +1,4 @@
 import { Slot, Slots, VNode } from 'vue'
-import { AnyObject } from '../../../types'
 import { CxFormControl } from '../constructor'
 
 interface ValidateCallback {

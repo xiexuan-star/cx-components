@@ -1,15 +1,13 @@
 import { createVNode, defineComponent, inject, PropType, reactive, watch } from 'vue';
-import { CxTableDynamicColumn, CxTablePropType } from '../../types';
-import { TableDataVisitor } from '../../hooks/useCxSort';
-import { IO, map, Maybe, stateEq200, truthy, unsafeSet } from '@/utils/functor';
+import { CxTableDynamicColumn, CxTablePropType, TableDataVisitor } from '../../types';
+import { IO, map, Maybe, stateEq200, truthy, unsafeSet } from '../../../../../utils/functor';
 import TeleportBtn from './teleportBtn';
 import * as R from 'ramda';
-import $factory from '@/api';
-import { ElMessage } from 'element-plus';
 import { PATCH_FLAG } from '../../constant/enum';
-import { useComputed, useState } from '@/hooks/state';
 import { useCxTableCompose } from '../../hooks/useCxTableCompose';
 import { EventBus } from '../../utils';
+import { useCxTable } from '../../hooks/useCxTable';
+import { useComputed, useState } from '../../../../../hooks/state';
 
 export default defineComponent({
   name: 'SetCacheBtn',
@@ -20,6 +18,12 @@ export default defineComponent({
   setup(props) {
     const rootProp = inject<CxTablePropType>('rootProp')!;
     const bus = inject<EventBus>('bus')!;
+
+    const context = useCxTable().getContext()
+    const getDefaultRequestInstance = (() =>
+      R.path(['dynamicCacheContext', 'requestInstance', 'default'], context)) as () => any
+    const getMessageInstance = (() => R.path(['messageInstance'], context)) as () => any;
+
 
     const { innerBracket } = useCxTableCompose();
 
@@ -65,8 +69,8 @@ export default defineComponent({
       )
     );
 
-    const handleResult = R.when(stateEq200, R.converge(ElMessage.success, [R.always('暂存成功')]));
-    const sendRequest = R.converge($factory.postJSON.bind($factory), [
+    const handleResult = R.when(stateEq200, R.converge(getMessageInstance().success, [R.always('暂存成功')]));
+    const sendRequest = R.converge(getDefaultRequestInstance().postJSON.bind(getDefaultRequestInstance()), [
       R.always('/draft/manager/save'),
       R.identity
     ]);

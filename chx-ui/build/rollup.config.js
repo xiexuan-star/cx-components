@@ -1,14 +1,15 @@
 import vue from 'rollup-plugin-vue'
-
 import typescript from 'rollup-plugin-typescript2'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { name } from '../package.json'
 import commonjs from 'rollup-plugin-commonjs';
 import scss from 'rollup-plugin-scss'
-import { terser } from 'rollup-plugin-terser'
+import babel from 'rollup-plugin-babel';
+import presetBabel from '@babel/preset-typescript'
+// import { terser } from 'rollup-plugin-terser';
 
 const file = type => `dist/${name}.${type}.js`
-
+const path = require('path');
 const overrides = {
     compilerOptions: { declaration: true },
     exclude: ["tests/**/*.ts", "tests/**/*.tsx"]
@@ -23,6 +24,10 @@ export default {
         format: 'es'
     },
     plugins: [
+        // babel({
+        //     exclude:'node_modules/**',
+        //     presets:[[presetBabel]]
+        // }),
         nodeResolve(),
         typescript({ tsconfigOverride: overrides }),
         vue(),
@@ -33,7 +38,7 @@ export default {
                 "node_modules/**/*"
             ]
         }),
-        terser()
+        // terser()
     ],
-    external: ['vue']
+    external: ['vue','dayjs','ramda','pinyin-match']
 }

@@ -1,4 +1,4 @@
-import { AnyObject } from '@/types';
+
 import { CSSProperties } from '@vue/runtime-dom';
 import { Nullable, PaginationModel } from '.';
 import { TypeOption } from '../constant/enum';

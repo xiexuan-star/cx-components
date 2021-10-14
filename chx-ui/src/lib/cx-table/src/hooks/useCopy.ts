@@ -1,6 +1,5 @@
 import { clone, omit } from 'ramda';
 import { ref } from 'vue';
-import { AnyObject } from '../../../../types';
 import { CopyOptions, CxTablePropType } from '../types';
 import { isFunction } from '../utils';
 

@@ -1,6 +1,7 @@
 import {
   computed,
   createVNode,
+  CSSProperties,
   defineComponent,
   inject,
   PropType,
@@ -26,6 +27,7 @@ import {
   isEmpty,
   isFunction
 } from '../../utils';
+import { isDeepObjectEqual } from '../../../../../utils';
 
 export default defineComponent({
   name: 'CxTableCell',
@@ -158,12 +160,16 @@ export default defineComponent({
     };
 
     // 单元格样式
-    const tdStyle = computed(() => {
+    const tdStyle = ref<CSSProperties>({});
+    watchEffect(() => {
       const params: AnyObject = {};
       if (mergeSpan.value?.rowspan > 1) {
         params.height = mergeSpan.value?.rowspan * CxTable.styleStore.CX_TABLE_HEIGHT;
       }
-      return props.column.getStyle(params, 'body', props.rowData, props.rowIndex);
+      const result = props.column.getStyle(params, 'body', props.rowData, props.rowIndex);
+      if (!isDeepObjectEqual(tdStyle.value, result)) {
+        tdStyle.value = result;
+      }
     });
 
     const key = CX_TABLE_COLUMN_KEY + props.column._colid;

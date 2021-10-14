@@ -1,12 +1,5 @@
-import {
-  DYNAMIC_MODULE_TYPE,
-  DYNAMIC_BUSINESS_TYPE,
-  DYNAMIC_MODEL_TYPE,
-  DYNAMIC_PRICE_TYPE
-} from '@/enums/dynamicConfig';
-import { AnyObject } from '@/types';
 import { CX_SORT_STATUS } from '../constant/enum';
-import { CxCheckSelectFun, CxTableItem } from './tableConfig';
+import { CxCheckSelectFun, CxTableItem, CxTableSortFun } from './tableConfig';
 
 export * from './tableConfig';
 export * from './tableProp';
@@ -21,6 +14,13 @@ export type CopyOptions = Partial<{
   omitProps: string[];
   onPaste: (rows: AnyObject[]) => AnyObject[];
 }>;
+
+export type TableDataVisitor = {
+  sortedData: AnyObject[];
+  sortProp: string;
+  sort: boolean | CxTableSortFun | undefined;
+  sortStatus: CX_SORT_STATUS;
+};
 
 export type withUndefined<T> = T | undefined;
 export interface SelectConfig {
@@ -50,10 +50,10 @@ export interface CxTableSelectParam<T = AnyObject> {
 }
 
 export interface DYNAMIC_CONFIG {
-  businessType: DYNAMIC_BUSINESS_TYPE;
-  moduleType: DYNAMIC_MODULE_TYPE;
-  modelType: DYNAMIC_MODEL_TYPE;
-  priceType: DYNAMIC_PRICE_TYPE;
+  businessType: number;
+  moduleType: number;
+  modelType: number;
+  priceType: number;
 }
 
 export interface DYNAMIC_FORM_REQUEST_PARAMS extends DYNAMIC_CONFIG {
@@ -71,5 +71,5 @@ export interface DYNAMIC_FORM_REQUEST_PARAMS extends DYNAMIC_CONFIG {
 }
 
 export interface CxTablePlugins {
-  dynamicInject(cols: CxTableItem[]): CxTableItem[]
+  dynamicInject(cols: CxTableItem[]): CxTableItem[];
 }

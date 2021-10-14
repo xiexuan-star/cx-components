@@ -1,11 +1,10 @@
 import { createVNode, defineComponent } from 'vue';
-import { CxForm } from 'chx-ui';
 import * as R from 'ramda';
 import { PATCH_FLAG } from '../../constant/enum';
+import { CxForm } from '../../../..';
 
 export default defineComponent({
   name: 'TeleFormInstance',
-  components: { CxForm },
   emits: ['change', 'close'],
   props: {
     form: { type: Object, required: true },

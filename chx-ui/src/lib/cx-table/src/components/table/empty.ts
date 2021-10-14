@@ -6,8 +6,8 @@ import {
   openBlock,
   setBlockTracking
 } from 'vue';
+import { PATCH_FLAG } from '../../constant/enum';
 import { CxTableBaseObj } from '../../types';
-import { PATCH_FLAG } from '@/constant/patchFlag';
 
 export default defineComponent({
   name: 'CxTableEmpty',
@@ -33,7 +33,7 @@ export default defineComponent({
                       setBlockTracking(-1);
                       const node = createVNode('div', { class: 'cx_align_center' }, [
                         createVNode('embed', {
-                          src: require('@/assets/svg/tableEmpty.svg'),
+                          src: require('../../assets/tableEmpty.svg'),
                           class: 'cx_h_100'
                         }),
                         createVNode('p', null, '暂无数据')

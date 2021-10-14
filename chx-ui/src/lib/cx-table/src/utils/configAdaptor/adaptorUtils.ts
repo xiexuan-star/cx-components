@@ -1,6 +1,6 @@
-import usePrecision from '@/hooks/precision';
 import { cxTableWarn } from '..';
 import { CX_ADAPTOR_PRECISION_TYPE } from '../../constant/enum';
+import { useCxTable } from '../../hooks';
 import { CalculateFun, CxTableItem } from '../../types';
 import { isNumber, isString } from '../is';
 import { CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION } from './const';
@@ -18,19 +18,6 @@ export function decimals(num: string | number, fixed = 3) {
     return Math.round(num) / Math.pow(10, fixed);
   }
   return 0;
-}
-
-const { priceAccuracy, stoneAccuracy, goldAccuracy } = usePrecision();
-export function priceFixed<T extends unknown>(value: T) {
-  return decimalFixed(value, priceAccuracy, true);
-}
-
-export function stoneFixed<T extends unknown>(value: T) {
-  return decimalFixed(value, stoneAccuracy, true);
-}
-
-export function goldFixed<T extends unknown>(value: T) {
-  return decimalFixed(value, goldAccuracy, true);
 }
 
 /**
@@ -62,7 +49,7 @@ export function decimalFixed<T extends unknown>(
 }
 
 export const getPrecision = (state?: number) => {
-  const { priceAccuracy, goldAccuracy, stoneAccuracy } = usePrecision();
+  const { goldAccuracy, stoneAccuracy, priceAccuracy } = useCxTable().getContext().precision;
   switch (state) {
     case CX_ADAPTOR_PRECISION_TYPE.GOLD:
       return goldAccuracy;
@@ -156,12 +143,12 @@ export const getOptionsDeps = (options: AnyObject) => {
 
 // 获取计算后的options
 export const calcInnerOptions = (options: AnyObject, data: AnyObject) => {
-  return calcInnerItem(options, data, Array.isArray, [], result => result);
+  return calcInnerItem(options, data, Array.isArray, [], (result: any) => result);
 };
 
 // 获取计算后的校验规则
 export const calcInnerValidator = (validator: AnyObject, data: AnyObject) => {
-  return calcInnerItem(validator, data, Array.isArray, {}, result => result);
+  return calcInnerItem(validator, data, Array.isArray, {}, (result: any) => result);
 };
 
 // 获取计算后的公式值

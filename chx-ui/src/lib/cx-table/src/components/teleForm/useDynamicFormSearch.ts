@@ -4,9 +4,13 @@ import {
   CxTablePropType,
   DYNAMIC_CONFIG,
   DYNAMIC_FORM_REQUEST_PARAMS,
-  PaginationModel
+  PaginationModel,
+  TableDataVisitor
 } from '../../types';
 import { changeDynamicIdToText, cxTableWarn, isNumber } from '../../utils';
+import { useCxTableCompose } from '../../hooks/useCxTableCompose';
+import { Rule, useCxTable } from '../../hooks/useCxTable';
+import * as R from 'ramda';
 import {
   defaultPromise,
   either,
@@ -21,19 +25,14 @@ import {
   unsafeSet,
   unsafeWhenDevCall,
   withParams
-} from '@/utils/functor';
-import { TableDataVisitor } from '../../hooks/useCxSort';
-import { useCxTableCompose } from '../../hooks/useCxTableCompose';
-import { Rule, useCxTable } from '../../hooks/useCxTable';
-import * as R from 'ramda';
-import { AnyObject, Func } from '@/types';
+} from '../../../../../utils/functor';
 
 export const useDynamicFormSearch = () => {
   const { getParamsItems, getConfigByDynamicConfig, arrNotEmpty } = useCxTableCompose();
   const context = useCxTable().getContext();
 
   const devTip = R.tap(
-    unsafeWhenDevCall(dynamic =>
+    unsafeWhenDevCall((dynamic: CxDynamicProps) =>
       console.info(
         `[CxTable]:dynamic form auto fetchData by config `,
         changeDynamicIdToText(dynamic)
@@ -101,7 +100,10 @@ export const useDynamicFormSearch = () => {
     getMaybeValue,
     R.converge(getConfigByDynamicConfig, [
       R.identity,
-      R.compose(R.prop(R.__, context.dynamicFormApi), R.prop<string, any>('moduleType'))
+      R.compose(
+        R.prop(R.__, context.dynamicFormContext.requestApiMap),
+        R.prop<string, any>('moduleType')
+      )
     ]) as (a: DYNAMIC_CONFIG) => Maybe<Rule>
   );
 

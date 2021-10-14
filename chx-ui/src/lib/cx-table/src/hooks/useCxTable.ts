@@ -7,7 +7,7 @@ import {
   CxTablePropType,
   DYNAMIC_CONFIG
 } from '../types';
-import { cxTableWarn, isFunction } from '../utils';
+import { isFunction, isObject } from '../utils';
 import { useCopy } from './useCopy';
 import { ref } from '@vue/reactivity';
 
@@ -20,11 +20,59 @@ export type Rule = DynamicKeys & { api: string; requestInstance?: any };
 
 export type RuleList = Record<any, Rule[]>;
 
+export type DYNAMIC_KEY = Record<
+  'DYNAMIC_MODULE_TYPE' | 'DYNAMIC_BUSINESS_TYPE' | 'DYNAMIC_MODEL_TYPE' | 'DYNAMIC_PRICE_TYPE',
+  Record<string, number | string>
+>;
+
+type labelProp = { label?: string; prop: string; defaultValue?: string } & {
+  [P in `label_1` | `label_0` | `label_2`]?: string;
+};
+export type CacheRule = Partial<DYNAMIC_CONFIG> & {
+  config: { listTitle: labelProp; tableInfo: labelProp[] };
+};
+
+export type CacheContext = Partial<{
+  requestApiMap: Record<number, string>;
+  cacheTypeTab: (props: CxTablePropType) => boolean;
+  removeApiMap: Record<number, string>;
+  requestInstance: Record<string | number, any>;
+  cacheLabelConfig: CacheRule[];
+}>;
+
+type messageInstance = {
+  success: (msg: string) => void;
+  warning: (msg: string) => void;
+  info: (msg: string) => void;
+  error: (msg: string) => void;
+};
+
 const createCxTableContext = () => {
   return {
     contextScopeId: 'defaultScope' as number | string,
+    messageInstance: {
+      success: () => undefined,
+      warning: () => undefined,
+      info: () => undefined,
+      error: () => undefined
+    } as messageInstance,
+    dynamicRequestInstance: null as null | any,
     dynamicInject: new Set<CxInjectHeadFun>(),
-    dynamicFormApi: {} as RuleList
+    dynamicFormContext: { requestApiMap: {} } as { requestApiMap: RuleList },
+    dynamicCacheContext: {
+      requestApiMap: {},
+      removeApiMap: {},
+      cacheTypeTab: () => false,
+      requestInstance: {},
+      cacheLabelConfig: []
+    } as CacheContext,
+    dynamicType: {
+      DYNAMIC_MODULE_TYPE: {},
+      DYNAMIC_BUSINESS_TYPE: {},
+      DYNAMIC_MODEL_TYPE: {},
+      DYNAMIC_PRICE_TYPE: {}
+    } as DYNAMIC_KEY,
+    precision: {} as Record<string, number>
   };
 };
 
@@ -34,7 +82,6 @@ const readOnlyContext = new Proxy(context, {
     return target[key as keyof typeof context];
   },
   set() {
-    cxTableWarn(`context can't be mutated by setter.`)
     return false;
   }
 });
@@ -69,8 +116,32 @@ export const useCxTable = () => {
     context.contextScopeId = id;
   };
 
+  const setMessageInstance = (instance: messageInstance) => {
+    context.messageInstance = instance;
+  };
+
   const setDynamicFormSearchApi = (moduleType: any, rules: Rule[]) => {
-    context.dynamicFormApi[moduleType] = rules;
+    context.dynamicFormContext.requestApiMap[moduleType] = rules;
+  };
+
+  const setDynamicCacheContext = <T extends keyof CacheContext>(key: T, val: CacheContext[T]) => {
+    context.dynamicCacheContext[key] = val;
+  };
+
+  const setDynamicRequestInstance = (instance: any) => {
+    context.dynamicRequestInstance = instance;
+  };
+
+  const setDynamicType = (types: Record<string, Record<string, number | string>>) => {
+    (Object.keys(context.dynamicType) as (keyof DYNAMIC_KEY)[]).forEach(dynamicKey => {
+      if (isObject(types[dynamicKey])) {
+        context.dynamicType[dynamicKey] = types[dynamicKey];
+      }
+    });
+  };
+
+  const setPrecision = (precision: Record<string, number>) => {
+    Object.assign(context.precision, precision);
   };
 
   const use = (plugin: CxTablePlugins) => {
@@ -81,8 +152,13 @@ export const useCxTable = () => {
 
   return {
     registCxTable,
+    setPrecision,
     setCxTableScopeId,
+    setMessageInstance,
+    setDynamicType,
     setDynamicFormSearchApi,
+    setDynamicRequestInstance,
+    setDynamicCacheContext,
     getContext,
     use,
     instance,

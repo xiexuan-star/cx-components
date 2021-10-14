@@ -12,7 +12,7 @@ import {
   watch,
 } from 'vue'
 import { PatchFlags } from '../../constant/enum'
-import { AnyObject, SFCWithInstall } from '../../types'
+import { SFCWithInstall } from '../../types/interface'
 import { isObject } from '../../utils/is'
 import { CxTabOption } from './type'
 
@@ -144,7 +144,7 @@ const script = defineComponent({
     // })
 
     const debounce = (cb: any, delay:number) => {
-      let timer;
+      let timer:any;
       return () => {
         clearTimeout(timer);
         timer = setTimeout(cb, delay)

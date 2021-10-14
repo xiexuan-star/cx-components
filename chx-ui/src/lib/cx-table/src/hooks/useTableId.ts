@@ -1,4 +1,3 @@
-import { AnyObject } from '../../../../types';
 import { CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_ID_PREPEND } from '../constant';
 import { CxTableItem } from '../types';
 

@@ -4,7 +4,6 @@ import { CxCellProp, CxIgnoreControl, PaginationModel, SelectConfig } from '../t
 import { EventBus, isFunction, isString, pick } from '../utils'
 import { CxTableRendererMap } from '../hooks/useCxTable'
 import { CxBroadcast } from '../hooks/useBroadcast'
-import { AnyObject } from '../../../../types'
 interface Params extends CxCellProp {
   rowIndex: number
   selectConfig: SelectConfig

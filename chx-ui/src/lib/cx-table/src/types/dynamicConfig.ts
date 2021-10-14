@@ -1,5 +1,4 @@
 import { CxFormItemConfig } from '../../../..';
-import { AnyObject, NameWithId } from '../../../../types';
 import { CxTableItem, CxTableItemControlType } from './index';
 
 export interface CxTableFormConfig {

@@ -1,7 +1,5 @@
 import { Identify, IO, Left, Maybe, Right, Task } from '.';
 import * as R from 'ramda';
-import { ElMessage } from 'element-plus';
-import { AnyObject } from 'element-plus/lib/el-table/src/table.type';
 
 // getDoNothingIO::void->IO<NOOP>
 export const getDoNothingIO = () => IO.of(R.identity);
@@ -112,8 +110,8 @@ export const awaitTimeout = () => {
 export const clearTimer = (timer: any) => (clearTimeout(timer), clearInterval(timer), timer);
 
 // successMessage::string->void->IMessageHandle
-export const successMessage = (msg: string) => () => ElMessage.success(msg);
-export const errorMessage = (msg: string) => () => ElMessage.error(msg);
+// export const successMessage = (msg: string) => () => ElMessage.success(msg);
+// export const errorMessage = (msg: string) => () => ElMessage.error(msg);
 
 export const defaultPromise = <T>(val: T) => () => Promise.resolve(val);
 

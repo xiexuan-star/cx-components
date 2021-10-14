@@ -1,5 +1,3 @@
-import { AnyObject, NameWithId } from "../types";
-
 const toString = Object.prototype.toString;
 
 export function is(val: unknown, type: string) {

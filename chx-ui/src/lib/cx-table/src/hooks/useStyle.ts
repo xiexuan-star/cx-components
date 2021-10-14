@@ -1,5 +1,4 @@
 import { CSSProperties } from 'vue';
-import { AnyObject } from '../../../../types';
 import { CxTableItem, CxTablePropType } from '../types';
 import { formatWidth } from '../utils';
 import { isFunction, isNumber } from '../utils/is';

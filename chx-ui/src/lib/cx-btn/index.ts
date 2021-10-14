@@ -1,6 +1,6 @@
 import { App, computed, createCommentVNode, createVNode, defineComponent, PropType } from 'vue'
-import { SFCWithInstall } from '../../types'
 import { PatchFlags } from '../../constant/enum'
+import { SFCWithInstall } from '../../types/interface'
 
 const script = defineComponent({
   name: 'CxBtn',

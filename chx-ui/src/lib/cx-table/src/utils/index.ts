@@ -1,14 +1,9 @@
-import {
-  DYNAMIC_BUSINESS_TYPE,
-  DYNAMIC_MODEL_TYPE,
-  DYNAMIC_MODULE_TYPE,
-  DYNAMIC_PRICE_TYPE
-} from '@/enums/dynamicConfig';
 import dayjs from 'dayjs';
 import { COLUMN_FLAG } from '../constant/enum';
-import { ControlAttrs, CxTableColumnObj, CxTableItem, DYNAMIC_CONFIG } from '../types';
+import { ControlAttrs, CxTableColumnObj, CxTableItem, DYNAMIC_CONFIG, Nullable } from '../types';
 import { isFunction, isNumber, isObject } from './is';
 import * as R from 'ramda';
+import { useCxTable } from '../hooks/useCxTable';
 
 export * from './is';
 export * from './eventBus';
@@ -61,6 +56,13 @@ export const getFunctionAttrs = (
   }
   return attrs;
 };
+
+const {
+  DYNAMIC_BUSINESS_TYPE,
+DYNAMIC_MODULE_TYPE,
+DYNAMIC_MODEL_TYPE,
+DYNAMIC_PRICE_TYPE
+} = useCxTable().getContext().dynamicType
 
 export const changeDynamicIdToText = (dynamic: DYNAMIC_CONFIG) => {
   return {

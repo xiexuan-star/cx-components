@@ -3,7 +3,6 @@ import { resolveComponent, Slots } from 'vue'
 import { CxFormItemConfig } from '../types'
 
 import { CxFormTemplate } from '.'
-import { AnyObject } from '../../../types'
 import { isNumber, isObject } from '../../../utils'
 import { useCxForm } from '../hooks'
 

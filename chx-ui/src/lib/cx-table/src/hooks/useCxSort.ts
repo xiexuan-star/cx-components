@@ -1,16 +1,6 @@
 import { ref } from '@vue/reactivity';
-import { AnyObject } from '../../../../types';
-// import { computed } from '@vue/runtime-core';
 import { CX_SORT_STATUS } from '../constant/enum';
-import { CxTablePropType, CxTableSortFun } from '../types';
-// import { copySort, isFunction } from '../utils';
-
-export interface TableDataVisitor {
-  sortedData: AnyObject[];
-  sortProp: string;
-  sort: boolean | CxTableSortFun | undefined;
-  sortStatus: CX_SORT_STATUS;
-}
+import { CxTablePropType, CxTableSortFun, TableDataVisitor } from '../types';
 
 export const useCxSort = (props: CxTablePropType) => {
   const sortProp = ref('');
@@ -40,27 +30,29 @@ export const useCxSort = (props: CxTablePropType) => {
   //     return props.tableData;
   //   }
   // });
-  class TableDataVisitor {
-    // 屏蔽前端排序,只提供后端排序的参数
-    get sortedData() {
-      return props.tableData;
-    }
-    get sortProp() {
-      return sortProp.value;
-    }
-    set sortProp(prop: string) {
-      sortProp.value = prop;
-    }
-    set sort(sortFun: boolean | CxTableSortFun) {
-      sort.value = sortFun;
-    }
-    get sortStatus() {
-      return sortStatus.value;
-    }
-    set sortStatus(status: CX_SORT_STATUS) {
-      sortStatus.value = status;
-    }
-  }
 
-  return { tableDataVisitor: new TableDataVisitor() };
+  return {
+    tableDataVisitor: new Proxy(
+      {} as TableDataVisitor,
+      {
+        get(target, key) {
+          if (key === 'sortedData') return props.tableData;
+          if (key === 'sortProp') return sortProp.value;
+          if (key === 'sortStatus') return sortStatus.value;
+        },
+        set(target, key, val) {
+          switch (key) {
+            case 'sortProp':
+              sortProp.value = val;
+              break;
+            case 'sort':
+              sort.value = val;
+            case 'sortStatus':
+              sortStatus.value = val;
+          }
+          return true;
+        }
+      }
+    )
+  };
 };

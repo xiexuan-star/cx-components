@@ -1,5 +1,4 @@
 import { Slot, Slots } from 'vue';
-import { AnyObject } from '../../../types';
 
 import { cxFormRender } from '../render';
 import { CxFormTemplateType } from '../types';

@@ -1,5 +1,3 @@
-import { Func } from "@/types";
-
 export class EventBus {
   eventDep: Record<string, Array<Func<any>> | null> = {};
 

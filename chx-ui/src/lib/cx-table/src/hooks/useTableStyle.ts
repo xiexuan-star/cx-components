@@ -1,5 +1,4 @@
 import { computed, CSSProperties } from 'vue';
-import { AnyObject } from '../../../../types';
 import { CxTableBaseObj } from '../types';
 import { invokeLayeredRow, getSums } from '../utils';
 

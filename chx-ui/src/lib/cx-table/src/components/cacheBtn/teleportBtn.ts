@@ -8,13 +8,13 @@ import {
   render,
   watch
 } from 'vue';
-import { map, IO, Maybe, queryDom, unsafeDeleteProperty, unsafeSet } from '@/utils/functor';
+import { map, IO, Maybe, queryDom, unsafeDeleteProperty, unsafeSet } from '../../../../../utils/functor';
 import { CxTableDynamicColumn } from '../../types';
 import { PATCH_FLAG } from '../../constant/enum';
 import { cxTableWarn } from '../../utils';
-import { useState } from '@/hooks/state';
-import { CxBtn } from 'chx-ui';
 import * as R from 'ramda';
+import { useState } from '../../../../../hooks/state';
+import { CxBtn } from '../../../..';
 
 const renderInnerBtn = ({ $attrs, $slots }: ComponentPublicInstance) => {
   return createVNode(
@@ -41,15 +41,15 @@ export default defineComponent({
     disabledState: { type: Object, default: () => ({ disabled: false }) }
   },
   setup(props, { attrs, slots }) {
-    const [container, setContainer] = useState<Nullable<HTMLElement>>(null);
+    const [container, setContainer] = useState<HTMLElement|null>(null);
 
     const unsafeWarn = () =>
       cxTableWarn(`can't find container element by selector`, props.selector);
 
     // unsafeClearDom::void->string
     const unsafeClearEle = R.compose(map(unsafeSet(R.__, 'innerHTML', '')), Maybe.of) as (
-      a: Nullable<HTMLElement>
-    ) => Maybe<Nullable<HTMLElement>>;
+      a: HTMLElement|null
+    ) => Maybe<HTMLElement|null>;
 
     const onClick = async () => {
       setLoadingStates(true);
@@ -81,7 +81,7 @@ export default defineComponent({
     );
 
     // 组件更新IO
-    const updateComponentIO = IO.of<Nullable<HTMLElement>, string>(queryDom).map(
+    const updateComponentIO = IO.of<HTMLElement|null, string>(queryDom).map(
       R.ifElse(
         R.isNil,
         R.compose(unsafeWarn, unsafeClearEle, container),

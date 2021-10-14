@@ -1,11 +1,9 @@
 import { nextTick, onBeforeUnmount, onMounted, onUnmounted, Ref } from '@vue/runtime-core';
-import { AnyObject, Func } from '../../../../types';
 import { throttle } from '../../../../utils';
 import { CX_TABLE_NOT_HOVER_ID } from '../constant';
 import { ARROW_KEY, CX_SPAN_METHOD_TYPE } from '../constant/enum';
-import { TableDataVisitor } from '../hooks/useCxSort';
 import { CxTableActiveControl } from '../hooks/useCxTable';
-import { CxCellProp, CxTableBaseObj, CxTablePropType, Nullable, SelectConfig } from '../types';
+import { CxCellProp, CxTableBaseObj, CxTablePropType, Nullable, SelectConfig, TableDataVisitor } from '../types';
 import { debounce, EventBus, getColumnSelectText, getPreOrNextItem } from '../utils';
 import { domShare } from '../utils';
 

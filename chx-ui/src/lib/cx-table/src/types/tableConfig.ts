@@ -1,4 +1,3 @@
-import { AnyObject } from '@/types';
 import { CSSProperties, Ref, VNode } from '@vue/runtime-dom';
 import { Nullable, PaginationModel, withUndefined } from '.';
 import { CxBroadcast } from '../hooks/useBroadcast';
@@ -27,7 +26,7 @@ export type CxTableExpose = ReturnType<typeof useValidator> &
     // setCache: (dataSource?: any) => void;
     // getCache: () => void;
     // removeCache: () => void;
-    search: (payload?:AnyObject) => void;
+    search: (payload?: AnyObject) => void;
     removeCacheItem: () => void;
   };
 
@@ -58,7 +57,7 @@ export type CxRendererRegister =
 export type CxControlRenderer = (
   params: {
     isActived: boolean;
-    prop:string;
+    prop: string;
     disabled: boolean;
     ignore: boolean;
     force: boolean;
@@ -293,6 +292,7 @@ export interface CxTableBaseObj {
 }
 
 export type CxTableItemControlType =
+  | 'default'
   | 'nativeCheckbox' // 集成多选
   | 'nativeRadio' // 集成单选
   | 'nativeDelete' // 集成删除按钮
@@ -322,8 +322,9 @@ export type IndexCalcFun = (params: number) => number;
 
 export type CxBroadcastRegister = (key: string, cb: (payload: CxBroadcastPayload) => void) => void;
 
-export type ControlAttrs = AnyObject & {
+export type ControlAttrs = {
   broadcastRegister?: (register: CxBroadcastRegister) => void;
+  [K: string]: any;
 };
 
 export type CxTableControl = {

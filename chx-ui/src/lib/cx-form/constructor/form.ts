@@ -4,7 +4,6 @@ import { cxFormDefaultConfig } from '../const';
 import { CxFormConfig, ElFormExpose } from '../types';
 
 import { CxFormTemplate } from '.';
-import { AnyObject } from '../../../types';
 import { omit } from '../../../utils';
 import { useCxForm } from '../hooks';
 

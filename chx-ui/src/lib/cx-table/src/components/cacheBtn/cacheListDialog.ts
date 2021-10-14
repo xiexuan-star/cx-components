@@ -10,14 +10,22 @@ import {
   watch,
   withDirectives
 } from 'vue';
-import BasicDialog from '@/components/global/Dialog/BasicDialog';
-import { useBasicDialog } from '@/components/global/Dialog';
 import { CxTableBaseObj, CxTablePropType, DYNAMIC_CONFIG, ParamsItem } from '../../types';
-import { CxTab, CxForm, CxFormItemConfig } from 'chx-ui';
-import { useComputed, useState } from '@/hooks/state';
-import { PATCH_FLAG } from '@/constant/patchFlag';
 import * as R from 'ramda';
 import CxTable from '../../..';
+import { useCxTableCompose } from '../../hooks/useCxTableCompose';
+import { CxConfigAdaptor, debounce, EventBus, getColumnSelectText } from '../../utils';
+import { PATCH_FLAG, TypeOption } from '../../constant/enum';
+import { decimalFixed } from '../../utils/configAdaptor/adaptorUtils';
+import EmptyData from './emptyData';
+
+import Ellipsis from '../ellipsis/index.vue';
+import { CacheRule, useCxTable } from '../../hooks/useCxTable';
+import { useCxDialog } from '../../../../cx-dialog/useCxDialog';
+import { useComputed, useState } from '../../../../../hooks/state';
+import { useEnumOptions } from '../../../../../utils';
+import { CxForm, CxFormItemConfig, CxTab } from '../../../../..';
+import _CX_DIALOG from '../../../../cx-dialog';
 import {
   falsy,
   getMaybeValue,
@@ -33,20 +41,7 @@ import {
   unsafeClearPush,
   unsafePush,
   unsafeRemoveItem
-} from '@/utils/functor';
-import { useCxTableCompose } from '../../hooks/useCxTableCompose';
-import { useEnumOptions } from '@/hooks/useEnumOption';
-import { DYNAMIC_MODULE_TYPE } from '@/enums/dynamicConfig';
-import { CxConfigAdaptor, debounce, EventBus, getColumnSelectText } from '../../utils';
-import { TypeOption } from '../../constant/enum';
-import { cacheConfigList, CacheRule } from './config';
-import { ElMessage } from 'element-plus';
-import { decimalFixed } from '../../utils/configAdaptor/adaptorUtils';
-import EmptyData from './emptyData';
-import { $inventory } from '@/api/inventory';
-import $factory from '@/api';
-
-import OneEllipsis from '@/components/global/OneEllipsis/index.vue';
+} from '../../../../../utils/functor';
 
 const DEFAULT_CAPACITY = 10;
 
@@ -58,7 +53,25 @@ export default defineComponent({
     const $CxTable = inject<CxTableBaseObj>('CxTable')!;
     const bus = inject<EventBus>('bus')!;
     const { getParamsItems, getConfigByDynamicConfig, arrNotEmpty } = useCxTableCompose();
-    const [register, dialogExpose] = useBasicDialog();
+    const context = useCxTable().getContext();
+    const getDefaultRequestInstance = (() =>
+      R.path(['dynamicCacheContext', 'requestInstance', 'default'], context)) as () => any;
+    const getRequestApiMap = (() =>
+      R.path(['dynamicCacheContext', 'requestApiMap'], context)) as () => string;
+    const getRemoveApiMap = (() =>
+      R.path(['dynamicCacheContext', 'removeApiMap'], context)) as () => string;
+    const getLabelConfig = (() =>
+      R.path(['dynamicCacheContext', 'cacheLabelConfig'], context)) as () => CacheRule[];
+    const getTabCondition = (() =>
+      R.path(['dynamicCacheContext', 'cacheTypeTab'], context)) as () => Func<any>;
+    const getMessageInstance = (() => R.path(['messageInstance'], context)) as () => any;
+
+    const needTypeTab = R.ifElse(
+      R.is(Function),
+      (condition: Func<any>) => condition(rootProp),
+      R.T
+    );
+    const [register, dialogExpose] = useCxDialog();
     const openDialog = () => {
       resetForm();
       resetPage();
@@ -120,17 +133,6 @@ export default defineComponent({
     );
 
     // ------------------------------ api ------------------------------
-    const apiMap: Record<TypeOption, string> = {
-      [TypeOption.未提交]: '/draft/manager/draft/list',
-      [TypeOption.已反审]: '/draft/manager/order/list',
-      [TypeOption.已驳回]: '/draft/manager/order/list'
-    };
-
-    const otherRequestInstance: Record<string, any> = {
-      [DYNAMIC_MODULE_TYPE.采购]: $inventory,
-      [DYNAMIC_MODULE_TYPE.库存]: $inventory
-    };
-
     // paramsGenerator::DYNAMIC_CONFIG|undefined->AnyObject->Params
     const paramsGenerator = (dynamic: DYNAMIC_CONFIG | undefined, form: AnyObject) => {
       const getItemObj = R.compose(
@@ -151,23 +153,21 @@ export default defineComponent({
     };
 
     const getInnerTable = R.path(['data']);
-    const moduleTypePath = R.path(['dynamic', 'moduleType']) as (
-      a: CxTablePropType
-    ) => DYNAMIC_MODULE_TYPE;
+    const moduleTypePath = R.path(['dynamic', 'moduleType']) as (a: CxTablePropType) => number;
     const getSpecialAxios = R.compose(
-      R.defaultTo($factory),
-      R.prop(R.__, otherRequestInstance) as (a: DYNAMIC_MODULE_TYPE) => any
+      R.defaultTo(getDefaultRequestInstance()),
+      R.prop(R.__, context.dynamicCacheContext.requestInstance) as (a: number) => any
     );
     const sendRequestIO = IO.of(() =>
       Maybe.run<Promise<AnyObject>>(
-        (function*(): any {
-          const api = yield Maybe.of(R.prop(currentType(), apiMap));
+        (function* (): any {
+          const api = yield Maybe.of(R.prop(currentType(), getRequestApiMap()));
           const params = yield paramsGenerator(rootProp.dynamic, form);
           const instance = yield R.compose(
             Maybe.of,
             R.ifElse(
               isDraft,
-              R.always($factory),
+              getDefaultRequestInstance,
               R.compose(getSpecialAxios, R.converge(moduleTypePath, [R.always(rootProp)]))
             )
           )(currentType());
@@ -238,12 +238,6 @@ export default defineComponent({
     );
 
     // ------------------------------ 删除 ------------------------------
-    const removeApiMap: Record<TypeOption, string> = {
-      [TypeOption.未提交]: '/draft/manager/draft/delete/',
-      [TypeOption.已驳回]: '/draft/manager/order/delete/',
-      [TypeOption.已反审]: '/draft/manager/order/delete/'
-    };
-
     const isDraft = R.equals(TypeOption.未提交);
     const getQueryCompose = (dynamic?: DYNAMIC_CONFIG) => {
       return R.ifElse(
@@ -266,8 +260,8 @@ export default defineComponent({
       const url = yield Maybe.of(api);
       const urlWithId = yield Maybe.of(R.concat(url, R.toString(paramId)));
       const query = getQueryCompose(rootProp.dynamic)(params);
-      yield Maybe.of($factory[requestType]);
-      return $factory[requestType](urlWithId, query);
+      const instance = yield Maybe.of(getDefaultRequestInstance()?.[requestType]);
+      return instance(urlWithId, query);
     }
     const removeItemIO = IO.of(R.compose(Maybe.run, getSendRequestWithId('delete')));
 
@@ -283,12 +277,12 @@ export default defineComponent({
     const removeItem = (id: number) => {
       removeItemIO
         .map(map(R.andThen(R.when(stateEq200, R.converge(doRemove, [R.always(id)])))))
-        .unsafePerformIO({ id, api: removeApiMap[currentType()] });
+        .unsafePerformIO({ id, api: getRemoveApiMap()?.[currentType()] });
     };
 
     const setBusOn = (params: { id: number; type: TypeOption }) => {
       bus.on('removeCacheItem', () => {
-        removeItemIO.unsafePerformIO(R.assoc('api', removeApiMap[currentType()], params));
+        removeItemIO.unsafePerformIO(R.assoc('api', getRemoveApiMap()?.[currentType()], params));
         setBusOff();
       });
     };
@@ -343,7 +337,7 @@ export default defineComponent({
     const orderIsExist = R.compose(Maybe.run, getSendRequestWithId('get'));
 
     const dataIsFalsy = R.allPass([stateEq200, R.compose(falsy, R.prop<string, string>('data'))]);
-    const notExistToast = R.converge(ElMessage.warning, [
+    const notExistToast = R.converge(getMessageInstance().warning, [
       R.always('此数据已被删除,请重新打开暂存弹窗!')
     ]);
 
@@ -399,7 +393,7 @@ export default defineComponent({
     // defaultTitle
     const defaultTitle = R.defaultTo('新建暂存数据') as (a: any) => string;
     const renderListItem = R.curryN(2, (item: AnyObject, currentItem: AnyObject | null) => {
-      const maybeConfig = getConfigByDynamicConfig(rootProp.dynamic!, cacheConfigList);
+      const maybeConfig = getConfigByDynamicConfig(rootProp.dynamic!, getLabelConfig());
       const getItemValByPath = R.converge(R.path, [R.identity, R.always(getBaseInfo(item))]);
       return createVNode(
         'li',
@@ -470,7 +464,7 @@ export default defineComponent({
     // infoPath Object a,Object b::a->b[]
     const infoPath = R.path(['config', 'tableInfo']) as (a: AnyObject) => AnyObject;
     const labelItemList = useComputed(() => {
-      const maybeConfig = getConfigByDynamicConfig(rootProp.dynamic!, cacheConfigList);
+      const maybeConfig = getConfigByDynamicConfig(rootProp.dynamic!, getLabelConfig());
       return R.compose(
         R.defaultTo([]) as (a: any) => any[],
         getMaybeValue,
@@ -535,10 +529,7 @@ export default defineComponent({
     ) as (a: AnyObject) => AnyObject;
     const setDefaultSlot = R.compose(
       R.when(
-        R.compose(
-          R.all(falsy),
-          R.props<string, string>(['slot', 'calculate', 'dynamicCalculate'])
-        ),
+        R.compose(R.all(falsy), R.props<string, string>(['slot', 'calculate', 'dynamicCalculate'])),
         R.assoc('slot', 'renderWithText')
       )
     );
@@ -571,13 +562,13 @@ export default defineComponent({
           ...rootSlots,
           renderWithText: ({ rowData, column }: AnyObject) => {
             const prop = column.prop ?? '';
-            let content = prop.endsWith('Id')
+            let content: any = prop.endsWith('Id')
               ? rowData[getColumnSelectText(column)] ?? rowData[getColumnSelectText(column, 'Name')]
               : rowData[prop + 'Text'] ?? rowData[prop + 'Name'] ?? rowData[prop];
             if (R.is(Number, column.accuracy)) {
               content = decimalFixed(content, column.accuracy, true);
             }
-            return [createVNode(OneEllipsis, { content }, null, PATCH_FLAG.PROPS, ['content'])];
+            return [createVNode(Ellipsis, { content }, null, PATCH_FLAG.PROPS, ['content'])];
           }
         },
         PATCH_FLAG.PROPS,
@@ -590,7 +581,7 @@ export default defineComponent({
         openBlock(),
         createBlock(Fragment, null, [
           createVNode(
-            BasicDialog,
+            _CX_DIALOG,
             {
               title: TypeOption[currentType()],
               appendToBody: true,
@@ -610,8 +601,7 @@ export default defineComponent({
                     // tab切换
                     (openBlock(),
                     createBlock(Fragment, null, [
-                      // 特殊处理: 当处于下单模块时, 不显示类型切换tab
-                      rootProp?.dynamic?.moduleType !== DYNAMIC_MODULE_TYPE.下单
+                      R.compose(needTypeTab, getTabCondition)()
                         ? createVNode(
                             CxTab,
                             {

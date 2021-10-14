@@ -1,6 +1,6 @@
 import CxForm from './cxForm';
-import {  SFCWithInstall } from '../../types';
 import { App } from 'vue';
+import { SFCWithInstall } from '../../types/interface';
 
 const script = CxForm as SFCWithInstall<typeof CxForm>
 

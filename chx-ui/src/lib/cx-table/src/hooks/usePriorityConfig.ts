@@ -1,4 +1,3 @@
-import { Func } from '../../../../types';
 import { CxTableBaseObj, CxTableItem } from '../types';
 import { deepMerge, isObject } from '../utils';
 

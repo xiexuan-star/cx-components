@@ -17,3 +17,5 @@ declare interface SResponse<T = any> {
   message: string;
   data: T;
 }
+
+declare type FunctionParams<T> = T extends (...payload: infer P) => any ? P : any

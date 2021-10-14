@@ -1,6 +1,5 @@
 import { domShare, isArray, isEmpty, isFunction, isNumber, isString } from '../utils';
 import { CxTableBaseObj, CxTableColumnObj, CxTablePropType } from '../types';
-import { AnyObject } from '../../../../types';
 
 export const useValidator = ($CxTable: CxTableBaseObj, props: CxTablePropType) => {
   const validate = (params?: { rowIndex?: number; prop?: string }, dataSource?: AnyObject[]) => {

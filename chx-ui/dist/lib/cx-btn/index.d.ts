@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { SFCWithInstall } from '../../types';
+import { SFCWithInstall } from '../../types/interface';
 declare const _CX_BTN: SFCWithInstall<import("vue").DefineComponent<{
     size: {
         type: PropType<"large" | "medium" | "mini">;

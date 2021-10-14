@@ -1,4 +1,4 @@
-import { AnyObject } from '@/types';
+
 import { useTableId } from '../hooks/useTableId';
 import { CxTableBaseObj, CxTableColumnObj, Nullable } from '../types';
 

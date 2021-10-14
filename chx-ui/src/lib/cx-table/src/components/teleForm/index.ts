@@ -1,4 +1,31 @@
-import { useState } from '@/hooks/state';
+import {
+  createVNode,
+  defineComponent,
+  inject,
+  render,
+  reactive,
+  watch,
+  nextTick,
+  PropType,
+  resolveDirective,
+  withDirectives
+} from 'vue';
+import {
+  CxTableBaseObj,
+  CxTableDynamicColumn,
+  CxTablePropType,
+  Nullable,
+  TableDataVisitor
+} from '../../types';
+import { cxTableWarn, debounce, EventBus, getTargetColumn } from '../../utils';
+import { PATCH_FLAG } from '../../constant/enum';
+import { useDynamicFormCache } from './useDynamicFormCache';
+import { useCxTableCompose } from '../../hooks/useCxTableCompose';
+import { useDynamicFormSearch } from './useDynamicFormSearch';
+import TeleFormInstance from './formInstance';
+import * as R from 'ramda';
+import DynamicFormAdd from './dynamicFormAdd';
+import DynamicFilterBtn from './dynamicFilterBtn';
 import {
   IO,
   map,
@@ -16,32 +43,9 @@ import {
   unsafeAssign,
   unsafePush,
   nextTimeout
-} from '@/utils/functor';
-import { CxFormItemConfig } from 'chx-ui';
-import {
-  createVNode,
-  defineComponent,
-  inject,
-  render,
-  reactive,
-  watch,
-  nextTick,
-  PropType,
-  resolveDirective,
-  withDirectives
-} from 'vue';
-import { CxTableBaseObj, CxTableDynamicColumn, CxTablePropType } from '../../types';
-import { cxTableWarn, debounce, EventBus, getTargetColumn } from '../../utils';
-import { PATCH_FLAG } from '../../constant/enum';
-import { useDynamicFormCache } from './useDynamicFormCache';
-import { useCxTableCompose } from '../../hooks/useCxTableCompose';
-import { TableDataVisitor } from '../../hooks/useCxSort';
-import { useDynamicFormSearch } from './useDynamicFormSearch';
-import { useSync } from '@/hooks';
-import TeleFormInstance from './formInstance';
-import * as R from 'ramda';
-import DynamicFormAdd from './dynamicFormAdd';
-import DynamicFilterBtn from './dynamicFilterBtn';
+} from '../../../../../utils/functor';
+import { useState, useSync } from '../../../../../hooks/state';
+import { CxFormItemConfig } from '../../../../..';
 
 export default defineComponent({
   name: 'TeleForm',

@@ -1,6 +1,5 @@
 import { isFunction } from '../utils';
 import { CxBroadcastPayload } from '../types/index';
-import { AnyObject } from '../../../../types';
 
 export class CxBroadcast {
   deps = new Map<string, WeakMap<AnyObject, ((payload: CxBroadcastPayload) => void)[]>>();

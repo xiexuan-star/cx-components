@@ -7,12 +7,10 @@ import {
   PropType,
   resolveComponent
 } from 'vue';
-import { useComputed, useState } from '@/hooks/state';
-import { ElPopover, ElInput } from 'element-plus';
 import { PATCH_FLAG } from '../../constant/enum';
 import PinyinMatch from 'pinyin-match';
-import { CxBtn } from 'chx-ui';
 import * as R from 'ramda';
+import { useComputed, useState } from '../../../../../hooks/state';
 
 export default defineComponent({
   name: 'DynamicFormAdd',
@@ -21,7 +19,6 @@ export default defineComponent({
     modelValue: { type: Array as PropType<string[]>, required: true }
   },
   emits: ['update:modelValue', 'change'],
-  components: { ElPopover, ElInput, CxBtn },
   setup(props, { emit }) {
     const [modelProxy, setModelProxy] = useComputed<string[]>({
       get() {

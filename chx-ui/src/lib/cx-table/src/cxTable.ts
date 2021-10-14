@@ -163,7 +163,7 @@ export default defineComponent({
         rowData = rowData ?? props.tableData[rowIndex!];
         const column = $CxTable.flatColumns?.find(col => col.prop === prop);
         if (!column) return;
-        const cell = domShare.getCell($CxTable, column, rowData);
+        const cell = domShare.getCell($CxTable, column, rowData!);
         setTimeout(() => {
           cell?.click();
         });

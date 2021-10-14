@@ -10,10 +10,7 @@
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-    },
+    "typeRoots": ["./node_modules/@types/", "./src/types"],
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   }
 }

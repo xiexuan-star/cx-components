@@ -14,8 +14,7 @@ import {
 } from 'vue';
 import { COLUMN_FLAG, CX_SORT_STATUS, PATCH_FLAG } from '../../constant/enum';
 // import { onSelectAllChange } from '../../helper/eventHelper';
-import { TableDataVisitor } from '../../hooks/useCxSort';
-import { CxTableBaseObj, CxTableColumnObj, SelectConfig } from '../../types';
+import { CxTableBaseObj, CxTableColumnObj, SelectConfig, TableDataVisitor } from '../../types';
 import { EventBus, formatWidth, getSums } from '../../utils';
 
 export default defineComponent({

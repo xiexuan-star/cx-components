@@ -22,9 +22,9 @@
       <div class="cx_line cx_w_100p cx_m_0"></div>
     </div>
     <div class="cx_dp_flex cx_justify_between" v-loading="openLoading">
-      <section class="cx_flex_1 cx_br cx_p_16 cx_h_500" style="overflow:auto;position:relative">
+      <section class="cx_flex_1 cx_br cx_p_16 cx_h_500" style="overflow: auto; position: relative">
         <div v-for="(item, key) in departmentMap" :key="key" class="cx_mtb_5">
-          <h3 class="cx_fs_16 cx_pl_12 cx_ptb_8" style="font-weight:500">{{ key }}</h3>
+          <h3 class="cx_fs_16 cx_pl_12 cx_ptb_8" style="font-weight: 500">{{ key }}</h3>
           <div v-for="option in item" :key="option.id" class="cx_dp_ib cx_mtb_16 cx_w_130 cx_pl_12">
             <ElCheckbox
               :model-value="checkedList?.includes(option.id)"
@@ -37,7 +37,7 @@
           <div class="cx_line cx_m_0 cx_w_100p cx_mtb_6"></div>
         </div>
       </section>
-      <section class="cx_w_230 cx_p_16 cx_h_500" style="overflow:auto">
+      <section class="cx_w_230 cx_p_16 cx_h_500" style="overflow: auto">
         <div v-for="(_, key, index) in listMap" :key="key">
           <div class="cx_line cx_mb_10 cx_mt_14" v-if="index !== 0"></div>
           <h3 class="cx_mb_8 cx_fs_14">{{ key }}</h3>
@@ -50,7 +50,7 @@
             ghostClass="cx_opacity_20"
             :move="onMove"
           >
-            <template #item="{element}">
+            <template #item="{ element }">
               <li class="cx_fs_14 cx_ptb_9 hover_active cx_cursor_move">
                 <i class="iconfont icon-tuodong1 cx_mr_8"></i>{{ element.label }}
               </li>
@@ -63,20 +63,25 @@
 </template>
 
 <script lang="ts">
-import { useBasicDialog } from '@/components/global/Dialog';
 import { useDynamicConfigDialog } from './useDynamicConfigDialog';
-import { computed, defineComponent, PropType, ref, watch } from 'vue';
+import { App, computed, defineComponent, PropType, ref, watch } from 'vue';
 import Draggable from 'vuedraggable';
-import { useLoading } from '@/hooks';
-import { DYNAMIC_BUSINESS_TYPE } from '@/enums/dynamicConfig';
+import { useLoading } from '../../../../../utils';
+import { useCxDialog } from '../../../../cx-dialog/useCxDialog';
+import { useCxTable } from '../../hooks/useCxTable';
+import { AnyObject } from 'cx-store/dist/statistic/types';
 
 export default defineComponent({
   name: 'ColumnSettingDialog',
   components: { Draggable },
-  props: { dynamicList: { type: Array as PropType<AnyObject>, required: true } },
+  props: { dynamicList: { type: Array as PropType<AnyObject[]>, required: true } },
   emits: ['submit'],
+  install(app: App) {
+    app.component('columnSettingDialog', this);
+  },
   setup(props, { emit, expose }) {
-    const [register, { openDialog }] = useBasicDialog();
+    const [register, { openDialog }] = useCxDialog();
+    const { DYNAMIC_BUSINESS_TYPE } = useCxTable().getContext().dynamicType;
 
     const {
       totalList,

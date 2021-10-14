@@ -1,5 +1,4 @@
 import { computed } from 'vue';
-import { AnyObject } from '../../../../types';
 import { CxTableBaseObj } from '../types';
 
 export const useTableClass = (props: AnyObject, CxTable: CxTableBaseObj) => {

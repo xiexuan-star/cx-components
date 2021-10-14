@@ -1,5 +1,4 @@
 import { createBlock, createCommentVNode, createVNode, Fragment, openBlock } from 'vue'
-import { AnyObject } from '../../../types'
 import { isFunction, omit } from '../../../utils'
 import { PatchFlags } from '../../../constant/enum'
 

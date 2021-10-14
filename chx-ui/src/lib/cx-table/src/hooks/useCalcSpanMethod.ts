@@ -1,4 +1,3 @@
-import { AnyObject } from '../../../../types';
 import { CX_SPAN_METHOD_TYPE } from '../constant/enum';
 import { CxTableBaseObj, CxTablePropType } from '../types';
 import { isArray } from '../utils';

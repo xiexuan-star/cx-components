@@ -1,5 +1,4 @@
 import { useContext } from 'vue';
-import { AnyObject } from '../../../../types';
 import { CxTableBaseObj, CxTablePropType } from '../types';
 import { EventBus } from '../utils';
 

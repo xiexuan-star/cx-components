@@ -1,9 +1,12 @@
 import { ref } from 'vue';
-import $factory from '@/api';
 import { computed, reactive } from 'vue';
-import { ElMessage } from 'element-plus';
+import { useCxTable } from '../../hooks/useCxTable';
+import * as R from 'ramda';
 
 export const useDynamicConfigDialog = () => {
+  const context = useCxTable().getContext();
+  const getMessageInstance = (() => R.path(['messageInstance'], context)) as () => any;
+
   const totalList = ref<AnyObject[]>([]);
 
   const departmentMap = computed(() => {
@@ -61,7 +64,7 @@ export const useDynamicConfigDialog = () => {
 
   const getData = async (dynamicConfig?: AnyObject) => {
     if (!dynamicConfig) return console.warn('[dynamicConfigDialog]: invalid dynamicConfig');
-    const { data } = await $factory.get('/table/settings/get', dynamicConfig);
+    const { data } = await context.dynamicRequestInstance.get('/table/settings/get', dynamicConfig);
     totalList.value = data?.itemList ?? [];
     Object.assign(listMap, getDefaultData());
     data?.displayList?.forEach((item: AnyObject) => {
@@ -89,12 +92,12 @@ export const useDynamicConfigDialog = () => {
       );
       return res;
     }, [] as AnyObject[]);
-    const { state } = await $factory.putJSON('/table/settings/save', {
+    const { state } = await context.dynamicRequestInstance.putJSON('/table/settings/save', {
       ...dynamicConfig,
       columnList
     });
     if (state !== 200) return Promise.reject();
-    ElMessage.success('修改成功');
+    getMessageInstance().success('修改成功');
   };
 
   return {

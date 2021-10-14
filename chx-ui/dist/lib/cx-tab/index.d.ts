@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { AnyObject, SFCWithInstall } from '../../types';
+import { SFCWithInstall } from '../../types/interface';
 import { CxTabOption } from './type';
 declare const _CX_TAB: SFCWithInstall<import("vue").DefineComponent<{
     /**
@@ -18,7 +18,7 @@ declare const _CX_TAB: SFCWithInstall<import("vue").DefineComponent<{
      */
     options: {
         type: PropType<(string | number | CxTabOption)[]>;
-        default: () => any[];
+        default: () => never[];
     };
     disabled: {
         type: BooleanConstructor;
@@ -38,12 +38,12 @@ declare const _CX_TAB: SFCWithInstall<import("vue").DefineComponent<{
     modelValue: string | number;
     options: (string | number | CxTabOption)[];
     disabled: boolean;
-    badgeObj: {};
+    badgeObj: AnyObject;
 } & {}>, {
     level: string | number;
     modelValue: string | number;
     options: (string | number | CxTabOption)[];
     disabled: boolean;
-    badgeObj: {};
+    badgeObj: AnyObject;
 }>>;
 export default _CX_TAB;

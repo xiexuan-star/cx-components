@@ -1,5 +1,5 @@
-import { CxTableAdaptorPlugin, CxTableDynamicColumn } from "@/lib/cx-table";
-import { isNumber } from "@/utils";
+import { isNumber } from "../../..";
+import { CxTableAdaptorPlugin, CxTableDynamicColumn } from "../../../../..";
 import { getPrecision } from "../../adaptorUtils";
 
 export const dataInitPlugin: CxTableAdaptorPlugin = {

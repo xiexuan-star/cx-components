@@ -1,5 +1,4 @@
 import { PropType } from 'vue'
-import { AnyObject } from '../../types'
 import { CxFormItemConfig } from './types'
 
 export const CxFormProps = {

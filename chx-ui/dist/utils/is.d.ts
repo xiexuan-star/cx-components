@@ -1,9 +1,8 @@
-import { AnyObject, NameWithId } from "../types";
 export declare function is(val: unknown, type: string): boolean;
 export declare function isEmpty(value: any): boolean;
 export declare function isAbsolutePath(path: string): boolean;
-export declare const isDef: <T = unknown>(val?: T) => val is T;
-export declare const isUnDef: <T = unknown>(val?: T) => val is T;
+export declare const isDef: <T = unknown>(val?: T | undefined) => val is T;
+export declare const isUnDef: <T = unknown>(val?: T | undefined) => val is T;
 export declare const isObject: (val: any) => val is Record<any, any>;
 export declare function isDate(val: unknown): val is Date;
 export declare function isNull(val: unknown): val is null;

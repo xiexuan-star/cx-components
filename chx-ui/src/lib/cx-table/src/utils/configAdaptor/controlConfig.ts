@@ -6,8 +6,6 @@ import {
   CxBroadcastRegister
 } from '../../types';
 import { isNumber, isObject } from '../is';
-import * as R from 'ramda';
-import $factory from '@/api';
 
 export class CxControlConfig {
   type: CxTableItemControlType | '' = '';
@@ -136,21 +134,21 @@ export class CxControlConfig {
     if (typeof sideEffect !== 'object') return;
     Object.entries(sideEffect).forEach(([key, val]) => {
       if (key === 'request' && Array.isArray(val)) {
-        val.forEach(async requestConfig => {
-          const { type, url } = requestConfig;
+        // val.forEach(async requestConfig => {
+        //   const { type, url } = requestConfig;
 
-          if (!$factory[type]) return;
+        //   if (!$factory[type]) return;
 
-          const params = requestConfig.params ? R.pick(requestConfig.params, rowData) : {};
-          const { data, state } = await $factory[type](url, params);
+        //   const params = requestConfig.params ? R.pick(requestConfig.params, rowData) : {};
+        //   const { data, state } = await $factory[type](url, params);
 
-          if (state !== 200) return;
-          switch (requestConfig.behavior) {
-            case 1:
-              Object.assign(rowData, data);
-              break;
-          }
-        });
+        //   if (state !== 200) return;
+        //   switch (requestConfig.behavior) {
+        //     case 1:
+        //       Object.assign(rowData, data);
+        //       break;
+        //   }
+        // });
       }
     });
   }

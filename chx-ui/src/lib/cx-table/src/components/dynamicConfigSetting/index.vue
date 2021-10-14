@@ -14,8 +14,9 @@
 </template>
 
 <script lang="ts">
-import { useLoading } from '@/hooks';
+import { AnyObject } from 'cx-store/dist/statistic/types';
 import { computed, defineComponent, inject, ref } from 'vue';
+import { useLoading } from '../../../../../utils';
 import { CxTableBaseObj } from '../../types';
 import ColumnSettingDialog from './dialog.vue';
 
