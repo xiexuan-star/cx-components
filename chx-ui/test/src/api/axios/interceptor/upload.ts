@@ -1,25 +1,25 @@
-import { localUserProxy } from '@/store/modules/user';
+// import { localUserProxy } from '@/store/modules/user';
 import { ElMessage } from 'element-plus';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export default {
   requestInterceptor: (config: AxiosRequestConfig) => {
-    const token = localUserProxy.user?.token;
-    token && Reflect.set(config.headers, 'token', token); // 请求头部添加token
+    // const token = localUserProxy.user?.token;
+    // token && Reflect.set(config.headers, 'token', token); // 请求头部添加token
     return config;
   },
   responseInterceptor: (params: AxiosResponse) => {
-    const code = params.status;
-    const { state } = params.data;
+    // const code = params.status;
+    // const { state } = params.data;
 
-    if ((code >= 200 && code < 300) || code === 304) {
-      if (/octet-stream/.test(params.headers['content-type'])) {
-        return params.data;
-      } else if (state === 200) {
-        return Promise.resolve(params.data);
-      }
-      return Promise.reject(params.data);
-    }
+    // if ((code >= 200 && code < 300) || code === 304) {
+    //   if (/octet-stream/.test(params.headers['content-type'])) {
+    //     return params.data;
+    //   } else if (state === 200) {
+    //     return Promise.resolve(params.data);
+    //   }
+    //   return Promise.reject(params.data);
+    // }
     return Promise.reject(params);
   },
   responseErrInterceptor: (error: any) => {

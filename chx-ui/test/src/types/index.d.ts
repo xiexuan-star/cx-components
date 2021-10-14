@@ -16,7 +16,7 @@ declare interface FullNameAndId {
 
 declare type Nullable<T> = T | null;
 
-declare type FormRules<K extends string> = Partial<Record<K, FormRuleItem[]>>;
+// declare type FormRules<K extends string> = Partial<Record<K, FormRuleItem[]>>;
 
 declare type AnyObject = Record<string | symbol, any>;
 
@@ -27,3 +27,11 @@ declare type NumWidthEmpty = number | '';
 declare type ReplaceNumber<T = AnyObject> = {
   [P in keyof T]: T[P] extends number ? number | '' : T[P];
 };
+
+declare interface SResponse<T = any> {
+  state: number;
+  message: string;
+  data: T;
+}
+
+declare type FunctionParams<T> = T extends (...payload: infer P) => any ? P : any

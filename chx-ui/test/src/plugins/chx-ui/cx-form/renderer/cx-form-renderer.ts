@@ -1,5 +1,4 @@
 import { parseTime } from '@/utils';
-import { omit } from 'lodash-es';
 import { isFunction } from '@/utils/is';
 import { cxFormRendererConfig } from './config';
 import {
@@ -11,9 +10,6 @@ import {
   ElRadio,
   ElSwitch
 } from 'element-plus';
-import SelectSearch from '@/components/global/SelectSearch/index.vue';
-import SelectMultiply from '@/components/DeliveryGoldCost/SelectMulMerchant.vue';
-import InscriptionSelect from '@/components/InscriptionSelect/index.vue';
 import {
   createBlock,
   createCommentVNode,
@@ -86,49 +82,49 @@ export const cxFormRendererMap: Record<string, [any, CxFormAdaptor]> = {
       Reflect.set(this.attrs, 'type', 'textarea');
     }
   ],
-  select: [
-    // ElSelect,
-    // function() {
-    //   const { select, label } = this.config ?? {};
-    //   Reflect.set(this.attrs, 'placeholder', `请选择${label ?? ''}`);
-    //   Reflect.set(this.slots, 'default', () => {
-    //     return cxFormRender().renderOptions(select?.options ?? []);
-    //   });
-    //   Object.assign(this.attrs, select);
-    //   isFunction(select?.options) &&
-    //     Reflect.set(this.attrs, 'options', select?.options({ form: this.form }));
-    // }
-    SelectSearch,
-    function() {
-      const { select, label } = this.config ?? {};
-      Reflect.set(this.attrs, 'placeholder', `请选择${label ?? ''}`);
-      Object.assign(this.attrs, select);
-      Reflect.set(this.attrs, 'noClearValue', true);
-      isFunction(select?.options) &&
-        Reflect.set(this.attrs, 'options', select?.options({ form: this.form }));
-    }
-  ],
-  search: [
-    SelectSearch,
-    function() {
-      const { search, label } = this.config ?? {};
-      Reflect.set(this.attrs, 'placeholder', `请选择${label ?? ''}`);
-      Object.assign(this.attrs, search);
-      Reflect.set(this.attrs, 'noClearValue', true);
-      isFunction(search?.options) &&
-        Reflect.set(this.attrs, 'options', search?.options({ form: this.form }));
-    }
-  ],
-  selectMultiply: [
-    SelectMultiply,
-    function() {
-      const { selectMultiply, label } = this.config ?? {};
-      Reflect.set(this.attrs, 'placeholder', `请选择${label ?? ''}`);
-      Object.assign(this.attrs, selectMultiply);
-      isFunction(selectMultiply?.options) &&
-        Reflect.set(this.attrs, 'options', selectMultiply?.options({ form: this.form }));
-    }
-  ],
+  // select: [
+  //   // ElSelect,
+  //   // function() {
+  //   //   const { select, label } = this.config ?? {};
+  //   //   Reflect.set(this.attrs, 'placeholder', `请选择${label ?? ''}`);
+  //   //   Reflect.set(this.slots, 'default', () => {
+  //   //     return cxFormRender().renderOptions(select?.options ?? []);
+  //   //   });
+  //   //   Object.assign(this.attrs, select);
+  //   //   isFunction(select?.options) &&
+  //   //     Reflect.set(this.attrs, 'options', select?.options({ form: this.form }));
+  //   // }
+  //   // SelectSearch,
+  //   // function() {
+  //   //   const { select, label } = this.config ?? {};
+  //   //   Reflect.set(this.attrs, 'placeholder', `请选择${label ?? ''}`);
+  //   //   Object.assign(this.attrs, select);
+  //   //   Reflect.set(this.attrs, 'noClearValue', true);
+  //   //   isFunction(select?.options) &&
+  //   //     Reflect.set(this.attrs, 'options', select?.options({ form: this.form }));
+  //   // }
+  // ],
+  // search: [
+  //   SelectSearch,
+  //   function() {
+  //     const { search, label } = this.config ?? {};
+  //     Reflect.set(this.attrs, 'placeholder', `请选择${label ?? ''}`);
+  //     Object.assign(this.attrs, search);
+  //     Reflect.set(this.attrs, 'noClearValue', true);
+  //     isFunction(search?.options) &&
+  //       Reflect.set(this.attrs, 'options', search?.options({ form: this.form }));
+  //   }
+  // ],
+  // selectMultiply: [
+  //   SelectMultiply,
+  //   function() {
+  //     const { selectMultiply, label } = this.config ?? {};
+  //     Reflect.set(this.attrs, 'placeholder', `请选择${label ?? ''}`);
+  //     Object.assign(this.attrs, selectMultiply);
+  //     isFunction(selectMultiply?.options) &&
+  //       Reflect.set(this.attrs, 'options', selectMultiply?.options({ form: this.form }));
+  //   }
+  // ],
   dateRange: [
     ElDatePicker,
     function() {
@@ -153,33 +149,33 @@ export const cxFormRendererMap: Record<string, [any, CxFormAdaptor]> = {
       // Reflect.deleteProperty(this.attrs, 'prop');
     }
   ],
-  input: [
-    ElInput,
-    function() {
-      const { input, label } = this.config ?? {};
-      Reflect.set(this.attrs, 'placeholder', `请输入${label ?? ''}`);
-      Reflect.set(this.attrs, 'onInput', (val: any) => {
-        input?.trim && Reflect.set(this.form, this.prop ?? '', val ? val.trim() : '');
-        isFunction(input?.onInput) && input?.onInput();
-      });
-      (input?.searchIcon ?? true) &&
-        Reflect.set(this.slots, 'append', () =>
-          cxFormRender().renderSearchIcon(() => ({
-            prop: this.prop,
-            val: Reflect.get(this.form, this.prop)
-          }))
-        );
-      Object.assign(this.attrs, omit(input, ['onInput']));
-    }
-  ],
-  inscription: [
-    InscriptionSelect,
-    function() {
-      const { inscription, label } = this.config ?? {};
-      Reflect.set(this.attrs, 'placeholder', `请选择${label ?? ''}`);
-      Object.assign(this.attrs, inscription);
-    }
-  ],
+  // input: [
+  //   ElInput,
+  //   function() {
+  //     const { input, label } = this.config ?? {};
+  //     Reflect.set(this.attrs, 'placeholder', `请输入${label ?? ''}`);
+  //     Reflect.set(this.attrs, 'onInput', (val: any) => {
+  //       input?.trim && Reflect.set(this.form, this.prop ?? '', val ? val.trim() : '');
+  //       isFunction(input?.onInput) && input?.onInput();
+  //     });
+  //     (input?.searchIcon ?? true) &&
+  //       Reflect.set(this.slots, 'append', () =>
+  //         cxFormRender().renderSearchIcon(() => ({
+  //           prop: this.prop,
+  //           val: Reflect.get(this.form, this.prop)
+  //         }))
+  //       );
+  //     Object.assign(this.attrs, omit(input, ['onInput']));
+  //   }
+  // ],
+  // inscription: [
+  //   InscriptionSelect,
+  //   function() {
+  //     const { inscription, label } = this.config ?? {};
+  //     Reflect.set(this.attrs, 'placeholder', `请选择${label ?? ''}`);
+  //     Object.assign(this.attrs, inscription);
+  //   }
+  // ],
   radio: [
     ElRadio,
     function() {
@@ -201,11 +197,11 @@ export const cxFormRendererMap: Record<string, [any, CxFormAdaptor]> = {
       Object.assign(this.attrs, switchAttr);
     }
   ],
-  custom: [
-    null,
-    function() {
-      const { custom } = this.config ?? {};
-      Object.assign(this.attrs, omit(custom, ['slot']));
-    }
-  ]
+  // custom: [
+  //   null,
+  //   function() {
+  //     const { custom } = this.config ?? {};
+  //     Object.assign(this.attrs, omit(custom, ['slot']));
+  //   }
+  // ]
 };

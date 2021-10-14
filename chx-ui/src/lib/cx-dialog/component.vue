@@ -155,7 +155,7 @@ export default defineComponent({
     .el-button--text {
       color: #000;
       &:hover {
-        color: $color-primary;
+        color: blue;
       }
     }
   }

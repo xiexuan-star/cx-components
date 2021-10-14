@@ -2,7 +2,6 @@ import $factory from '@/api';
 import { registDynamicCacheContext } from '@/api/dynamicCacheContext';
 import { registDynamicFormApi } from '@/api/dynamicSearchApi';
 import { useDynamicType } from '@/enums/dynamicConfig';
-import 'chx-ui/dist/chx-ui.umd.css';
 import { ElMessage } from 'element-plus';
 import { App } from 'vue';
 import CxUI, { useCxTable } from '../../../../src';

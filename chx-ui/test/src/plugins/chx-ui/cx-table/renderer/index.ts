@@ -1,7 +1,6 @@
 import { CxRendererRegister, CxTableItemControlType, useCxTable } from '../../../../../../src';
 import {
   renderInputNode,
-  renderImgNode,
   renderDefaultNode,
   renderRadioNode,
   renderDefaultCheckboxNode,
@@ -13,7 +12,6 @@ import {
   renderDelOperationNode,
   renderExpandSwitch,
   renderTagNode,
-  renderMemoRedFlag,
   renderSpecificationNode,
   renderIndexNode,
   renderSwitchNode,
@@ -27,9 +25,7 @@ function useCxTableDefaultRenderer() {
 
   const registerMap: Partial<Record<CxTableItemControlType, CxRendererRegister>> = {
     default: renderDefaultNode,
-    imgs: renderImgNode,
     note: renderDefaultNode,
-    memo: renderMemoRedFlag,
     nativeRadio: renderRadioNode,
     expandSwitch: renderExpandSwitch,
     index: params => renderIndexNode(params),

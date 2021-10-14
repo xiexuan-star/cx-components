@@ -9,11 +9,10 @@ import {
   resolveDirective,
   withDirectives
 } from 'vue';
-import TableImg from '@/components/TableImg.vue';
-import SingleRedFlag from '@/components/SingleRedFlag/index.vue';
+// import TableImg from '@/components/TableImg.vue';
+// import SingleRedFlag from '@/components/SingleRedFlag/index.vue';
 import { isEmpty, isFunction, isNumber } from '@/utils/is';
 import { PATCH_FLAG } from '@/constant/patchFlag';
-import { useRouter } from 'vue-router';
 import { rendererConfig, getColumnSelectText, getFunctionAttrs, getStatusAttrs } from '../../../../../../src';
 
 
@@ -183,22 +182,22 @@ export const renderTimeNode = (type: 'date' | 'time', { rowData, column }: rende
   );
 };
 
-// 获取图片节点
-export const renderImgNode = ({ rowData, column }: rendererConfig) => {
-  const photos = rowData[column.prop] ?? [];
-  const attrs = getFunctionAttrs(rowData, column.control?.attrs);
-  return createVNode(
-    TableImg,
-    {
-      photos: Array.isArray(photos) ? photos : photos ? [photos] : [],
-      ...attrs,
-      picHost: attrs?.picHost || ''
-    },
-    null,
-    PATCH_FLAG.PROPS,
-    ['photos', 'picHost']
-  );
-};
+// // 获取图片节点
+// export const renderImgNode = ({ rowData, column }: rendererConfig) => {
+//   const photos = rowData[column.prop] ?? [];
+//   const attrs = getFunctionAttrs(rowData, column.control?.attrs);
+//   return createVNode(
+//     TableImg,
+//     {
+//       photos: Array.isArray(photos) ? photos : photos ? [photos] : [],
+//       ...attrs,
+//       picHost: attrs?.picHost || ''
+//     },
+//     null,
+//     PATCH_FLAG.PROPS,
+//     ['photos', 'picHost']
+//   );
+// };
 
 // 获取输入框节点
 export const renderInputNode = ({ rowData, column }: rendererConfig) => {
@@ -431,17 +430,17 @@ export const renderSpecificationNode = ({ rowData, column }: rendererConfig) => 
   );
 };
 
-// 渲染备忘列
-export const renderMemoRedFlag = ({ rowData, column }: rendererConfig) => {
-  const comp = resolveComponent('MemoRedFlag');
-  if (!comp) return null;
-  const attrs = getFunctionAttrs(rowData, column.control?.attrs);
-  const pAttrs = rowData.goodsIndex
-    ? { goodsIndex: rowData.goodsIndex, memo: rowData.memo, ...attrs }
-    : { icon: true, produceNo: rowData.produceNo, orderId: rowData.id, row: rowData, ...attrs };
-  const compName = rowData.goodsIndex ? SingleRedFlag : comp;
-  return createVNode(compName, pAttrs);
-};
+// // 渲染备忘列
+// export const renderMemoRedFlag = ({ rowData, column }: rendererConfig) => {
+//   const comp = resolveComponent('MemoRedFlag');
+//   if (!comp) return null;
+//   const attrs = getFunctionAttrs(rowData, column.control?.attrs);
+//   const pAttrs = rowData.goodsIndex
+//     ? { goodsIndex: rowData.goodsIndex, memo: rowData.memo, ...attrs }
+//     : { icon: true, produceNo: rowData.produceNo, orderId: rowData.id, row: rowData, ...attrs };
+//   const compName = rowData.goodsIndex ? SingleRedFlag : comp;
+//   return createVNode(compName, pAttrs);
+// };
 
 export const renderTagNode = (
   { rowData, column }: rendererConfig,

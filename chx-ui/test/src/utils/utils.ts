@@ -1,10 +1,8 @@
-import { getPrecisionConfig, PRECISION_TYPE, PRECISION_TYPE_ARR } from '@/config/precision';
 import { isArray, isErrorLike, isEmpty, isFunction } from './is';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { parseTimeParams } from '@/hooks/pickerOptions';
 import { decimals } from '.';
 import { cloneDeep } from 'lodash';
-import { CxTableDynamicColumn } from 'chx-ui';
+import { CxTableDynamicColumn } from '../../../src';
 
 /**
  * 下载文件
@@ -72,29 +70,6 @@ export function decimalFixed<T extends unknown>(
 
   const len = num.toString().split('.')[1]?.length || 0;
   return (+decimals(+num, Math.max(precision, len))).toFixed(Math.max(precision, len));
-}
-
-export function dealDateRange<T = AnyObject>(
-  params: T,
-  dateRange: [Date, Date] | null,
-  fmt = 'YYYY-MM-DD'
-): T & DateRange {
-  const [beginDate, endDate] = parseTimeParams(dateRange, fmt);
-  return Object.assign({}, params, { beginDate, endDate });
-}
-
-/**
- * 数字补位扩展版
- * @param value 需要补位的值
- * @param precisionType 精度类型
- * @returns 补位后的值
- */
-export function decimalFixedExtend<T extends unknown>(value: T, precisionType: PRECISION_TYPE) {
-  if (!PRECISION_TYPE_ARR.includes(precisionType)) return value;
-
-  const precisionConfig = getPrecisionConfig();
-
-  return decimalFixed(value, precisionConfig[precisionType]);
 }
 
 /**

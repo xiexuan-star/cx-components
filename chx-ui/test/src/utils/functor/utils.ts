@@ -1,7 +1,6 @@
 import { Identify, IO, Left, Maybe, Right, Task } from '.';
 import * as R from 'ramda';
 import { ElMessage } from 'element-plus';
-import { AnyObject } from 'element-plus/lib/el-table/src/table.type';
 
 // getDoNothingIO::void->IO<NOOP>
 export const getDoNothingIO = () => IO.of(R.identity);

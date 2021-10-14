@@ -5,12 +5,12 @@
         <CxBtn class="cx_p_0" icon="shezhi1" @click="open" :loading="openLoading" />
       </ElTooltip>
     </div>
+    <ColumnSettingDialog
+      ref="dialogRef"
+      @submit="submit"
+      :dynamicList="[dynamicConfig]"
+    ></ColumnSettingDialog>
   </div>
-  <ColumnSettingDialog
-    ref="dialogRef"
-    @submit="submit"
-    :dynamicList="[dynamicConfig]"
-  ></ColumnSettingDialog>
 </template>
 
 <script lang="ts">
@@ -52,7 +52,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .setting_btn {
-  background-color: $table-head-bg-color;
+  background-color: white;
   height: 40px;
   width: 30px;
   font-style: normal;

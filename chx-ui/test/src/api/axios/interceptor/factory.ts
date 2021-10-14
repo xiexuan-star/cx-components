@@ -1,12 +1,11 @@
 import router from '@/router';
-import { localUserProxy } from '@/store/modules/user';
+// import { localUserProxy } from '@/store/modules/user';
 import { ElMessage } from 'element-plus';
 import { AxiosInterceptor } from '../type';
 import { errStatusHandle, statusHandle } from '../statusHandle';
 import { CANCEL_REQUEST } from '../const';
 import { axiosCanceler } from '../axiosCancel';
 import { isFunction } from '@/utils/is';
-import { preResponseParser } from '../tokenUpdate';
 
 export default {
   beforeRequestHook: (config, options) => {
@@ -18,19 +17,19 @@ export default {
     return config;
   },
   requestInterceptor: config => {
-    const token = localUserProxy.user?.token;
-    token && Reflect.set(config.headers, 'token', token); // 请求头部添加token
+    // const token = localUserProxy.user?.token;
+    // token && Reflect.set(config.headers, 'token', token); // 请求头部添加token
     return config;
   },
-  beforeResponseHook: async res => await preResponseParser(res),
+  // beforeResponseHook: async res => await preResponseParser(res),
   beforeResponseErrHook: (err, options) => {
     err;
     options;
   },
   responseInterceptor: res => {
-    const { options } = res.config;
+    // const { options } = res.config;
     const { errMsg, replace } = statusHandle(res);
-    if (options?.noTip) return res;
+    // if (options?.noTip) return res;
     errMsg && ElMessage.error(errMsg);
     replace && router.replace(replace);
     return errMsg ? Promise.reject(res) : res;
