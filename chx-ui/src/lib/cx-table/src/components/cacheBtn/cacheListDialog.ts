@@ -17,7 +17,7 @@ import { useCxTableCompose } from '../../hooks/useCxTableCompose';
 import { CxConfigAdaptor, debounce, EventBus, getColumnSelectText } from '../../utils';
 import { PATCH_FLAG, TypeOption } from '../../constant/enum';
 import { decimalFixed } from '../../utils/configAdaptor/adaptorUtils';
-import EmptyData from './emptyData';
+import Empty from '../empty.vue';
 
 import Ellipsis from '../ellipsis/index.vue';
 import { CacheRule, useCxTable } from '../../hooks/useCxTable';
@@ -641,7 +641,7 @@ export default defineComponent({
                             renderOrderInfo(activeItem()),
                             renderOrderTable(tableConfig, tableData())
                           ])
-                        : createVNode('div', _hoisted_attrs_5, [createVNode(EmptyData)])
+                        : createVNode('div', _hoisted_attrs_5, [createVNode(Empty)])
                     ]))
                   ])
                 ];

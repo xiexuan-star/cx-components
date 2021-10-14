@@ -60,10 +60,10 @@ export default defineComponent({
   setup(props, { slots, emit, expose }) {
     // 根对象
     const $CxTable = createCxTableConfig();
-    const { columnProxy, dynamicColumn, loading, forceUpdate } = useDynamicConfig(props);
+    const { columnProxy, dynamicColumn, loading, forceUpdate } = useDynamicConfig(props,emit);
     const searchLoading = ref(false);
 
-    const { bus } = useBus($CxTable, props);
+    const { bus } = useBus($CxTable, props, emit);
 
     const tid = useTableId().generateTableId();
     const { tableDataVisitor } = useCxSort(props);
@@ -79,14 +79,14 @@ export default defineComponent({
       getSelectAllValue,
       setSelectDisabled,
       updateSelectConfig
-    } = useSelectConfig(tableDataVisitor);
+    } = useSelectConfig(tableDataVisitor,emit);
     setCheckSelect(props.checkSelect);
 
     bus.on('toggleAllSelection', toggleAllSelection);
     bus.on('toggleRowSelection', toggleRowSelection);
 
     // 集成单选
-    const { radioValue, removeRadio, setRadio, getRadio } = useRadioConfig();
+    const { radioValue, removeRadio, setRadio, getRadio } = useRadioConfig(emit);
 
     // 集成展开行
     const { expandConfig, setExpand, clearExpand } = useExpandConfig();

@@ -1,9 +1,9 @@
 import { CxCheckSelectFun, SelectConfig, TableDataVisitor } from '../types';
-import { nextTick, useContext, reactive, watch } from 'vue';
+import { nextTick, reactive, watch } from 'vue';
 import { onSelectItemChange } from '../helper/eventHelper';
 import { isFunction } from '../utils';
 
-export const useSelectConfig = (tableDataVisitor: TableDataVisitor) => {
+export const useSelectConfig = (tableDataVisitor: TableDataVisitor, emit: Func<any>) => {
   const selectConfig = reactive<SelectConfig>({
     selectAll: false,
     actualAll: false,
@@ -13,8 +13,6 @@ export const useSelectConfig = (tableDataVisitor: TableDataVisitor) => {
     checkSelect: void 0,
     disabledItem: []
   });
-
-  const { emit } = useContext();
 
   watch(
     () => tableDataVisitor.sortedData.length,

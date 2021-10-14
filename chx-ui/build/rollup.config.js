@@ -4,8 +4,6 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { name } from '../package.json'
 import commonjs from 'rollup-plugin-commonjs';
 import scss from 'rollup-plugin-scss'
-import babel from 'rollup-plugin-babel';
-import presetBabel from '@babel/preset-typescript'
 // import { terser } from 'rollup-plugin-terser';
 
 const file = type => `dist/${name}.${type}.js`

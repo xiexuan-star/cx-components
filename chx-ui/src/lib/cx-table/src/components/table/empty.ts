@@ -8,6 +8,7 @@ import {
 } from 'vue';
 import { PATCH_FLAG } from '../../constant/enum';
 import { CxTableBaseObj } from '../../types';
+import Empty from './../empty.vue'
 
 export default defineComponent({
   name: 'CxTableEmpty',
@@ -31,13 +32,7 @@ export default defineComponent({
                   [
                     (function() {
                       setBlockTracking(-1);
-                      const node = createVNode('div', { class: 'cx_align_center' }, [
-                        createVNode('embed', {
-                          src: require('../../assets/tableEmpty.svg'),
-                          class: 'cx_h_100'
-                        }),
-                        createVNode('p', null, '暂无数据')
-                      ]);
+                      const node = createVNode(Empty);
                       setBlockTracking(1);
                       return node;
                     })()

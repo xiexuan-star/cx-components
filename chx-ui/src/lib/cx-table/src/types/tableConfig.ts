@@ -232,7 +232,6 @@ export type CxTableItem = {
   headTip: string;
 }>;
 export interface CxTableBaseObj {
-  __wrapperEle: Nullable<HTMLElement>;
   wrapperEle: Nullable<HTMLElement>;
   priorityColumnMap: Map<string, Partial<CxTableItem>>;
   columns: CxTableColumnObj[];

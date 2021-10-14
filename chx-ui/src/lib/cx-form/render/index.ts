@@ -10,13 +10,7 @@ const renderComp = (attrs: AnyObject, slots: AnyObject, Comp?: any) => {
         ? isFunction(Comp)
           ? (function () {
               const prop = attrs.__prop
-              const nodes = Comp(Object.assign(omit(attrs, ['__closable', '__emit', '__prop']), { prop }))
-              // nodes?.forEach?.((node: any) => {
-              //   !node.props && Reflect.set(node, 'props', {});
-              //   Object.assign(node?.props, omit(attrs,['closable']));
-              //   node.PatchFlags = PatchFlags.FULL_PROPS;
-              // });
-              return nodes
+              return Comp(Object.assign(omit(attrs, ['__closable', '__emit', '__prop']), { prop }))
             })()
           : createVNode(Comp, omit(attrs, ['__closable', '__emit', '__prop']), slots, PatchFlags.FULL_PROPS)
         : createCommentVNode('v-if_component', true),

@@ -32,6 +32,14 @@ declare const _CX_BTN: SFCWithInstall<import("vue").DefineComponent<{
 }, (_: any, cache: any[]) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
 }>, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, Record<string, any>, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<{
+    size?: unknown;
+    level?: unknown;
+    type?: unknown;
+    content?: unknown;
+    icon?: unknown;
+    loading?: unknown;
+    disabled?: unknown;
+} & {
     size: "large" | "medium" | "mini";
     level: string | number;
     type: "primary" | "success" | "danger";

@@ -10,7 +10,7 @@
     <CxTab
       class="cx_plr_16"
       level="2"
-      v-if="tabOptionList?.length > 1"
+      v-if="tabOptionList&&tabOptionList.length > 1"
       :options="tabOptionList"
       v-model="activeTab"
     />
@@ -27,7 +27,7 @@
           <h3 class="cx_fs_16 cx_pl_12 cx_ptb_8" style="font-weight: 500">{{ key }}</h3>
           <div v-for="option in item" :key="option.id" class="cx_dp_ib cx_mtb_16 cx_w_130 cx_pl_12">
             <ElCheckbox
-              :model-value="checkedList?.includes(option.id)"
+              :model-value="checkedList.includes(option.id)"
               @update:modelValue="val => updateCheckedList(val, option.id)"
               :disabled="option.irrevocable"
               :label="option.label"

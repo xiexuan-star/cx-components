@@ -34,14 +34,14 @@ export class FormConfigAdaptor {
     closable: true,
     register: []
   };
-  get items() {
+  getItems() {
     return onOutputs.reduce(
       (res, hook) => (R.is(Function, hook) ? hook!(res) : res),
       R.clone(this.__items)
     );
   }
   static of(config: CxTableDynamicColumn) {
-    return new FormConfigAdaptor(config).items;
+    return new FormConfigAdaptor(config).getItems();
   }
   private constructor(config: CxTableDynamicColumn) {
     const configDuplicate = onInits.reduce(

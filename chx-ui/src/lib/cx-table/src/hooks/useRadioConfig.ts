@@ -1,8 +1,7 @@
-import { useContext, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 
-export const useRadioConfig = () => {
+export const useRadioConfig = (emit:Func<any>) => {
   const radioValue = ref(-1);
-  const { emit } = useContext();
 
   watch(
     () => radioValue.value,

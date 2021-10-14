@@ -6,16 +6,7 @@ import { cxTableWarn } from '../utils';
 
 export const createCxTableConfig = (): CxTableBaseObj => {
   return reactive({
-    __wrapperEle: null,
-    get wrapperEle() {
-      if (!this.__wrapperEle) {
-        unsafeWhenDevCall(() => cxTableWarn(`cxTable dom instance is `, this.__wrapperEle));
-      }
-      return this.__wrapperEle;
-    },
-    set wrapperEle(val) {
-      this.__wrapperEle = val;
-    },
+    wrapperEle: null,
     hoveringRowid: CX_TABLE_NOT_HOVER_ID,
     cacheItemRemove: null,
     entireTotalSum: null,

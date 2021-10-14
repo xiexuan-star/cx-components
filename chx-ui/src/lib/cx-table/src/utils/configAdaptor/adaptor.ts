@@ -21,7 +21,7 @@ export class CxConfigAdaptor {
     isFunction(onOutput) && onOutputs.push(onOutput);
   }
   basicColumn: CxTableItem = { prop: '', label: '' };
-  get column() {
+  getColumn() {
     if (onOutputs.length === 0) return this.basicColumn;
     const columnDuplicate = onOutputs.reduce(
       (res, hook) => (isFunction(hook) ? hook(res) : res),
@@ -30,7 +30,7 @@ export class CxConfigAdaptor {
     return columnDuplicate;
   }
   static of(config: CxTableDynamicColumn) {
-    return new CxConfigAdaptor(config).column;
+    return new CxConfigAdaptor(config).getColumn();
   }
   constructor(config: CxTableDynamicColumn) {
     const configDuplicate = onInits.reduce(
@@ -45,7 +45,7 @@ export class CxConfigAdaptor {
   // children处理
   private childrenAdaptor(config: CxTableDynamicColumn) {
     if (config.children?.length) {
-      this.basicColumn.children = config.children.map(child => new CxConfigAdaptor(child).column);
+      this.basicColumn.children = config.children.map(CxConfigAdaptor.of);
     }
     return this;
   }

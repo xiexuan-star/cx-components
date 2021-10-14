@@ -1,4 +1,4 @@
-import { nextTick, watch, ref, useContext } from 'vue';
+import { nextTick, ref, watch } from 'vue';
 import * as R from 'ramda';
 import {
   CX_TABLE_CACHE_PENDING,
@@ -54,19 +54,19 @@ export const getCxDynamicHead = async (dynamic: DYNAMIC_CONFIG) => {
         return reject();
       }
 
-      useCxTable()?.getContext()?.dynamicRequestInstance
-        .get(url, { ...dynamic, random: Math.random() })
+      useCxTable()
+        ?.getContext()
+        ?.dynamicRequestInstance.get(url, { ...dynamic, random: Math.random() })
         .then(resolve)
         .catch(reject);
     }
   });
 };
 
-export const useDynamicConfig = (props: CxTablePropType) => {
+export const useDynamicConfig = (props: CxTablePropType, emit: Func<any>) => {
   const columnProxy = ref<CxTableItem[]>([]);
   const dynamicColumn = ref<CxTableDynamicColumn[]>([]);
   const loading = ref(false);
-  const { emit } = useContext();
 
   const forceUpdate = debounce((isDynamicChange = false) => {
     if (isObject(props.dynamic)) {
@@ -78,7 +78,7 @@ export const useDynamicConfig = (props: CxTablePropType) => {
             const duplicate = R.clone(data);
             dynamicColumn.value = duplicate;
             sessionStore.set(key, data, CX_TABLE_THROTTLE_DURATION, CX_TABLE_DYNAMIC_CACHE);
-            data = data.map(item => new CxConfigAdaptor(item).column);
+            data = data.map(CxConfigAdaptor.of);
             data = resolveColumns(data, props);
             columnProxy.value = data;
             if (Array.isArray(cacheMap[key])) {
@@ -110,13 +110,12 @@ export const useDynamicConfig = (props: CxTablePropType) => {
   }, 300);
 
   if (isObject(props.dynamic)) {
-    watch(
-      () => props.dynamic,
-      R.converge(forceUpdate,[R.T]),
-      { deep: true, immediate: true }
-    );
+    watch(() => props.dynamic, R.converge(forceUpdate, [R.T]), { deep: true, immediate: true });
   } else {
-    watch(() => props.tableConfig.items, R.converge(forceUpdate,[R.F]), { deep: true, immediate: true });
+    watch(() => props.tableConfig.items, R.converge(forceUpdate, [R.F]), {
+      deep: true,
+      immediate: true
+    });
   }
   return { columnProxy, loading, forceUpdate, dynamicColumn };
 };

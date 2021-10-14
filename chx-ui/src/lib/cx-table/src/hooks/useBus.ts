@@ -1,10 +1,8 @@
-import { useContext } from 'vue';
 import { CxTableBaseObj, CxTablePropType } from '../types';
 import { EventBus } from '../utils';
 
-export const useBus = ($CxTable: CxTableBaseObj, props: CxTablePropType) => {
+export const useBus = ($CxTable: CxTableBaseObj, props: CxTablePropType,emit:Func<any>) => {
   const bus = new EventBus();
-  const { emit } = useContext();
   bus.on('addNewRow', (content: string) => {
     if (props.disabled) return;
     const emptyRow = $CxTable.flatColumns.reduce((res, column) => {

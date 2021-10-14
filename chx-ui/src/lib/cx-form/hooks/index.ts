@@ -8,17 +8,14 @@ const CxFormRenderMap = new Map<string, { comp?: Component | null | Func<Compone
 export const useCxForm = () => {
   let _instance: Ref<ElFormExpose | null> | undefined
   let _config: CxFormConfig | undefined
-  // let _cache: CxFormCache | undefined;
 
   const register = (payload: {
     props?: CxFormConfig
     ref?: Ref<ElFormExpose | null>
-    // cache?: CxFormCache;
   }) => {
     const { props: config, ref } = payload
     _instance = ref
     _config = config
-    // _cache = cache;
   }
 
   const getFormRef = () => {
@@ -49,26 +46,10 @@ export const useCxForm = () => {
     })
   }
 
-  // const validCache = () => {
-  //   if (!_cache) throw new CxFormError("can't use cache before regist");
-  // };
-
   return {
     register,
     getFormRef,
     setFormConfig,
-    // getCache: () => {
-    //   validCache();
-    //   _cache?.getCache();
-    // },
-    // removeCache: () => {
-    //   validCache();
-    //   _cache?.removeCache();
-    // },
-    // setCache: (dataSource?: any) => {
-    //   validCache();
-    //   _cache?.setCache(dataSource);
-    // },
     /**
      * @description 注册组件
      * @param params {comp:组件,type:组件名,configAdaptor:组件配置项适配器,默认直接合并}
