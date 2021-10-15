@@ -3248,7 +3248,7 @@
     .basic-dialog[data-v-342d80fb]_header[data-v-342d80fb] .el-button--text[data-v-342d80fb] {
       color: #000; }
       .basic-dialog[data-v-342d80fb]_header[data-v-342d80fb] .el-button--text[data-v-342d80fb][data-v-342d80fb]:hover {
-        color: #0084ff; }
+        color: blue; }
   .basic-dialog[data-v-342d80fb]_title[data-v-342d80fb] {
     font-size: 18px;
     font-weight: 500;
@@ -3515,7 +3515,7 @@
   padding: 0; }
 
 .setting_btn[data-v-7a79bc2a] {
-  background-color: #f5f5f5;
+  background-color: white;
   height: 40px;
   width: 30px;
   font-style: normal;
