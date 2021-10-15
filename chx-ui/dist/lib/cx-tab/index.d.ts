@@ -34,21 +34,12 @@ declare const _CX_TAB: SFCWithInstall<import("vue").DefineComponent<{
 }, (_: any, cache: any[]) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
 }>, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "change")[], "update:modelValue" | "change", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<{
-    level?: unknown;
-    modelValue?: unknown;
-    options?: unknown;
-    disabled?: unknown;
-    badgeObj?: unknown;
-} & {
     level: string | number;
     modelValue: string | number;
     options: (string | number | CxTabOption)[];
     disabled: boolean;
     badgeObj: {};
-} & {}> & {
-    "onUpdate:modelValue"?: (...args: any[]) => any;
-    onChange?: (...args: any[]) => any;
-}, {
+} & {}>, {
     level: string | number;
     modelValue: string | number;
     options: (string | number | CxTabOption)[];

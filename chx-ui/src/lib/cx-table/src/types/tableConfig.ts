@@ -1,4 +1,4 @@
-import { CSSProperties, Ref, VNode } from '@vue/runtime-dom';
+import { CSSProperties, Ref, VNode } from 'vue';
 import { Nullable, PaginationModel, withUndefined } from '.';
 import { CxBroadcast } from '../hooks/useBroadcast';
 import { useDynamicConfig } from '../hooks/useDynamicConfig';

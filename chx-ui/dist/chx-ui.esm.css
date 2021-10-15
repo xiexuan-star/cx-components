@@ -3228,16 +3228,16 @@
 .basic-dialog[data-v-342d80fb] {
   position: relative;
   border-radius: 4px !important; }
-  .basic-dialog[data-v-342d80fb] .el-dialog__header[data-v-342d80fb],
-  .basic-dialog[data-v-342d80fb] .el-dialog__footer[data-v-342d80fb],
-  .basic-dialog[data-v-342d80fb] .el-dialog__body[data-v-342d80fb] {
+  .basic-dialog[data-v-342d80fb] .el-dialog__header,
+  .basic-dialog[data-v-342d80fb] .el-dialog__footer,
+  .basic-dialog[data-v-342d80fb] .el-dialog__body {
     padding: 0; }
-  .basic-dialog[data-v-342d80fb] .el-dialog__body[data-v-342d80fb] {
+  .basic-dialog[data-v-342d80fb] .el-dialog__body {
     height: calc(100% - 45px); }
-  .basic-dialog[data-v-342d80fb] .el-dialog__headerbtn[data-v-342d80fb] {
+  .basic-dialog[data-v-342d80fb] .el-dialog__headerbtn {
     top: 14px;
     right: 16px; }
-  .basic-dialog[data-v-342d80fb]_header[data-v-342d80fb] {
+  .basic-dialog[data-v-342d80fb]_header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -3245,28 +3245,28 @@
     padding-left: 16px;
     padding-right: 48px;
     border-bottom: 1px solid #f0f0f0; }
-    .basic-dialog[data-v-342d80fb]_header[data-v-342d80fb] .el-button--text[data-v-342d80fb] {
+    .basic-dialog[data-v-342d80fb]_header .el-button--text {
       color: #000; }
-      .basic-dialog[data-v-342d80fb]_header[data-v-342d80fb] .el-button--text[data-v-342d80fb][data-v-342d80fb]:hover {
+      .basic-dialog[data-v-342d80fb]_header .el-button--text:hover {
         color: blue; }
-  .basic-dialog[data-v-342d80fb]_title[data-v-342d80fb] {
+  .basic-dialog[data-v-342d80fb]_title {
     font-size: 18px;
     font-weight: 500;
     color: #303133; }
-  .basic-dialog[data-v-342d80fb]_content[data-v-342d80fb] {
+  .basic-dialog[data-v-342d80fb]_content {
     height: 100%;
     overflow-y: auto; }
-  .basic-dialog[data-v-342d80fb]_footer[data-v-342d80fb] {
+  .basic-dialog[data-v-342d80fb]_footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 8px 16px 16px;
     border-top: 1px solid #f0f0f0; }
-    .basic-dialog[data-v-342d80fb]_footer[data-v-342d80fb] .basic-dialog_btns[data-v-342d80fb] {
+    .basic-dialog[data-v-342d80fb]_footer .basic-dialog_btns {
       display: flex; }
-  .basic-dialog[data-v-342d80fb].basic-dialog_fullscreen[data-v-342d80fb] {
+  .basic-dialog[data-v-342d80fb].basic-dialog_fullscreen {
     padding-bottom: 57px; }
-    .basic-dialog[data-v-342d80fb].basic-dialog_fullscreen[data-v-342d80fb] .basic-dialog_footer[data-v-342d80fb] {
+    .basic-dialog[data-v-342d80fb].basic-dialog_fullscreen .basic-dialog_footer {
       position: absolute;
       left: 0;
       right: 0;
@@ -3523,9 +3523,9 @@
   font-size: 14px;
   border: 1px solid #d9d9d9 !important;
   box-sizing: border-box; }
-  .setting_btn[data-v-7a79bc2a] button[data-v-7a79bc2a] {
+  .setting_btn[data-v-7a79bc2a] button {
     border: 0 !important; }
-  .setting_btn[data-v-7a79bc2a] [data-v-7a79bc2a] .iconfont {
+  .setting_btn[data-v-7a79bc2a] :deep(.iconfont) {
     margin: 0 !important;
     font-size: 20px !important; }
 
@@ -3533,14 +3533,14 @@
   position: relative;
   box-sizing: border-box;
   overflow: hidden; }
-  .one-ellipsis[data-v-395547cc].ellipsis[data-v-395547cc]::before {
+  .one-ellipsis[data-v-395547cc].ellipsis::before {
     position: absolute;
     display: block;
     padding-right: var(--paddingRight);
     right: 0;
     content: '...';
     background-color: var(--bgColor); }
-  .one-ellipsis[data-v-395547cc] .note-tooltip[data-v-395547cc] {
+  .one-ellipsis[data-v-395547cc] .note-tooltip {
     min-width: max-content; }
 
 .hover_active[data-v-58476a20]:hover {

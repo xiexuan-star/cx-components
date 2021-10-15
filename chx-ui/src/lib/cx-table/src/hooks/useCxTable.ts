@@ -9,7 +9,7 @@ import {
 } from '../types';
 import { isFunction, isObject } from '../utils';
 import { useCopy } from './useCopy';
-import { ref } from '@vue/reactivity';
+import { ref } from 'vue';
 
 export const CxTableRendererMap = new Map<string, CxControlRenderer>();
 export const CxTableActiveControl = new Set<string>();

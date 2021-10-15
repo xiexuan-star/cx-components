@@ -1,5 +1,5 @@
 
-import { CSSProperties } from '@vue/runtime-dom';
+import { CSSProperties } from 'vue';
 import { Nullable, PaginationModel } from '.';
 import { TypeOption } from '../constant/enum';
 import {

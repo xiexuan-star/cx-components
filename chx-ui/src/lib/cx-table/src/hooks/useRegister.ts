@@ -19,6 +19,7 @@ export const useRegister = (
   bus: EventBus,
   tid: string
 ) => {
+  registMouseEvent($CxTable);
   registScrollEvent($CxTable, props as CxTablePropType);
   props.keyboard && registKeyboardEvent($CxTable, props, tableDataVisitor, bus, tid);
 
@@ -32,5 +33,4 @@ export const useRegister = (
       useScrollState($CxTable);
     }
   ]);
-  registMouseEvent($CxTable);
 };

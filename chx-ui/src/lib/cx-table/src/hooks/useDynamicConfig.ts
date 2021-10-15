@@ -7,9 +7,10 @@ import {
   CX_TABLE_THROTTLE_DURATION
 } from '../constant';
 import { CxTableDynamicColumn, CxTableItem, CxTablePropType, DYNAMIC_CONFIG } from '../types';
-import { CxConfigAdaptor, cxTableWarn, debounce, isFunction, isNumber, isObject } from '../utils';
+import { CxConfigAdaptor, cxTableWarn, isFunction, isNumber, isObject } from '../utils';
 import { useCxTable } from './useCxTable';
 import { sessionStore } from '../../../../utils/storage';
+import { debounce } from 'lodash-es';
 
 const cacheMap: Record<string, Func<any>[]> = {};
 

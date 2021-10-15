@@ -1,4 +1,4 @@
-import { Ref } from '@vue/reactivity';
+import { Ref } from 'vue';
 import { COLUMN_FLAG } from '../constant/enum';
 import { getColumnWidth } from '../helper/widthHelper';
 import { CxTableBaseObj, CxTableColumnObj, CxTableItem, CxTablePropType } from '../types';

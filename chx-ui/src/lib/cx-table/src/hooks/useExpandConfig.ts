@@ -1,4 +1,4 @@
-import { reactive } from '@vue/reactivity';
+import { reactive } from 'vue';
 
 export const useExpandConfig = () => {
   const expandConfig = reactive<boolean[]>([]);

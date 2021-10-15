@@ -17,7 +17,7 @@ import {
   Nullable,
   TableDataVisitor
 } from '../../types';
-import { cxTableWarn, debounce, EventBus, getTargetColumn } from '../../utils';
+import { cxTableWarn, EventBus, getTargetColumn } from '../../utils';
 import { PATCH_FLAG } from '../../constant/enum';
 import { useDynamicFormCache } from './useDynamicFormCache';
 import { useCxTableCompose } from '../../hooks/useCxTableCompose';
@@ -46,6 +46,7 @@ import {
 } from '../../../../../utils/functor';
 import { useState, useSync } from '../../../../../hooks/state';
 import { CxFormItemConfig } from '../../../../..';
+import { debounce } from 'lodash-es';
 
 export default defineComponent({
   name: 'TeleForm',

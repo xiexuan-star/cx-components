@@ -14,7 +14,7 @@ import { CxTableBaseObj, CxTablePropType, DYNAMIC_CONFIG, ParamsItem } from '../
 import * as R from 'ramda';
 import CxTable from '../../..';
 import { useCxTableCompose } from '../../hooks/useCxTableCompose';
-import { CxConfigAdaptor, debounce, EventBus, getColumnSelectText } from '../../utils';
+import { CxConfigAdaptor, EventBus, getColumnSelectText } from '../../utils';
 import { PATCH_FLAG, TypeOption } from '../../constant/enum';
 import { decimalFixed } from '../../utils/configAdaptor/adaptorUtils';
 import Empty from '../empty.vue';
@@ -42,6 +42,7 @@ import {
   unsafePush,
   unsafeRemoveItem
 } from '../../../../../utils/functor';
+import { debounce } from 'lodash-es';
 
 const DEFAULT_CAPACITY = 10;
 

@@ -1,5 +1,5 @@
 <template>
-  <BasicDialog
+  <CxDialog
     :okLoading="submitLoading"
     width="1020px"
     @register="register"
@@ -10,7 +10,7 @@
     <CxTab
       class="cx_plr_16"
       level="2"
-      v-if="tabOptionList&&tabOptionList.length > 1"
+      v-if="tabOptionList && tabOptionList.length > 1"
       :options="tabOptionList"
       v-model="activeTab"
     />
@@ -59,13 +59,14 @@
         </div>
       </section>
     </div>
-  </BasicDialog>
+  </CxDialog>
 </template>
 
 <script lang="ts">
 import { useDynamicConfigDialog } from './useDynamicConfigDialog';
 import { App, computed, defineComponent, PropType, ref, watch } from 'vue';
 import Draggable from 'vuedraggable';
+import CxDialog from '../../../../cx-dialog/index';
 import { useLoading } from '../../../../../utils';
 import { useCxDialog } from '../../../../cx-dialog/useCxDialog';
 import { useCxTable } from '../../hooks/useCxTable';
@@ -73,7 +74,7 @@ import { AnyObject } from 'cx-store/dist/statistic/types';
 
 export default defineComponent({
   name: 'ColumnSettingDialog',
-  components: { Draggable },
+  components: { Draggable, CxDialog },
   props: { dynamicList: { type: Array as PropType<AnyObject[]>, required: true } },
   emits: ['submit'],
   install(app: App) {

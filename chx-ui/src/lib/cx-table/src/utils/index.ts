@@ -57,29 +57,19 @@ export const getFunctionAttrs = (
   return attrs;
 };
 
-const {
-  DYNAMIC_BUSINESS_TYPE,
-DYNAMIC_MODULE_TYPE,
-DYNAMIC_MODEL_TYPE,
-DYNAMIC_PRICE_TYPE
-} = useCxTable().getContext().dynamicType
 
 export const changeDynamicIdToText = (dynamic: DYNAMIC_CONFIG) => {
+  const {
+    DYNAMIC_BUSINESS_TYPE,
+  DYNAMIC_MODULE_TYPE,
+  DYNAMIC_MODEL_TYPE,
+  DYNAMIC_PRICE_TYPE
+  } = useCxTable().getContext().dynamicType
   return {
     businessType: DYNAMIC_BUSINESS_TYPE[dynamic.businessType],
     moduleType: DYNAMIC_MODULE_TYPE[dynamic.moduleType],
     modelType: DYNAMIC_MODEL_TYPE[dynamic.modelType],
     priceType: DYNAMIC_PRICE_TYPE[dynamic.priceType]
-  };
-};
-
-export const debounce = <T extends Func<any>>(cb: T, duration = 100) => {
-  let timer: NodeJS.Timeout | null = null;
-  return (...args: T extends (...params: infer P) => any ? P : any[]) => {
-    timer && clearTimeout(timer);
-    timer = setTimeout(async () => {
-      await cb(...args);
-    }, duration);
   };
 };
 

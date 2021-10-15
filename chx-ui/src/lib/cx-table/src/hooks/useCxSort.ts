@@ -1,4 +1,4 @@
-import { ref } from '@vue/reactivity';
+import { ref } from 'vue';
 import { CX_SORT_STATUS } from '../constant/enum';
 import { CxTablePropType, CxTableSortFun, TableDataVisitor } from '../types';
 

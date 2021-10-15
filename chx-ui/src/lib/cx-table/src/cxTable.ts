@@ -7,18 +7,18 @@ import {
   defineComponent,
   Fragment,
   nextTick,
-  onMounted,
   openBlock,
   provide,
   ref,
   resolveDirective,
+  watch,
   withDirectives
 } from 'vue';
 
 import { createCxTableConfig } from './static';
 import { CxTableExpose, Nullable } from './types';
 import { CX_TABLE_EVENT_LIST } from './constant';
-import { debounce, domShare, formatWidth, invokeLayeredRow, isNumber, isObject } from './utils';
+import {  domShare, formatWidth, invokeLayeredRow, isNumber, isObject } from './utils';
 
 import CxTableContent from './components/table';
 import CxTableBody from './components/table/tableBody';
@@ -51,6 +51,9 @@ import { scrollUpdateShadow } from './helper/eventHelper';
 import { useCSSVariable } from './hooks/useCSSVariable';
 import { PATCH_FLAG } from './constant/enum';
 import { useBus } from './hooks/useBus';
+import * as R from 'ramda';
+import { truthy } from '../../../utils/functor';
+import { debounce } from 'lodash-es';
 
 export default defineComponent({
   name: 'CxTable',
@@ -60,7 +63,7 @@ export default defineComponent({
   setup(props, { slots, emit, expose }) {
     // 根对象
     const $CxTable = createCxTableConfig();
-    const { columnProxy, dynamicColumn, loading, forceUpdate } = useDynamicConfig(props,emit);
+    const { columnProxy, dynamicColumn, loading, forceUpdate } = useDynamicConfig(props, emit);
     const searchLoading = ref(false);
 
     const { bus } = useBus($CxTable, props, emit);
@@ -79,7 +82,7 @@ export default defineComponent({
       getSelectAllValue,
       setSelectDisabled,
       updateSelectConfig
-    } = useSelectConfig(tableDataVisitor,emit);
+    } = useSelectConfig(tableDataVisitor, emit);
     setCheckSelect(props.checkSelect);
 
     bus.on('toggleAllSelection', toggleAllSelection);
@@ -200,8 +203,7 @@ export default defineComponent({
 
     const tableVisible = ref(!props.lazy);
 
-    onMounted(() => {
-      if (!tableWrapper.value) return;
+    const bindListener = R.once(() => {
       $CxTable.wrapperEle = tableWrapper.value;
       const { updateColumn, updateData } = useWatch(
         props,
@@ -213,8 +215,14 @@ export default defineComponent({
       );
       onSetConfig.push(updateColumn);
       onSetConfig.push(updateData);
-      props.lazy && useLazyLoad(tableWrapper.value, tableVisible);
+      props.lazy && useLazyLoad(tableWrapper.value!, tableVisible);
     });
+    
+    watch(
+      tableWrapper,
+      R.when(truthy,bindListener),
+      { immediate: true }
+    );
 
     useRegister($CxTable, props, tableDataVisitor, tableWrapper, bus, tid);
 

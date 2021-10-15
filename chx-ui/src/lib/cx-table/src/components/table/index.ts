@@ -30,7 +30,7 @@ export default defineComponent({
     return () => {
       const { fixed } = props;
 
-      return (
+      return [
         openBlock(),
         createBlock(Fragment, null, [
           [
@@ -73,7 +73,7 @@ export default defineComponent({
             ))
           ]
         ])
-      );
+      ];
     };
   }
 });

@@ -6,7 +6,7 @@
     :style="{ '--paddingRight': paddingRight, '--bgColor': activeBgColor }"
     v-uni-popper="popperConfig"
   >
-    <div style="overflow:hidden">
+    <div style="overflow: hidden">
       <p ref="refContent" class="note-tooltip">{{ content }}</p>
     </div>
   </div>
@@ -48,14 +48,11 @@ export default defineComponent({
 
     const resizeFn = () => calcContentWidth();
     onMounted(() => {
-      const conentP: any = refContent.value;
       calcContentWidth();
-
-      addResizeListener(conentP, resizeFn);
-
-      onUnmounted(() => {
-        removeResizeListener(conentP, resizeFn);
-      });
+      addResizeListener(refContent.value, resizeFn);
+    });
+    onUnmounted(() => {
+      removeResizeListener(refContent.value, resizeFn);
     });
 
     expose({

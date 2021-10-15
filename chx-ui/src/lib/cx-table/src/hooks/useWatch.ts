@@ -1,8 +1,9 @@
-import { nextTick, Ref, watch } from '@vue/runtime-core';
+import { nextTick, Ref, watch } from 'vue';
+import { debounce } from 'lodash-es';
 import { CX_STYLE_SETTING } from '../constant/enum';
 import { scrollUpdateShadow, wrapperScrollEventHandle } from '../helper/eventHelper';
 import { CxTableBaseObj, CxTableItem, CxTablePropType } from '../types';
-import { debounce, isNumber } from '../utils';
+import {  isNumber } from '../utils';
 import { useColumnValidity, useRowDataValidity } from './useAuthorization';
 import { updateCxTableWidth, useAutoWidth } from './useAutoWidth';
 import { useCalcSpanMethod } from './useCalcSpanMethod';
@@ -46,7 +47,7 @@ export const useWatch = (
     updateTableState();
   };
   // 当表头变化时,需要更新column对象以及重新计算宽度,触发一些样式计算
-  watch(() => columnProxy.value, updateColumn, { immediate: true, deep: true });
+  watch(columnProxy, updateColumn, { immediate: true, deep: true });
 
   const updateData = async () => {
     useRowDataValidity(props);

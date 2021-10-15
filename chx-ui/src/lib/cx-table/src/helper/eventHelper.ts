@@ -1,13 +1,34 @@
-import { nextTick, onBeforeUnmount, onMounted, onUnmounted, Ref } from '@vue/runtime-core';
-import { throttle } from '../../../../utils';
+import { nextTick, onBeforeUnmount, onMounted, onUnmounted, Ref } from 'vue';
+import { debounce, throttle } from 'lodash-es';
 import { CX_TABLE_NOT_HOVER_ID } from '../constant';
 import { ARROW_KEY, CX_SPAN_METHOD_TYPE } from '../constant/enum';
 import { CxTableActiveControl } from '../hooks/useCxTable';
 import { CxCellProp, CxTableBaseObj, CxTablePropType, Nullable, SelectConfig, TableDataVisitor } from '../types';
-import { debounce, EventBus, getColumnSelectText, getPreOrNextItem } from '../utils';
+import {  EventBus, getColumnSelectText, getPreOrNextItem } from '../utils';
 import { domShare } from '../utils';
 
 export const registResponsive = (wrapper: Ref<Nullable<HTMLElement>>, callbacks: Func<any>[]) => {
+  onMounted(() => {
+    if (observer) {
+      observer.observe(document, {
+        attributes: true,
+        subtree: true,
+        childList: true,
+        characterData: true
+      });
+    } else {
+      window.addEventListener('resize', updateWidth);
+    }
+  });
+
+  onBeforeUnmount(() => {
+    if (observer) {
+      observer.disconnect();
+    } else {
+      window.removeEventListener('resize', updateWidth);
+    }
+  });
+  
   let recordOldWidth = '0';
 
   const updateWidth = debounce(async () => {
@@ -29,26 +50,6 @@ export const registResponsive = (wrapper: Ref<Nullable<HTMLElement>>, callbacks:
     observer = new MutationObserver(updateWidth);
   }
 
-  onMounted(() => {
-    if (observer) {
-      observer.observe(document, {
-        attributes: true,
-        subtree: true,
-        childList: true,
-        characterData: true
-      });
-    } else {
-      window.addEventListener('resize', updateWidth);
-    }
-  });
-
-  onBeforeUnmount(() => {
-    if (observer) {
-      observer.disconnect();
-    } else {
-      window.removeEventListener('resize', updateWidth);
-    }
-  });
 };
 
 const scrollUpdateVisualScroll = ($CxTable: CxTableBaseObj, props: CxTablePropType) => {
