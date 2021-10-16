@@ -3514,34 +3514,34 @@
 .cx-table_tele_form label.el-form-item__label {
   padding: 0; }
 
-.setting_btn[data-v-7a79bc2a] {
-  background-color: white;
+.setting_btn[data-v-df9138d6] {
+  background-color: #f5f5f5;
   height: 40px;
   width: 30px;
   font-style: normal;
-  font-weight: bold !important;
+  font-weight: 700 !important;
   font-size: 14px;
   border: 1px solid #d9d9d9 !important;
   box-sizing: border-box; }
-  .setting_btn[data-v-7a79bc2a] button {
+  .setting_btn[data-v-df9138d6] button {
     border: 0 !important; }
-  .setting_btn[data-v-7a79bc2a] :deep(.iconfont) {
+  .setting_btn[data-v-df9138d6] :deep(.iconfont) {
     margin: 0 !important;
     font-size: 20px !important; }
 
-.one-ellipsis[data-v-395547cc] {
+.one-ellipsis[data-v-4e1a77b7] {
   position: relative;
   box-sizing: border-box;
   overflow: hidden; }
-  .one-ellipsis[data-v-395547cc].ellipsis::before {
+  .one-ellipsis[data-v-4e1a77b7].ellipsis::before {
     position: absolute;
     display: block;
     padding-right: var(--paddingRight);
     right: 0;
     content: '...';
     background-color: var(--bgColor); }
-  .one-ellipsis[data-v-395547cc] .note-tooltip {
+  .one-ellipsis[data-v-4e1a77b7] .note-tooltip {
     min-width: max-content; }
 
-.hover_active[data-v-58476a20]:hover {
+.hover_active[data-v-0b829fd6]:hover {
   background-color: #f0f5ff; }

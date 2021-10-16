@@ -1,7 +1,7 @@
 import { App } from 'vue';
 import { SFCWithInstall } from '../../types/interface';
-import script from './src/cxTable';
-export * from './src/types/index';
+import script from './cxTable';
+export * from './types/index';
 
 script.install = (app: App) => {
   app.component(script.name, script)

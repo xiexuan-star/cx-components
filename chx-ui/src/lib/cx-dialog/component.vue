@@ -118,6 +118,7 @@ export default defineComponent({
       dialogVisible,
       handleCancel,
       dialogProps,
+      emit,
       handleFullScreen,
     }
   },

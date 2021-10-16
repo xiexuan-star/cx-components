@@ -1,5 +1,6 @@
 import { Ref } from 'vue';
 export * from './is';
+export * from './functor';
 export * from './resizeEvent';
 export declare function omit<T extends AnyObject, K extends keyof T>(target: T, keys: K[]): Omit<T, K>;
 export declare function useEnumOptions<T>(obj: AnyObject, name?: string, id?: string): T[];

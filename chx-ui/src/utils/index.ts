@@ -3,6 +3,7 @@ import * as R from 'ramda';
 import { ref, Ref } from 'vue';
 
 export * from './is';
+export * from './functor'
 export * from './resizeEvent';
 
 export function omit<T extends AnyObject, K extends keyof T>(target: T, keys: K[]) {
