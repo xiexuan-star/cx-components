@@ -1,13 +1,14 @@
 import {
+  ComponentInternalInstance,
   createBlock,
   createVNode,
   defineComponent,
   Fragment,
   openBlock,
   PropType,
-  resolveComponent
+  resolveComponent, withCtx
 } from 'vue';
-import { PATCH_FLAG } from '../../constant/enum';
+import { PATCH_FLAG } from '../../constant';
 import PinyinMatch from 'pinyin-match';
 import * as R from 'ramda';
 import { useComputed, useState } from '../../../../hooks/state';
@@ -16,10 +17,13 @@ export default defineComponent({
   name: 'DynamicFormAdd',
   props: {
     options: { type: Array as PropType<AnyObject[]>, default: () => [] },
-    modelValue: { type: Array as PropType<string[]>, required: true }
+    modelValue: { type: Array as PropType<string[]>, required: true },
+    currentInstance: { type: Object as PropType<ComponentInternalInstance> }
   },
   emits: ['update:modelValue', 'change'],
   setup(props, { emit }) {
+
+
     const [modelProxy, setModelProxy] = useComputed<string[]>({
       get() {
         return props.modelValue ?? [];
@@ -51,9 +55,7 @@ export default defineComponent({
 
     const [searchContent, setSearchContent] = useState('');
 
-    const _hoisted_component_1 = resolveComponent('ElPopover');
-    const _hoisted_component_2 = resolveComponent('CxBtn');
-    const _hoisted_component_3 = resolveComponent('ElInput');
+
 
     const _hoisted_class_1 = 'cx_mb_5';
     const _hoisted_class_2 = 'hover-highlight cx_ptb_8 cx_plr_12';
@@ -68,92 +70,97 @@ export default defineComponent({
       }
     };
 
-    return (_: any, cache: any[]) => {
-      return (
-        openBlock(),
-        createBlock(Fragment, null, [
-          createVNode(
-            _hoisted_component_1,
-            {
-              visible: visible(),
-              'onUpdate:visible': setVisible,
-              placement: 'right-start',
-              width: 240,
-              showArrow: false
-            },
-            {
-              reference: () => {
-                return createVNode(
-                  _hoisted_component_2,
-                  {
-                    onClick: toggleVisible,
-                    icon: 'tianjia',
-                    class: _hoisted_class_3,
-                    style: {
-                      marginTop: props.modelValue.length ? '32px' : 0,
-                      backgroundColor: '#f0f5ff'
-                    }
-                  },
-                  null,
-                  PATCH_FLAG.STYLE
-                );
-              },
-              default: () => {
-                return (
-                  openBlock(),
-                  createBlock(Fragment, null, [
-                    createVNode(
-                      _hoisted_component_3,
+    return withCtx((_: any, cache: any[]) => {
+      const _hoisted_component_1 = resolveComponent('ElPopover');
+      const _hoisted_component_2 = resolveComponent('CxBtn');
+      const _hoisted_component_3 = resolveComponent('ElInput');
+      return [
+        (
+          openBlock(),
+            createBlock(Fragment, null, [
+              createVNode(
+                _hoisted_component_1,
+                {
+                  visible: visible(),
+                  'onUpdate:visible': setVisible,
+                  placement: 'right-start',
+                  width: 240,
+                  showArrow: false
+                },
+                {
+                  reference: () => {
+                    return createVNode(
+                      _hoisted_component_2,
                       {
-                        size: 'mini',
-                        class: _hoisted_class_1,
-                        suffixIcon: 'iconfont icon-sousuo',
-                        modelValue: searchContent(),
-                        'onUpdate:modelValue': setSearchContent,
-                        placeholder: '搜索过滤条件'
+                        onClick: toggleVisible,
+                        icon: 'tianjia',
+                        class: _hoisted_class_3,
+                        style: {
+                          marginTop: props.modelValue.length ? '32px' : 0,
+                          backgroundColor: '#f0f5ff'
+                        }
                       },
                       null,
-                      PATCH_FLAG.PROPS,
-                      ['modelValue']
-                    ),
-                    [
-                      (openBlock(),
-                      createBlock(Fragment, null, [
-                        currentOptions().length
-                          ? createVNode('div', _hoisted_attrs_1, [
-                              (openBlock(),
-                              createBlock(
-                                Fragment,
-                                null,
-                                currentOptions().map(option => {
-                                  return createVNode(
-                                    'div',
-                                    {
-                                      key: option.id,
-                                      class: _hoisted_class_2,
-                                      onClick: R.useWith(addItem, [R.always(option.id)])
-                                    },
-                                    option.name,
-                                    PATCH_FLAG.PROPS,
-                                    ['key']
-                                  );
-                                }),
-                                PATCH_FLAG.KEYED_FRAGMENT
-                              ))
-                            ])
-                          : cache[0] ||
-                            (cache[0] = createVNode('div', { class: _hoisted_class_4 }, '暂无数据'))
-                      ]))
-                    ]
-                  ])
-                );
-              }
-            },
-            PATCH_FLAG.PROPS,
-            ['visible']
-          )
-        ])
-      );
-    };
+                      PATCH_FLAG.STYLE
+                    );
+                  },
+                  default: () => {
+                    return (
+                      openBlock(),
+                        createBlock(Fragment, null, [
+                          createVNode(
+                            _hoisted_component_3,
+                            {
+                              size: 'mini',
+                              class: _hoisted_class_1,
+                              suffixIcon: 'iconfont icon-sousuo',
+                              modelValue: searchContent(),
+                              'onUpdate:modelValue': setSearchContent,
+                              placeholder: '搜索过滤条件'
+                            },
+                            null,
+                            PATCH_FLAG.PROPS,
+                            ['modelValue']
+                          ),
+                          [
+                            (openBlock(),
+                              createBlock(Fragment, null, [
+                                currentOptions().length
+                                  ? createVNode('div', _hoisted_attrs_1, [
+                                    (openBlock(),
+                                      createBlock(
+                                        Fragment,
+                                        null,
+                                        currentOptions().map(option => {
+                                          return createVNode(
+                                            'div',
+                                            {
+                                              key: option.id,
+                                              class: _hoisted_class_2,
+                                              onClick: R.useWith(addItem, [R.always(option.id)])
+                                            },
+                                            option.name,
+                                            PATCH_FLAG.PROPS,
+                                            ['key']
+                                          );
+                                        }),
+                                        PATCH_FLAG.KEYED_FRAGMENT
+                                      ))
+                                  ])
+                                  : cache[0] ||
+                                    (cache[0] = createVNode('div', { class: _hoisted_class_4 }, '暂无数据'))
+                              ]))
+                          ]
+                        ])
+                    );
+                  }
+                },
+                PATCH_FLAG.PROPS,
+                ['visible']
+              )
+            ])
+        )
+      ];
+    }, props.currentInstance);
   }
 });

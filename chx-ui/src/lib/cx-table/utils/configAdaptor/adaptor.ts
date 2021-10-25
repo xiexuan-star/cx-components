@@ -19,6 +19,7 @@ export class CxConfigAdaptor {
     const { onInit, onOutput } = plugin;
     isFunction(onInit) && onInits.push(onInit);
     isFunction(onOutput) && onOutputs.push(onOutput);
+    return this;
   }
   basicColumn: CxTableItem = { prop: '', label: '' };
   getColumn() {

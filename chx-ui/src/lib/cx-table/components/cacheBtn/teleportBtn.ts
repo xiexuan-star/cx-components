@@ -8,9 +8,9 @@ import {
   render,
   watch
 } from 'vue';
-import { map, IO, Maybe, queryDom, unsafeDeleteProperty, unsafeSet } from '../../../../utils/functor';
+import { map, IO, Maybe, queryDom, unsafeDeleteProperty, unsafeSet } from '../../../../utils';
 import { CxTableDynamicColumn } from '../../types';
-import { PATCH_FLAG } from '../../constant/enum';
+import { PATCH_FLAG } from '../../constant';
 import { cxTableWarn } from '../../utils';
 import * as R from 'ramda';
 import { useState } from '../../../../hooks/state';

@@ -1,6 +1,6 @@
 import { nextTick, Ref, watch } from 'vue';
 import { debounce } from 'lodash-es';
-import { CX_STYLE_SETTING } from '../constant/enum';
+import { CX_STYLE_SETTING } from '../constant';
 import { scrollUpdateShadow, wrapperScrollEventHandle } from '../helper/eventHelper';
 import { CxTableBaseObj, CxTableItem, CxTablePropType } from '../types';
 import { useColumnValidity, useRowDataValidity } from './useAuthorization';

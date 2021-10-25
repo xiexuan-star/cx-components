@@ -6,7 +6,7 @@ $color-primary: #0084ff;
   font-style: normal;
   font-weight: bold !important;
   font-size: 14px;
-  .ellipsis::before{
+  .ellipsis::before {
     background-color: $table-head-bg-color;
   }
 }
@@ -19,6 +19,7 @@ $color-primary: #0084ff;
     width: calc(var(--scrollWidth) * 1px) !important;
     height: calc(var(--scrollWidth) * 1px) !important;
   }
+
   /* 滚动条滑块(竖向:vertical 横向:horizontal) */
   ::-webkit-scrollbar-thumb {
     cursor: pointer;
@@ -36,9 +37,11 @@ $color-primary: #0084ff;
     background-color: #eee;
     border-radius: 5px;
   }
+
   .cx-table_scrollWrapper {
     overflow: auto;
     position: static !important;
+
     table {
       border-collapse: separate !important;
       width: 100%;
@@ -47,6 +50,7 @@ $color-primary: #0084ff;
         tr:nth-of-type(2n) {
           td {
             background-color: #f9fafc;
+
             .ellipsis::before {
               background-color: #f9fafc;
             }
@@ -60,18 +64,22 @@ $color-primary: #0084ff;
             @include cx-table-head;
           }
         }
+
         .cx-table_expand {
           overflow: auto;
         }
+
         &.cx-table_row_hover {
           .cx-table_hover_show {
             visibility: visible;
           }
         }
+
         .cx-table_hover_show {
           visibility: hidden;
         }
       }
+
       td,
       th {
         height: calc(var(--cellHeight) * 1px);
@@ -85,6 +93,7 @@ $color-primary: #0084ff;
         font-size: 14px;
         border-spacing: 0;
         border-collapse: separate;
+
         .cx-table_cell {
           overflow: hidden;
           text-overflow: ellipsis;
@@ -95,26 +104,33 @@ $color-primary: #0084ff;
           vertical-align: baseline;
           box-sizing: border-box;
           position: relative;
+
           img {
             vertical-align: middle;
           }
         }
       }
+
       th {
         @include cx-table-head;
+
         span {
           @include cx-table-head;
         }
       }
+
       td {
         background-color: white;
         position: relative;
+
         .ellipsis::before {
           background-color: #fff;
         }
+
         &.actived {
           box-shadow: inset 0 0 0 2px $color-primary;
         }
+
         &.wrong::after {
           position: absolute;
           left: 3px;
@@ -125,21 +141,26 @@ $color-primary: #0084ff;
           content: '\e622';
           color: red;
         }
+
         input {
           font-size: 14px;
         }
       }
+
       &.cx-table_empty {
         position: absolute;
         left: 0;
+
         tr {
           height: 150px;
         }
+
         td {
           padding: 10px 0;
         }
       }
     }
+
     .cx-table_border_line {
       box-sizing: border-box;
       position: absolute;
@@ -151,18 +172,22 @@ $color-primary: #0084ff;
       pointer-events: none;
       border: 1px solid #dfe2e9;
     }
+
     .cx-table_fixed_left {
       position: absolute;
       overflow: hidden;
       top: 0;
       left: 0;
       z-index: 10;
+
       &.cx-table_head {
         z-index: 15;
       }
+
       &.cx-table_body {
         z-index: 15;
       }
+
       > table {
         position: absolute;
         overflow: hidden;
@@ -171,18 +196,22 @@ $color-primary: #0084ff;
         z-index: 15;
       }
     }
+
     .cx-table_fixed_right {
       position: absolute;
       overflow: hidden;
       top: 0;
       right: 0;
       z-index: 5;
+
       &.cx-table_body {
         z-index: 15;
       }
+
       &.cx-table_head {
         z-index: 15;
       }
+
       > table {
         position: absolute;
         overflow: hidden;
@@ -191,12 +220,14 @@ $color-primary: #0084ff;
         z-index: 15;
       }
     }
+
     .cx-table_fixed_top {
       position: absolute;
       overflow: hidden;
       top: 0;
       left: 0;
       z-index: 10;
+
       > table {
         position: absolute;
         overflow: hidden;
@@ -205,6 +236,7 @@ $color-primary: #0084ff;
         z-index: 10;
       }
     }
+
     .cx-table_fixed_bottom {
       position: absolute;
       overflow: hidden;
@@ -212,6 +244,7 @@ $color-primary: #0084ff;
       left: 0;
       height: calc(var(--cellHeight) * 1px);
       z-index: 15;
+
       > table {
         position: absolute;
         overflow: hidden;
@@ -228,21 +261,33 @@ $color-primary: #0084ff;
   .cx-table_bottom_shadow {
     box-shadow: 0px 2px 12px 0 rgba(0, 0, 0, 0.1);
   }
+
   .cx-table_right_shadow {
     border-left: 1px solid #d9d9d9;
   }
+
   .cx-table_bottom_shadow {
     border-top: 1px solid #d9d9d9;
   }
+
   table tbody tr.active td {
     background-color: #f0f5ff !important;
+
     .ellipsis::before {
       background-color: #f0f5ff;
     }
   }
+
+  .el-radio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .el-radio__label {
     display: none;
   }
+
   .cx-table_expand_switch {
     cursor: pointer;
     display: inline-flex;
@@ -253,10 +298,12 @@ $color-primary: #0084ff;
     border: 1px solid #d5d5d5;
     border-radius: 3px;
     font-size: 12px;
+
     &.cx-table_expand_active {
       transform: rotate(180deg);
     }
   }
+
   .cx-table_add_btn {
     border: 1px dashed $color-primary !important;
     display: flex;
@@ -266,6 +313,7 @@ $color-primary: #0084ff;
     color: $color-primary;
     margin: 10px 0;
   }
+
   .cx-table_sort {
     display: inline-block;
     width: 14px;
@@ -278,6 +326,7 @@ $color-primary: #0084ff;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+
     &::before,
     &::after {
       width: 0;
@@ -287,22 +336,26 @@ $color-primary: #0084ff;
       border-color: transparent;
       border-style: solid;
     }
+
     &::after {
       border-top-color: #ddd;
     }
+
     &::before {
       transform: translateY(-6px);
       border-bottom-color: #ddd;
     }
   }
+
   .cx-table_sort_positive {
     &::after {
-      border-top-color: $color-primary !important ;
+      border-top-color: $color-primary !important;
     }
   }
+
   .cx-table_sort_reverse {
     &::before {
-      border-bottom-color: $color-primary !important ;
+      border-bottom-color: $color-primary !important;
     }
   }
 }

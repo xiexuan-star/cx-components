@@ -1,14 +1,13 @@
 import { calcInnerOptions, getEvalResult, getOptionsDeps, getStringDepends } from './adaptorUtils';
 import {
   CxTableDynamicColumn,
-  CxTableItemControlType,
   ControlAttrs,
   CxBroadcastRegister
 } from '../../types';
 import { isNumber, isObject } from '../../../../utils';
 
 export class CxControlConfig {
-  type: CxTableItemControlType | '' = '';
+  type: string = '';
   attrs: ControlAttrs = {};
   constructor(config: CxTableDynamicColumn) {
     Reflect.set(this, 'type', config.control?.type ?? '');

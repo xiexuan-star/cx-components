@@ -1,5 +1,5 @@
 import { cxTableWarn } from '..';
-import { CX_ADAPTOR_PRECISION_TYPE } from '../../constant/enum';
+import { CX_ADAPTOR_PRECISION_TYPE } from '../../constant';
 import { useCxTable } from '../../hooks';
 import { CalculateFun, CxTableItem } from '../../types';
 import { isString, isNumber } from '../../../../utils';

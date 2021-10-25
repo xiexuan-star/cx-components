@@ -1,58 +1,62 @@
-import axios, { AxiosRequestConfig } from 'axios'
-import { axiosCanceler } from './axiosCancel'
-import { AnyObject, AxiosInstance, AxiosInterceptor, CxAxiosOptions, SResponse } from './types'
-import { CANCEL_REQUEST } from './const'
-import Qs from 'qs'
+import axios, { AxiosRequestConfig } from 'axios';
+import { axiosCanceler } from './axiosCancel';
+import { AnyObject, AxiosInstance, AxiosInterceptor, CxAxiosOptions, SResponse } from './types';
+import { CANCEL_REQUEST } from './const';
+import Qs from 'qs';
 
 export default class CxAxios {
-  instance: AxiosInstance
-  host = ''
-  private cancel: boolean
-  private options: AnyObject
-  private axiosInterceptor: AnyObject | AxiosInterceptor
+  instance: AxiosInstance;
+  host = '';
+  private cancel: boolean;
+  private options: AnyObject;
+  private axiosInterceptor: AnyObject | AxiosInterceptor;
+
   constructor(options: CxAxiosOptions, interceptor: AnyObject | AxiosInterceptor) {
-    const { cancel, ...otherOptions } = options
-    this.host = options.baseURL ?? ''
-    this.cancel = cancel ?? true
-    this.options = options
-    this.axiosInterceptor = interceptor
-    this.instance = axios.create(otherOptions)
-    this.setInterceptor()
+    const { cancel, ...otherOptions } = options;
+    this.host = options.baseURL ?? '';
+    this.cancel = cancel ?? true;
+    this.options = options;
+    this.axiosInterceptor = interceptor;
+    this.instance = axios.create(otherOptions);
+    this.setInterceptor();
   }
+
   private setInterceptor() {
-    const { requestInterceptor, responseInterceptor, responseErrInterceptor } = this.axiosInterceptor
+    const { requestInterceptor, responseInterceptor, responseErrInterceptor } = this.axiosInterceptor;
 
     this.instance?.interceptors.request.use((config) => {
-      const invalid = axiosCanceler.getCancel(config)
+      const invalid = axiosCanceler.getCancel(config);
       if (invalid) {
-        console.warn(`CxAxios: can't send same request (${config.url} `, config.params, `) before a request responded`)
-        return Promise.reject(CANCEL_REQUEST)
+        console.warn(`CxAxios: can't send same request (${ config.url } `, config.params, `) before a request responded`);
+        return Promise.reject(CANCEL_REQUEST);
       }
-      this.cancel && axiosCanceler.addCancel(config)
-      return requestInterceptor?.(config)
-    })
+      this.cancel && axiosCanceler.addCancel(config);
+      return requestInterceptor?.(config) ?? config;
+    });
     this.instance?.interceptors.response.use(async (res) => {
-      this.cancel && res && axiosCanceler.doneCancel(res.config)
-      return await responseInterceptor?.(res)
-    }, responseErrInterceptor)
+      this.cancel && res && axiosCanceler.doneCancel(res.config);
+      return await responseInterceptor?.(res) ?? res;
+    }, responseErrInterceptor);
   }
+
   private request<T = any>(config: AxiosRequestConfig, options: AnyObject) {
-    Reflect.set(config, 'options', options)
-    const { beforeRequestHook, beforeResponseHook, beforeResponseErrHook } = this.axiosInterceptor
-    beforeRequestHook?.(config, options)
+    Reflect.set(config, 'options', options);
+    const { beforeRequestHook, beforeResponseHook, beforeResponseErrHook } = this.axiosInterceptor;
+    beforeRequestHook?.(config, options);
     return new Promise((resolve, reject) => {
       this.instance?.request(config).then(
         async (res) => {
-          res = typeof beforeResponseHook === 'function' ? await beforeResponseHook(res, options) : res
-          resolve((res?.data ?? {}) as unknown as SResponse<T>)
+          res = typeof beforeResponseHook === 'function' ? await beforeResponseHook(res, options) : res;
+          resolve((res?.data ?? {}) as unknown as SResponse<T>);
         },
         (err) => {
-          typeof beforeResponseErrHook === 'function' && beforeResponseErrHook(err, options)
-          reject(err)
+          typeof beforeResponseErrHook === 'function' && beforeResponseErrHook(err, options);
+          reject(err);
         }
-      )
-    }) as Promise<SResponse<T>>
+      );
+    }) as Promise<SResponse<T>>;
   }
+
   post<T = any>(url: string, data?: AnyObject, options: AnyObject = {}) {
     return this.request<T>(
       {
@@ -66,8 +70,9 @@ export default class CxAxios {
           }),
       },
       options
-    )
+    );
   }
+
   postJSON<T = any>(url: string, data?: AnyObject, options: AnyObject = {}) {
     return this.request<T>(
       {
@@ -78,8 +83,9 @@ export default class CxAxios {
         transformRequest: (data) => JSON.stringify(data),
       },
       options
-    )
+    );
   }
+
   get<T = any>(url: string, params?: AnyObject, options: AnyObject = {}) {
     return this.request<T>(
       {
@@ -87,12 +93,13 @@ export default class CxAxios {
         url,
         params,
         paramsSerializer: (params) => {
-          return Qs.stringify(params, { indices: false })
+          return Qs.stringify(params, { indices: false });
         },
       },
       options
-    )
+    );
   }
+
   delete<T = any>(url: string, params?: AnyObject, options: AnyObject = {}) {
     return this.request<T>(
       {
@@ -100,12 +107,13 @@ export default class CxAxios {
         url,
         params,
         paramsSerializer: (params) => {
-          return Qs.stringify(params, { indices: false })
+          return Qs.stringify(params, { indices: false });
         },
       },
       options
-    )
+    );
   }
+
   put<T = any>(url: string, data?: AnyObject, options: AnyObject = {}) {
     return this.request<T>(
       {
@@ -121,8 +129,9 @@ export default class CxAxios {
           }),
       },
       options
-    )
+    );
   }
+
   putJSON<T = any>(url: string, data?: AnyObject, options: AnyObject = {}) {
     return this.request<T>(
       {
@@ -135,8 +144,9 @@ export default class CxAxios {
         transformRequest: (data) => JSON.stringify(data),
       },
       options
-    )
+    );
   }
+
   patch<T = any>(url: string, data?: AnyObject, options: AnyObject = {}) {
     return this.request<T>(
       {
@@ -148,8 +158,9 @@ export default class CxAxios {
         },
       },
       options
-    )
+    );
   }
+
   getBuffer<T = any>(url: string, params?: AnyObject, options: AnyObject = {}) {
     return this.request<T>(
       {
@@ -159,12 +170,13 @@ export default class CxAxios {
         responseType: 'blob',
         timeout: 108000,
         paramsSerializer: (params) => {
-          return Qs.stringify(params, { indices: false })
+          return Qs.stringify(params, { indices: false });
         },
       },
       options
-    )
+    );
   }
+
   postNoTime<T = any>(url: string, data?: AnyObject, options: AnyObject = {}) {
     return this.request<T>(
       {
@@ -177,12 +189,13 @@ export default class CxAxios {
         transformRequest: (params) => {
           return Qs.stringify(params, {
             arrayFormat: 'repeat',
-          })
+          });
         },
       },
       options
-    )
+    );
   }
+
   getImg<T = any>(url: string, options: AnyObject = {}) {
     return this.request<T>(
       {
@@ -191,6 +204,6 @@ export default class CxAxios {
         responseType: 'arraybuffer',
       },
       options
-    )
+    );
   }
 }

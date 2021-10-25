@@ -140,7 +140,7 @@ export type CxTableItem = {
   /**
    * @description slot的类型, 用于确定宽度(类型值同control中的type,可传可不传)
    */
-  slotType: CxTableItemControlType;
+  slotType: string;
   /**
    * @description 列表头插槽名,注意没有聚焦状态与禁用状态,需要自行判断,无scope
    */
@@ -290,32 +290,32 @@ export interface CxTableBaseObj {
   };
 }
 
-export type CxTableItemControlType =
-  | 'default'
-  | 'nativeCheckbox' // 集成多选
-  | 'nativeRadio' // 集成单选
-  | 'nativeDelete' // 集成删除按钮
-  | 'expandSwitch' // 扩展行开关
-  | 'index' // 序号
-  | 'input' // 文本输入框
-  | 'numberInput' // 数字输入框
-  | 'select' // 单选
-  | 'search' // 带拼音搜索的单选
-  | 'imgs' // 图片(集成viewer插件)
-  | 'time' // 时间
-  | 'date' // 日期
-  | 'note' // 文本域
-  | 'status' // 状态值映射
-  | 'memo' //备忘
-  | 'specification' // 规格
-  | 'inscription' // 多选下拉
-  | 'switch' // 开关
-  | 'orderText' // 单号文本(hover复制跳转)
-  | 'tag' // 标签
-  | 'goldColorGroup' // 金材质+金颜色组
-  | 'goldColorTextGroup'
-  | 'stoneUnitGroup' // 石料重量+单位组
-  | 'stoneUnitTextGroup'; // 石料重量+单位组
+// export type CxTableItemControlType =
+//   | 'default'
+//   | 'nativeCheckbox' // 集成多选
+//   | 'nativeRadio' // 集成单选
+//   | 'nativeDelete' // 集成删除按钮
+//   | 'expandSwitch' // 扩展行开关
+//   | 'index' // 序号
+//   | 'input' // 文本输入框
+//   | 'numberInput' // 数字输入框
+//   | 'select' // 单选
+//   | 'search' // 带拼音搜索的单选
+//   | 'imgs' // 图片(集成viewer插件)
+//   | 'time' // 时间
+//   | 'date' // 日期
+//   | 'note' // 文本域
+//   | 'status' // 状态值映射
+//   | 'memo' //备忘
+//   | 'specification' // 规格
+//   | 'inscription' // 多选下拉
+//   | 'switch' // 开关
+//   | 'orderText' // 单号文本(hover复制跳转)
+//   | 'tag' // 标签
+//   | 'goldColorGroup' // 金材质+金颜色组
+//   | 'goldColorTextGroup'
+//   | 'stoneUnitGroup' // 石料重量+单位组
+//   | 'stoneUnitTextGroup'; // 石料重量+单位组
 
 export type IndexCalcFun = (params: number) => number;
 
@@ -330,7 +330,7 @@ export type CxTableControl = {
   /**
    * @description 控件种类,可通过useCxTable()中的registerCxRenderer注册自定义的渲染器
    */
-  type: CxTableItemControlType;
+  type: string;
 } & Partial<{
   /**
    * @description 当有分页器时,可能序号并不是从0开始, 所以提供该函数用以计算序号,入参为实际序号,返回值为展示序号

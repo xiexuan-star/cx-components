@@ -1,6 +1,6 @@
 import { createVNode, defineComponent } from 'vue';
 import * as R from 'ramda';
-import { PATCH_FLAG } from '../../constant/enum';
+import { PATCH_FLAG } from '../../constant';
 import { CxForm } from '../../..';
 
 export default defineComponent({

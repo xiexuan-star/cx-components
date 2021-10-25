@@ -20,10 +20,8 @@ export type Rule = DynamicKeys & { api: string; requestInstance?: any };
 
 export type RuleList = Record<any, Rule[]>;
 
-export type DYNAMIC_KEY = Record<
-  'DYNAMIC_MODULE_TYPE' | 'DYNAMIC_BUSINESS_TYPE' | 'DYNAMIC_MODEL_TYPE' | 'DYNAMIC_PRICE_TYPE',
-  Record<string, number | string>
->;
+export type DYNAMIC_KEY = Record<'DYNAMIC_MODULE_TYPE' | 'DYNAMIC_BUSINESS_TYPE' | 'DYNAMIC_MODEL_TYPE' | 'DYNAMIC_PRICE_TYPE',
+  Record<string, number | string>>;
 
 type labelProp = { label?: string; prop: string; defaultValue?: string } & {
   [P in `label_1` | `label_0` | `label_2`]?: string;

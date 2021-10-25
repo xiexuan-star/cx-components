@@ -1,5 +1,5 @@
 import { CxFormItemConfig } from '../../..';
-import { CxTableItem, CxTableItemControlType } from './index';
+import { CxTableItem } from './index';
 
 export interface CxTableFormConfig {
   searchType: 'custom'|'input' | 'search' | 'date' | 'dateRange' | 'time';
@@ -57,7 +57,7 @@ export type CxTableDynamicControl = {
   /**
    * @description 控件种类,可通过useCxTable()中的registerCxRenderer注册自定义的渲染器
    */
-  type: CxTableItemControlType;
+  type: string;
 } & Partial<{
   statusMap: Record<string, { content?: string; type: 'success' | 'error' | 'info' }>;
   options: (NameWithId & { disabled?: boolean })[] | AnyObject;

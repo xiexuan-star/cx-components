@@ -1,6 +1,6 @@
 import { computed, createVNode, defineComponent } from 'vue';
 import { CxBtn } from '../../..';
-import { PATCH_FLAG } from '../../constant/enum';
+import { PATCH_FLAG } from '../../constant';
 
 export default defineComponent({
   name: 'DynamicFilterBtn',

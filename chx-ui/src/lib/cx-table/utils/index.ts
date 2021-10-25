@@ -60,9 +60,9 @@ export const getFunctionAttrs = (
 export const changeDynamicIdToText = (dynamic: DYNAMIC_CONFIG) => {
   const {
     DYNAMIC_BUSINESS_TYPE,
-  DYNAMIC_MODULE_TYPE,
-  DYNAMIC_MODEL_TYPE,
-  DYNAMIC_PRICE_TYPE
+    DYNAMIC_MODULE_TYPE,
+    DYNAMIC_MODEL_TYPE,
+    DYNAMIC_PRICE_TYPE
   } = useCxTable().getContext().dynamicType
   return {
     businessType: DYNAMIC_BUSINESS_TYPE[dynamic.businessType],
@@ -74,6 +74,7 @@ export const changeDynamicIdToText = (dynamic: DYNAMIC_CONFIG) => {
 
 export const getParentColumn = (columns: CxTableColumnObj[], prop: string) => {
   let result: CxTableColumnObj | undefined;
+
   function find(cols?: CxTableColumnObj[]) {
     if (!Array.isArray(cols)) return;
     cols.some(col => {
@@ -88,6 +89,7 @@ export const getParentColumn = (columns: CxTableColumnObj[], prop: string) => {
       }
     });
   }
+
   find(columns);
   return result;
 };
@@ -354,6 +356,7 @@ export const invokeLayeredRow = (columns: CxTableColumnObj[]) => {
 
 export const getSums = (arr: AnyObject[], prop = 'renderWidth') => {
   let result = 0;
+
   function sums(arr: AnyObject[]) {
     arr.forEach(item => {
       if (item?.children?.length) {
@@ -363,6 +366,7 @@ export const getSums = (arr: AnyObject[], prop = 'renderWidth') => {
       }
     });
   }
+
   sums(arr);
   return result;
 };
@@ -373,19 +377,11 @@ export const getPreOrNextItem = <T = AnyObject>(
   direction: 'pre' | 'next',
   prop?: string
 ): T => {
-  const index = arr.findIndex((arrItem: AnyObject) => {
-    return prop ? arrItem[prop] === (item as AnyObject)[prop] : arrItem === item;
+  const index = arr.findIndex((arrItem) => {
+    return prop ? arrItem[prop] === item[prop] : arrItem === item;
   });
   if (index < 0) return item;
-  if (direction === 'pre') {
-    if (index === 0) return item;
-    return arr[index - 1];
-  } else {
-    if (arr[index + 1]) {
-      return arr[index + 1];
-    }
-    return item;
-  }
+  return arr[index + (direction === 'pre' ? -1 : 1)] ?? item
 };
 
 export const getStatusAttrs = (rowData: AnyObject, column: CxTableColumnObj | CxTableItem) => {

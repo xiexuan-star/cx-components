@@ -8,7 +8,7 @@ import {
   nextTick,
   PropType,
   resolveDirective,
-  withDirectives
+  withDirectives, withCtx, getCurrentInstance
 } from 'vue';
 import {
   CxTableBaseObj,
@@ -18,9 +18,9 @@ import {
   TableDataVisitor
 } from '../../types';
 import { cxTableWarn, EventBus, getTargetColumn } from '../../utils';
-import { PATCH_FLAG } from '../../constant/enum';
+import { PATCH_FLAG } from '../../constant';
 import { useDynamicFormCache } from './useDynamicFormCache';
-import { useCxTableCompose } from '../../hooks/useCxTableCompose';
+import { useCxTableCompose } from '../../hooks';
 import { useDynamicFormSearch } from './useDynamicFormSearch';
 import TeleFormInstance from './formInstance';
 import * as R from 'ramda';
@@ -205,17 +205,20 @@ export default defineComponent({
       )(formConfig);
     };
 
+    const currentInstance = getCurrentInstance()
+
     const renderDynamicFormAdd = () => {
-      return createVNode(
+      return [createVNode(
         DynamicFormAdd,
         {
+          currentInstance,
           options: searchableOptionList,
           modelValue: currentFormItems,
           'onUpdate:modelValue': unsafeClearPush(R.__, currentFormItems)
         },
         null,
         PATCH_FLAG.FULL_PROPS
-      );
+      )];
     };
 
     const states = reactive(

@@ -1,6 +1,6 @@
 {
   "name": "cx-request",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "a request instance based on axios",
   "author": "xiexuan",
   "types": "dist/index.d.ts",
