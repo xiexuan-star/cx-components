@@ -360,7 +360,7 @@
 @each $val in 0, 5, 10, 15, 20, 25, 30 {
   @each $direction in left, right, top, bottom {
     .cx_#{$direction}_#{$val} {
-      #{$direction}: $val;
+      #{$direction}: #{$val}px;
     }
   }
 }
