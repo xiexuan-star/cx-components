@@ -1,4 +1,82 @@
-import{defineComponent,computed,createVNode,createCommentVNode,ref,onMounted,onBeforeUnmount,watch,nextTick,openBlock,createBlock,Fragment,resolveComponent,pushScopeId,popScopeId,mergeProps,renderSlot,createTextVNode,toDisplayString,withScopeId,reactive,onUnmounted,inject,watchEffect,resolveDirective,withDirectives,setBlockTracking,unref,onBeforeUpdate,withCtx,getCurrentInstance,render as render$5,renderList,provide}from"vue";import*as R from"ramda";import{clone,omit as omit$1}from"ramda";import dayjs from"dayjs";import CxLocalStore,{storeFilter}from"cx-store";import PinyinMatch from"pinyin-match";import Draggable from"vuedraggable";var script$8=defineComponent({name:"CxBtn",props:{size:{type:String,default:"medium"},level:{type:[String,Number],default:"2"},type:{type:String,default:"primary"},content:{type:String,default:""},icon:{type:String,default:""},loading:{type:Boolean,default:!1},disabled:{type:Boolean,default:!1}},setup:function(e,t){var n=t.slots,o=computed((function(){var t=["cx-btn_wrapper"];return e.disabled&&t.push("cx-btn_disabled"),t.push("cx-btn_"+e.size),t.push("cx-btn_level_"+e.level),t.push("cx-btn_"+e.type),e.loading&&t.push("cx-btn_loading"),t}));return function(t,r){return createVNode("button",{type:"button",class:o.value,onClick:r[0]?r[0]:r[0]=function(t){if(t.preventDefault(),e.disabled)return!1}},[e.loading?r[1]?r[1]:r[1]=createVNode("i",{class:"el-icon-loading cx_mr_5"}):createCommentVNode("v-if",!0),e.icon?(i=e.icon,createVNode("i",{class:"iconfont icon-"+i},null,2)):createCommentVNode("v-if",!0),(n.default?n.default({}):e.content)?createVNode("span",{class:{cx_ml_5:!!e.icon}},[n.default?n.default({}):e.content]):createCommentVNode("v-if_content",!0),e.disabled?r[2]?r[2]:r[2]=createVNode("i",{onClick:function(e){return e.stopPropagation()},class:"cx_mask"}):createCommentVNode("v-if",!0)],514);var i}}});script$8.install=function(e){e.component(script$8.name,script$8)};var _CX_BTN=script$8,extendStatics=function(e,t){return(extendStatics=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(e,t){e.__proto__=t}||function(e,t){for(var n in t)Object.prototype.hasOwnProperty.call(t,n)&&(e[n]=t[n])})(e,t)};
+import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, ref, onMounted, onBeforeUnmount, watch, nextTick, openBlock, createBlock, Fragment, resolveComponent, reactive, onUnmounted, inject, watchEffect, createTextVNode, resolveDirective, setBlockTracking, unref, onBeforeUpdate, withCtx, getCurrentInstance, render as render$6, pushScopeId, popScopeId, toDisplayString, withScopeId, renderSlot, Teleport, Transition, mergeProps, withModifiers, vShow, renderList, provide } from 'vue';
+import * as R from 'ramda';
+import { clone, omit as omit$1 } from 'ramda';
+import dayjs from 'dayjs';
+import CxLocalStore, { storeFilter } from 'cx-store';
+import PinyinMatch from 'pinyin-match';
+import Draggable from 'vuedraggable';
+
+var script$a = defineComponent({
+    name: 'CxBtn',
+    props: {
+        size: {
+            type: String,
+            "default": 'medium',
+        },
+        level: { type: [String, Number], "default": '2' },
+        type: {
+            type: String,
+            "default": 'primary',
+        },
+        content: { type: String, "default": '' },
+        icon: { type: String, "default": '' },
+        loading: { type: Boolean, "default": false },
+        disabled: { type: Boolean, "default": false },
+        tipOption: { type: Object }
+    },
+    setup: function (props, _a) {
+        var slots = _a.slots;
+        var renderLoadingEle = function () {
+            return createVNode('i', { "class": 'el-icon-loading cx_mr_5' });
+        };
+        var renderIconEle = function (className) {
+            return createVNode('i', { "class": "iconfont icon-" + className }, null, 2 /* CLASS */);
+        };
+        var renderDisabled = function () {
+            return createVNode('i', { onClick: function (e) { return e.stopPropagation(); }, "class": 'cx_mask' });
+        };
+        var classList = computed(function () {
+            var result = ['cx-btn_wrapper'];
+            if (props.disabled)
+                result.push('cx-btn_disabled');
+            result.push("cx-btn_" + props.size);
+            result.push("cx-btn_level_" + props.level);
+            result.push("cx-btn_" + props.type);
+            if (props.loading)
+                result.push("cx-btn_loading");
+            return result;
+        });
+        return function (_, cache) {
+            return withDirectives(createVNode('button', {
+                type: 'button',
+                "class": classList.value,
+                onClick: cache[0]
+                    ? cache[0]
+                    : (cache[0] = function (e) {
+                        e.preventDefault();
+                        if (props.disabled)
+                            return false;
+                    }),
+            }, [
+                props.loading ? (cache[1] ? cache[1] : (cache[1] = renderLoadingEle())) : createCommentVNode('v-if', true),
+                props.icon ? renderIconEle(props.icon) : createCommentVNode('v-if', true),
+                (slots["default"] ? slots["default"]({}) : props.content)
+                    ? createVNode('span', { "class": { cx_ml_5: !!props.icon } }, [
+                        slots["default"] ? slots["default"]({}) : props.content,
+                    ])
+                    : createCommentVNode('v-if_content', true),
+                props.disabled ? (cache[2] ? cache[2] : (cache[2] = renderDisabled())) : createCommentVNode('v-if', true),
+            ], 2 /* CLASS */ | 512 /* NEED_PATCH */), [[props.tipOption ? _CX_UNI_POPPER : {}, Object.assign({
+                        placement: 'top',
+                    }, props.tipOption)]]);
+        };
+    },
+});
+script$a.install = function (app) {
+    app.component(script$a.name, script$a);
+};
+var _CX_BTN = script$a;
+
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -12,4 +90,11191 @@ INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
 LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */function __extends(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Class extends value "+String(t)+" is not a constructor or null");function n(){this.constructor=e}extendStatics(e,t),e.prototype=null===t?Object.create(t):(n.prototype=t.prototype,new n)}var __assign=function(){return(__assign=Object.assign||function(e){for(var t,n=1,o=arguments.length;n<o;n++)for(var r in t=arguments[n])Object.prototype.hasOwnProperty.call(t,r)&&(e[r]=t[r]);return e}).apply(this,arguments)};function __awaiter(e,t,n,o){return new(n||(n=Promise))((function(r,i){function a(e){try{c(o.next(e))}catch(e){i(e)}}function l(e){try{c(o.throw(e))}catch(e){i(e)}}function c(e){var t;e.done?r(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(a,l)}c((o=o.apply(e,t||[])).next())}))}function __generator(e,t){var n,o,r,i,a={label:0,sent:function(){if(1&r[0])throw r[1];return r[1]},trys:[],ops:[]};return i={next:l(0),throw:l(1),return:l(2)},"function"==typeof Symbol&&(i[Symbol.iterator]=function(){return this}),i;function l(i){return function(l){return function(i){if(n)throw new TypeError("Generator is already executing.");for(;a;)try{if(n=1,o&&(r=2&i[0]?o.return:i[0]?o.throw||((r=o.return)&&r.call(o),0):o.next)&&!(r=r.call(o,i[1])).done)return r;switch(o=0,r&&(i=[2&i[0],r.value]),i[0]){case 0:case 1:r=i;break;case 4:return a.label++,{value:i[1],done:!1};case 5:a.label++,o=i[1],i=[0];continue;case 7:i=a.ops.pop(),a.trys.pop();continue;default:if(!(r=a.trys,(r=r.length>0&&r[r.length-1])||6!==i[0]&&2!==i[0])){a=0;continue}if(3===i[0]&&(!r||i[1]>r[0]&&i[1]<r[3])){a.label=i[1];break}if(6===i[0]&&a.label<r[1]){a.label=r[1],r=i;break}if(r&&a.label<r[2]){a.label=r[2],a.ops.push(i);break}r[2]&&a.ops.pop(),a.trys.pop();continue}i=t.call(e,a)}catch(e){i=[6,e],o=0}finally{n=r=0}if(5&i[0])throw i[1];return{value:i[0]?i[1]:void 0,done:!0}}([i,l])}}}function __values(e){var t="function"==typeof Symbol&&Symbol.iterator,n=t&&e[t],o=0;if(n)return n.call(e);if(e&&"number"==typeof e.length)return{next:function(){return e&&o>=e.length&&(e=void 0),{value:e&&e[o++],done:!e}}};throw new TypeError(t?"Object is not iterable.":"Symbol.iterator is not defined.")}function __read(e,t){var n="function"==typeof Symbol&&e[Symbol.iterator];if(!n)return e;var o,r,i=n.call(e),a=[];try{for(;(void 0===t||t-- >0)&&!(o=i.next()).done;)a.push(o.value)}catch(e){r={error:e}}finally{try{o&&!o.done&&(n=i.return)&&n.call(i)}finally{if(r)throw r.error}}return a}function __spreadArray(e,t,n){if(n||2===arguments.length)for(var o,r=0,i=t.length;r<i;r++)!o&&r in t||(o||(o=Array.prototype.slice.call(t,0,r)),o[r]=t[r]);return e.concat(o||Array.prototype.slice.call(t))}var toString=Object.prototype.toString;function is(e,t){return toString.call(e)==="[object "+t+"]"}function isEmpty(e){return null==e||"string"==typeof e&&""===e.trim()||"object"==typeof e&&0===Object.keys(e).length}function isAbsolutePath(e){return/^(https?|tel|mailto)/.test(e)}var isDef=function(e){return void 0!==e},isUnDef=function(e){return!isDef(e)},isObject$1=function(e){return null!==e&&is(e,"Object")};function isDate(e){return is(e,"Date")}function isNull(e){return null===e}function isNullAndUnDef(e){return isUnDef(e)&&isNull(e)}function isNumber(e){return is(e,"Number")}function isPromise(e){return is(e,"Promise")&&isObject$1(e)&&isFunction(e.then)&&isFunction(e.catch)}function isString(e){return is(e,"String")}var isFunction=function(e){return"function"==typeof e};function isBoolean(e){return is(e,"Boolean")}function isRegExp(e){return is(e,"RegExp")}function isArray(e){return e&&Array.isArray(e)}var isWindow=function(e){return"undefined"!=typeof window&&is(e,"Window")},isElement=function(e){return isObject$1(e)&&!!e.tagName},isServer$1="undefined"==typeof window,isClient="undefined"!=typeof window;function isImageDom(e){return e&&["IMAGE","IMG"].includes(e.tagName)}var isTextarea=function(e){return null!==e&&"textarea"===e.tagName.toLowerCase()},isMobile=function(){return!!navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)},isUrl=function(e){return/(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/.test(e)};function isHTMLElement(e){return!!e&&Reflect.get(e,"nodeType")===Node.ELEMENT_NODE}function isHTMLInputElement(e){return isHTMLElement(e)&&"INPUT"===e.tagName}function isAnyObject(e){return"[object Object]"===Object.prototype.toString.call(e)}function isErrorLike(e){return"object"==typeof e&&!!e&&Reflect.has(e,"message")}function isNameWithId(e){return Reflect.has(e,"id")&&Reflect.has(e,"name")}function isSame(e,t){if(-1===t.indexOf("."))return!1;var n=t.match(e);return!(!Array.isArray(n)||n[0]!==t)}var script$7=defineComponent({name:"CxTab",props:{level:{type:[String,Number],default:"1"},modelValue:{type:[Number,String],default:0},options:{type:Array,default:function(){return[]}},disabled:{type:Boolean,default:!1},badgeObj:{type:Object,default:function(){return{}}}},emits:["update:modelValue","change"],setup:function(e,t){var n,o,r,i=this,a=t.emit,l=t.slots,c=computed((function(){return e.options.filter((function(e){return isObject$1(e)?!e.hide:e})).map((function(e){return isObject$1(e)?e:{id:e,name:e}}))})),u=function(){return c.value.map((function(t){var n,o,r,i=["cx-tab_item","clickable","cx_flex_center"];e.modelValue===t.id&&i.push("cx-tab_item_active");var l=null!==(o=e.badgeObj[null!==(n=t.badgeKey)&&void 0!==n?n:""])&&void 0!==o?o:0,c=null!==(r=t.unit)&&void 0!==r?r:"";return l>=100&&(l="99+"),createVNode("div",{onClick:function(){var n;(n=t.id)!==e.modelValue&&(e.disabled||(a("update:modelValue",n),a("change",n)))},class:i},[t.name,l?createVNode("div",{class:"cx-tab_badge_"+e.level},""+l+c,3):createCommentVNode("v-if_badge",!0)],514)}))},s=ref(null),d=function(e){return createVNode("div",{onClick:function(){if(s.value)var t=300,n=t/10,o=setInterval((function(){if(s.value){var r=s.value.scrollLeft+("left"===e?-n:n);s.value.scrollTo(r,0);var i="left"===e?r<=0:r>=s.value.scrollWidth-s.value.clientWidth;0===t||i?clearInterval(o):t<=3?t=0:n=(t-=t/10)/10}}),10)},class:["cx-tab_"+e+"_arrow","iconfont","cx_flex_center","left"===e?"icon-xiangzuo":"icon-xiangyou"]},null,514)},f=function(){if(s.value){var e=s.value.querySelector(".cx-tabs");if(e){var t=s.value.clientWidth;return e.clientWidth>t}}},p=ref(f()),m=(n=function(){p.value=f()},o=100,function(){clearTimeout(r),r=setTimeout(n,o)});return onMounted((function(){window.addEventListener("resize",m)})),onBeforeUnmount((function(){window.removeEventListener("resize",m)})),watch((function(){return c.value}),(function(){return __awaiter(i,void 0,void 0,(function(){return __generator(this,(function(e){switch(e.label){case 0:return[4,nextTick()];case 1:return e.sent(),p.value=f(),[2]}}))}))}),{deep:!0,immediate:!0}),function(t,n){var o=["cx-tab_scroll_wrapper","cx_flex_center","cx_justify_between","level-"+e.level+"_wrapper"];return p.value&&o.push("cx_plr_20"),e.disabled&&o.push("cx-tab_disabled"),createVNode("div",{class:o},[createVNode("div",{class:"cx-tab_wrapper",ref:s},[createVNode("div",{class:"cx-tabs"},u())],512),p.value?n[0]||(n[0]=d("left")):createCommentVNode("v-if_left_arrow",!0),p.value?n[1]||(n[1]=d("right")):createCommentVNode("v-if_right_arrow",!0),createVNode("div",{class:"cx-tab_extension"},[l.ext&&l.ext()])],2)}}});script$7.install=function(e){e.component(script$7.name,script$7)};var _CX_TAB=script$7,getDoNothingIO=function(){return IO.of(R.identity)},functorWarn=function(){for(var e=[],t=0;t<arguments.length;t++)e[t]=arguments[t];console.warn.apply(console,__spreadArray(["[Functor warn]:"],__read(e)))},trace=R.tap(console.log),withParams=function(e,t){return function(){return e.apply(void 0,__spreadArray([],__read(t)))}},map=R.curry((function(e,t){return t.map(e)})),unsafePerformIO=R.curryN(2,(function(e,t){return t.unsafePerformIO(e)})),queryDom=function(e){return document.querySelector(e)},calledBy=function(e,t){return function(){return e.apply(void 0,__spreadArray([],__read(t.map((function(e){return e()})))))}},getMaybeValue=function(e){return e.getWithDefault()},either=R.curryN(3,(function(e,t,n){switch(n.constructor){case Left:return e(n.__value);case Right:return t(n.__value)}})),unsafePush=R.curryN(2,(function(e,t){return t.push.apply(t,__spreadArray([],__read(e))),t})),unsafeClearPush=R.curryN(2,(function(e,t){return t.splice(0),t.push.apply(t,__spreadArray([],__read(e))),t})),unsafeClearArray=function(e){return e.splice(0),e},unsafeSet=R.curryN(3,Reflect.set),unsafeGet=R.curryN(2,Reflect.get),unsafeDeleteProperty=R.curryN(2,Reflect.deleteProperty),unsafeRemoveItem=R.curryN(2,(function(e,t){return t.splice(e,1),t})),unsafeClearObj=function(e){return R.forEach(unsafeDeleteProperty(e),R.keys(e)),e},unsafeAssign=R.curryN(2,(function(e,t){return Object.assign(t,e),t})),unsafeClearAssign=R.curryN(2,(function(e,t){return Object.assign(unsafeClearObj(t),e),t})),unsafeWhenDevCall=function(e){return function(){for(var t=[],n=0;n<arguments.length;n++)t[n]=arguments[n];return"development"===process.env.NODE_ENV?Maybe.of(e.apply(void 0,__spreadArray([],__read(t)))):Maybe.none()}},splat=function(e){return function(t){return e.apply(void 0,__spreadArray([],__read(t)))}},unsplat=function(e){return function(){for(var t=[],n=0;n<arguments.length;n++)t[n]=arguments[n];return e(t)}},truthy=function(e){return!!e},falsy=function(e){return!e},propCall=function(e){return R.tap(R.when(R.compose(R.is(Function),R.prop(e)),R.compose(R.call,R.converge(R.bind,[R.prop(e),R.identity]))))},preventDefault=propCall("preventDefault"),stopPropagation=propCall("stopPropagation"),stateEq200=R.propEq("state",200),curryTimeout=R.curryN(2,setTimeout),nextTimeout=function(e){return function(t){return setTimeout((function(){return e(t)}),0)}},awaitTimeout=function(){return new Promise(R.nAry(1,setTimeout))},clearTimer=function(e){return clearTimeout(e),clearInterval(e),e},defaultPromise=function(e){return function(){return Promise.resolve(e)}},appendToBody=function(e){return document.body.appendChild(e),e},createTag=function(e){return document.createElement(e)},clearInnerHTML=function(e){return e.innerHTML="",e},setInnerText=R.curryN(2,(function(e,t){return t.innerText=e,t})),setClassByArr=R.curryN(2,(function(e,t){var n;return(n=t.classList).add.apply(n,__spreadArray([],__read(e))),t})),setDisplay=function(e){return R.when(truthy,(function(t){return t.style.display=e}))},hideEle=setDisplay("none"),showEle=setDisplay("block"),appendChild=R.curryN(2,(function(e,t){return t.appendChild(e),t})),curryAddListener=R.curryN(3,(function(e,t,n){return n.addEventListener(e,t),n})),curryRemoveListener=R.curryN(3,(function(e,t,n){return n.removeEventListener(e,t),n})),clearClassList=function(e){return e.className="",e},Identify=function(){function e(e){this.__value=e}return e.of=function(t){return null==t&&functorWarn("Provided Identify value must not be empty"),new e(t)},e.prototype.map=function(t){return e.of(t(this.__value))},e.prototype.ap=function(e){return R.is(Function,this.__value)?e.map(this.__value):this},e}(),Maybe=function(){function e(e){this.__value=e}return e.of=function(t){return null==t?e.none():new e(t)},e.none=function(){return new e(null)},e.run=function(t){return function n(o){var r=t.next(o);return r.done?e.of(r.value):r.value.chain(n)}()},e.prototype.map=function(t){return null==this.__value?e.none():e.of(t(this.__value))},e.prototype.isNegative=function(){return null==this.__value},e.prototype.join=function(){return this.isNegative()?e.none():this.__value},e.prototype.chain=function(e){return this.map(e).join()},e.prototype.getWithDefault=function(e){return this.isNegative()?e:this.__value},e.prototype.ap=function(e){return R.is(Function,this.__value)?e.map(this.__value):this},e}(),IO=function(){function e(e){this.__value=e}return e.of=function(t){return new e(t)},e.prototype.map=function(t){return new e(R.compose(t,this.__value))},e.prototype.join=function(){return this.unsafePerformIO()},e.prototype.chain=function(e){return this.map(e).join()},e.prototype.unsafePerformIO=function(e){return this.__value(e)},e.prototype.ap=function(t){var n=this.unsafePerformIO(t.unsafePerformIO());return R.is(Function,n)?e.of(n):e.of((function(){return n}))},e}(),Task=function(){function e(e,t){void 0===t&&(t=function(){}),this.fork=e,this.cleanup=t}return e.of=function(t){return new e((function(e,n){return n(t)}))},e.prototype.map=function(t){var n=this.fork;return new e((function(e,o){return n(e,R.compose(o,t))}),this.cleanup)},e}(),Left=function(){function e(e){this.__value=e}return e.of=function(t){return null==t&&functorWarn("Provided value must not be empty"),new e(t)},e.prototype.map=function(e){return this},e.prototype.ap=function(e){return this},e}(),Right=function(){function e(e){this.__value=e}return e.of=function(t){return null==t&&functorWarn("Provided Right value must not be empty"),new e(t)},e.prototype.map=function(t){return e.of(t(this.__value))},e.prototype.ap=function(e){return R.is(Function,this.__value)?e.map(this.__value):this},e}(),Either=function(e,t){this.left=e,this.right=t},MapShim=function(){if("undefined"!=typeof Map)return Map;function e(e,t){var n=-1;return e.some((function(e,o){return e[0]===t&&(n=o,!0)})),n}return function(){function t(){this.__entries__=[]}return Object.defineProperty(t.prototype,"size",{get:function(){return this.__entries__.length},enumerable:!0,configurable:!0}),t.prototype.get=function(t){var n=e(this.__entries__,t),o=this.__entries__[n];return o&&o[1]},t.prototype.set=function(t,n){var o=e(this.__entries__,t);~o?this.__entries__[o][1]=n:this.__entries__.push([t,n])},t.prototype.delete=function(t){var n=this.__entries__,o=e(n,t);~o&&n.splice(o,1)},t.prototype.has=function(t){return!!~e(this.__entries__,t)},t.prototype.clear=function(){this.__entries__.splice(0)},t.prototype.forEach=function(e,t){void 0===t&&(t=null);for(var n=0,o=this.__entries__;n<o.length;n++){var r=o[n];e.call(t,r[1],r[0])}},t}()}(),isBrowser="undefined"!=typeof window&&"undefined"!=typeof document&&window.document===document,global$1="undefined"!=typeof global&&global.Math===Math?global:"undefined"!=typeof self&&self.Math===Math?self:"undefined"!=typeof window&&window.Math===Math?window:Function("return this")(),requestAnimationFrame$1="function"==typeof requestAnimationFrame?requestAnimationFrame.bind(global$1):function(e){return setTimeout((function(){return e(Date.now())}),1e3/60)},trailingTimeout=2;function throttle$2(e,t){var n=!1,o=!1,r=0;function i(){n&&(n=!1,e()),o&&l()}function a(){requestAnimationFrame$1(i)}function l(){var e=Date.now();if(n){if(e-r<trailingTimeout)return;o=!0}else n=!0,o=!1,setTimeout(a,t);r=e}return l}var REFRESH_DELAY=20,transitionKeys=["top","right","bottom","left","width","height","size","weight"],mutationObserverSupported="undefined"!=typeof MutationObserver,ResizeObserverController=function(){function e(){this.connected_=!1,this.mutationEventsAdded_=!1,this.mutationsObserver_=null,this.observers_=[],this.onTransitionEnd_=this.onTransitionEnd_.bind(this),this.refresh=throttle$2(this.refresh.bind(this),REFRESH_DELAY)}return e.prototype.addObserver=function(e){~this.observers_.indexOf(e)||this.observers_.push(e),this.connected_||this.connect_()},e.prototype.removeObserver=function(e){var t=this.observers_,n=t.indexOf(e);~n&&t.splice(n,1),!t.length&&this.connected_&&this.disconnect_()},e.prototype.refresh=function(){this.updateObservers_()&&this.refresh()},e.prototype.updateObservers_=function(){var e=this.observers_.filter((function(e){return e.gatherActive(),e.hasActive()}));return e.forEach((function(e){return e.broadcastActive()})),e.length>0},e.prototype.connect_=function(){isBrowser&&!this.connected_&&(document.addEventListener("transitionend",this.onTransitionEnd_),window.addEventListener("resize",this.refresh),mutationObserverSupported?(this.mutationsObserver_=new MutationObserver(this.refresh),this.mutationsObserver_.observe(document,{attributes:!0,childList:!0,characterData:!0,subtree:!0})):(document.addEventListener("DOMSubtreeModified",this.refresh),this.mutationEventsAdded_=!0),this.connected_=!0)},e.prototype.disconnect_=function(){isBrowser&&this.connected_&&(document.removeEventListener("transitionend",this.onTransitionEnd_),window.removeEventListener("resize",this.refresh),this.mutationsObserver_&&this.mutationsObserver_.disconnect(),this.mutationEventsAdded_&&document.removeEventListener("DOMSubtreeModified",this.refresh),this.mutationsObserver_=null,this.mutationEventsAdded_=!1,this.connected_=!1)},e.prototype.onTransitionEnd_=function(e){var t=e.propertyName,n=void 0===t?"":t;transitionKeys.some((function(e){return!!~n.indexOf(e)}))&&this.refresh()},e.getInstance=function(){return this.instance_||(this.instance_=new e),this.instance_},e.instance_=null,e}(),defineConfigurable=function(e,t){for(var n=0,o=Object.keys(t);n<o.length;n++){var r=o[n];Object.defineProperty(e,r,{value:t[r],enumerable:!1,writable:!1,configurable:!0})}return e},getWindowOf=function(e){return e&&e.ownerDocument&&e.ownerDocument.defaultView||global$1},emptyRect=createRectInit(0,0,0,0);function toFloat(e){return parseFloat(e)||0}function getBordersSize(e){for(var t=[],n=1;n<arguments.length;n++)t[n-1]=arguments[n];return t.reduce((function(t,n){return t+toFloat(e["border-"+n+"-width"])}),0)}function getPaddings(e){for(var t={},n=0,o=["top","right","bottom","left"];n<o.length;n++){var r=o[n],i=e["padding-"+r];t[r]=toFloat(i)}return t}function getSVGContentRect(e){var t=e.getBBox();return createRectInit(0,0,t.width,t.height)}function getHTMLElementContentRect(e){var t=e.clientWidth,n=e.clientHeight;if(!t&&!n)return emptyRect;var o=getWindowOf(e).getComputedStyle(e),r=getPaddings(o),i=r.left+r.right,a=r.top+r.bottom,l=toFloat(o.width),c=toFloat(o.height);if("border-box"===o.boxSizing&&(Math.round(l+i)!==t&&(l-=getBordersSize(o,"left","right")+i),Math.round(c+a)!==n&&(c-=getBordersSize(o,"top","bottom")+a)),!isDocumentElement(e)){var u=Math.round(l+i)-t,s=Math.round(c+a)-n;1!==Math.abs(u)&&(l-=u),1!==Math.abs(s)&&(c-=s)}return createRectInit(r.left,r.top,l,c)}var isSVGGraphicsElement="undefined"!=typeof SVGGraphicsElement?function(e){return e instanceof getWindowOf(e).SVGGraphicsElement}:function(e){return e instanceof getWindowOf(e).SVGElement&&"function"==typeof e.getBBox};function isDocumentElement(e){return e===getWindowOf(e).document.documentElement}function getContentRect(e){return isBrowser?isSVGGraphicsElement(e)?getSVGContentRect(e):getHTMLElementContentRect(e):emptyRect}function createReadOnlyRect(e){var t=e.x,n=e.y,o=e.width,r=e.height,i="undefined"!=typeof DOMRectReadOnly?DOMRectReadOnly:Object,a=Object.create(i.prototype);return defineConfigurable(a,{x:t,y:n,width:o,height:r,top:n,right:t+o,bottom:r+n,left:t}),a}function createRectInit(e,t,n,o){return{x:e,y:t,width:n,height:o}}var ResizeObservation=function(){function e(e){this.broadcastWidth=0,this.broadcastHeight=0,this.contentRect_=createRectInit(0,0,0,0),this.target=e}return e.prototype.isActive=function(){var e=getContentRect(this.target);return this.contentRect_=e,e.width!==this.broadcastWidth||e.height!==this.broadcastHeight},e.prototype.broadcastRect=function(){var e=this.contentRect_;return this.broadcastWidth=e.width,this.broadcastHeight=e.height,e},e}(),ResizeObserverEntry=function(e,t){var n=createReadOnlyRect(t);defineConfigurable(this,{target:e,contentRect:n})},ResizeObserverSPI=function(){function e(e,t,n){if(this.activeObservations_=[],this.observations_=new MapShim,"function"!=typeof e)throw new TypeError("The callback provided as parameter 1 is not a function.");this.callback_=e,this.controller_=t,this.callbackCtx_=n}return e.prototype.observe=function(e){if(!arguments.length)throw new TypeError("1 argument required, but only 0 present.");if("undefined"!=typeof Element&&Element instanceof Object){if(!(e instanceof getWindowOf(e).Element))throw new TypeError('parameter 1 is not of type "Element".');var t=this.observations_;t.has(e)||(t.set(e,new ResizeObservation(e)),this.controller_.addObserver(this),this.controller_.refresh())}},e.prototype.unobserve=function(e){if(!arguments.length)throw new TypeError("1 argument required, but only 0 present.");if("undefined"!=typeof Element&&Element instanceof Object){if(!(e instanceof getWindowOf(e).Element))throw new TypeError('parameter 1 is not of type "Element".');var t=this.observations_;t.has(e)&&(t.delete(e),t.size||this.controller_.removeObserver(this))}},e.prototype.disconnect=function(){this.clearActive(),this.observations_.clear(),this.controller_.removeObserver(this)},e.prototype.gatherActive=function(){var e=this;this.clearActive(),this.observations_.forEach((function(t){t.isActive()&&e.activeObservations_.push(t)}))},e.prototype.broadcastActive=function(){if(this.hasActive()){var e=this.callbackCtx_,t=this.activeObservations_.map((function(e){return new ResizeObserverEntry(e.target,e.broadcastRect())}));this.callback_.call(e,t,e),this.clearActive()}},e.prototype.clearActive=function(){this.activeObservations_.splice(0)},e.prototype.hasActive=function(){return this.activeObservations_.length>0},e}(),observers="undefined"!=typeof WeakMap?new WeakMap:new MapShim,ResizeObserver=function e(t){if(!(this instanceof e))throw new TypeError("Cannot call a class as a function.");if(!arguments.length)throw new TypeError("1 argument required, but only 0 present.");var n=ResizeObserverController.getInstance(),o=new ResizeObserverSPI(t,n,this);observers.set(this,o)};["observe","unobserve","disconnect"].forEach((function(e){ResizeObserver.prototype[e]=function(){var t;return(t=observers.get(this))[e].apply(t,arguments)}}));var index=void 0!==global$1.ResizeObserver?global$1.ResizeObserver:ResizeObserver,isServer="undefined"==typeof window,resizeHandler=function(e){var t,n;try{for(var o=__values(e),r=o.next();!r.done;r=o.next()){var i=r.value.target.__resizeListeners__||[];i.length&&i.forEach((function(e){e()}))}}catch(e){t={error:e}}finally{try{r&&!r.done&&(n=o.return)&&n.call(o)}finally{if(t)throw t.error}}},addResizeListener=function(e,t){!isServer&&e&&(e.__resizeListeners__||(e.__resizeListeners__=[],e.__ro__=new index(resizeHandler),e.__ro__.observe(e)),e.__resizeListeners__.push(t))},removeResizeListener=function(e,t){e&&e.__resizeListeners__&&(e.__resizeListeners__.splice(e.__resizeListeners__.indexOf(t),1),e.__resizeListeners__.length||e.__ro__.disconnect())};function omit(e,t){return isObject$1(e)?Object.keys(e).reduce((function(n,o){return t.includes(o)||Reflect.set(n,o,e[o]),n}),{}):e}function useEnumOptions(e,t,n){void 0===t&&(t="name"),void 0===n&&(n="id");var o=[];return Object.entries(e).forEach((function(e){var r,i=__read(e,2),a=i[0],l=i[1];R.is(Number,l)&&o.push(((r={})[t]=a,r[n]=l,r))})),o}function throttle$1(e,t,n){var o,r,i,a;void 0===t&&(t=100);var l=0;function c(){l=!1===(null==n?void 0:n.leading)?0:Date.now(),o=null,a=e.apply(r,i),o||(r=i=null)}return n||(n={}),function(){for(var u=[],s=0;s<arguments.length;s++)u[s]=arguments[s];var d=Date.now();l||!1!==(null==n?void 0:n.leading)||(l=d);var f=t-(d-l);return r=this,i=u,f<=0||f>t?(o&&(clearTimeout(o),o=null),l=d,a=e.apply(r,u),o||(r=i=null)):o||!1===(null==n?void 0:n.trailing)||(o=setTimeout(c,f)),a}}function useLoading(e,t){var n=ref(!1);return t&&(t.value=!1),[function(){for(var o=[],r=0;r<arguments.length;r++)o[r]=arguments[r];return __awaiter(this,void 0,void 0,(function(){var r,i;return __generator(this,(function(a){switch(a.label){case 0:if(n.value)return[2,Promise.reject("loading...")];n.value=!0,t&&(t.value=!0),r=null,a.label=1;case 1:return a.trys.push([1,3,,4]),[4,e.apply(void 0,__spreadArray([],__read(o)))];case 2:return r=a.sent(),[3,4];case 3:return i=a.sent(),r=Promise.reject(i),[3,4];case 4:return t&&(t.value=!1),n.value=!1,[2,r]}}))}))},n]}var isDeepObjectEqual=function(e,t){if(e===t)return!0;if("function"==typeof e&&"function"==typeof t)return e.toString()===t.toString();if(e instanceof Date&&t instanceof Date)return e.getTime()===t.getTime();if(Object.prototype.toString.call(e)!==Object.prototype.toString.call(t)||"object"!=typeof e)return!1;var n=Object.getOwnPropertyNames(e),o=Object.getOwnPropertyNames(t);return n.length===o.length&&n.every((function(n){return isDeepObjectEqual(e[n],t[n])}))},renderComp=function(e,t,n){return openBlock(),createBlock(Fragment,null,[n?isFunction(n)?(o=e.__prop,n(Object.assign(omit(e,["__closable","__emit","__prop"]),{prop:o}))):createVNode(n,omit(e,["__closable","__emit","__prop"]),t,16):createCommentVNode("v-if_component",!0)]);var o},CxFormRender=function(){function e(){this.renderComp=renderComp}return e.prototype.renderControl=function(e,t,n){return createVNode("div",{style:{position:"relative"}},[renderComp(e,t,n),e.__closable?createVNode("i",{style:{position:"absolute",right:"-3px",top:"-3px"},class:"iconfont icon-shanchu",onClick:function(){isFunction(e.__emit)&&e.__emit("close",e.__prop)}}):createCommentVNode("v-if_closable",!0)])},e}(),cxFormRender=(_instance=null,function(){return _instance||(_instance=new CxFormRender),_instance}),_instance,CxFormTemplate=function(){function e(){this.name="",this.slots={},this.attrs={}}return e.prototype.init=function(){return this.propAdaptor(),this},e.prototype.propAdaptor=function(){throw new Error("请重写propAdaptor方法")},e.prototype.addSlots=function(e){return"function"==typeof e?Reflect.set(this.slots,"default",e):"object"==typeof e&&Object.assign(this.slots,e),this},e.prototype.renderVNode=function(e){return cxFormRender().renderComp(this.attrs,this.slots,e)},e.prototype.renderControl=function(e){return cxFormRender().renderControl(this.attrs,this.slots,e)},e.prototype.render=function(){throw new Error("请重写render方法")},e}(),CxFormError=function(e){function t(t){return e.call(this,"CxFormError: "+t)||this}return __extends(t,e),t}(Error),CxFormRenderMap=new Map,useCxForm=function(){var e,t;return{register:function(n){var o=n.props,r=n.ref;e=r,t=o},getFormRef:function(){return e},setFormConfig:function(e,n,o){if(!t)throw new CxFormError("can't set property before regist");var r=null==t?void 0:t.items.find((function(t){return t.prop===e}));return r?Reflect.has(r,n)?Reflect.set(r,n,o):void __spreadArray([],__read(CxFormRenderMap.keys())).find((function(e){var t=Reflect.get(r,e);if(isObject$1(t)){if("options"===n){if(!Array.isArray(o))throw new CxFormError("can't set options with non-array");var i=Reflect.get(t,"options");Array.isArray(i)?(i.splice(0),i.push.apply(i,__spreadArray([],__read(o)))):Reflect.set(t,"options",o),Reflect.set(t,"key",Date.now())}else Reflect.set(t,n,o);return!0}})):console.warn("[cxForm warn]: prop "+e+" isn't exist on this form's configList ")},registerRenderer:function(e){var t=e.comp,n=e.type,o=e.adaptor;CxFormRenderMap.set(n,{comp:t,adaptor:o})},getRenderer:function(e){return CxFormRenderMap.get(e)},getRendererKeys:function(){return CxFormRenderMap.keys()}}},CxFormControl=function(e){function t(t,n,o,r){var i=e.call(this)||this;return i.name="CxFormControl",i.parse=null,i.attrs={},i.type="",i.form=t,i.emit=r,i.config=n,i.rootConfig=o,i.prop=n.prop,i.init(),i}return __extends(t,e),t.prototype.init=function(){return this.propAdaptor().bindModel(),this},t.prototype.addSlots=function(e){var t,n,o,r=this;if(!isObject$1(e))return this;isObject$1(null===(t=this.config)||void 0===t?void 0:t.slot)&&Object.entries(this.config.slot).forEach((function(t){var n=__read(t,2),o=n[0],i=n[1];Reflect.set(r.slots,o,Reflect.get(e,i))}));var i=null===(o=null===(n=this.config)||void 0===n?void 0:n.custom)||void 0===o?void 0:o.slot;return i&&Reflect.set(this.slots,i,Reflect.get(e,i)),this},t.prototype.bindModel=function(){var e=this;return this.prop&&(Reflect.set(this.attrs,"modelValue",this.form[this.prop]),Reflect.set(this.attrs,"onUpdate:modelValue",(function(t){Array.isArray(t)?t=t.map((function(t){return e.parse?e.parse(t):t})):t&&(t=e.parse?e.parse(t):t),Reflect.set(e.form,e.prop,t)}))),this},t.prototype.propAdaptor=function(){var e,t,n,o,r=this,i=useCxForm(),a=i.getRendererKeys,l=i.getRenderer;__spreadArray([],__read(a())).find((function(e){var t;if(isObject$1(Reflect.get(r.config,e))){var n=(null!==(t=l(e))&&void 0!==t?t:{}).adaptor;return r.type=e,isFunction(n)?n.apply(r):Object.assign(r.attrs,Reflect.get(r.config,e)),!0}}));var c=Reflect.get(null!==(e=this.config)&&void 0!==e?e:{},"placeholder");return c&&Reflect.set(this.attrs,"placeholder",c),Reflect.set(this.attrs,"onChange",(function(e){var t,n,o={prop:r.prop,val:e,form:r.form};Array.isArray(r.attrs.options)&&Reflect.set(o,"option",r.attrs.options.find((function(t){return t.id===e}))),isFunction(r.emit)&&r.emit("change",o),isFunction(null===(t=r.config)||void 0===t?void 0:t.onChange)&&(null===(n=r.config)||void 0===n||n.onChange(o))})),!isObject$1(null===(t=this.attrs)||void 0===t?void 0:t.style)&&Reflect.set(this.attrs,"style",{}),this.config.width&&isObject$1(null===(n=this.attrs)||void 0===n?void 0:n.style)&&Reflect.set(this.attrs.style,"width",this.config.width+"px"),Reflect.set(this.attrs,"__closable",(null===(o=this.rootConfig)||void 0===o?void 0:o.closable)||this.config.closable),Reflect.set(this.attrs,"__emit",this.emit),Reflect.set(this.attrs,"__prop",this.prop),this},t.prototype.render=function(){var e,t,n,o,r;if("custom"===this.type)r=Reflect.get(this.slots,null!==(n=null===(t=null===(e=this.config)||void 0===e?void 0:e.custom)||void 0===t?void 0:t.slot)&&void 0!==n?n:"");else{var i=null===(o=useCxForm().getRenderer(this.type))||void 0===o?void 0:o.comp;r=isFunction(i)?i():i}return this.renderControl(r)},t}(CxFormTemplate),form=function(){return{size:"small",labelSuffix:":",labelPosition:"left",onSubmit:function(e){return e.preventDefault()}}},cxFormDefaultConfig={form:form},CxForm$1=function(e){function t(t){var n=e.call(this)||this;return n.name="CxForm",n.attrs={},n.ref=ref(null),n.config=t,n.init(),n}return __extends(t,e),t.prototype.getFormRef=function(){return this.ref},t.prototype.propAdaptor=function(){var e,t,n,o;return Object.assign(this.attrs,cxFormDefaultConfig.form(),omit(this.config,["items","formAttrs"])),this.config.formAttrs&&Object.assign(this.attrs,omit(this.config.formAttrs,["form","inline","disabled","closable","items","class"])),Reflect.set(this.attrs,"ref",this.ref),Reflect.set(this.attrs,"model",null!==(t=null===(e=this.config)||void 0===e?void 0:e.form)&&void 0!==t?t:{}),Reflect.set(this.attrs,"rules",null===(o=null===(n=this.config)||void 0===n?void 0:n.items)||void 0===o?void 0:o.reduce((function(e,t){return t.rule&&Reflect.set(e,t.prop,t.rule),e}),{})),this},t.prototype.render=function(){var e,t,n=null!==(t=null===(e=useCxForm().getRenderer("form"))||void 0===e?void 0:e.comp)&&void 0!==t?t:resolveComponent("ElForm");return this.renderVNode(n)},t}(CxFormTemplate),CxFormItem=function(e){function t(t){var n=e.call(this)||this;return n.name="CxFormItem",n.attrs={},n.config=t,n.init(),n}return __extends(t,e),t.prototype.addSlots=function(e){var t=this;if(isObject$1(e)){var n={default:e.default};this.config.labelSlot&&Reflect.set(n,"label",(function(){var n;return null===(n=e[t.config.labelSlot])||void 0===n?void 0:n.call(e,__assign({},t.config))})),Object.assign(this.slots,n)}return this},t.prototype.propAdaptor=function(){var e,t,n,o,r,i,a,l,c,u,s;return isNumber(null===(e=this.config)||void 0===e?void 0:e.spacing)&&Reflect.set(this.attrs,"style",{paddingRight:(null===(t=this.config)||void 0===t?void 0:t.spacing)+"px"}),Reflect.set(this.attrs,"key",null!==(o=null===(n=this.config)||void 0===n?void 0:n.prop)&&void 0!==o?o:""),Object.assign(this.attrs,null!==(i=null===(r=this.config)||void 0===r?void 0:r.itemAttrs)&&void 0!==i?i:{}),(null===(a=this.config)||void 0===a?void 0:a.labelWidth)&&Reflect.set(this.attrs,"labelWidth",this.config.labelWidth+"px"),Reflect.set(this.attrs,"label",null!==(c=null===(l=this.config)||void 0===l?void 0:l.label)&&void 0!==c?c:""),Reflect.set(this.attrs,"prop",null!==(s=null===(u=this.config)||void 0===u?void 0:u.prop)&&void 0!==s?s:""),this},t.prototype.render=function(){var e,t,n=null!==(t=null===(e=useCxForm().getRenderer("formItem"))||void 0===e?void 0:e.comp)&&void 0!==t?t:resolveComponent("ElFormItem");return this.renderVNode(n)},t}(CxFormTemplate),CxFormProps={form:{type:Object,default:function(){return{}}},inline:{type:Boolean,default:!0},disabled:{type:Boolean,default:!1},closable:{type:Boolean,default:!1},items:{type:Array,default:function(){return[]}},class:{type:[Array,Object,String],default:function(){return[]}},formAttrs:{type:Object}},CxForm=defineComponent({props:CxFormProps,name:"CxForm",emits:["change","register","close"],setup:function(e,t){var n=t.slots,o=t.emit;function r(t){return new CxFormControl(e.form,t,e,o).addSlots(n).render()}function i(){var t=new CxForm$1(e).addSlots((function(){var t;return null===(t=e.items)||void 0===t?void 0:t.reduce((function(e,t){return!t.hide&&e.push(function(e){var t=__assign(__assign({},n),{default:function(){return[r(e)]}});return new CxFormItem(e).addSlots(t).render()}(t)),e}),[])}));return o("register",{props:e,ref:t.getFormRef()}),t.render()}return(0,t.expose)({trigger:function(t){o("change",{prop:t,val:e.form[t],form:e.form})}}),function(){return createVNode("div",{name:"cx-form"},[i()])}}}),script$6=CxForm;script$6.install=function(e){e.component(script$6.name,script$6)};var _CX_FORM=script$6,script$5=defineComponent({name:"CxDialog",props:{title:String,isFullScreen:{type:Boolean,default:!1},cancelText:{type:String,default:"取消"},okText:{type:String,default:"确认"},disabledOk:{type:Boolean,default:!1},okLoading:{type:Boolean,default:!1}},emits:["register","cancel","ok","fullscreen","open"],setup:function(e,t){var n=t.emit,o=t.expose,r=ref(!1),i=ref(!1);function a(e){void 0===e&&(e=!0),r.value=!!e,e&&n("open")}o({openDialog:a});var l={openDialog:a};onMounted((function(){n("register",l)}));var c=computed((function(){return omit(e,["cancelText","isFullScreen","okText","okLoading","disabledOk"])}));return{openDialog:a,fullscreenRef:i,dialogVisible:r,handleCancel:function(){r.value=!1,n("cancel")},dialogProps:c,emit:n,handleFullScreen:function(e){i.value=e,n("fullscreen",e)}}}});const _withId$3=withScopeId("data-v-342d80fb");pushScopeId("data-v-342d80fb");const _hoisted_1$4={class:"basic-dialog_header"},_hoisted_2$2={class:"basic-dialog_title"},_hoisted_3$2=createVNode("i",{class:"iconfont icon-quanpingsuoxiao"},null,-1),_hoisted_4$1=createVNode("i",{class:"el-icon-full-screen"},null,-1),_hoisted_5$1={class:"basic-dialog_footer"},_hoisted_6$1={class:"baisc-dialog_prefix"},_hoisted_7$1={class:"baisc-dialog_btns"},_hoisted_8$1={class:"basic-dialog_content"};popScopeId();const render$4=_withId$3(((e,t)=>{const n=resolveComponent("el-button"),o=resolveComponent("cx-btn"),r=resolveComponent("el-dialog");return openBlock(),createBlock(r,mergeProps({customClass:e.fullscreenRef?"basic-dialog basic-dialog_fullscreen":"basic-dialog",modelValue:e.dialogVisible,onClose:t[4]||(t[4]=t=>e.openDialog(!1)),fullscreen:e.fullscreenRef},{...e.dialogProps,...e.$attrs}),{title:_withId$3((()=>[createVNode("div",_hoisted_1$4,[createVNode("p",_hoisted_2$2,[renderSlot(e.$slots,"title",{},(()=>[createTextVNode(toDisplayString(e.title),1)]))]),e.fullscreenRef?(openBlock(),createBlock(n,{key:0,type:"text",onClick:t[1]||(t[1]=t=>e.handleFullScreen(!1))},{default:_withId$3((()=>[_hoisted_3$2])),_:1})):(openBlock(),createBlock(n,{key:1,type:"text",onClick:t[2]||(t[2]=t=>e.handleFullScreen(!0))},{default:_withId$3((()=>[_hoisted_4$1])),_:1}))])])),footer:_withId$3((()=>[renderSlot(e.$slots,"footer",{},(()=>[createVNode("div",_hoisted_5$1,[createVNode("div",_hoisted_6$1,[renderSlot(e.$slots,"footerPrefix")]),createVNode("div",_hoisted_7$1,[e.cancelText?(openBlock(),createBlock(o,{key:0,onClick:e.handleCancel,class:"cx_mr_16"},{default:_withId$3((()=>[createTextVNode(toDisplayString(e.cancelText),1)])),_:1},8,["onClick"])):createCommentVNode("v-if",!0),e.okText?(openBlock(),createBlock(o,{key:1,level:"1",disabled:e.disabledOk,loading:e.okLoading,onClick:t[3]||(t[3]=t=>e.emit("ok",e.handleCancel))},{default:_withId$3((()=>[createTextVNode(toDisplayString(e.okText),1)])),_:1},8,["disabled","loading"])):createCommentVNode("v-if",!0)])])]))])),default:_withId$3((()=>[createVNode("div",_hoisted_8$1,[renderSlot(e.$slots,"default")])])),_:1},16,["customClass","modelValue","fullscreen"])}));script$5.render=render$4,script$5.__scopeId="data-v-342d80fb",script$5.__file="src/lib/cx-dialog/component.vue",script$5.install=function(e){e.component(script$5.name,script$5)};var _CX_DIALOG=script$5,ARROW_KEY,COLUMN_FLAG,CX_STYLE_SETTING,CX_SPAN_METHOD_TYPE,CX_SORT_STATUS,PATCH_FLAG,CX_ADAPTOR_PRECISION_TYPE,TypeOption;!function(e){e.L="ArrowLeft",e.R="ArrowRight",e.U="ArrowUp",e.D="ArrowDown"}(ARROW_KEY||(ARROW_KEY={})),function(e){e[e.TEXT_COLUMN=1]="TEXT_COLUMN",e[e.CONTROL_COLUMN=2]="CONTROL_COLUMN",e[e.SLOT_COLUMN=4]="SLOT_COLUMN",e[e.FIX_COLUMN=8]="FIX_COLUMN",e[e.CALC_COLUMN=16]="CALC_COLUMN",e[e.ADD_SUM_COLUMN=32]="ADD_SUM_COLUMN",e[e.CUSTOM_SUM_COLUMN=64]="CUSTOM_SUM_COLUMN",e[e.TEXT_SUM_COLUMN=128]="TEXT_SUM_COLUMN",e[e.VALIDATE_COLUMN=256]="VALIDATE_COLUMN",e[e.ARRAY_CHILDREN=512]="ARRAY_CHILDREN"}(COLUMN_FLAG||(COLUMN_FLAG={})),function(e){e.width="CX_TABLE_MIN_WIDTH",e.height="CX_TABLE_HEIGHT",e.cache="CX_VISUAL_CACHE",e.padding="CX_TABLE_PADDING"}(CX_STYLE_SETTING||(CX_STYLE_SETTING={})),function(e){e[e.MISSING=1]="MISSING",e[e.EXTEND=2]="EXTEND"}(CX_SPAN_METHOD_TYPE||(CX_SPAN_METHOD_TYPE={})),function(e){e[e.REVERSE=0]="REVERSE",e[e.POSITIVE=1]="POSITIVE",e[e.NONE=2]="NONE"}(CX_SORT_STATUS||(CX_SORT_STATUS={})),function(e){e[e.TEXT=1]="TEXT",e[e.CLASS=2]="CLASS",e[e.STYLE=4]="STYLE",e[e.PROPS=8]="PROPS",e[e.FULL_PROPS=16]="FULL_PROPS",e[e.HYDRATE_EVENTS=32]="HYDRATE_EVENTS",e[e.STABLE_FRAGMENT=64]="STABLE_FRAGMENT",e[e.KEYED_FRAGMENT=128]="KEYED_FRAGMENT",e[e.UNKEYED_FRAGMENT=256]="UNKEYED_FRAGMENT",e[e.NEED_PATCH=512]="NEED_PATCH",e[e.DYNAMIC_SLOTS=1024]="DYNAMIC_SLOTS",e[e.HOISTED=-1]="HOISTED",e[e.BAIL=-2]="BAIL"}(PATCH_FLAG||(PATCH_FLAG={})),function(e){e[e.GOLD=1]="GOLD",e[e.STONE=2]="STONE",e[e.PRICE=3]="PRICE",e[e.INT=4]="INT",e[e.LOSS=5]="LOSS"}(CX_ADAPTOR_PRECISION_TYPE||(CX_ADAPTOR_PRECISION_TYPE={})),function(e){e[e["未提交"]=0]="未提交",e[e["已驳回"]=1]="已驳回",e[e["已反审"]=2]="已反审"}(TypeOption||(TypeOption={}));var CX_TABLE_ROW_ID_PREPEND="cxrow-",CX_TABLE_ROW_KEY="row-key-",CX_TABLE_COLUMN_ID_PREPEND="cxcol-",CX_TABLE_COLUMN_KEY="col-key-",CX_TABLE_ID_PREPEND="cxtable-",CX_TABLE_SUM_ROW_KEY="cxtable-sum",CX_TABLE_VISUAL_ROW_KEY="cxtable-virtual-row",CX_TABLE_EVENT_LIST=["register","radioChange","selectChange","paging","addNewRow","tdFocus","expandCheck","broadcast","dynamicUpdate","dynamicSetting","cached"],CX_TABLE_INPUT_TYPE=["input","select","search","numberInput","specification"],CX_TABLE_SUM_INDEX=-100,CX_TABLE_EMPTY_INDEX=-200,CX_TABLE_PER_CHAR_WIDTH=20,CX_TABLE_NOT_HOVER_ID="cxrow-not-hover",CX_TABLE_DYNAMIC_PROPS=["moduleType","businessType","priceType","modelType"],CX_TABLE_DYNAMIC_CACHE="__CX_TABLE_DYNAMIC_CACHE__",CX_TABLE_CACHE_PENDING="__CX_TABLE_CACHE_PENDING_",CX_TABLE_THROTTLE_DURATION=.5,createCxTableConfig=function(){return reactive({wrapperEle:null,hoveringRowid:CX_TABLE_NOT_HOVER_ID,cacheItemRemove:null,entireTotalSum:null,editStore:{actived:{rowData:null,column:null},activedControl:!1,activedCell:null},priorityColumnMap:new Map,columns:[],flatColumns:[],columnStore:{centerColumns:[],leftFixedColumns:[],rightFixedColumns:[],pxColumns:[],percentColumns:[],noWidthColumns:[],pxMinColumns:[],percentMinColumns:[]},scrollStore:{showBottomShadow:!1,showLeftShadow:!1,showRightShadow:!1,showTopShadow:!1,scrollLeft:0,scrollTop:0,leftFixedWidth:0,rightFixedWidth:0,topFixedHeight:0,bottomScrollBar:!1,rightScrollBar:!1,clientHeight:0,clientWidth:0,renderTotalWidth:0},virtualStore:{renderPaddingTop:0,renderPaddingBottom:0,renderStartIndex:0,renderLength:9999,renderEndIndex:9999,rowSpanMap:[]},styleStore:{CX_TABLE_MIN_WIDTH:110,CX_TABLE_HEIGHT:40,CX_TABLE_SCROLL_BAR:8,CX_TABLE_PADDING:8,CX_VISUAL_CACHE:5}})},clipboard=ref(null),useCopy=function(e){return{copy:function(){return clipboard.value=clone(e.tableData),clipboard.value},paste:function(t){var n;if(Array.isArray(clipboard.value)){var o=t.omitProps,r=t.onPaste,i=clone(clipboard.value).map((function(e){return Array.isArray(o)?omit$1(o,e):e}));(n=e.tableData).push.apply(n,__spreadArray([],__read(isFunction(r)?r(i):i)))}}}},CxTableRendererMap=new Map,CxTableActiveControl=new Set,createCxTableContext=function(){return{contextScopeId:"defaultScope",messageInstance:{success:function(){},warning:function(){},info:function(){},error:function(){}},dynamicRequestInstance:null,dynamicInject:new Set,dynamicFormContext:{requestApiMap:{}},dynamicCacheContext:{requestApiMap:{},removeApiMap:{},cacheTypeTab:function(){return!1},requestInstance:{},cacheLabelConfig:[]},dynamicType:{DYNAMIC_MODULE_TYPE:{},DYNAMIC_BUSINESS_TYPE:{},DYNAMIC_MODEL_TYPE:{},DYNAMIC_PRICE_TYPE:{}},precision:{}}},context=createCxTableContext(),readOnlyContext=new Proxy(context,{get:function(e,t){return e[t]},set:function(){return!1}}),useCxTable=function(){var e=ref({}),t=ref({}),n=ref({});return{registCxTable:function(o){e.value=o.registerTarget,t.value=o.props,n.value=useCopy(o.props)},setPrecision:function(e){Object.assign(context.precision,e)},setCxTableScopeId:function(e){context.contextScopeId=e},setMessageInstance:function(e){context.messageInstance=e},setDynamicType:function(e){Object.keys(context.dynamicType).forEach((function(t){isObject$1(e[t])&&(context.dynamicType[t]=e[t])}))},setDynamicFormSearchApi:function(e,t){context.dynamicFormContext.requestApiMap[e]=t},setDynamicRequestInstance:function(e){context.dynamicRequestInstance=e},setDynamicCacheContext:function(e,t){context.dynamicCacheContext[e]=t},getContext:function(){return readOnlyContext},use:function(e){isFunction(e.dynamicInject)&&context.dynamicInject.add(e.dynamicInject)},instance:e,registCxRenderer:function(e){var t=null;isFunction(e.payload)?t=e.payload:e.payload&&(t=e.payload.render,e.payload.active&&CxTableActiveControl.add(e.type)),t&&CxTableRendererMap.set(e.type,t)},copyHandler:n}},EventBus=function(){function e(){this.eventDep={}}return e.prototype.on=function(e,t){var n;this.eventDep[e]?null===(n=this.eventDep[e])||void 0===n||n.push(t):this.eventDep[e]=[t]},e.prototype.emit=function(e){for(var t,n=[],o=1;o<arguments.length;o++)n[o-1]=arguments[o];this.eventDep[e]&&(null===(t=this.eventDep[e])||void 0===t||t.forEach((function(e){return e.apply(void 0,__spreadArray([],__read(n)))})))},e.prototype.off=function(e){this.eventDep[e]=null},e.prototype.clear=function(){this.eventDep={}},e}();function EventBusCreator(){return new EventBus}var eventBus=EventBusCreator(),colid=0,rowid=0,tid=0,rowIdMap=new WeakMap,colIdMap=new Map,useTableId=function(){var e=function(){return CX_TABLE_COLUMN_ID_PREPEND+rowid++},t=function(e,t){return rowIdMap.set(e,t),t};return{generateColId:function(e){var t=e.label+e.prop,n=colIdMap.get(t);return n||(n=CX_TABLE_COLUMN_ID_PREPEND+colid++,colIdMap.set(t,n)),n},generateRowId:e,generateTableId:function(){return CX_TABLE_ID_PREPEND+tid++},getRowIdFromMap:function(n){var o=rowIdMap.get(n);return o||(o=e(),t(n,o)),o},setRowIdToMap:t}},domShare={getEle:function(e,t){return e.querySelector(t)},getCell:function(e,t,n){return e.wrapperEle.querySelector(".cx-table_wrapper tr[rowid="+useTableId().getRowIdFromMap(n)+"] td[colid="+t._colid+"]")},getAncestor:function(e,t,n){void 0===t&&(t="TD"),void 0===n&&(n=5);for(var o=e;o&&n>0&&o.nodeName!==t;)o=o.parentElement,n--;return o},scrollTo:function(e,t){var n;null===(n=e.wrapperEle)||void 0===n||n.scrollTo({top:t})},scrollToTd:function(e,t,n,o,r){if(e&&t){var i=e.offsetLeft,a=e.offsetTop,l=e.clientWidth,c=e.clientHeight,u=t.scrollLeft,s=t.scrollTop,d=t.clientWidth,f=t.clientHeight;i<u+n&&(t.scrollLeft=i-n),i+l>u+d-o&&(t.scrollLeft=i+l-d+o),a<s&&(t.scrollTop=a),a+c>s+f-r&&(t.scrollTop=a-f+c+r)}}},useColumnValidity=function(e){var t=e.flatColumns,n=new Map;t.forEach((function(e){var t=e.label+e.prop;if(n.get(t))throw new Error("config中传递了重复的key: label=>"+e.label+",prop=>"+e.prop);n.set(t,1)}))},useRowDataValidity=function(e){var t=e.tableData,n=new Map;null==t||t.forEach((function(e){if(n.get(e))throw new Error("tableData中传递了重复的rowData引用:"+JSON.stringify(e));n.set(e,1)}))};function includeArr(e){return function(t){return e.some((function(e){return null==t?void 0:t.includes(e)}))}}function equal(e){return function(t){return t===e}}var CxTableWidthMap=new Map([["序号",{width:60,rule:equal("序号"),static:!0}],["金",{width:140,rule:equal("金Au (g)")}],["收藏",{width:100,rule:function(e){return null==e?void 0:e.includes("收藏")},static:!0}],["手寸",{width:80,rule:equal("手寸")}],["导入",{width:255,rule:equal("失败原因")}],["cc不给号",{width:250,rule:function(e){return["石号","证书号"].includes(e)}}],["名称",{width:180,rule:equal("名称")}],["款型",{width:80,rule:equal("款型")}],["刻字",{width:180,rule:equal("刻字")}],["计价方式",{width:200,rule:equal("计价方式")}],["下单",{width:180,rule:includeArr(["责任方","维修内容"])}],["石单价(元/ct或元/颗)",{width:180,rule:equal("石单价(元/ct或元/颗)"),important:!0}],["业务类型",{width:240,rule:equal("业务类型")}],["结料材质",{width:100,rule:equal("结料材质")}],["计量单位",{width:100,rule:equal("计量单位")}],["款型",{width:100,rule:equal("款型")}],["颜色",{width:130,rule:equal("颜色")}],["净度",{width:90,rule:equal("净度")}],["形状",{width:130,rule:equal("形状")}],["特殊工艺",{width:180,rule:equal("特殊工艺")}],["规格",{width:120,rule:equal("规格")}],["品名",{width:180,rule:equal("品名")}],["订单编号",{width:140,rule:equal("订单编号")}],["客来石编号",{width:180,rule:equal("客来石编号")}],["生产单号",{width:120,rule:function(e){return["生产单号","销售单号"].includes(e)}}],["选择",{width:60,rule:equal("选择"),static:!0}],["货号",{width:60,rule:equal("货号"),static:!0}],["空",{width:50,rule:equal("")}],["时间",{width:140,rule:includeArr(["时间","日期"])}],["姓名",{width:110,rule:includeArr(["提交人","审核人","客户名","工人"])}],["商户类",{width:240,rule:function(e){return(["采购单位","销售对象","结算对象","业务对象"].includes(e)||includeArr(["商户","供应商"])(e))&&!(null==e?void 0:e.includes("单号"))}}],["仓位",{width:100,rule:function(e){return["调入仓","调出仓"].includes(e)}}],["手输单号",{width:140,rule:function(e){return["关联业务单号","商户单号","关联订单"].includes(e)}}],["批号",{width:130,rule:function(e){return null==e?void 0:e.includes("批号")}}],["纯度",{width:100,rule:function(e){return null==e?void 0:e.includes("纯度")}}],["重量",{width:100,rule:includeArr(["重量","(g)","（ct）"])}],["金额",{width:120,rule:includeArr(["金额","元","价"])}],["数量",{width:80,rule:function(e){return includeArr(["数"])(e)||["已指派","已完成","当前未完成","未生产","分件","手镶","执模","抛光","维修抛光","微镶","抛镶口","维修执模"].includes(e)}}],["率",{width:120,rule:includeArr(["率","损耗"])}],["备注",{width:180,rule:function(e){return null==e?void 0:e.includes("备注")}}],["状态",{width:100,rule:function(e){return null==e?void 0:e.includes("状态")},static:!0}],["图片",{width:80,rule:function(e){return(null==e?void 0:e.includes("图"))&&"审图"!==e},static:!0}],["操作",{width:100,rule:equal("操作"),static:!0}],["默认",{width:120,rule:function(){return!0}}]]),contentWidthAdaptor=function(e,t){var n;return Math.max.apply(Math,__spreadArray([],__read(null===(n=t.tableData)||void 0===n?void 0:n.map((function(t){var n,o,r=t[e.prop],i=0,a=null===(n=null==e?void 0:e.control)||void 0===n?void 0:n.type;if(["备注"].includes(e.label)&&"input"===(null===(o=null==e?void 0:e.control)||void 0===o?void 0:o.type))return 1/0;if("input"===a)i=40;else if("select"===a||"search"===a)r=t[getColumnSelectText(e)],i=55;else{if(["nativeCheckbox","nativeRadio"].includes(a))return 60;if(["nativeDelete"].includes(a))return 60;if("inscription"===a)return 1/0;["status","tag"].includes(a)?r=getStatusAttrs(t,e).content:e.renderText&&(r=t[getColumnSelectText(e)])}e.accuracy&&(r=decimalFixed(r,e.accuracy,!0));var l=getStringWidth(null!=r?r:"");if(e.slot){var c=getStringWidth(t[getColumnSelectText(e)]),u=getStringWidth(t[getColumnSelectText(e,"Name")]);l=Math.max(l,c,u),["search","select"].includes(e.slotType)?l+=55:["input"].includes(e.slotType)&&(l+=40)}return l+i+16})))))},headWidthAdaptor=function(e){var t=e.label,n=e.required,o=e.icon,r=e.control,i=e.slot,a=e.headSlot,l=e.configWidth,c=e.configMinWidth,u=e.slotType,s=e.headTip,d=null==r?void 0:r.type;if(["nativeCheckbox","nativeRadio"].includes(d))return 60;if(["nativeDelete","expandSwitch"].includes(d))return 60;if((i||a)&&(l||c))return null!=l?l:c;var f=getStringWidth(t)+16+16*+!!n+20*+!!o;return(i||a)&&["search","select"].includes(u)?f+=55:["input"].includes(u)&&(f+=40),s&&(f+=20),f},widthMapAdaptor=function(e){var t=e.label,n=e.slot,o=e.headSlot,r=e.slotType,i=e.configWidth,a=e.configMinWidth,l=__spreadArray([],__read(CxTableWidthMap.values())).find((function(e){return e.rule(t)})),c=l.width,u=l.static;return(n||o)&&((i||a)&&(c=null!=i?i:a,u=!!i),["search","select"].includes(r)?c+=55:["input"].includes(r)&&(c+=40)),__assign(__assign({},l),{width:c,isMin:!u})},getColumnWidth=function(e,t,n){var o,r;!isString(t.label)&&cxTableWarn("invalid cxTable config => "+t.label+" label");var i=null!==(o=e.priorityColumnMap.get(t.prop))&&void 0!==o?o:{},a={isMin:!1,width:0};if(t.importantWidth){var l=+t.importantWidth;return isNaN(l)&&cxTableWarn("invalid cxTable config => "+t.prop+" importantWidth"),a.width=l||0,a.isMin=!!t.autoWidth,a}if(i.width){l=+i.width;isNaN(l)&&cxTableWarn("invalid cxTable config => "+t.prop+" priorityWidth"),a.width=l||0}var c=null!==(r=widthMapAdaptor(t))&&void 0!==r?r:{},u=c.width,s=c.isMin;if(n.widthAdaptor){if(!a.width){var d=contentWidthAdaptor(t,n),f=headWidthAdaptor(t);a.width=d<f?f:d>u?u:d}}else Reflect.set(a,"width",t.configWidth);return a.isMin=s,a},useAutoWidth=function(e){var t=e.wrapperEle;if(t){var n=e.columnStore,o=e.styleStore,r=n.pxColumns,i=n.pxMinColumns,a=n.percentColumns,l=n.percentMinColumns,c=n.noWidthColumns,u=t.clientWidth,s=u,d=u/100,f=0;r.forEach((function(e){var t=parseInt(e.width+"");f+=t,e.renderWidth=t})),i.forEach((function(e){var t=parseInt(e.minWidth+"");f+=t,e.renderWidth=t})),a.forEach((function(e){var t=Math.floor(parseInt(e.width+"")*d);f+=t,e.renderWidth=t})),l.forEach((function(e){var t=Math.floor(parseInt(e.minWidth+"")*d);f+=t,e.renderWidth=t})),c.forEach((function(e){var t=o.CX_TABLE_MIN_WIDTH;f+=t,e.renderWidth=t})),d=(s-=f)>0?Math.floor(s/(l.length+i.length+c.length)):0,s>0&&s>0&&l.concat(i).concat(c).forEach((function(e){f+=d,e.renderWidth+=d}));var p=l.concat(i).concat(c),m=p.length-1;if(m>0){var _=u-f;if(_>0){for(;_>0&&m>=0;)_--,p[m--].renderWidth++;f=u}}e.scrollStore.renderTotalWidth=f}},updateCxTableWidth=function(e,t,n){return __awaiter(void 0,void 0,void 0,(function(){var o,r,i,a,l,c,u,s,d,f,p;return __generator(this,(function(m){return o=null===(s=e.flatColumns)||void 0===s?void 0:s.find((function(e){return e.prop===n})),r=getParentColumn(e.columns,n),o||/.+Text/.test(n)&&(i=n.replace(/Text$/,"Id"),o=null===(d=e.flatColumns)||void 0===d?void 0:d.find((function(e){return e.prop===i}))),o||(o=null===(f=e.flatColumns)||void 0===f?void 0:f.find((function(e){var t;return(null===(t=e.control)||void 0===t?void 0:t.selectText)===n}))),o?(a=getColumnWidth(e,o,t),l=a.width,c=a.isMin,1===(null===(p=null==r?void 0:r.children)||void 0===p?void 0:p.length)&&(u=getColumnWidth(e,r,t).width,l=Math.max(u,l)),n===e.flatColumns[e.flatColumns.length-1].prop&&t.configurable&&(l+=40),Reflect.set(o,c?"minWidth":"width",l),Reflect.deleteProperty(o,c?"width":"minWidth"),[2]):[2]}))}))},CxBroadcast=function(){function e(){this.deps=new Map,this.entireDep=[]}return e.prototype.trigger=function(e,t,n){this.getDep(e,t).forEach((function(e){return isFunction(e)&&e(n)})),this.entireDep.forEach((function(e){return isFunction(e)&&e(n)}))},e.prototype.registEntireListener=function(e){!this.entireDep.includes(e)&&this.entireDep.push(e)},e.prototype.registListener=function(e,t,n){var o=this.getDep(e,t);!o.includes(n)&&o.push(n)},e.prototype.getDep=function(e,t){var n=[],o=this.deps.get(e);if(o){var r=o.get(t);r?n=r:o.set(t,n)}else(o=new WeakMap).set(t,n),this.deps.set(e,o);return n},e}(),useBroadcast=function(){return{broadcast:new CxBroadcast}},useBus=function(e,t,n){var o=new EventBus;return o.on("addNewRow",(function(o){if(!t.disabled){var r=e.flatColumns.reduce((function(e,t){return Reflect.set(e,t.prop,""),e}),{});n(o,r)}})),o.on("expandCheck",(function(e){n("expandCheck",e)})),o.on("tdFocus",(function(e){return n("tdFocus",e)})),o.on("deleteRow",(function(e){var n=t.tableData;null==n||n.splice(e,1)})),{bus:o}},useCSSVariable=function(e){return{cssVariable:computed((function(){return{"--padding":e.styleStore.CX_TABLE_PADDING,"--cellHeight":e.styleStore.CX_TABLE_HEIGHT,"--scrollWidth":e.styleStore.CX_TABLE_SCROLL_BAR}}))}},useCalcSpanMethod=function(e,t){var n,o,r,i=e.virtualStore,a=e.flatColumns,l=i.rowSpanMap;l.length=null!==(o=null===(n=t.tableData)||void 0===n?void 0:n.length)&&void 0!==o?o:0,l.fill(0),null===(r=t.tableData)||void 0===r||r.forEach((function(e,n){a.some((function(o){var r,i,a=null!==(i=null===(r=t.spanMethod)||void 0===r?void 0:r.call(t,{rowData:e,column:o,rowIndex:n}))&&void 0!==i?i:{};isArray(a)&&(a={rowspan:a[0],colspan:a[1]}),0===a.rowspan?l[n]|=CX_SPAN_METHOD_TYPE.MISSING:a.rowspan>1&&(l[n]|=CX_SPAN_METHOD_TYPE.EXTEND)}))}))};function assignStyle(e,t,n){Object.assign(e,isFunction(t)?t(n):t)}function useStyle(e,t){return function(n,o,r,i){var a={textAlign:"center"===e.align?"center":"left"};return"body"===o&&(t.cellStyle&&assignStyle(a,t.cellStyle,{column:e,rowData:r,rowIndex:i}),e.cellStyle&&assignStyle(a,e.cellStyle,{column:e,rowData:r,rowIndex:i})),"head"===o&&(t.headCellStyle&&assignStyle(a,t.headCellStyle,{column:e}),e.headCellStyle&&assignStyle(a,e.headCellStyle,{column:e})),isNumber(null==n?void 0:n.height)&&(a.height=formatWidth(null==n?void 0:n.height)),a}}function getColumnFlag(e){var t,n=0;return e.slot?n|=COLUMN_FLAG.SLOT_COLUMN:e.control?n|=COLUMN_FLAG.CONTROL_COLUMN:e.calculate?n|=COLUMN_FLAG.CALC_COLUMN:n|=COLUMN_FLAG.TEXT_COLUMN,e.fixed&&(n|=COLUMN_FLAG.FIX_COLUMN),(null===(t=e.children)||void 0===t?void 0:t.length)&&(n|=COLUMN_FLAG.ARRAY_CHILDREN),"add"===e.sum?n|=COLUMN_FLAG.ADD_SUM_COLUMN:isFunction(e.sum)?n|=COLUMN_FLAG.CUSTOM_SUM_COLUMN:"text"===e.sum&&(n|=COLUMN_FLAG.TEXT_SUM_COLUMN),(e.validator||e.required)&&(n|=COLUMN_FLAG.VALIDATE_COLUMN),n}function normalizeColumn(e,t,n,o,r){var i,a,l,c=null!==(i=t.priorityColumnMap.get(e.prop))&&void 0!==i?i:{},u=deepMerge(deepMerge({},e),c),s=__assign(__assign({},u),{configWidth:u.width,configMinWidth:u.minWidth,columnFlag:getColumnFlag(u),getStyle:useStyle(u,n),renderWidth:0,children:void 0,_colid:useTableId().generateColId(u)}),d=getColumnWidth(t,s,n),f=d.width,p=d.isMin;if(r&&o){var m=getColumnWidth(t,o,n).width;f=Math.max(m,f)}return Reflect.set(s,p?"minWidth":"width",f),Reflect.deleteProperty(s,p?"width":"minWidth"),s.children=null===(l=null===(a=u.children)||void 0===a?void 0:a.filter((function(e){return!e.hide})))||void 0===l?void 0:l.map((function(o){var r;return normalizeColumn(o,t,n,s,1===(null===(r=e.children)||void 0===r?void 0:r.length))})),s}function useColumn(e,t,n){var o=t.value.filter((function(e){return!e.hide})).map((function(t){return normalizeColumn(t,e,n)})),r=o.filter((function(e){return"left"===e.fixed}));e.columnStore.leftFixedColumns=r;var i=o.filter((function(e){return"right"===e.fixed}));e.columnStore.rightFixedColumns=i;var a=o.filter((function(e){return!e.fixed}));e.columnStore.centerColumns=arrFlat(a),e.columns=[].concat(e.columnStore.leftFixedColumns,a,e.columnStore.rightFixedColumns),e.flatColumns=arrFlat(e.columns),classifyColumn(e,e.flatColumns)}function classifyColumn(e,t){var n=t.filter((function(e){return!!isEmpty(e.minWidth)&&(isNumber(e.width)||isString(e.width)&&e.width.endsWith("px"))}));e.columnStore.pxColumns=n;var o=t.filter((function(e){return!!isEmpty(e.minWidth)&&(isString(e.width)&&e.width.endsWith("%"))}));e.columnStore.percentColumns=o;var r=t.filter((function(e){return isNumber(e.minWidth)||isString(e.minWidth)&&e.minWidth.endsWith("px")}));e.columnStore.pxMinColumns=r;var i=t.filter((function(e){return isString(e.minWidth)&&e.minWidth.endsWith("%")}));e.columnStore.percentMinColumns=i;var a=t.filter((function(e){return isEmpty(e.width)&&isEmpty(e.minWidth)}));e.columnStore.noWidthColumns=a}function useCxPagination(){return reactive({currentPage:1,pageCapacity:10,pageSizes:[10,20,50],total:0})}var useCxSort=function(e){var t=ref(""),n=ref(CX_SORT_STATUS.NONE),o=ref(!1);return{tableDataVisitor:new Proxy({},{get:function(o,r){return"sortedData"===r?e.tableData:"sortProp"===r?t.value:"sortStatus"===r?n.value:void 0},set:function(e,r,i){switch(r){case"sortProp":t.value=i;break;case"sort":o.value=i;case"sortStatus":n.value=i}return!0}})}},onInits$1=[],onOutputs$1=[],FormConfigAdaptor$1=function(){function e(e){this.__items={label:"",prop:"",closable:!0,register:[]};var t=onInits$1.reduce((function(e,t){return R.is(Function,t)?t(e):e}),R.clone(e));this.adaptor(t)}return e.use=function(e){var t=R.curry((function(e,t){return e.push(t)})),n=function(e,n){var o=map(R.ifElse(R.is(Function),t(e),R.identity));return R.compose(o,Maybe.of,R.prop(n))};n(onInits$1,"onInit")(e),n(onOutputs$1,"onOutput")(e)},e.prototype.getItems=function(){return onOutputs$1.reduce((function(e,t){return R.is(Function,t)?t(e):e}),R.clone(this.__items))},e.of=function(t){return new e(t).getItems()},e.prototype.adaptor=function(e){var t,n,o,r=this;["label","prop"].forEach((function(t){return unsafeSet(r.__items,t,e[t])}));var i=R.prop("searchStates",e);Maybe.of(i.dynamicSearchOptions).map(unsafeSet(i,"searchOptions"));var a={};Reflect.set(this.__items,null!==(t=i.searchType)&&void 0!==t?t:"input",a),R.equals("input",i.searchType)&&unsafeSet(a,"searchIcon",!1);var l=R.curryN(2,R.compose(R.prepend({name:"全部",id:-1}),calcInnerOptions))(null!==(n=i.searchOptions)&&void 0!==n?n:[]);Array.isArray(i.searchOptions)?Reflect.set(a,"options",l(i.searchOptions)):isObject$1(i.searchOptions)&&Reflect.set(a,"options",R.compose(l,R.prop("form")));var c=getOptionsDeps(null!==(o=i.searchOptions)&&void 0!==o?o:[]),u=unsafeDeleteProperty(R.__,this.__items.prop);this.__items.register=c.map(R.compose(unsafeSet(R.__,"cb",u),R.objOf("dep")))},e}();function formatBarcode(e){var t=e;return t.length>=12&&(t=Number(t.substr(0,t.length-1)),!isNaN(t))?t.toString():e}var dataInitPlugin={onOutput:function(e){return"生产单号"===e.label&&(e.onChange=function(e){var t=e.prop,n=e.form;n[t]=formatBarcode(n[t])}),e}};FormConfigAdaptor$1.use(dataInitPlugin);var FormConfigAdaptor=FormConfigAdaptor$1,useCxTableCompose=function(){var e=R.compose(R.filter(R.compose(R.is(Object),unsafeGet(R.__,"searchStates"))),arrFlat),t=R.compose(R.map(FormConfigAdaptor.of),e),n=R.compose(R.zipObj(["id","name"]),R.props(["prop","label"])),o=R.compose(R.map(n),e),r=R.anyPass([R.isNil,R.equals(-1),R.equals(""),R.ifElse(R.is(Array),R.compose(R.equals(0),R.length),R.F)]),i=R.allPass([R.prop("formTeleport")]),a=R.ifElse(Array.isArray,R.compose(R.zipObj(["val1","val2"]),R.props(["0","1"])),R.objOf("value")),l=R.compose(R.gt(R.__,0),R.length),c=R.gte(R.__,0),u=R.compose(R.toPairs,R.omit(["config","api","requestInstance"])),s=splat(R.equals),d=R.prop("searchStates"),f=R.compose(R.prop("searchDefault"),d),p=R.ifElse(R.compose(truthy,f),R.compose(Maybe.of,R.converge(formatFormDefaultValue,[f,R.compose(R.prop("searchType"),d)])),Maybe.none),m=R.compose(R.join(""),R.prepend("("),R.append(")"),R.of),_=R.curryN(2,unsafeWhenDevCall((function(e,t){e.length>1&&cxTableWarn("matched "+R.length(e)+" rule ",e,"  by config ",changeDynamicIdToText(t),"")})));return{arrNotEmpty:R.compose(truthy,R.length),multiRuleWarn:_,getConfigByDynamicConfig:function(e,t){return Maybe.run(function(){var n,o,r;return __generator(this,(function(i){switch(i.label){case 0:return[4,Maybe.of(t)];case 1:return n=i.sent(),o=R.compose(s,R.adjust(0,R.prop(R.__,e))),r=R.compose(R.all(o),u),[2,R.compose(R.head,R.tap(_(R.__,e)),R.filter(r))(n)]}}))}())},innerBracket:m,getAllSearchableColumn:e,getTargetColumnDefault:p,getDynamicKeyPair:u,getSearchableFormConfig:t,column2NameWithId:n,isEmptyValue:r,isPositive:c,splatEq:s,arrayIsNotEmpty:l,formValueFormat:a,getOptionListFromColumn:o,getCurrentFormConfig:function(e,n){var o=t(e);return R.compose(R.append({label:"",prop:"add",custom:{slot:"add"}}),R.reduce((function(e,t){return R.compose(R.ifElse(R.isNil,R.always(e),R.flip(R.append)(e)),R.find(R.propEq("prop",t)))(o)}),[]))(n)},isRenderInTeleport:i,getParamsItems:function(e,t){return e&&t?t.reduce((function(t,n){return Maybe.of(e[n]).map(R.ifElse(R.compose(R.not,r),R.compose(unsafePush(R.__,t),R.of,R.mergeRight(R.objOf("prop",R.replace(/Text|Name$/,"Id",n))),a),R.always(t))).getWithDefault(t)}),[]):[]}}},session=new CxLocalStore("session");session.use(storeFilter);var sessionStore=session,local=new CxLocalStore("local");local.use(storeFilter);var localStore=local,freeGlobal="object"==typeof global&&global&&global.Object===Object&&global,freeSelf="object"==typeof self&&self&&self.Object===Object&&self,root=freeGlobal||freeSelf||Function("return this")(),Symbol$1=root.Symbol,objectProto$1=Object.prototype,hasOwnProperty=objectProto$1.hasOwnProperty,nativeObjectToString$1=objectProto$1.toString,symToStringTag$1=Symbol$1?Symbol$1.toStringTag:void 0;function getRawTag(e){var t=hasOwnProperty.call(e,symToStringTag$1),n=e[symToStringTag$1];try{e[symToStringTag$1]=void 0;var o=!0}catch(e){}var r=nativeObjectToString$1.call(e);return o&&(t?e[symToStringTag$1]=n:delete e[symToStringTag$1]),r}var objectProto=Object.prototype,nativeObjectToString=objectProto.toString;function objectToString(e){return nativeObjectToString.call(e)}var nullTag="[object Null]",undefinedTag="[object Undefined]",symToStringTag=Symbol$1?Symbol$1.toStringTag:void 0;function baseGetTag(e){return null==e?void 0===e?undefinedTag:nullTag:symToStringTag&&symToStringTag in Object(e)?getRawTag(e):objectToString(e)}function isObjectLike(e){return null!=e&&"object"==typeof e}var symbolTag="[object Symbol]";function isSymbol(e){return"symbol"==typeof e||isObjectLike(e)&&baseGetTag(e)==symbolTag}var reWhitespace=/\s/;function trimmedEndIndex(e){for(var t=e.length;t--&&reWhitespace.test(e.charAt(t)););return t}var reTrimStart=/^\s+/;function baseTrim(e){return e?e.slice(0,trimmedEndIndex(e)+1).replace(reTrimStart,""):e}function isObject(e){var t=typeof e;return null!=e&&("object"==t||"function"==t)}var NAN=NaN,reIsBadHex=/^[-+]0x[0-9a-f]+$/i,reIsBinary=/^0b[01]+$/i,reIsOctal=/^0o[0-7]+$/i,freeParseInt=parseInt;function toNumber(e){if("number"==typeof e)return e;if(isSymbol(e))return NAN;if(isObject(e)){var t="function"==typeof e.valueOf?e.valueOf():e;e=isObject(t)?t+"":t}if("string"!=typeof e)return 0===e?e:+e;e=baseTrim(e);var n=reIsBinary.test(e);return n||reIsOctal.test(e)?freeParseInt(e.slice(2),n?2:8):reIsBadHex.test(e)?NAN:+e}var now=function(){return root.Date.now()},FUNC_ERROR_TEXT$1="Expected a function",nativeMax=Math.max,nativeMin=Math.min;function debounce(e,t,n){var o,r,i,a,l,c,u=0,s=!1,d=!1,f=!0;if("function"!=typeof e)throw new TypeError(FUNC_ERROR_TEXT$1);function p(t){var n=o,i=r;return o=r=void 0,u=t,a=e.apply(i,n)}function m(e){return u=e,l=setTimeout(v,t),s?p(e):a}function _(e){var n=e-c;return void 0===c||n>=t||n<0||d&&e-u>=i}function v(){var e=now();if(_(e))return h(e);l=setTimeout(v,function(e){var n=t-(e-c);return d?nativeMin(n,i-(e-u)):n}(e))}function h(e){return l=void 0,f&&o?p(e):(o=r=void 0,a)}function g(){var e=now(),n=_(e);if(o=arguments,r=this,c=e,n){if(void 0===l)return m(c);if(d)return clearTimeout(l),l=setTimeout(v,t),p(c)}return void 0===l&&(l=setTimeout(v,t)),a}return t=toNumber(t)||0,isObject(n)&&(s=!!n.leading,i=(d="maxWait"in n)?nativeMax(toNumber(n.maxWait)||0,t):i,f="trailing"in n?!!n.trailing:f),g.cancel=function(){void 0!==l&&clearTimeout(l),u=0,o=c=r=l=void 0},g.flush=function(){return void 0===l?a:h(now())},g}var FUNC_ERROR_TEXT="Expected a function";function throttle(e,t,n){var o=!0,r=!0;if("function"!=typeof e)throw new TypeError(FUNC_ERROR_TEXT);return isObject(n)&&(o="leading"in n?!!n.leading:o,r="trailing"in n?!!n.trailing:r),debounce(e,t,{leading:o,maxWait:t,trailing:r})}var cacheMap={},resolveColumns=function(e,t){return __spreadArray(__spreadArray([],__read(useCxTable().getContext().dynamicInject)),[t.dynamicInject]).reduce((function(e,t){return isFunction(t)?t(e):e}),e)},getCxDynamicHead=function(e){return __awaiter(void 0,void 0,void 0,(function(){return __generator(this,(function(t){return"/header/dynamic",[2,new Promise((function(t,n){var o,r,i=JSON.stringify(e),a=sessionStore.get(i,CX_TABLE_DYNAMIC_CACHE);if(a===CX_TABLE_CACHE_PENDING)new Promise((function(e){!cacheMap[i]&&Reflect.set(cacheMap,i,[]),cacheMap[i].push(e)})).then(t).catch(n);else if(a)t({data:a,state:200,message:""});else{if(sessionStore.set(i,CX_TABLE_CACHE_PENDING,CX_TABLE_THROTTLE_DURATION,CX_TABLE_DYNAMIC_CACHE),CX_TABLE_DYNAMIC_PROPS.findIndex((function(t){if(!isNumber(Reflect.get(e,t)))return cxTableWarn("dynamic参数传递错误:"+t+" is not a number"),!0}))>=0)return n();null===(r=null===(o=useCxTable())||void 0===o?void 0:o.getContext())||void 0===r||r.dynamicRequestInstance.get("/header/dynamic",__assign(__assign({},e),{random:Math.random()})).then(t).catch(n)}}))]}))}))},useDynamicConfig=function(e,t){var n=ref([]),o=ref([]),r=ref(!1),i=debounce((function(i){if(void 0===i&&(i=!1),isObject$1(e.dynamic)){r.value=!0;var a=JSON.stringify(e.dynamic);getCxDynamicHead(e.dynamic).then((function(r){var l=r.data;return __awaiter(void 0,void 0,void 0,(function(){var r;return __generator(this,(function(c){switch(c.label){case 0:return Array.isArray(l)&&(r=R.clone(l),o.value=r,sessionStore.set(a,l,CX_TABLE_THROTTLE_DURATION,CX_TABLE_DYNAMIC_CACHE),l=l.map(CxConfigAdaptor.of),l=resolveColumns(l,e),n.value=l,Array.isArray(cacheMap[a])&&(cacheMap[a].forEach((function(e){e({data:r,state:200,message:""})})),Reflect.deleteProperty(cacheMap,a))),[4,nextTick()];case 1:return c.sent(),i&&t("dynamicUpdate"),[2]}}))}))})).finally((function(){r.value=!1;var e=sessionStore.get(a,CX_TABLE_DYNAMIC_CACHE);e===CX_TABLE_CACHE_PENDING&&sessionStore.remove(a,CX_TABLE_DYNAMIC_CACHE),Array.isArray(cacheMap[a])&&cacheMap[a].forEach((function(t){t({data:R.clone(e),state:200,message:""})})),Reflect.deleteProperty(cacheMap,a)}))}else n.value=resolveColumns(R.clone(e.tableConfig.items),e)}),300);return isObject$1(e.dynamic)?watch((function(){return e.dynamic}),R.converge(i,[R.T]),{deep:!0,immediate:!0}):watch((function(){return e.tableConfig.items}),R.converge(i,[R.F]),{deep:!0,immediate:!0}),{columnProxy:n,loading:r,forceUpdate:i,dynamicColumn:o}},useExpandConfig=function(){var e=reactive([]);return{expandConfig:e,clearExpand:function(){e.splice(0)},setExpand:function(t,n){Reflect.set(e,t,n)}}},useLazyLoad=function(e,t){IntersectionObserver||(t.value=!0),new IntersectionObserver((function(e){return __awaiter(void 0,void 0,void 0,(function(){var n;return __generator(this,(function(o){switch(o.label){case 0:return t.value?[2]:[4,nextTick()];case 1:return o.sent(),t.value=Reflect.get(null!==(n=null==e?void 0:e[0])&&void 0!==n?n:{isIntersecting:!0},"isIntersecting"),[2]}}))}))})).observe(e)},usePriorityConfig=function(e){var t=e.priorityColumnMap,n=[];return{setConfig:function(e,o){var r;if(!o||!isObject$1(o))throw new TypeError("config must be a object");var i=null!==(r=t.get(e))&&void 0!==r?r:{};deepMerge(i,o),t.set(e,i),n.forEach((function(e){return e()}))},removeConfig:function(e){t.delete(e)},clearConfig:function(){t.clear()},onSetConfig:n}},useRadioConfig=function(e){var t=ref(-1);watch((function(){return t.value}),(function(t){e("radioChange",t)}));return{radioValue:t,removeRadio:function(){t.value=-1},setRadio:function(e){t.value=e},getRadio:function(){return t.value}}},registResponsive=function(e,t){onMounted((function(){i?i.observe(document,{attributes:!0,subtree:!0,childList:!0,characterData:!0}):window.addEventListener("resize",o)})),onBeforeUnmount((function(){i?i.disconnect():window.removeEventListener("resize",o)}));var n="0",o=debounce((function(){return __awaiter(void 0,void 0,void 0,(function(){var o;return __generator(this,(function(r){switch(r.label){case 0:return[4,nextTick()];case 1:return r.sent(),e.value?((o=getComputedStyle(e.value).getPropertyValue("width"))===n||(n=o,t.forEach((function(e){return e()}))),[2]):[2]}}))}))}),100),r=window.MutationObserver,i=null;void 0!==typeof r&&(i=new r(o))},scrollUpdateVisualScroll=function(e,t){if(t.virtualScroll){var n=e.wrapperEle;if(!n)return;var o=e.virtualStore,r=e.styleStore,i=n.scrollTop,a=n.clientHeight,l=r.CX_TABLE_HEIGHT,c=r.CX_VISUAL_CACHE,u=+!!t.showTotalSum,s=t.tableData.length+u,d=Math.max(0,Math.floor(i/l)-c),f=0;if(t.spanMethod)for(;d>0&&o.rowSpanMap[d]&CX_SPAN_METHOD_TYPE.MISSING;)f++,d--;var p=Math.ceil(a/l)+2*c+f;if(t.spanMethod)for(o.rowSpanMap[d+p]&CX_SPAN_METHOD_TYPE.EXTEND&&d+p<s&&p++;d+p<s&&o.rowSpanMap[d+p]&CX_SPAN_METHOD_TYPE.MISSING;)p++;o.renderLength=p,o.renderStartIndex=d,o.renderEndIndex=Math.min(s,d+p),o.renderPaddingTop=d*l,o.renderPaddingBottom=(s-o.renderEndIndex)*l}},scrollUpdateShadow=function(e){var t=e.wrapperEle,n=e.scrollStore;if(t){var o=t.scrollLeft,r=t.scrollWidth,i=t.scrollHeight,a=t.scrollTop,l=t.clientWidth,c=t.clientHeight;n.scrollLeft=o,n.scrollTop=a,n.showLeftShadow=0!==o,n.showTopShadow=0!==a,n.showRightShadow=r-l-o>=1,n.showBottomShadow=i-c-a>=1}},wrapperScrollEventHandle=function(e,t){var n=throttle(scrollUpdateVisualScroll,100,{leading:!0,trailing:!0});throttle(scrollUpdateShadow,20,{leading:!0,trailing:!0})(e),n(e,t)},registScrollEvent=function(e,t){onMounted((function(){var n=e.wrapperEle;n&&(n.onscroll=function(){return wrapperScrollEventHandle(e,t)},setTimeout((function(){return wrapperScrollEventHandle(e,t)})))}))},registCellEvent=function(e,t){return{onClick:function(n){var o,r,i,a,l=n.currentTarget,c=n.target;if("INPUT"===c.nodeName)return!0;if(c.classList.contains("el-checkbox__inner"))return!0;var u=e.editStore,s=e.scrollStore,d=e.wrapperEle,f=e.columnStore,p=u.actived,m=f.centerColumns;p.column=t.column,p.rowData=t.rowData,u.activedCell=l,u.activedControl=null;var _=l;"left"===(null===(o=t.column)||void 0===o?void 0:o.fixed)?_=null!==(r=domShare.getCell(e,m[0],p.rowData))&&void 0!==r?r:l:"right"===(null===(i=t.column)||void 0===i?void 0:i.fixed)&&(_=null!==(a=domShare.getCell(e,m[m.length-1],p.rowData))&&void 0!==a?a:l),domShare.scrollToTd(_,d,s.leftFixedWidth,s.rightFixedWidth,s.topFixedHeight)}}},registMouseEvent=function(e){onMounted((function(){var t=e.wrapperEle;t&&(t.onmousemove=throttle((function(t){var n=domShare.getAncestor(t.target,"TR");if(n){var o=n.getAttribute("rowid");e.hoveringRowid!==o&&(e.hoveringRowid=o||CX_TABLE_NOT_HOVER_ID)}}),100,{leading:!0,trailing:!0}),t.onmouseleave=function(){e.hoveringRowid=CX_TABLE_NOT_HOVER_ID})}))},registKeyboardEvent=function(e,t,n,o,r){var i=!1,a=e.editStore,l=e.scrollStore,c=function(t){var n,o,r,i,c=e.columnStore.centerColumns,u=a.actived,s=domShare.getCell,d=domShare.scrollToTd,f=s(e,u.column,u.rowData)||t;a.activedCell=f;var p=f;"left"===(null===(n=u.column)||void 0===n?void 0:n.fixed)?p=null!==(o=s(e,c[0],u.rowData))&&void 0!==o?o:f:"right"===(null===(r=u.column)||void 0===r?void 0:r.fixed)&&(p=null!==(i=s(e,c[c.length-1],u.rowData))&&void 0!==i?i:f),d(p,e.wrapperEle,l.leftFixedWidth,l.rightFixedWidth,l.topFixedHeight)},u=function(){return __awaiter(void 0,void 0,void 0,(function(){return __generator(this,(function(e){switch(e.label){case 0:return[4,new Promise((function(e){return setTimeout((function(){return e("")}))}))];case 1:return e.sent(),_({key:" ",preventDefault:function(){return{}}}),[2]}}))}))},s=function(e){return"LI"===(null==e?void 0:e.nodeName)&&e.classList.contains("el-select-dropdown__item")},d=function(e){return __awaiter(void 0,void 0,void 0,(function(){var t,n,o,l;return __generator(this,(function(c){switch(c.label){case 0:return[4,new Promise((function(e){return setTimeout((function(){return e("")}))}))];case 1:if(c.sent(),t=e.target,n=null==t?void 0:t.parentElement,s(t)||s(n))return[2];for(;t=null!==(l=null==t?void 0:t.parentElement)&&void 0!==l?l:null;){if((o=null==t?void 0:t.getAttribute("tid"))&&o!==r){i=!1;break}if(i=o===r)break}return i||(a.actived.column=null,a.actived.rowData=null,a.activedCell=null,a.activedControl=null),[2]}}))}))},f=function(e,t){var n,o;if(e.focus(),"checkbox"===e.type){var r=e.parentNode;(null===(n=null==r?void 0:r.classList)||void 0===n?void 0:n.contains("is-checked"))&&(null===(o=r.click)||void 0===o||o.call(r))}else e.click();!function(e,t){e.addEventListener("keydown",(function(e){"Escape"===e.key&&e.target&&(a.activedControl=null,a.activedCell=null!=t?t:null)}))}(e,t)},p=function(){var t,n,o;return!CxTableActiveControl.has(null===(n=null===(t=e.editStore.actived.column)||void 0===t?void 0:t.control)||void 0===n?void 0:n.type)&&!(null===(o=e.editStore.actived.column)||void 0===o?void 0:o.slot)},m=throttle((function(r){return __awaiter(void 0,void 0,void 0,(function(){var l,u,s,d,m,_,v,h,g,C,y,R,b,T,w;return __generator(this,(function(x){switch(x.label){case 0:return i?(l=a.actived,(u=a.activedCell)?(s=e.flatColumns,d=r.key,m=r.ctrlKey,v="TD"===(_=u).nodeName,h="INPUT"===_.nodeName,"Tab"!==d?[3,2]:(l.rowData===n.sortedData[n.sortedData.length-1]&&o.emit("addNewRow","addNewRow"),[4,nextTick()])):[2]):[2];case 1:return x.sent(),a.activedControl=null,l.rowData=getPreOrNextItem(n.sortedData,l.rowData,"next"),c(_),[2];case 2:if(v){if(m)return"c"===d&&((g=document.createRange()).selectNodeContents(u),null==(C=window.getSelection())||C.removeAllRanges(),null==C||C.addRange(g),document.execCommand("copy")),[2];if("Delete"===d){if(t.disabled)return[2];if(y=l.column,R=l.rowData,!y||!R)return[2];if(b=y.prop,!(null==(T=y.control)?void 0:T.type))return[2];["search","select"].includes(null==T?void 0:T.type)&&(Reflect.set(R,b,""),T.selectText?Reflect.set(R,T.selectText,""):Reflect.set(R,getColumnSelectText(y),"")),["input","numberInput"].includes(null==T?void 0:T.type)&&Reflect.set(R,b,"")}else if(d===ARROW_KEY.L)a.activedControl=null,l.column=getPreOrNextItem(s,l.column,"pre","_colid"),c(_);else if(d===ARROW_KEY.R)a.activedControl=null,l.column=getPreOrNextItem(s,l.column,"next","_colid"),c(_);else if(d===ARROW_KEY.U)a.activedControl=null,l.rowData=getPreOrNextItem(n.sortedData,l.rowData,"pre"),c(_);else if(d===ARROW_KEY.D)a.activedControl=null,l.rowData=getPreOrNextItem(n.sortedData,l.rowData,"next"),c(_);else if((" "===d||/[0-9A-Za-z]/.test(d))&&!["Escape","Enter"].includes(d)){if(p())return[2];a.activedControl=!0,setTimeout((function(){var e=domShare.getEle(_,"input");e?(a.activedControl=e,a.activedCell=e,e.select(),f(e,_)):a.activedControl=null}))}}else h&&"Escape"===d&&(a.activedControl=null,(w=e.editStore.actived).column&&w.rowData&&(a.activedCell=domShare.getCell(e,w.column,w.rowData)));return"Enter"===d&&requestAnimationFrame((function(){return __awaiter(void 0,void 0,void 0,(function(){var e,t;return __generator(this,(function(o){switch(o.label){case 0:if((e=getPreOrNextItem(s,l.column,"next","_colid"))===l.column){if((t=getPreOrNextItem(n.sortedData,l.rowData,"next"))===l.rowData)return[2];l.rowData=t,l.column=s[0]}else l.column=e;return c(_),p()?[2,a.activedControl=!1]:(a.activedControl=!0,[4,nextTick()]);case 1:return o.sent(),setTimeout((function(){if(a.activedCell){var e=domShare.getEle(a.activedCell,"input");if(e){var t=a.activedCell;a.activedControl=e,a.activedCell=e,f(e,t)}else a.activedControl=!1}})),[2]}}))}))})),[2]}}))}))}),50,{trailing:!0,leading:!0}),_=function(e){var t,n=e.key,o=a.activedCell,r="TD"===(null==o?void 0:o.nodeName);i&&("Tab"===n||"Enter"===n||" "===n&&"INPUT"!==Reflect.get(null!==(t=e.target)&&void 0!==t?t:{},"nodeName"))&&e.preventDefault(),r&&Object.values(ARROW_KEY).includes(n)&&e.preventDefault(),m(e)};document.addEventListener("keydown",_,!0),document.addEventListener("click",d,!0),document.addEventListener("click",u,!0),onUnmounted((function(){document.removeEventListener("keydown",_,!0),document.removeEventListener("click",d,!0),document.removeEventListener("click",u,!0)}))},onSelectItemChange=function(e){0===e.selectItem.length?(e.actualAll=e.selectAll=!1,e.indeterminate=!1):e.selectItem.every((function(e){return e}))?(e.actualAll=e.selectAll=!0,e.indeterminate=!1):(e.actualAll=e.selectAll=!1,e.indeterminate=e.selectItem.some((function(e){return e})))},useScrollState=function(e){var t=e.wrapperEle,n=e.scrollStore;t&&setTimeout((function(){var e=t.clientHeight,o=t.scrollHeight,r=t.clientWidth,i=t.scrollWidth;n.clientHeight=e,n.clientWidth=r,n.rightScrollBar=e<o,n.bottomScrollBar=r<i}))},useRegister=function(e,t,n,o,r,i){registMouseEvent(e),registScrollEvent(e,t),t.keyboard&&registKeyboardEvent(e,t,n,r,i),registResponsive(o,[function(){return __awaiter(void 0,void 0,void 0,(function(){return __generator(this,(function(n){switch(n.label){case 0:return[4,nextTick()];case 1:return n.sent(),useAutoWidth(e),[4,nextTick()];case 2:return n.sent(),wrapperScrollEventHandle(e,t),[4,nextTick()];case 3:return n.sent(),useScrollState(e),[2]}}))}))}])},useSelectConfig=function(e,t){var n=reactive({selectAll:!1,actualAll:!1,indeterminate:!1,selectItem:[],disabled:!1,checkSelect:void 0,disabledItem:[]});watch((function(){return e.sortedData.length}),(function(){return __awaiter(void 0,void 0,void 0,(function(){var t,o;return __generator(this,(function(r){switch(r.label){case 0:return n.selectItem.length=e.sortedData.length,n.actualAll=!1,null===(t=e.sortedData)||void 0===t||t.forEach((function(e,t){n.selectItem[t]=!!n.selectItem[t]})),[4,nextTick()];case 1:return r.sent(),n.disabledItem.length=0,null===(o=e.sortedData)||void 0===o||o.forEach((function(e){var t;n.disabledItem.push(isFunction(n.checkSelect)&&!!(null===(t=n.checkSelect)||void 0===t?void 0:t.call(n,e)))})),[2]}}))}))}),{immediate:!0});var o=function(){n.selectAll=n.selectItem.every((function(e){return e})),n.indeterminate=!n.selectAll&&n.selectItem.some((function(e){return e}))},r=function(){var o=[],r=[];n.selectItem.forEach((function(t,n){e.sortedData[n]&&(t?o:r).push({index:n,row:e.sortedData[n]})})),onSelectItemChange(n),t("selectChange",{checkedList:o,unCheckList:r})};watch((function(){return n.selectItem}),r,{deep:!0,immediate:!1});var i=function(e){e&&!n.actualAll?n.actualAll=!0:n.actualAll&&e?n.actualAll=e=!1:e||(n.actualAll=!1);var t=__spreadArray([],__read(n.selectItem));n.selectItem=n.disabledItem.map((function(n,o){return n?t[o]:e})),o()};return{selectConfig:n,setCheckSelect:function(e){n.checkSelect=e},updateSelectConfig:r,clearSelection:function(){i(!1)},setSelectDisabled:function(e){n.disabled=e},toggleRowSelection:function(e,t){var r=n.disabledItem;n.actualAll=!n.selectItem.some((function(e,t){return!r[t]&&e})),n.selectItem[e]=null!=t?t:!n.selectItem[e],o()},toggleAllSelection:i,getSelectValue:function(){return n.selectItem},getSelectAllValue:function(){return n.selectAll}}},useTableClass=function(e,t){return computed((function(){var n=[];if(e.fixed){var o=t.scrollStore,r=o.showLeftShadow,i=o.showRightShadow,a=o.showTopShadow,l=o.showBottomShadow;n.push("cx-table_fixed_"+e.fixed),r&&"left"===e.fixed?n.push("cx-table_left_shadow"):i&&"right"===e.fixed?n.push("cx-table_right_shadow"):a&&"top"===e.fixed?n.push("cx-table_top_shadow"):l&&"bottom"===e.fixed&&n.push("cx-table_bottom_shadow")}return n}))},useTableStyle=function(e,t,n){var o=t.scrollStore,r=t.styleStore,i=t.columnStore,a=r.CX_TABLE_SCROLL_BAR,l=r.CX_TABLE_HEIGHT;return computed("head"===n?function(){var t={};return e.fixed&&(t.height=o.topFixedHeight+"px","top"===e.fixed&&(t.top=0,t.left=-o.scrollLeft+"px",t.width=o.clientWidth+"px"),"left"===e.fixed&&(t.left=0),"right"===e.fixed&&(t.right=o.rightScrollBar?a+"px":0)),t}:"body"===n?function(){var t={};if(e.fixed){if("left"===e.fixed){var n=o.topFixedHeight,r=o.bottomScrollBar,i=o.clientHeight;t.left=0,t.top=e.onlyTotal?0:n+"px",e.onlyTotal?t.height=l+"px":t.height=r?i-n+"px":0}if("right"===e.fixed){n=o.topFixedHeight;var c=o.rightScrollBar;r=o.bottomScrollBar,i=o.clientHeight;t.right=c&&!e.onlyTotal?a+"px":0,t.top=e.onlyTotal?0:n+"px",e.onlyTotal?t.height=l+"px":t.height=r?i-n+"px":0}if("bottom"===e.fixed){r=o.bottomScrollBar;t.left=0,t.bottom=r?a+"px":0,t.width=o.clientWidth+"px",t.height=l+"px",t.left=-o.scrollLeft+"px"}}return t}:function(){var n={},r=invokeLayeredRow(t.columns).length*l;if(o.topFixedHeight=r,"left"===e.fixed){var a=getSums(i.leftFixedColumns);n.width=a+"px",o.leftFixedWidth=a}else if("right"===e.fixed){a=getSums(i.rightFixedColumns);n.width=a+"px",o.rightFixedWidth=a}else"top"===e.fixed?n.height=r+"px":"bottom"===e.fixed&&(n.height=l+"px");return n})},useValidator=function(e,t){return{validate:function(n,o){var r=[],i=isString(null==n?void 0:n.prop),a=isNumber(null==n?void 0:n.rowIndex);return e.flatColumns.forEach((function(e,l){if(!i||(null==n?void 0:n.prop)===e.prop){(isFunction(e.validator)||e.required)&&(isArray(o)?o:t.tableData).forEach((function(t,o){a&&(null==n?void 0:n.rowIndex)!==o||function(e,t,n){var o,i,a="";!(a=null!==(i=null===(o=n.validator)||void 0===o?void 0:o.call(n,{rowData:e,column:n,value:e[n.prop],rowIndex:t}))&&void 0!==i?i:"")&&n.required&&isEmpty(e[n.prop])&&(a=n.label+"不能为空"),a&&r.push({rowIndex:t,rowData:e,colIndex:l,errMsg:a,column:n})}(t,o,e)}))}})),r.length&&setTimeout((function(){var t=r[0],n=t.column,o=t.rowData,i=domShare.getCell(e,n,o);null==i||i.click()})),r}}},useWatch=function(e,t,n,o,r,i){var a=function(){return __awaiter(void 0,void 0,void 0,(function(){return __generator(this,(function(n){switch(n.label){case 0:return[4,nextTick()];case 1:return n.sent(),useScrollState(t),wrapperScrollEventHandle(t,e),[2]}}))}))};watch((function(){return i.value}),a);var l=debounce((function(){return __awaiter(void 0,void 0,void 0,(function(){return __generator(this,(function(n){switch(n.label){case 0:return e.spanMethod&&e.virtualScroll&&useCalcSpanMethod(t,e),t.flatColumns.forEach((function(n){updateCxTableWidth(t,e,n.prop)})),useAutoWidth(t),[4,nextTick()];case 1:return n.sent(),scrollUpdateShadow(t),o.value&&(wrapperScrollEventHandle(t,e),useScrollState(t)),[2]}}))}))}),50),c=function(){return __awaiter(void 0,void 0,void 0,(function(){return __generator(this,(function(o){return useColumn(t,n,e),useColumnValidity(t),l(),[2]}))}))};watch(n,c,{immediate:!0,deep:!0});var u=function(){return __awaiter(void 0,void 0,void 0,(function(){return __generator(this,(function(t){return useRowDataValidity(e),l(),[2]}))}))};watch([function(){return e.tableData.length},function(){return e.emptyLimit}],u),watch((function(){return e.tableData}),l,{deep:!0});var s=function(){return __awaiter(void 0,void 0,void 0,(function(){return __generator(this,(function(e){return setTimeout((function(){useScrollState(t)})),[2]}))}))};watch((function(){return r}),s,{deep:!0,immediate:!0});var d=function(){var n;Object.entries(null!==(n=e.styleSetting)&&void 0!==n?n:{}).forEach((function(e){var n=__read(e,2),o=n[0],r=n[1],i=Reflect.get(CX_STYLE_SETTING,o);i&&isNumber(r)&&Reflect.set(t.styleStore,i,r)}))};return watch((function(){return e.styleSetting}),d,{immediate:!0,deep:!0}),{updateVisible:a,updateColumn:c,updateData:u,updateExpand:s,updateTableState:l,updateStyleSetting:d}},staticConfigList=["label","prop","slot","icon","required","number","defaultValue","accuracy","fixed","align","importantWidth","autoWidth","sortable","slotType","renderText","searchStates","sortable","headTip"],CX_ADAPTOR_LOSS_PRECISION=2,CX_ADAPTOR_INT_PRECISION=0;function decimals(e,t){return void 0===t&&(t=3),e=parseFloat(e+""),isNaN(e)?0:(e=Math.round(e*Math.pow(10,6))/Math.pow(10,6-t),Math.round(e)/Math.pow(10,t))}function decimalFixed(e,t,n){var o;if(void 0===n&&(n=!1),""===e||isNaN(+e)||void 0===t)return e;if(t<0||t!==parseInt(t+"",10))return cxTableWarn("精度错误 => "+t),e;var r=+(+e).toPrecision(12);if(n)return(+decimals(+r,t)).toFixed(t);var i=(null===(o=r.toString().split(".")[1])||void 0===o?void 0:o.length)||0;return(+decimals(+r,Math.max(t,i))).toFixed(Math.max(t,i))}var getPrecision=function(e){var t=useCxTable().getContext().precision,n=t.goldAccuracy,o=t.stoneAccuracy,r=t.priceAccuracy;switch(e){case CX_ADAPTOR_PRECISION_TYPE.GOLD:return n;case CX_ADAPTOR_PRECISION_TYPE.STONE:return o;case CX_ADAPTOR_PRECISION_TYPE.PRICE:return r;case CX_ADAPTOR_PRECISION_TYPE.INT:return CX_ADAPTOR_INT_PRECISION;case CX_ADAPTOR_PRECISION_TYPE.LOSS:return CX_ADAPTOR_LOSS_PRECISION;default:return}},calcInvoker=function(e,t){return function(n){var o=calcInnerFormula(e,n);return o=decimalFixed(o,t.accuracy,!0),Reflect.set(n,t.prop,o),o}},getTemplateResult=function(e,t){var n;return null!==(n=null==e?void 0:e.replace(/\{\{.+\}\}/g,(function(e){return t[e.replace(/\{\{(.+)\}\}/,"$1")]})))&&void 0!==n?n:e};Reflect.set(window,"getTemplateResult",getTemplateResult);var getInFactVal=function(e){return isString(e)?e.match(/[^\d^.]+/)?"'"+e+"'":e:isNumber(e)?e+"":"null"},getEvalResult=function(formula,data,withCalc){void 0===withCalc&&(withCalc=!1);var getToken=function(){return formula.replace(/[a-zA-Z]+/g,(function(e){return"undefined"===e?e:withCalc?(+data[e]||0)+"":getInFactVal(data[e])}))};try{var token=getToken(),res=eval(token);return isNaN(res)&&(withCalc=!0,res=eval(token)),res}catch(err){if(!withCalc){withCalc=!0;try{return eval(getToken())}catch(e){cxTableWarn("匹配公式时发生错误==>"+formula)}}return cxTableWarn("匹配公式时发生错误==>"+formula),null}},getOptionsDeps=function(e){if(Array.isArray(e))return[];var t=[];return"object"==typeof e&&function e(n){Object.entries(n).forEach((function(n){var o=__read(n,2),r=o[0],i=o[1];t.push(r),"object"==typeof i&&e(i)}))}(e),t},calcInnerOptions=function(e,t){return calcInnerItem(e,t,Array.isArray,[],(function(e){return e}))},calcInnerValidator=function(e,t){return calcInnerItem(e,t,Array.isArray,{},(function(e){return e}))},calcInnerFormula=function(e,t){return calcInnerItem(e,t,isString,0,getEvalResult)},calcInnerItem=function(e,t,n,o,r){if(n(e))return r(e,t);if("object"==typeof e){var i=o;return Object.entries(e).some((function(e){var a=__read(e,2),l=a[0],c=a[1];"object"==typeof c&&Object.entries(c).some((function(e){var a=__read(e,2),c=a[0],u=a[1];if(+t[l]==+c)return n(u)?i=r(u,t):"object"==typeof u&&(i=calcInnerItem(u,t,n,o,r)),!0}))})),i}return o},getStringDepends=function(e){return isString(e)?e.match(/[a-zA-Z]+/g):[]},CxControlConfig=function(){function e(e){var t,n;switch(this.type="",this.attrs={},Reflect.set(this,"type",null!==(n=null===(t=e.control)||void 0===t?void 0:t.type)&&void 0!==n?n:""),this.type){case"input":this.inputConfigAdaptor(e);break;case"inscription":case"search":case"select":this.selectConfigAdaptor(e);break;case"status":case"tag":this.tagConfigAdaptor(e)}}return e.prototype.tagConfigAdaptor=function(e){var t,n,o=Object.entries(null!==(n=null===(t=e.control)||void 0===t?void 0:t.statusMap)&&void 0!==n?n:{}).reduce((function(t,n){var o=__read(n,2),r=o[0],i=o[1];return t[r]=__assign(__assign({},i),{prop:e.prop}),t}),{});Reflect.set(this,"statusMap",o)},e.prototype.inputConfigAdaptor=function(e){var t=this,n=e.control,o=e.influenced,r=e.sideEffect,i=e.prop;n&&(isNumber(n.maxLength)&&Reflect.set(this.attrs,"maxlength",n.maxLength),isNumber(n.minLength)&&Reflect.set(this.attrs,"minlength",n.minLength),n.showWordLimit&&Reflect.set(this.attrs,"showWordLimit",!0),o&&(this.attrs.broadcastRegister=function(n){t.influencedRegister(n,e)}),r&&Reflect.set(this.attrs,"onChange",(function(e,n){t.sideEffectHandle(i,n,r)})))},e.prototype.selectConfigAdaptor=function(e){var t=this,n=e.prop,o=e.control,r=e.influenced,i=e.sideEffect;if(o){var a=[];if(Array.isArray(o.options)?Reflect.set(this,"options",a=o.options):isObject$1(o.options)&&Reflect.set(this,"options",(function(e){var t,n=e.rowData;return a=calcInnerOptions(null!==(t=null==o?void 0:o.options)&&void 0!==t?t:[],n)})),o.exclusion){var l=new WeakMap;this.attrs.broadcastRegister=function(i){var l;i("nativeDelete",(function(e){var t=a.find((function(t){return t.id===e.rowData[n]}));t&&Reflect.set(t,"disabled",!1)}));var c=getOptionsDeps(null!==(l=null==o?void 0:o.options)&&void 0!==l?l:[]),u=function(e){Reflect.set(e.rowData,n,""),Reflect.set(e.rowData,n+"Text","")};c.forEach((function(e){return i(e,u)})),r&&t.influencedRegister(i,e)},Reflect.set(this.attrs,"onChange",(function(e,o){var r=l.get(o),c=a.find((function(e){return e.id===r}));c&&Reflect.set(c,"disabled",!1),l.set(o,e);var u=a.find((function(t){return t.id===e}));u&&Reflect.set(u,"disabled",!0),i&&t.sideEffectHandle(n,o,i)}))}else i&&Reflect.set(this.attrs,"onChange",(function(e,o){i&&t.sideEffectHandle(n,o,i)}))}},e.prototype.influencedRegister=function(e,t){if("object"==typeof t.influenced){var n=t.influenced,o=n.rule,r=n.type;if(!o||!r)return;getStringDepends(o).forEach((function(n){"equal"===r&&e(n,(function(e){Reflect.set(e.rowData,t.prop,getEvalResult(o,e.rowData,!0))}))}))}},e.prototype.sideEffectHandle=function(e,t,n){"object"==typeof n&&Object.entries(n).forEach((function(e){var t=__read(e,2);t[0],t[1]}))},e}(),onInits=[],onOutputs=[],CxConfigAdaptor=function(){function e(e){this.basicColumn={prop:"",label:""};var t=onInits.reduce((function(e,t){return isFunction(t)?t(e):e}),R.clone(e));this.staticConfigAdaptor(t).dynamicConfigAdaptor(t).controlAdaptor(t).childrenAdaptor(t)}return e.use=function(e){var t=e.onInit,n=e.onOutput;return isFunction(t)&&onInits.push(t),isFunction(n)&&onOutputs.push(n),this},e.prototype.getColumn=function(){return 0===onOutputs.length?this.basicColumn:onOutputs.reduce((function(e,t){return isFunction(t)?t(e):e}),R.clone(this.basicColumn))},e.of=function(t){return new e(t).getColumn()},e.prototype.childrenAdaptor=function(t){var n;return(null===(n=t.children)||void 0===n?void 0:n.length)&&(this.basicColumn.children=t.children.map(e.of)),this},e.prototype.staticConfigAdaptor=function(e){var t=this;return staticConfigList.forEach((function(n){return Reflect.set(t.basicColumn,n,e[n])})),this},e.prototype.dynamicConfigAdaptor=function(e){var t,n=this;if(e.calculate&&(this.basicColumn.calculate=function(t){var o=calcInvoker(e.calculate,n.basicColumn)(t);return isNumber(e.accuracy)?decimalFixed(o,e.accuracy,!0):o}),e.sum){Reflect.set(this.basicColumn,"sum",null!==(t={1:"add"}[e.sum])&&void 0!==t?t:e.sum)}return Array.isArray(e.validator)&&(this.basicColumn.validator=function(t){var n,o;return null===(n=e.validator)||void 0===n||n.some((function(e){var n=e.rule&&e.msg?[e]:calcInnerValidator(e,t.rowData);(null==n?void 0:n.length)&&n.some((function(e){var n;if(!getEvalResult(e.rule,t.rowData))return o=getTemplateResult(null!==(n=null==e?void 0:e.msg)&&void 0!==n?n:"",t.rowData)}))})),o}),this},e.prototype.controlAdaptor=function(e){return e.control&&Reflect.set(this.basicColumn,"control",new CxControlConfig(e)),this},e}();function getDateRange(e,t,n){void 0===e&&(e=1);var o=void 0===n?{}:n,r=o.isInt,i=void 0!==r&&r,a=o.isDate,l=void 0!==a&&a,c=new Date,u=new Date;switch(t){case"year":u=new Date(u.setFullYear(c.getFullYear()-e));break;case"month":u=new Date(u.setMonth(c.getMonth()-e));break;case"day":u=new Date(u.setDate(c.getDate()-e));break;case"hour":u=new Date(u.setHours(c.getHours()-e));break;case"minute":u=new Date(u.setMinutes(c.getMinutes()-e));break;case"second":u=new Date(u.setSeconds(c.getSeconds()-e))}var s=new Date;return i&&(u=new Date(u.setDate(1)),e&&(s=new Date((new Date).setDate(0)))),l?u:[u,s]}var getFunctionAttrs=function(e,t){if(isFunction(t)){var n=t({rowData:e});return isObject$1(n)?n:void 0}return t},changeDynamicIdToText=function(e){var t=useCxTable().getContext().dynamicType,n=t.DYNAMIC_BUSINESS_TYPE,o=t.DYNAMIC_MODULE_TYPE,r=t.DYNAMIC_MODEL_TYPE,i=t.DYNAMIC_PRICE_TYPE;return{businessType:n[e.businessType],moduleType:o[e.moduleType],modelType:r[e.modelType],priceType:i[e.priceType]}},getParentColumn=function(e,t){var n;return function e(o){Array.isArray(o)&&o.some((function(o){if(Array.isArray(o.children)&&o.children.some((function(n){return e(n.children),n.prop===t})))return n=o}))}(e),n};function getTargetColumn(e,t){var n;if(Array.isArray(t))return t.find((function(t){return n=t.prop===e?t:getTargetColumn(e,t.children)})),n}function deepMerge(e,t){var n;for(n in t)e[n]=e[n]&&isObject$1(e[n])?deepMerge(e[n],t[n]):e[n]=t[n];return e}var format=function(e){return dayjs(e).format("YYYY-MM-DD")},formatDate=R.ifElse(R.is(Array),R.map(format),format),format2=function(e){return dayjs(e).format("YYYY-MM-DD HH-mm-ss")},formatTime=R.ifElse(R.is(Array),R.map(format2),format2);function formatFormDefaultValue(e,t){switch(e){case"all":return-1;case"week":return formatDate(getDateRange(7,"day"));case"today":return formatDate("dateRange"===t?getDateRange(1,"day"):Date.now());case"mouth":return formatDate("dateRange"===t?getDateRange(0,"month",{isInt:!0}):Date.now());case"now":return formatTime(Date.now());default:return+e||e}}function pick(e,t){void 0===t&&(t=[]);var n={},o=Array.isArray(t)?t:[t];return Object.keys(e).forEach((function(t){o.includes(t)&&(n[t]="object"==typeof e[t]&&null!==e[t]?R.clone(e[t]):e[t])})),n}var getColumnSelectText=function(e,t){var n;return void 0===t&&(t="Text"),(null===(n=e.control)||void 0===n?void 0:n.selectText)||""+e.prop.replace(/Id$/,"")+t};function cxTableWarn(){for(var e=[],t=0;t<arguments.length;t++)e[t]=arguments[t];console.warn.apply(console,__spreadArray(["[cxTable warn]:"],__read(e)))}function getStringWidth(e){return e?(isNumber(e)&&(e+=""),!0===e?64:__spreadArray([],__read(e)).reduce((function(e,t){return/[a-zA-Z]/.test(t)?e+13:/\d/.test(t)?e+9:/\./.test(t)?e+4:/[\u4e00-\u9fa5]/.test(t)?e+16:/-/.test(t)?e+4:/（|）/.test(t)?e+14:/\(|\)/.test(t)?e+5:/-/.test(t)?e+10:/%/.test(t)?e+14:/‰/.test(t)?e+16:e+6}),0)):0}function copySort(e,t){return __spreadArray([],__read(e)).sort(t)}Reflect.set(window,"getStringWidth",getStringWidth);var getTotalSumData=function(e,t){var n={};return e.forEach((function(e){e.columnFlag&COLUMN_FLAG.TEXT_SUM_COLUMN?n[e.prop]="总计":e.columnFlag&COLUMN_FLAG.ADD_SUM_COLUMN?(e.columnFlag&COLUMN_FLAG.CALC_COLUMN&&t.forEach((function(t){var n,o;t[e.prop]=null!==(o=null===(n=e.calculate)||void 0===n?void 0:n.call(e,t))&&void 0!==o?o:t[e.prop]})),n[e.prop]=getSums(t,e.prop)):e.columnFlag&COLUMN_FLAG.CUSTOM_SUM_COLUMN&&(n[e.prop]=isFunction(e.sum)?e.sum(t):null)})),n},findAncestor=function(e,t,n){void 0===n&&(n=6);var o=null,r=e.parentNode;do{if("TD"===r.nodeName)break;if(r.classList.contains(t)){o=r;break}r=r.parentNode}while(n--);return o},toggleArrState=function(e,t){Reflect.set(e,t,!e[t])},arrFlat=function(e,t){void 0===t&&(t="children");var n=[],o=function(e){var r;(null===(r=e[t])||void 0===r?void 0:r.length)?e[t].forEach((function(e){o(e)})):n.push(e)};return e.forEach(o),n},formatWidth=function(e){if(e){var t=e+"";return t.includes("%")||t.includes("px")?t:parseFloat(t)+"px"}},assignAttrs=function(e,t){void 0===e&&(e={}),void 0===t&&(t={});var n=Object.assign({},e.style,t.style),o=(e.class||"")+" "+(t.class||"");return Object.assign({},e,t,{style:n,class:o})},invokeLayeredRow=function(e){var t=[],n=function(e,o){t[o]||(t[o]=[]),e.forEach((function(e){var r;e.hide||t[o].push(e),(null===(r=e.children)||void 0===r?void 0:r.length)&&n(e.children,o+1)}))};return n(e,0),t},getSums=function(e,t){void 0===t&&(t="renderWidth");var n=0;return function e(o){o.forEach((function(o){var r;(null===(r=null==o?void 0:o.children)||void 0===r?void 0:r.length)?e(o.children):n+=+o[t]||0}))}(e),n},getPreOrNextItem=function(e,t,n,o){var r,i=e.findIndex((function(e){return o?e[o]===t[o]:e===t}));return i<0?t:null!==(r=e[i+("pre"===n?-1:1)])&&void 0!==r?r:t},getStatusAttrs=function(e,t){var n,o,r,i,a=(null!==(n=t.control)&&void 0!==n?n:{}).statusMap,l=Array.isArray(a)?{content:a[e[t.prop]],prop:void 0,type:void 0}:null!==(r=null!==(o=null==a?void 0:a[e[t.prop]])&&void 0!==o?o:null==a?void 0:a.default)&&void 0!==r?r:{},c=l.content,u=l.prop,s=l.type;return{content:c||(u?e[u]:null!==(i=e[u+"Text"])&&void 0!==i?i:""),type:s}},HeadCell=defineComponent({name:"CxTableHeadCell",props:{layeredLevel:{type:Number,default:1},column:{type:Object,default:function(){return{}}}},setup:function(e){var t=inject("rootSlots",{}),n=inject("selectConfig"),o=inject("CxTable"),r=inject("tableDataVisitor"),i=inject("bus"),a=ref(0);watchEffect((function(){var t,n=e.column.columnFlag&COLUMN_FLAG.ARRAY_CHILDREN;a.value=n?getSums(null!==(t=e.column.children)&&void 0!==t?t:[]):e.column.renderWidth}));var l=computed((function(){var t,n,r,i=e.column,a=e.layeredLevel,l={};return i.columnFlag&COLUMN_FLAG.ARRAY_CHILDREN||(l.height=o.styleStore.CX_TABLE_HEIGHT*a),{colspan:null!==(n=null===(t=e.column.children)||void 0===t?void 0:t.length)&&void 0!==n?n:1,rowspan:(null===(r=e.column.children)||void 0===r?void 0:r.length)?1:e.layeredLevel,style:i.getStyle(l,"head")}}));return function(o,c){var u,s=e.column;return createVNode("th",l.value,[(openBlock(),createBlock("div",{class:"cx-table_cell",style:{width:formatWidth(a.value)}},[s.headTip?createVNode(resolveComponent("ElTooltip"),{content:s.headTip,placement:"top-start",key:-1},{default:function(){return[c[5]||(c[5]=createVNode("i",{class:"iconfont icon-bangzhu"}))]}},PATCH_FLAG.PROPS,["content"]):createCommentVNode("c-if_tip",!0),s.headSlot&&(null==t?void 0:t[s.headSlot])?createVNode(null==t?void 0:t[s.headSlot],{column:s}):"nativeCheckbox"===(null===(u=s.control)||void 0===u?void 0:u.type)?createVNode(resolveComponent("ElCheckbox"),{key:0,modelValue:n.selectAll,"onUpdate:modelValue":c[0]||(c[0]=function(e){return n.selectAll=e}),indeterminate:n.indeterminate,disabled:n.disabled,onChange:c[1]||(c[1]=function(){return i.emit("toggleAllSelection",n.selectAll)})},null,PATCH_FLAG.FULL_PROPS|PATCH_FLAG.NEED_PATCH):(openBlock(),createBlock(Fragment,null,[(openBlock(),createBlock(Fragment,null,[s.required?c[2]||(c[2]=createVNode("i",{style:"color:red",key:1},"*")):createCommentVNode("v-if_required",!0)])),createVNode("span",{key:3},s.label,PATCH_FLAG.TEXT),s.sortable?c[3]||(c[3]=createVNode("i",{class:"cx_w_10",key:4})):createCommentVNode("v-if_sortable_space",!0),s.sortable?createVNode("i",{key:5,onClick:c[4]||(c[4]=function(){switch(r.sort=s.sortable,r.sortProp=s.prop,r.sortStatus){case CX_SORT_STATUS.NONE:r.sortStatus=CX_SORT_STATUS.POSITIVE;break;case CX_SORT_STATUS.POSITIVE:r.sortStatus=CX_SORT_STATUS.REVERSE;break;case CX_SORT_STATUS.REVERSE:r.sortStatus=CX_SORT_STATUS.NONE}}),class:["cx-table_sort",r.sortProp===s.prop?r.sortStatus===CX_SORT_STATUS.POSITIVE?"cx-table_sort_positive":r.sortStatus===CX_SORT_STATUS.REVERSE?"cx-table_sort_reverse":null:null]},null,PATCH_FLAG.CLASS):createCommentVNode("v-if_sortable",!0)],PATCH_FLAG.KEYED_FRAGMENT|PATCH_FLAG.STABLE_FRAGMENT))],PATCH_FLAG.CLASS|PATCH_FLAG.STYLE))],PATCH_FLAG.PROPS|PATCH_FLAG.STYLE,["colspan","rowspan"])}}}),CxTableHead=defineComponent({name:"CxTableHead",props:{fixed:{type:String,default:""},left:{type:Number,default:0}},components:{HeadCell:HeadCell},setup:function(e){var t=inject("CxTable"),n=useTableStyle(e,t,"head"),o=computed((function(){return invokeLayeredRow(t.columns)})),r=["top","height","width","right"];return function(){return createVNode("div",{class:"cx-table_head",style:pick(n.value,r)},[createVNode("table",{style:pick(n.value,["left"])},[(openBlock(),createBlock(Fragment,null,o.value.map((function(t,n){return openBlock(),createBlock("tr",null,[(openBlock(!0),createBlock(Fragment,null,t.map((function(t){return e.fixed&&"top"!==e.fixed&&t.fixed!==e.fixed?createCommentVNode("v-if_table_head",!0):(openBlock(),createBlock(HeadCell,{column:t,layeredLevel:o.value.length-n},null,PATCH_FLAG.PROPS,["column","layeredLevel"]))})),PATCH_FLAG.UNKEYED_FRAGMENT))])}),PATCH_FLAG.UNKEYED_FRAGMENT)))],PATCH_FLAG.STYLE)],PATCH_FLAG.CLASS|PATCH_FLAG.STYLE)}}}),renderDefaultNode=function(e){var t=CxTableRendererMap.get("default");return isFunction(t)?t(e):createVNode("div",null,e.rowData[e.column.prop])},renderCellContent=function(e,t,n,o,r,i,a,l,c,u,s,d,f,p){void 0===o&&(o=!1);var m=__assign(__assign({},e),{expandConfig:u,rowIndex:n,selectConfig:i,radioValue:a,bus:c,pagination:d,broadcast:s});return openBlock(),createBlock(Fragment,null,[o?renderCellSum(m,r):e.column.columnFlag&COLUMN_FLAG.SLOT_COLUMN?renderCellSlot(m,t,l,r,f,p):e.column.columnFlag&COLUMN_FLAG.CONTROL_COLUMN?renderCustomCell(m,t,l,f,p):e.column.columnFlag&COLUMN_FLAG.CALC_COLUMN?renderCalcCell(m):renderDefaultNode(m)])},renderCellSum=function(e,t){var n,o;return openBlock(),createBlock(Fragment,null,[e.column.sumSlot?(null==t?void 0:t[e.column.sumSlot])?null==t?void 0:t[e.column.sumSlot](e):null:"index"===(null===(n=e.column.control)||void 0===n?void 0:n.type)||isString(e.column.sum)&&"add"!==e.column.sum?createTextVNode(null!==(o=e.column.sum)&&void 0!==o?o:"总计"):renderDefaultNode(e)])},renderCellSlot=function(e,t,n,o,r,i){return isFunction(e.column.slot)?e.column.slot(__assign(__assign({},e),{isActived:t,disabled:n,prop:e.column.prop,ignore:!!r&&r(pick(e,["column","rowIndex","rowData"])),force:!!i&&i(pick(e,["column","rowIndex","rowData"]))})):(null==o?void 0:o[e.column.slot])?null==o?void 0:o[e.column.slot](__assign(__assign({},e),{isActived:t,disabled:n,prop:e.column.prop,ignore:!!r&&r(pick(e,["column","rowIndex","rowData"])),force:!!i&&i(pick(e,["column","rowIndex","rowData"]))})):null},renderCalcCell=function(e){var t=e.column,n=e.rowData;return openBlock(),createBlock(Fragment,null,[isFunction(t.calculate)?createVNode("span",null,t.calculate(n),PATCH_FLAG.TEXT):createCommentVNode("v-if",!0)])},renderCustomCell=function(e,t,n,o,r){var i,a=(null!==(i=e.column.control)&&void 0!==i?i:{}).type,l=CxTableRendererMap.get(a);if(isFunction(l)){var c=!!o&&o(pick(e,["column","rowIndex","rowData"])),u=!!r&&r(pick(e,["column","rowIndex","rowData"]));return l(__assign(__assign({},e),{isActived:t,disabled:n,prop:e.column.prop,ignore:c,force:u}))}var s=CxTableRendererMap.get("default");return isFunction(s)?s(__assign(__assign({},e),{isActived:t,disabled:n,prop:e.column.prop,ignore:!0,force:!1})):createVNode("div",null,e.rowData[e.column.prop])},Cell=defineComponent({name:"CxTableCell",props:{column:{type:Object,default:function(){return{}}},rowData:{type:Object,default:function(){return{}}},rowIndex:{type:Number,default:-1},sum:{type:Boolean,default:!1},empty:{type:Boolean,default:!1}},setup:function(e){var t,n=inject("rootSlots",{}),o=inject("selectConfig"),r=inject("CxTable"),i=inject("radioValue"),a=inject("expandConfig"),l=inject("rootProp"),c=inject("broadcast"),u=inject("bus"),s=resolveDirective("uni-popper"),d=l.keyboard?registCellEvent(r,e):{},f=computed((function(){if(e.column.columnFlag&COLUMN_FLAG.VALIDATE_COLUMN){r.editStore.actived,e.rowData[e.column.prop];var t=isFunction(e.column.validator)?e.column.validator({column:e.column,value:e.rowData[e.column.prop],rowIndex:e.rowIndex,rowData:e.rowData}):null;return!t&&e.column.required&&(t=isEmpty(e.rowData[e.column.prop])?e.column.label+"为必填":null),t}})),p=ref(!1);watchEffect((function(){var t,n=e.column._colid===(null===(t=r.editStore.actived.column)||void 0===t?void 0:t._colid)&&e.rowData===r.editStore.actived.rowData;p.value=n})),watch((function(){return p.value}),(function(){if(p.value){var t=e.rowIndex,n=e.rowData,o=e.column;u.emit("tdFocus",{rowIndex:t,rowData:n,column:o})}}));var m=computed((function(){var t,n;if(!isFunction(l.spanMethod)||e.sum)return{};var o=null!==(n=null===(t=l.spanMethod)||void 0===t?void 0:t.call(l,{rowData:e.rowData,column:e.column,rowIndex:e.rowIndex}))&&void 0!==n?n:{};return isArray(o)&&(o={rowspan:o[0],colspan:o[1]}),o})),_=computed((function(){return p.value&&!!r.editStore.activedControl})),v=computed((function(){return!(!f.value||!_.value)})),h=reactive({visible:!1,classList:["fold-table_wrong_msg","cx_mtb_8"],text:f.value,controlType:"handle",placement:"top-start",key:"errorMsg"});watch(f,(function(e){h.text=e})),watch(v,(function(e){h.visible=e}));var g=function(){if(!e.empty){var t=function(){return renderCellContent(e,_.value,e.rowIndex,e.sum,n,o,i,!!l.disabled,u,a,c,l.pagination,l.ignoreControl,l.forceControl)};return f.value,e.column.columnFlag&COLUMN_FLAG.VALIDATE_COLUMN&&!e.sum?withDirectives(createVNode("div",null,[t()]),[[null!=s?s:{},h]]):t()}},C=ref({});watchEffect((function(){var t,n,o={};(null===(t=m.value)||void 0===t?void 0:t.rowspan)>1&&(o.height=(null===(n=m.value)||void 0===n?void 0:n.rowspan)*r.styleStore.CX_TABLE_HEIGHT);var i=e.column.getStyle(o,"body",e.rowData,e.rowIndex);isDeepObjectEqual(C.value,i)||(C.value=i)}));var y=CX_TABLE_COLUMN_KEY+e.column._colid;watch((function(){return m.value.rowspan}),(function(t,n){if(t!==n&&l.virtualScroll){var o=r.virtualStore.rowSpanMap;m.value.rowspan>1&&(o[e.rowIndex]|=CX_SPAN_METHOD_TYPE.EXTEND),0===m.value.rowspan&&(o[e.rowIndex]|=CX_SPAN_METHOD_TYPE.MISSING)}}),{immediate:!0});var R=ref(!1);if(watchEffect((function(){R.value!==(p.value&&!r.editStore.activedControl)&&(R.value=p.value&&!r.editStore.activedControl)})),watch((function(){return e.rowData[e.column.prop]}),(function(){null==c||c.trigger(e.column.prop,e.rowData,{prop:e.column.prop,rowData:e.rowData})})),["search","select"].includes(null===(t=e.column.control)||void 0===t?void 0:t.type)||e.column.slot){var b=getColumnSelectText(e.column);watch((function(){return e.rowData[b]}),(function(){null==c||c.trigger(b,e.rowData,{prop:b,rowData:e.rowData})}))}return function(){var t,n,o,r=getFunctionAttrs(e.rowData,null===(t=e.column.control)||void 0===t?void 0:t.attrs),i=null==r?void 0:r.broadcastRegister;if(i&&isFunction(i)&&i((function(t,n){return c.registListener(t,e.rowData,n)})),!m.value||0!==(null===(n=m.value)||void 0===n?void 0:n.rowspan)&&0!==(null===(o=m.value)||void 0===o?void 0:o.colspan))return createVNode("td",__assign(__assign(__assign({key:y},d),m.value),{style:C.value,colid:e.column._colid,class:{actived:R.value}}),[createVNode("div",{class:"cx-table_cell",style:{width:e.column.renderWidth+"px"}},[g()],PATCH_FLAG.CLASS|PATCH_FLAG.STYLE)],PATCH_FLAG.FULL_PROPS)}}}),TableRow=defineComponent({name:"CxTableRow",props:{rowData:{type:Object,default:function(){return{}}},rowIndex:{type:Number,default:-1},activedRow:{type:Array,default:function(){return[]}},sum:{type:Boolean,default:!1},rowid:{type:[String,Number],default:""}},setup:function(e,t){var n=t.slots,o=inject("selectConfig",{selectItem:[]}),r=inject("radioValue",ref(-1)),i=inject("CxTable"),a=ref(!1);watchEffect((function(){a.value=e.rowid===i.hoveringRowid}));var l=ref(!1);watchEffect((function(){var t,n;l.value=(null===(t=o.selectItem)||void 0===t?void 0:t[e.rowIndex])||r.value===e.rowIndex||(null===(n=e.activedRow)||void 0===n?void 0:n.includes(e.rowIndex))}));var c=computed((function(){var t={rowid:e.rowid,class:[]};return l.value&&t.class.push("active"),a.value&&t.class.push("cx-table_row_hover"),t}));return function(){return createVNode("tr",c.value,n,PATCH_FLAG.PROPS|PATCH_FLAG.CLASS,["rowid"])}}}),FixedBottom=defineComponent({name:"CxTableFixedBottom",props:{tableData:{type:Array,default:function(){return[]}}},setup:function(e){var t=inject("CxTable"),n=CxTableBody;return function(){return[t.columnStore.rightFixedColumns.length?createVNode(n,{tableData:e.tableData,style:{width:getSums(t.columnStore.rightFixedColumns)+"px",zIndex:15},fixed:"right",class:{"cx-table_fixed_right":!0,"cx-table_right_shadow":t.scrollStore.showRightShadow,"cx-bt":!0},onlyTotal:!0}):null,t.columnStore.leftFixedColumns.length?createVNode(n,{tableData:e.tableData,style:{width:getSums(t.columnStore.leftFixedColumns)+"px",zIndex:15},fixed:"left",class:{"cx-table_fixed_left":!0,"cx-table_left_shadow":t.scrollStore.showLeftShadow,"cx-bt":!0},onlyTotal:!0}):null]}}}),TableAddBtn=defineComponent({name:"CxTableAddBtn",props:{fixed:{type:String,default:""},tableData:{type:Array,default:function(){return[]}}},setup:function(e){var t=inject("rootProp"),n=inject("CxTable"),o=inject("bus"),r="cx_opacity_0",i=computed((function(){return["cx-table_add_btn","cx_mlr_10",e.tableData.length?"cx_h_80":"cx_h_160",e.fixed?r:null]})),a=computed((function(){return!t.showAddBtn||"top"===e.fixed||"bottom"===e.fixed}));return function(l,c){return openBlock(),createBlock(Fragment,null,[a.value?createCommentVNode("v-if_add_btn",!0):createVNode("tr",null,[createVNode("td",{class:e.fixed?r:null,colspan:n.flatColumns.length},[createVNode("div",{onClick:c[0]||(c[0]=function(){return o.emit("addNewRow","addNewRow")}),class:i.value},t.showAddBtn,PATCH_FLAG.CLASS|PATCH_FLAG.NEED_PATCH|PATCH_FLAG.TEXT)],PATCH_FLAG.CLASS|PATCH_FLAG.PROPS,["colspan"])])],PATCH_FLAG.STABLE_FRAGMENT)}}}),Expand=defineComponent({name:"CxTableExpand",props:{fixed:{type:String,default:""},rowData:{type:Object,default:function(){return{}}},rowIndex:{type:Number,default:-1}},setup:function(e){var t=inject("CxTable"),n=inject("rootProp"),o=inject("expandConfig",[]),r=inject("rootSlots",{}),i=computed((function(){var t=[];return e.fixed&&t.push("cx_opacity_0"),t})),a=computed((function(){var n,o,r;return"left"===e.fixed?null===(n=t.columnStore.leftFixedColumns)||void 0===n?void 0:n.length:"right"===e.fixed?null===(o=t.columnStore.rightFixedColumns)||void 0===o?void 0:o.length:null===(r=t.flatColumns)||void 0===r?void 0:r.length})),l=computed((function(){var t="";if(isString(n.expand)&&n.expand)t=n.expand;else if(isFunction(n.expand)){var o=n.expand(e.rowData,e.rowIndex);o&&(t=o)}return t}));return function(){return openBlock(),createBlock(Fragment,null,[l.value&&o[e.rowIndex]&&r[l.value]?createVNode("tr",{class:i.value},[createVNode("td",{colspan:a.value},[createVNode("div",{class:"cx-table_expand",style:function(){var n={};if(e.fixed){var o=useTableStyle(e,t,"table").value.width;o&&(Reflect.set(n,"width",o),Reflect.set(n,"overflow","hidden"))}return n}()},[createVNode("div",{style:{width:t.scrollStore.renderTotalWidth+"px"}},[createVNode(r[l.value],{rowIndex:e.rowIndex,rowData:e.rowData},null,PATCH_FLAG.FULL_PROPS)],PATCH_FLAG.STYLE)],PATCH_FLAG.STYLE)],PATCH_FLAG.PROPS,["colspan"])],PATCH_FLAG.CLASS):createCommentVNode("v-if_expand",!0)])}}}),CxTableBody=defineComponent({name:"CxTableBody",props:{fixed:{type:String,default:""},onlyTotal:{type:Boolean,default:!1},tableData:{type:Array,default:function(){return[]}},float:{type:Boolean,default:!1}},setup:function(e){var t=inject("CxTable"),n=inject("rootProp"),o=useTableId().getRowIdFromMap,r=function(r,i,a,l){var c;return void 0===a&&(a=!1),void 0===l&&(l=!1),c=a?CX_TABLE_SUM_ROW_KEY:o(r),createVNode(TableRow,{sum:a,class:a?"cx-table_footer":"",rowData:r,rowIndex:i,activedRow:n.activeRows,rowid:c,key:c},{default:function(){return openBlock(!0),createBlock(Fragment,null,t.flatColumns.map((function(t){return openBlock(),createBlock(Fragment,null,[e.fixed&&"bottom"!==e.fixed&&t.fixed!==e.fixed?createCommentVNode("v-if",!0):(openBlock(),createBlock(Cell,{rowData:r,rowIndex:i,column:t,sum:a,empty:l,key:t._colid},null,PATCH_FLAG.PROPS,["rowData","rowIndex","column","sum","empty"]))])})),PATCH_FLAG.KEYED_FRAGMENT)}},PATCH_FLAG.PROPS|PATCH_FLAG.CLASS|PATCH_FLAG.DYNAMIC_SLOTS,["rowData","rowIndex","activedRow","rowid","key"])},i=ref(!1);watchEffect((function(){var o;i.value=n.virtualScroll&&"bottom"!==e.fixed&&!e.onlyTotal&&t.virtualStore.renderEndIndex<n.tableData.length||(!n.showTotalSum&&!n.showForm||(null===(o=e.tableData)||void 0===o?void 0:o.length)<=0)&&!n.showAddBtn&&!e.float}));var a=useTableStyle(e,t,"body"),l=computed((function(){var o=t.styleStore,r=__assign(__assign({},pick(a.value,["left"])),{top:"bottom"===e.fixed||e.onlyTotal?0:-t.scrollStore.scrollTop+"px"});return n.virtualScroll&&"bottom"!==e.fixed&&!e.onlyTotal&&(r.paddingTop=t.virtualStore.renderPaddingTop+"px",r.paddingBottom=t.virtualStore.renderPaddingBottom+"px",r.height=(e.tableData.length+ +!!n.showTotalSum)*o.CX_TABLE_HEIGHT+"px"),r})),c=computed((function(){return pick(a.value,["right","bottom","top","height","width"])})),u=ref("");return watchEffect((function(){u.value=n.stripe||n.showForm?"stripe":""})),function(){return openBlock(),createBlock("div",{class:"cx-table_body",style:c.value},[createVNode("table",{style:l.value,class:u.value},[createVNode("tbody",null,[(openBlock(),createBlock(Fragment,null,["bottom"===e.fixed||e.onlyTotal?createCommentVNode("v-if",!0):(openBlock(!0),createBlock(Fragment,null,function(){var o,i=[],a=0;if(n.virtualScroll){var l=t.virtualStore;o=e.tableData.slice(l.renderStartIndex,l.renderEndIndex),a=l.renderStartIndex}else o=e.tableData;return o.forEach((function(t,o){i.push(r(t,o+a)),n.expand&&i.push(createVNode(Expand,{rowData:t,rowIndex:o+a,fixed:e.fixed},null,PATCH_FLAG.FULL_PROPS))})),isNumber(n.emptyLimit)&&n.emptyLimit>e.tableData.length&&Array(n.emptyLimit-e.tableData.length).fill("").forEach((function(){i.push(r({},CX_TABLE_EMPTY_INDEX,!1,!0))})),i}(),PATCH_FLAG.KEYED_FRAGMENT))])),createVNode(TableAddBtn,{fixed:e.fixed,tableData:e.tableData},null,PATCH_FLAG.PROPS,["fixed","tableData"]),(openBlock(),createBlock(Fragment,null,[i.value?createCommentVNode("v-if",!0):isObject$1(n.customTotalSum)?r(Object.assign({},n.customTotalSum),CX_TABLE_SUM_INDEX,!0):isObject$1(t.entireTotalSum)?r(R.mergeLeft((a=t.flatColumns,s={},a.forEach((function(e){var t=e.prop,n=e.sum;"add"!==n&&isString(n)&&(s[t]=n)})),s),t.entireTotalSum),CX_TABLE_SUM_INDEX,!0):r(getTotalSumData(t.flatColumns,null!==(o=n.tableData)&&void 0!==o?o:[]),CX_TABLE_SUM_INDEX,!0)]))])],PATCH_FLAG.STYLE),(openBlock(),createBlock(Fragment,null,["bottom"===e.fixed?createVNode(FixedBottom,{tableData:e.tableData},null,PATCH_FLAG.PROPS|PATCH_FLAG.NEED_PATCH,["tableData"]):createCommentVNode("v-if_fixed_bottom",!0)],PATCH_FLAG.STABLE_FRAGMENT))],PATCH_FLAG.CLASS|PATCH_FLAG.STYLE);var o,a,s}}}),CxTableContent=defineComponent({name:"CxTableContent",props:{fixed:{type:String,default:""},tableData:{type:Array,default:function(){return[]}}},setup:function(e){var t=inject("CxTable"),n=useTableStyle(e,t,"table"),o=useTableClass(e,t);return function(){var t=e.fixed;return[openBlock(),createBlock(Fragment,null,[[(openBlock(),createBlock(Fragment,null,["bottom"!==t?createVNode(CxTableHead,{class:o.value,style:n.value,fixed:t},null,PATCH_FLAG.FULL_PROPS|PATCH_FLAG.CLASS|PATCH_FLAG.STYLE):createCommentVNode("v-if_table_bottom",!0)],PATCH_FLAG.STABLE_FRAGMENT)),(openBlock(),createBlock(Fragment,null,["top"!==t?createVNode(CxTableBody,{tableData:e.tableData,class:o.value,style:n.value,fixed:t},null,PATCH_FLAG.FULL_PROPS|PATCH_FLAG.CLASS|PATCH_FLAG.STYLE):createCommentVNode("v-if_table_top",!0)],PATCH_FLAG.STABLE_FRAGMENT))]])]}}}),script$4={name:"Empty"};const _hoisted_1$3={class:"cx_flex_center cx_flex_d_column cx_justify_center"},_hoisted_2$1=createVNode("div",{class:"cx_h_100"},[createVNode("svg",{width:"120",height:"100",viewBox:"0 0 184 152",xmlns:"http://www.w3.org/2000/svg"},[createVNode("g",{fill:"none","fill-rule":"evenodd"},[createVNode("g",{transform:"translate(24 31.67)"},[createVNode("ellipse",{"fill-opacity":".8",fill:"#F5F5F7",cx:"67.797",cy:"106.89",rx:"67.797",ry:"12.668"}),createVNode("path",{d:"M122.034 69.674L98.109 40.229c-1.148-1.386-2.826-2.225-4.593-2.225h-51.44c-1.766 0-3.444.839-4.592 2.225L13.56 69.674v15.383h108.475V69.674z",fill:"#AEB8C2"}),createVNode("path",{d:"M101.537 86.214L80.63 61.102c-1.001-1.207-2.507-1.867-4.048-1.867H31.724c-1.54 0-3.047.66-4.048 1.867L6.769 86.214v13.792h94.768V86.214z",fill:"url(#linearGradient-1)",transform:"translate(13.56)"}),createVNode("path",{d:"M33.83 0h67.933a4 4 0 0 1 4 4v93.344a4 4 0 0 1-4 4H33.83a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z",fill:"#F5F5F7"}),createVNode("path",{d:"M42.678 9.953h50.237a2 2 0 0 1 2 2V36.91a2 2 0 0 1-2 2H42.678a2 2 0 0 1-2-2V11.953a2 2 0 0 1 2-2zM42.94 49.767h49.713a2.262 2.262 0 1 1 0 4.524H42.94a2.262 2.262 0 0 1 0-4.524zM42.94 61.53h49.713a2.262 2.262 0 1 1 0 4.525H42.94a2.262 2.262 0 0 1 0-4.525zM121.813 105.032c-.775 3.071-3.497 5.36-6.735 5.36H20.515c-3.238 0-5.96-2.29-6.734-5.36a7.309 7.309 0 0 1-.222-1.79V69.675h26.318c2.907 0 5.25 2.448 5.25 5.42v.04c0 2.971 2.37 5.37 5.277 5.37h34.785c2.907 0 5.277-2.421 5.277-5.393V75.1c0-2.972 2.343-5.426 5.25-5.426h26.318v33.569c0 .617-.077 1.216-.221 1.789z",fill:"#DCE0E6"})]),createVNode("path",{d:"M149.121 33.292l-6.83 2.65a1 1 0 0 1-1.317-1.23l1.937-6.207c-2.589-2.944-4.109-6.534-4.109-10.408C138.802 8.102 148.92 0 161.402 0 173.881 0 184 8.102 184 18.097c0 9.995-10.118 18.097-22.599 18.097-4.528 0-8.744-1.066-12.28-2.902z",fill:"#DCE0E6"}),createVNode("g",{transform:"translate(149.65 15.383)",fill:"#FFF"},[createVNode("ellipse",{cx:"20.654",cy:"3.167",rx:"2.849",ry:"2.815"}),createVNode("path",{d:"M5.698 5.63H0L2.898.704zM9.259.704h4.985V5.63H9.259z"})])])])],-1),_hoisted_3$1=createVNode("p",null,"暂无数据",-1);function render$3(e,t){return openBlock(),createBlock("div",_hoisted_1$3,[_hoisted_2$1,_hoisted_3$1])}script$4.render=render$3,script$4.__file="src/lib/cx-table/components/empty.vue";var CxTableEmpty=defineComponent({name:"CxTableEmpty",setup:function(){var e=inject("CxTable"),t={style:{height:"150px"}},n={class:"cx-table_empty"};return function(){var o=e.flatColumns.length;return openBlock(),createBlock("div",t,[createVNode("table",n,[createVNode("tbody",null,[createVNode("tr",null,[createVNode("td",{rowspan:o},[function(){setBlockTracking(-1);var e=createVNode(script$4);return setBlockTracking(1),e}()],PATCH_FLAG.PROPS,["rowspan"])])])])])}}}),Pagination=defineComponent({name:"CxTablePagination",props:{pagination:{type:Object,default:function(){return{}}}},setup:function(e,t){var n=t.emit,o=function(t){var o=e.pagination;o.currentPage=1,o.pageCapacity=t,n("paging")},r=function(t){e.pagination.currentPage=t,n("paging")},i=resolveComponent("ElPagination");return function(){return createVNode(i,{class:"cx_align_right cx_p_20",background:!0,currentPage:e.pagination.currentPage,pageSizes:e.pagination.pageSizes,pageSize:e.pagination.pageCapacity,layout:"total, sizes, prev, pager, next, jumper",total:e.pagination.total,onSizeChange:o,onCurrentChange:r},null,PATCH_FLAG.FULL_PROPS)}}}),DynamicFormCacheModule="dynamicForm",DynamicFormVisibleCacheModule="dynamicFormVisible",useDynamicFormCache=function(e){var t=function(e){return e?"u_"+useCxTable().getContext().contextScopeId+"_m1_"+e.moduleType+"_b_"+e.businessType+"_m2_"+e.modelType+"_p_"+e.priceType:""},n=function(n){return void 0===n&&(n=DynamicFormCacheModule),function(){return localStore.get(t(e.dynamic),n)}},o=function(n){return void 0===n&&(n=DynamicFormCacheModule),function(o){try{localStore.set(t(e.dynamic),o,void 0,n)}catch(t){cxTableWarn("can't set dynamic form cache from dynamicConfig:",e.dynamic)}}};return{getFormCacheIO:IO.of(n()),getVisibleCacheIO:IO.of(n(DynamicFormVisibleCacheModule)),setFormCacheIO:IO.of(o()),setVisibleCacheIO:IO.of(o(DynamicFormVisibleCacheModule))}},useDynamicFormSearch=function(){var e=useCxTableCompose(),t=e.getParamsItems,n=e.getConfigByDynamicConfig,o=e.arrNotEmpty,r=useCxTable().getContext(),i=R.tap(unsafeWhenDevCall((function(e){return console.info("[CxTable]:dynamic form auto fetchData by config ",changeDynamicIdToText(e))}))),a=unsafeWhenDevCall((function(e){cxTableWarn("can't match api by config ",changeDynamicIdToText(e))})),l=function(e,n,o,r){var i=R.set(R.lensProp("items"),t(n,o)),a=R.mergeLeft(R.zipObj(["sortDirection","sortProp"],[r.sortStatus,r.sortProp])),l=R.mergeLeft(R.pick(["currentPage","pageCapacity"],R.prop("pagination",e)));return R.compose(i,a,l,R.prop("dynamic"))(e)},c=R.curryN(2,(function(e,t){var n,o,r=e.rows,i=e.total;isNumber(i)&&Maybe.of(t.pagination).map(unsafeSet(R.__,"total",i)),Array.isArray(r)&&(R.isEmpty(r)&&R.gt(R.defaultTo(0,null===(n=t.pagination)||void 0===n?void 0:n.currentPage),1)?t.pagination.currentPage--:R.compose(R.when(R.is(Array),unsafeClearPush(R.__,t.tableData)),R.ifElse(R.is(Function),(function(t){return t(r,e)}),R.always(r)))(null===(o=t.hooks)||void 0===o?void 0:o.onSearch))})),u=R.useWith(unsafeClearAssign,[R.identity,R.prop("entireTotalSum")]),s=function(e){if(!e)throw cxTableWarn("can't fetch data if dynamic ",e," is invalid")},d=R.compose(getMaybeValue,R.converge(n,[R.identity,R.compose(R.prop(R.__,r.dynamicFormContext.requestApiMap),R.prop("moduleType"))]));return{initRequestParams:l,updateTableData:c,search:function(e,t,n,o){return __awaiter(void 0,void 0,void 0,(function(){var r,u;return __generator(this,(function(f){switch(f.label){case 0:return r=e.dynamic,s(r),u=R.compose(R.ifElse(R.isNil,Left.of,Right.of),d),[4,either(withParams(a,[r]),(function(a){return __awaiter(void 0,void 0,void 0,(function(){var u,s,d;return __generator(this,(function(f){switch(f.label){case 0:return i(r),u=R.prop(R.__,a),s=R.propEq("state",200),d=R.when(s,R.compose(c(R.__,e),R.prop("data"))),[4,u("requestInstance").postJSON(u("api"),l(e,t,n,o))];case 1:return d.apply(void 0,[f.sent()]),[2]}}))}))}),u(r))];case 1:return[2,f.sent()]}}))}))},searchTotal:function(e,t,n,r,i){return __awaiter(void 0,void 0,void 0,(function(){var c,f;return __generator(this,(function(p){switch(p.label){case 0:return c=e.dynamic,s(c),f=R.compose(R.ifElse(R.isNil,Left.of,Right.of),d),[4,either(R.converge(a,[R.always(c)]),(function(a){return __awaiter(void 0,void 0,void 0,(function(){var c,s,d,f,p;return __generator(this,(function(m){switch(m.label){case 0:return c=R.prop(R.__,a),s=R.propEq("state",200),d=c("requestInstance"),f=R.compose(getMaybeValue,map(R.objOf("totals")),map(R.map(R.prop("prop"))),map(R.filter(R.compose(truthy,R.prop("sum")))),map(R.prop("flatColumns")),Maybe.of),p=R.when(s,R.compose(R.curryN(3,R.call)(u,R.__,i),R.prop("data"))),[4,R.compose(R.ifElse(R.compose(o,R.prop("totals")),R.compose(R.converge(d.postJSON.bind(d),[R.always("/header/total"),R.identity]),R.mergeLeft(l(e,t,n,r))),defaultPromise({})),f)(i)];case 1:return p.apply(void 0,[m.sent()]),[2]}}))}))}),f(c))];case 1:return[2,p.sent()]}}))}))}}},TeleFormInstance=defineComponent({name:"TeleFormInstance",emits:["change","close"],props:{form:{type:Object,required:!0},items:{type:Array,required:!0},states:{type:Object,required:!0}},setup:function(e,t){var n=t.emit,o=t.slots,r=R.curryN(2,n);return function(t,n){var i,a;return createVNode("div",{style:{display:null===(a=null===(i=e.states)||void 0===i?void 0:i.visible)||void 0===a||a?"block":"none"}},[createVNode(_CX_FORM,{form:e.form,items:e.items,formAttrs:{labelPosition:"top",labelSuffix:""},onChange:n[0]||(n[0]=r("change")),onClose:n[1]||(n[1]=r("close"))},{add:function(){var e,t;return[null!==(t=null===(e=o.add)||void 0===e?void 0:e.call(o))&&void 0!==t?t:""]}},PATCH_FLAG.PROPS,["form","items"])],PATCH_FLAG.STYLE)}}});function useState(e){var t=ref(e);return[function(e){return e?t:unref(t)},function(e){return t.value=e}]}function useRef(){return useState(null)[0]}function useRefs(){var e=new Set;return onBeforeUpdate((function(){return e.clear()})),[e,function(t){return t&&e.add(t)}]}function useRefsArray(){var e=[];return onBeforeUpdate((function(){e=[]})),[e,function(t){e.push(t)}]}function isWritableComputedOptions(e){return"object"==typeof e&&Reflect.has(e||{},"set")}function useComputed(e){var t=(isWritableComputedOptions(e),computed(e)),n=function(e){return e?t:t.value};return isWritableComputedOptions(e)?[n,function(e){return t.value=e}]:n}function getRefs(e){var t={};return Object.entries(e).forEach((function(e){var n=__read(e,2),o=n[0],r=n[1];return t[o]=r(!0)})),t}function useSync(e,t,n){return void 0===n&&(n=[]),n.length?n.reduce((function(n,o){var r=computed({get:function(){return e[o]},set:function(e){return t("update:"+o,e)}});return n.push(r),n}),[]):[]}var DynamicFormAdd=defineComponent({name:"DynamicFormAdd",props:{options:{type:Array,default:function(){return[]}},modelValue:{type:Array,required:!0},currentInstance:{type:Object}},emits:["update:modelValue","change"],setup:function(e,t){var n=t.emit,o=__read(useComputed({get:function(){var t;return null!==(t=e.modelValue)&&void 0!==t?t:[]},set:function(e){n("update:modelValue",e),c(!1)}}),2),r=o[0],i=o[1],a=__read(useState(!1),2),l=a[0],c=a[1],u=R.compose(c,R.not,l),s=function(e){R.compose(i,R.uniq,R.append(e),r)()},d=function(e){return R.ifElse(R.isEmpty,R.T,R.curryN(2,PinyinMatch.match)(e))(m())},f=useComputed((function(){return R.filter(R.allPass([R.compose(R.not,R.includes(R.__,r()),R.prop("id")),R.compose(d,R.prop("name"))]))(e.options)})),p=__read(useState(""),2),m=p[0],_=p[1],v={style:{maxHeight:"245px",overflowY:"auto",margin:"0 -12px -10px"}};return withCtx((function(t,n){var o=resolveComponent("ElPopover"),r=resolveComponent("CxBtn"),i=resolveComponent("ElInput");return[(openBlock(),createBlock(Fragment,null,[createVNode(o,{visible:l(),"onUpdate:visible":c,placement:"right-start",width:240,showArrow:!1},{reference:function(){return createVNode(r,{onClick:u,icon:"tianjia",class:"cx_plr_7",style:{marginTop:e.modelValue.length?"32px":0,backgroundColor:"#f0f5ff"}},null,PATCH_FLAG.STYLE)},default:function(){return openBlock(),createBlock(Fragment,null,[createVNode(i,{size:"mini",class:"cx_mb_5",suffixIcon:"iconfont icon-sousuo",modelValue:m(),"onUpdate:modelValue":_,placeholder:"搜索过滤条件"},null,PATCH_FLAG.PROPS,["modelValue"]),[(openBlock(),createBlock(Fragment,null,[f().length?createVNode("div",v,[(openBlock(),createBlock(Fragment,null,f().map((function(e){return createVNode("div",{key:e.id,class:"hover-highlight cx_ptb_8 cx_plr_12",onClick:R.useWith(s,[R.always(e.id)])},e.name,PATCH_FLAG.PROPS,["key"])})),PATCH_FLAG.KEYED_FRAGMENT))]):n[0]||(n[0]=createVNode("div",{class:"cx_flex_center cx_justify_center cx_mt_8"},"暂无数据"))]))]])}},PATCH_FLAG.PROPS,["visible"])]))]}),e.currentInstance)}}),DynamicFilterBtn=defineComponent({name:"DynamicFilterBtn",props:{states:{type:Object,required:!0}},emits:["click"],setup:function(e,t){var n=t.emit,o=computed((function(){var t;return(null===(t=e.states)||void 0===t?void 0:t.visible)?"#0084ff":"rgba(0,0,0,.85)"}));return function(e,t){return createVNode(_CX_BTN,{onClick:t[0]||(t[0]=function(){return n("click")}),icon:"filtershaixuan",content:"筛选",style:{color:o.value,borderColor:o.value}},null,PATCH_FLAG.STYLE|PATCH_FLAG.FULL_PROPS)}}}),TeleForm=defineComponent({name:"TeleForm",props:{dynamicColumn:{type:Array,required:!0},tableDataVisitor:{type:Object,required:!0},loading:{type:Boolean}},emit:["update:loading"],setup:function(e,t){var n=this,o=t.emit,r=resolveDirective("loading"),i=inject("rootProp"),a=inject("bus"),l=inject("CxTable"),c=useDynamicFormCache(i),u=useCxTableCompose(),s=u.getOptionListFromColumn,d=u.getCurrentFormConfig,f=u.isRenderInTeleport,p=u.isEmptyValue,m=u.isPositive,_=u.arrayIsNotEmpty,v=u.getTargetColumnDefault,h=useDynamicFormSearch(),g=h.search,C=h.searchTotal,y=reactive(R.defaultTo([],c.getFormCacheIO.unsafePerformIO())),b=R.always(y),T=__spreadArray([],__read(y));watch(b,(function(){var t=R.find(R.compose(R.not,R.isNil,R.path(["searchStates","searchDefault"]),R.flip(R.find)(e.dynamicColumn),R.curryN(2,R.pathEq)(["prop"])));R.when(R.allPass([_,t]),R.compose(j,R.forEach(S)))(R.difference(y,T)),unsafeClearPush(y,T)}),{deep:!0});var w=reactive({}),x=R.compose(v,R.converge(getTargetColumn,[R.identical,function(){return e.dynamicColumn}])),S=function(e){x(e).map(unsafeSet(w,e))},A=__read(useSync(e,o,["loading"]),1)[0],E=function(e){return A.value=e},N=__read(useState(!1),2),O=N[0],L=N[1],D=__read(useState(null),2),I=D[0],P=D[1],F=reactive([]),M=reactive([]),B=unsafeClearPush(R.__,M),k=function(){return unsafeClearPush(d(e.dynamicColumn,y),F)};watch(b,R.compose(k,(function(e){c.setFormCacheIO.unsafePerformIO(e)})),{deep:!0});var V=debounce((function(){E(!0),unsafeClearArray(i.tableData),g(i,w,y,e.tableDataVisitor).finally((function(){E(!1)}))}),100),j=debounce((function(){return __awaiter(n,void 0,void 0,(function(){return __generator(this,(function(t){switch(t.label){case 0:return V(),[4,nextTick()];case 1:return t.sent(),l.entireTotalSum={},R.when(R.prop("showForm"),R.converge(C,[R.always(i),R.always(w),R.always(y),R.always(e.tableDataVisitor),R.always(l)]))(i),[2]}}))}))}),50),H=nextTimeout((function(t){R.when(R.compose(R.not,R.prop("visible")),$)(X),R.when(R.is(Object),R.compose(unsafePush(R.__,y),R.flip(R.difference)(y),R.keys,R.tap(unsafeAssign(R.__,w)),R.pick(R.map(R.prop("id"),s(e.dynamicColumn)))))(t),j()}));a.on("search",H);var G=function(e){R.compose(R.when(m,unsafeRemoveItem(R.__,y)),R.findIndex(R.equals(e)))(y);var t=w[e],n=unsafeRemoveItem(R.__,F),o=R.compose(R.unless(p,j),R.always(t)),r=R.compose((function(){return Reflect.deleteProperty(w,e)}),n);R.compose(R.when(m,R.compose(o,r)),R.findIndex(R.pathEq(["prop"],e)))(F)},W=getCurrentInstance(),U=function(){return[createVNode(DynamicFormAdd,{currentInstance:W,options:M,modelValue:y,"onUpdate:modelValue":unsafeClearPush(R.__,y)},null,PATCH_FLAG.FULL_PROPS)]},X=reactive(c.getVisibleCacheIO.map(R.compose(R.objOf("visible"),truthy)).unsafePerformIO()),$=function(){return X.visible=!X.visible};watch((function(){return X.visible}),c.setVisibleCacheIO.unsafePerformIO.bind(c.setVisibleCacheIO));var Y={class:"cx_dp_flex cx_justify_end cx_mb_16"},q={class:"cx_dp_flex"},z=createVNode("div",{class:"cx_line cx_mb_12 cx_mlr_0 cx_w_100p"}),K=function(){return createVNode("div",{class:"cx-table_tele_form"},[createVNode("div",Y,[createVNode(DynamicFilterBtn,{onClick:$,states:X})]),z,createVNode("div",q,[withDirectives(createVNode(TeleFormInstance,{states:X,form:w,items:F,onChange:j,onClose:G},{add:U},PATCH_FLAG.FULL_PROPS),[[null!=r?r:{},O()]])])])},J=R.compose(map(unsafeSet(R.__,"innerHTML","")),Maybe.of),Z=R.compose(R.converge(render$5,[K,R.identity]),R.tap(J),R.tap(unsafeDeleteProperty(R.__,"_vnode"))),Q=IO.of(queryDom).map(R.ifElse(R.isNil,R.compose((function(){return cxTableWarn("can't find container element by selector",i.formTeleport)}),J,I),R.compose(map(Z),Maybe.of,P)));return watch((function(){return e.dynamicColumn}),(function(){return __awaiter(n,void 0,void 0,(function(){return __generator(this,(function(t){switch(t.label){case 0:return[4,nextTick()];case 1:return t.sent(),k(),c.getFormCacheIO.map(R.compose(unsafeClearPush(R.__,y),R.defaultTo([]))).unsafePerformIO(),function(e){unsafeClearObj(e),y.forEach(S)}(w),B(s(e.dynamicColumn)),L(!1),j(),R.ifElse(f,R.always(Q),getDoNothingIO)(i).unsafePerformIO(i.formTeleport),[2]}}))}))})),watch((function(){return i.dynamic}),(function(){L(!0),c.getVisibleCacheIO.map(R.compose(unsafeSet(X,"visible"),truthy)).unsafePerformIO()})),watch([function(){var e;return null===(e=i.pagination)||void 0===e?void 0:e.currentPage},function(){var e;return null===(e=i.pagination)||void 0===e?void 0:e.pageCapacity}],V),withParams(R.ifElse(f,R.always(""),K),[i])}}),script$3=defineComponent({name:"Ellipsis",props:{content:{type:[String,Number],default:""},activeBgColor:{type:String,default:"#fff"},placement:{type:String,default:"left"}},setup:function(e,t){var n=t.expose,o=ref(),r=ref(),i=ref(!1),a=ref("0");function l(){var e;return __awaiter(this,void 0,void 0,(function(){var t,n,l,c,u,s;return __generator(this,(function(d){return(t=r.value)&&o.value?(n=null==t?void 0:t.clientWidth,l=(null===(e=o.value)||void 0===e?void 0:e.clientWidth)||80,c=parseFloat(getComputedStyle(o.value).paddingLeft),u=parseFloat(getComputedStyle(o.value).paddingRight),a.value=u+"px",s=l-c-u,i.value=n>s,[2]):[2]}))}))}var c=function(){return l()};onMounted((function(){l(),addResizeListener(r.value,c)})),onUnmounted((function(){removeResizeListener(r.value,c)})),n({calcContentWidth:l});var u=reactive({text:e.content,visible:i.value,controlType:"mouse",placement:e.placement});return watch([function(){return e.content},function(){return e.placement},i],(function(e){var t=__read(e,3),n=t[0],o=t[1],r=t[2];u.text=n,u.placement=o,u.visible=r})),{popperConfig:u,refOneEllipsis:o,tipVisible:i,paddingRight:a,refContent:r}}});const _withId$2=withScopeId("data-v-4e1a77b7");pushScopeId("data-v-4e1a77b7");const _hoisted_1$2={style:{overflow:"hidden"}};popScopeId();const render$2=_withId$2(((e,t)=>{const n=resolveDirective("uni-popper");return withDirectives((openBlock(),createBlock("div",{ref:"refOneEllipsis",class:["one-ellipsis",{ellipsis:e.tipVisible}],style:{"--paddingRight":e.paddingRight,"--bgColor":e.activeBgColor}},[createVNode("div",_hoisted_1$2,[createVNode("p",{ref:"refContent",class:"note-tooltip"},toDisplayString(e.content),513)])],6)),[[n,e.popperConfig]])}));function useCxDialog(){var e=ref(null);return[function(t){onUnmounted((function(){e.value=null})),e.value=t},{openDialog:function(t){void 0===t&&(t=!0),function(){var t=unref(e);if(!t)throw new Error("dialog is undefined!");return t}().openDialog(t)}}]}script$3.render=render$2,script$3.__scopeId="data-v-4e1a77b7",script$3.__file="src/lib/cx-table/components/ellipsis/index.vue";var DEFAULT_CAPACITY=10,cacheListDialog=defineComponent({name:"CacheListDialog",setup:function(e,t){var n,o=t.expose,r=inject("rootProp"),i=inject("rootSlots"),a=inject("CxTable"),l=inject("bus"),c=useCxTableCompose(),u=c.getParamsItems,s=c.getConfigByDynamicConfig,d=c.arrNotEmpty,f=useCxTable().getContext(),p=function(){return R.path(["dynamicCacheContext","requestInstance","default"],f)},m=function(){return R.path(["dynamicCacheContext","removeApiMap"],f)},_=function(){return R.path(["dynamicCacheContext","cacheLabelConfig"],f)},v=function(){return R.path(["dynamicCacheContext","cacheTypeTab"],f)},h=R.ifElse(R.is(Function),(function(e){return e(r)}),R.T),g=__read(useCxDialog(),2),C=g[0],y=g[1];o({openDialog:function(){E(),S(),w(TypeOption.未提交),y.openDialog()}});var b=__read(useState(TypeOption.未提交),2),T=b[0],w=b[1],x=useEnumOptions(TypeOption),S=function(){D(null),unsafeClearArray(M()),F(!1)},A=reactive({gmtCreate:[]}),E=function(){unsafeClearObj(A),A.gmtCreate=[]},N=[{label:"提交日期",prop:"gmtCreate",dateRange:{}}],O=__read(useState(null),2),L=O[0],D=O[1],I=__read(useState(!1),2),P=I[0],F=I[1],M=__read(useState([]),1)[0],B=useComputed(R.compose(R.prop("rows"),R.prop("content"),R.defaultTo({}),L)),k=reactive({items:[]}),V=unsafeClearPush(R.__,k.items),j=__read(useState([]),2),H=j[0],G=j[1],W=R.nAry(0,H),U=R.ifElse(R.is(Array),R.map(CxConfigAdaptor.of),R.always([])),X=R.compose(V,U);watch((function(){return L()}),nextTimeout(R.compose(R.ifElse(d,X,R.converge(X,[W])),R.prop("table"),R.defaultTo({}))));var $=function(e,t){var n=R.compose(R.objOf("items"),R.converge(u,[R.identity,R.always(R.of("gmtCreate"))])),o=R.mergeLeft(R.defaultTo({},e)),r=R.mergeLeft(R.zipObj(["queryIndex","pageCapacity"],[R.length(M()),DEFAULT_CAPACITY])),i=R.when(R.compose(truthy,R.nAry(0,T)),R.mergeLeft(R.objOf("orderType",T())));return R.compose(Maybe.of,i,o,r,n)(t)},Y=R.path(["data"]),q=R.path(["dynamic","moduleType"]),z=R.compose(R.defaultTo(p()),R.prop(R.__,f.dynamicCacheContext.requestInstance)),K=IO.of((function(){return Maybe.run(function(){var e,t,n;return __generator(this,(function(o){switch(o.label){case 0:return[4,Maybe.of(R.prop(T(),R.path(["dynamicCacheContext","requestApiMap"],f)))];case 1:return e=o.sent(),[4,$(r.dynamic,A)];case 2:return t=o.sent(),[4,R.compose(Maybe.of,R.ifElse(fe,p,R.compose(z,R.converge(q,[R.always(r)]))))(T())];case 3:return n=o.sent(),[2,R.andThen(R.compose(Maybe.of,R.ifElse(stateEq200,Y,R.always(void 0))),n.postJSON(e,t))]}}))}())})),J=R.compose(Maybe.of,R.prop("total")),Z=R.compose(Maybe.of,R.prop("rows")),Q=R.compose(Maybe.of,R.prop("table")),ee=function(){return M()},te=R.converge(R.gte,[R.compose(R.length,ee),R.identity]),ne=R.converge(unsafePush,[R.identity,ee]),oe=K.map(map(R.andThen(map(R.compose(R.tap(R.compose(map(G),Q)),R.tap(R.compose(map(R.compose(F,te)),J)),R.tap(R.compose(map(ne),Z)),R.pick(["total","rows","table"])))))),re=R.converge(R.when(R.compose(R.isNil,R.nAry(0,L)),R.converge(D,[R.compose(R.head,ee)])),[R.F]),ie=R.converge(R.ifElse(R.complement(P),oe.unsafePerformIO.bind(oe),Maybe.none),[R.F]),ae=R.compose(map(R.andThen(re)),ie),le=debounce(ae,50),ce=R.compose(le,S);watch(T,ce);var ue=!1,se=function(e){return void 0===e&&(e=!0),ue=e},de=R.ifElse((function(){return ue}),R.identity,R.compose(R.compose(map(R.andThen(R.converge(se,[R.F]))),ae),se,R.T)),fe=R.equals(TypeOption.未提交),pe=function(e){return function(t){return function(e,t){var n,o,i,a,l,c,u;return __generator(this,(function(s){switch(s.label){case 0:return n=t.id,o=t.api,[4,Maybe.of(n)];case 1:return i=s.sent(),[4,Maybe.of(o)];case 2:return a=s.sent(),[4,Maybe.of(R.concat(a,R.toString(i)))];case 3:return l=s.sent(),c=(d=r.dynamic,R.ifElse(R.compose(R.not,fe,R.prop("type")),R.always(d),R.empty))(t),[4,Maybe.of(null===(u=p())||void 0===u?void 0:u[e])];case 4:return[2,s.sent().bind(p())(l,c)]}var d}))}(e,t)}};var me=IO.of(R.compose(Maybe.run,pe("delete"))),_e=function(e){var t=R.findIndex(R.pathEq(["form","id"],e),M());R.when(R.lte(0),unsafeRemoveItem(R.__,M()))(t),R.when(R.pathEq(["form","id"],e),R.converge(D,[R.always(null)]))(L()),R.when(R.compose(R.gte(10),R.length),de)(M())},ve=function(e){var t;me.map(map(R.andThen(R.when(stateEq200,R.converge(_e,[R.always(e)]))))).unsafePerformIO({id:e,api:null===(t=m())||void 0===t?void 0:t[T()]})},he=function(){l.off("removeCacheItem")};watch((function(){return r.dynamic.businessType}),he),watch((function(){return r.dynamic.modelType}),he);var ge=R.curryN(3,(function(e,t,n){var o=R.map(R.prop("prop")),r=R.difference(o(t),o(n));return R.map(R.omit(r),e)}));var Ce=R.compose(Maybe.run,(function(){var e,t,n,o,i,c,u,s,d,f,p,_,v,h,g,C,b,w;return __generator(this,(function(x){switch(x.label){case 0:return[4,Maybe.of(R.path(["content"],L()))];case 1:return e=x.sent(),[4,Maybe.of(R.path(["rows"],e))];case 2:return t=x.sent(),n=ge(R.__,k.items,a.flatColumns),unsafeClearPush(n(t),r.tableData),y.openDialog(!1),he(),S={id:Ie(L()),type:T()},l.on("removeCacheItem",(function(){var e;me.unsafePerformIO(R.assoc("api",null===(e=m())||void 0===e?void 0:e[T()],S)),he()})),c=(i=R).converge,u=[R.call],d=(s=R).always,[4,Maybe.of(R.path(["hooks","onGetCache"],r))];case 3:return f=[d.apply(s,[x.sent()])],_=(p=R).always,h=(v=R).clone,[4,Maybe.of(R.path(["cache"],e))];case 4:return f=f.concat([_.apply(p,[h.apply(v,[x.sent()])]),R.nAry(0,T),R.always(n(t))]),C=(g=R).always,w=(b=R).clone,[4,Maybe.of(R.path(["form"],L()))];case 5:return o=c.apply(i,u.concat([f.concat([C.apply(g,[w.apply(b,[x.sent()])])])])),setTimeout(o),[2]}var S}))})),ye=((n={})[TypeOption.未提交]="/draft/manager/draft/exist/",n[TypeOption.已驳回]="/draft/manager/order/exist/",n[TypeOption.已反审]="/draft/manager/order/exist/",n),Re=R.compose(Maybe.run,pe("get")),be=R.allPass([stateEq200,R.compose(falsy,R.prop("data"))]),Te=R.converge(R.path(["messageInstance"],f).warning,[R.always("此数据已被删除,请重新打开暂存弹窗!")]),we=R.compose(map(R.andThen(R.ifElse(be,Ce,Te))),R.converge(Re,[R.converge(R.zipObj,[R.always(["id","api"]),R.converge(R.pair,[R.converge(R.path(["form","id"]),[R.nAry(0,L)]),R.converge(R.prop,[R.nAry(0,T),R.always(ye)])])])])),xe=resolveDirective("infinite-scroll"),Se={class:"iconfont icon-shanchu cx_position_ab hover_high_light_red hover_show",style:"right:16px;bottom:16px"},Ae={class:"cx_of_auto cx_h_500"},Ee={style:{width:"calc(100% - 200px)"}},Ne={style:"color: rgba(0, 0, 0, 0.45)"},Oe=__assign({class:"cx_flex_center cx_justify_center"},Ee),Le=function(e){return createVNode("div",{class:"cx_secondary_title cx_pl_16 cx_ptb_12"},e,PATCH_FLAG.TEXT)},De=R.converge(R.mergeRight,[R.compose(R.defaultTo({}),R.path(["content","cache"])),R.compose(R.defaultTo({}),R.path(["form"]))]),Ie=R.path(["form","id"]),Pe=R.path(["config","listTitle"]),Fe=R.defaultTo("新建暂存数据"),Me=R.curryN(2,(function(e,t){var n=s(r.dynamic,_()),o=R.converge(R.path,[R.identity,R.always(De(e))]);return createVNode("li",{class:"cx_pl_16 cx_cursor_pointer cx_position_re hover_show_container",key:Ie(e),style:R.compose(R.objOf("backgroundColor"),R.ifElse(R.pathEq(["form","id"],Ie(t)),R.always("#F0F5FF"),R.always("transparent")))(e),onClick:R.compose(D,R.always(e))},[createVNode("div",{class:"cx_bb cx_ptb_16"},[createVNode("div",{class:"cx_mb_12 cx_fs_14"},R.compose(Fe,getMaybeValue,map(R.compose(o)),map(R.compose(R.of)),map(R.compose(R.prop("prop"),Pe)))(n),PATCH_FLAG.TEXT),createVNode("div",Ne,R.path(["form","gmtCreate"],e),PATCH_FLAG.TEXT),createVNode("i",__assign(__assign({},Se),{onClick:R.compose(R.converge(ve,[R.always(Ie(e))]),stopPropagation,preventDefault)}))])],PATCH_FLAG.FULL_PROPS)})),Be=function(e){return withDirectives(createVNode("ul",Ae,[(openBlock(),createBlock(Fragment,null,R.map(Me(R.__,L()),e),PATCH_FLAG.KEYED_FRAGMENT))]),[[null!=xe?xe:{},le]])},ke=R.path(["config","tableInfo"]),Ve=useComputed((function(){var e=s(r.dynamic,_());return R.compose(R.defaultTo([]),getMaybeValue,map(ke))(e)})),je=function(e,t){return R.compose(R.ifElse(truthy,(function(t){var n;return[createVNode("label",null,(null!==(n=e["label_"+T()])&&void 0!==n?n:e.label)+":"),createVNode("div",{class:"cx_ml_5 cx_mr_16"},null!=t?t:e.defaultValue,PATCH_FLAG.TEXT)]}),R.always(null)),R.defaultTo(e.defaultValue),R.path([e.prop]))(t)},He=function(e){return R.compose(e,R.when(R.compose(R.is(Array),R.prop("children")),R.converge(R.set(R.lensProp("children")),[R.compose(R.map(e),R.prop("children")),R.identity])))},Ge=He(R.omit(["required"])),We=R.compose(R.when(R.compose(R.equals("款型图"),R.prop("label")),R.compose(R.set(R.lensProp("control"),R.objOf("type","imgs")),R.omit(["slot"])))),Ue=R.compose(R.when(R.compose(R.all(falsy),R.props(["slot","calculate","dynamicCalculate"])),R.assoc("slot","renderWithText"))),Xe=He(We),$e=He(Ue),Ye=R.compose(R.not,R.propSatisfies((function(e){return R.compose(truthy,R.find(R.includes(R.__,e)))(["操作","选择","多选"])}),"label")),qe=R.compose(R.map(R.compose(Xe,$e,Ge)),R.filter(Ye),R.when(R.converge(R.is(Function),[R.always(r.dynamicInject)]),r.dynamicInject));return function(e,t){return openBlock(),createBlock(Fragment,null,[createVNode(_CX_DIALOG,{title:TypeOption[T()],appendToBody:!0,okText:"编辑",width:"1524px",top:"50px",destroyOnClose:!0,onRegister:C,onOk:we,disabledOk:R.isNil(L())},{default:function(){return[createVNode("section",{class:"cx_p_16 cx_flex_center cx_justify_between"},[(openBlock(),createBlock(Fragment,null,[R.compose(h,v)()?createVNode(_CX_TAB,{level:3,options:x,modelValue:T(),"onUpdate:modelValue":w},null,PATCH_FLAG.PROPS,R.of("modelValue")):t[2]||(t[2]=createVNode("div",null,"未提交"))])),createVNode(_CX_FORM,{form:A,items:N,onChange:ce,style:"margin-bottom:-18px"},null,PATCH_FLAG.PROPS,R.of("form"))]),createVNode("section",{class:"cx_dp_flex cx_bt cx_w_100p"},[createVNode("div",{class:"cx_w_200 cx_br"},[t[0]||(t[0]=Le("订单列表")),R.compose(Be,M)()]),(openBlock(),createBlock(Fragment,null,[L()?createVNode("div",Ee,[t[1]||(t[1]=Le("明细列表")),(o=L(),createVNode("article",{class:"cx_flex_center cx_ptb_12 cx_plr_16 cx_bb"},R.compose(R.map(R.converge(je,[R.identity,R.converge(De,[R.always(o)])])),Ve)())),(e=k,n=B(),createVNode(_CX_TABLE,__assign(__assign({dynamicInject:qe},R.pick(["ignoreControl"],r)),{tableConfig:e,disabled:!0,keyboard:!1,height:427,class:"cx_m_16",tableData:n,configurable:!1}),__assign(__assign({},i),{renderWithText:function(e){var t,n,o,r,i=e.rowData,a=e.column,l=null!==(t=a.prop)&&void 0!==t?t:"",c=l.endsWith("Id")?null!==(n=i[getColumnSelectText(a)])&&void 0!==n?n:i[getColumnSelectText(a,"Name")]:null!==(r=null!==(o=i[l+"Text"])&&void 0!==o?o:i[l+"Name"])&&void 0!==r?r:i[l];return R.is(Number,a.accuracy)&&(c=decimalFixed(c,a.accuracy,!0)),[createVNode(script$3,{content:c},null,PATCH_FLAG.PROPS,["content"])]}}),PATCH_FLAG.PROPS,R.pair("dynamic","tableData")))]):createVNode("div",Oe,[createVNode(script$4)])]))])];var e,n,o}},PATCH_FLAG.PROPS,R.pair("title","disabledOk"))])}}}),renderInnerBtn=function(e){var t,n,o,r=e.$attrs,i=e.$slots;return createVNode(_CX_BTN,__assign(__assign({},r),{level:null!==(t=r.level)&&void 0!==t?t:2,loading:null===(n=r.loadingState)||void 0===n?void 0:n.loading,disabled:null===(o=r.disabledState)||void 0===o?void 0:o.disabled}),i,PATCH_FLAG.FULL_PROPS)},innerBtn=defineComponent({});innerBtn.render=renderInnerBtn;var TeleportBtn=defineComponent({name:"TeleportBtn",props:{dynamicColumn:{type:Array,required:!0},selector:{type:String,required:!0},clickHandler:{type:Function},disabledState:{type:Object,default:function(){return{disabled:!1}}}},setup:function(e,t){var n=this,o=t.attrs,r=t.slots,i=__read(useState(null),2),a=i[0],l=i[1],c=R.compose(map(unsafeSet(R.__,"innerHTML","")),Maybe.of),u=function(){return __awaiter(n,void 0,void 0,(function(){var t;return __generator(this,(function(n){switch(n.label){case 0:d(!0),n.label=1;case 1:return n.trys.push([1,3,,4]),[4,null===(t=e.clickHandler)||void 0===t?void 0:t.call(e)];case 2:case 3:return n.sent(),d(!1),[3,4];case 4:return[2]}}))}))},s=reactive({loading:!1}),d=unsafeSet(s,"loading"),f=R.compose(R.converge(render$5,[function(){return createVNode(innerBtn,__assign(__assign({},o),{disabledState:e.disabledState,loadingState:s,onClick:u}),r,PATCH_FLAG.FULL_PROPS)},R.identity]),R.tap(c),R.tap(unsafeDeleteProperty(R.__,"_vnode"))),p=IO.of(queryDom).map(R.ifElse(R.isNil,R.compose((function(){return cxTableWarn("can't find container element by selector",e.selector)}),c,a),R.compose(map(f),Maybe.of,l)));return watch((function(){return e.dynamicColumn}),(function(){return __awaiter(n,void 0,void 0,(function(){return __generator(this,(function(t){switch(t.label){case 0:return[4,nextTick()];case 1:return t.sent(),p.unsafePerformIO(e.selector),[2]}}))}))})),R.always(null)}}),CacheListBtn=defineComponent({name:"CacheListBtn",props:{dynamicColumn:{type:Array,required:!0},tableDataVisitor:{type:Object,required:!0}},setup:function(e){var t=inject("rootProp"),n=__read(useState(null),2),o=n[0],r=n[1],i=IO.of(o).map(R.compose(map(R.compose(R.when(R.is(Function),R.call),R.prop("openDialog"))),Maybe.of));return function(){return[createVNode(TeleportBtn,{dynamicColumn:e.dynamicColumn,clickHandler:i.unsafePerformIO.bind(i),selector:t.cacheListBtn,content:"暂存列表"},null,PATCH_FLAG.PROPS,R.pair("selector","dynamicColumn")),createVNode(cacheListDialog,{ref:r},null,PATCH_FLAG.NEED_PATCH)]}}}),SetCacheBtn=defineComponent({name:"SetCacheBtn",props:{dynamicColumn:{type:Array,required:!0},tableDataVisitor:{type:Object,required:!0}},setup:function(e){var t=this,n=inject("rootProp"),o=inject("bus"),r=useCxTable().getContext(),i=function(){return R.path(["dynamicCacheContext","requestInstance","default"],r)},a=useCxTableCompose().innerBracket,l=function(e){return __awaiter(t,void 0,void 0,(function(){return __generator(this,(function(t){return[2,new Promise((function(t,n){var o=R.ifElse(truthy,t,n),r=R.ifElse(R.is(Function),(function(e){return R.call(e,o)}),t);IO.of(R.path(["hooks","onSetCache"])).map(r).unsafePerformIO(e)}))]}))}))},c=__read(useState(0),2),u=c[0],s=c[1],d=reactive(R.objOf("disabled",!1)),f=unsafeSet(d,"disabled");watch(u,R.compose(f,R.not,R.gte(0)));var p=R.compose(s,R.dec,u),m=useComputed(R.compose(R.concat("暂存"),R.ifElse(R.gte(0),R.always(""),R.compose(a,R.toString)),u)),_=R.when(stateEq200,R.converge(R.path(["messageInstance"],r).success,[R.always("暂存成功")])),v=R.converge(i().postJSON.bind(i()),[R.always("/draft/manager/save"),R.identity]),h=R.converge((function(e,n){return __awaiter(t,void 0,void 0,(function(){var t,o,r,i;return __generator(this,(function(a){switch(a.label){case 0:return r=(o=R).objOf,i=["cache"],[4,l(n)];case 1:return t=r.apply(o,i.concat([a.sent()])),[2,IO.of(R.path(["tableDataVisitor","sortedData"])).map(R.objOf("rows")).map(R.mergeLeft(t)).map(R.objOf("content")).map(R.mergeLeft(R.defaultTo({},n.dynamic))).unsafePerformIO(e)]}}))}))}),[R.always(e),R.always(n)]),g=IO.of(R.compose(Maybe.of,R.path(["hooks","afterSetCache"]))),C=R.compose(R.andThen((function(){return g.map(map(R.call)).unsafePerformIO(n)})),R.andThen((function(){return o.emit("removeCacheItem")})),R.andThen(R.compose((function(){var e=setInterval(R.compose(R.when(R.gte(0),R.converge(clearInterval,[function(){return e}])),p),1e3)}),R.converge(s,[R.always(10)]))),R.andThen(_),R.andThen(v),h);return function(){return createVNode(TeleportBtn,{clickHandler:C,dynamicColumn:e.dynamicColumn,selector:n.setCacheBtn,disabledState:d},R.objOf("default",R.nAry(0,m)),PATCH_FLAG.PROPS,["selector","dynamicColumn"])}}}),CxTableTitle=defineComponent({name:"CxTableTitle",setup:function(){var e=inject("rootProp"),t={class:"cx_secondary_title cx_ptb_16"};return function(){return openBlock(),createBlock(Fragment,null,[e.title?createVNode("h3",t,e.title,PATCH_FLAG.TEXT):createCommentVNode("v-if_title",!0)],PATCH_FLAG.STABLE_FRAGMENT)}}}),useDynamicConfigDialog=function(){var e=useCxTable().getContext(),t=ref([]),n=computed((function(){return t.value.reduce((function(e,t){var n,o=null!==(n=t.tag)&&void 0!==n?n:"基本信息";return Array.isArray(e[o])?e[o].push(t):e[o]=[t],e}),{})})),o=reactive({"居左固定字段":[],"非固定字段":[],"居右固定字段":[]}),r=computed((function(){return Object.values(o).reduce((function(e,t){return e.push.apply(e,__spreadArray([],__read(t.map((function(e){return e.id}))))),e}),[])}));return{totalList:t,getDisabledKey:function(e){if(!e)return"";var t=Object.keys(o).find((function(t){return o[t].find((function(t){return t.id===e.id}))}));return(null==t?void 0:t.includes("居"))?t:""},departmentMap:n,listMap:o,checkedList:r,updateCheckedList:function(e,n){if(e){var r=t.value.find((function(e){return e.id===n}));r&&o["非固定字段"].push(r)}else Object.values(o).some((function(e){var t=e.findIndex((function(e){return e.id===n}));if(t>=0)return e.splice(t,1),!0}))},getData:function(n){return __awaiter(void 0,void 0,void 0,(function(){var r,i,a;return __generator(this,(function(l){switch(l.label){case 0:return n?[4,e.dynamicRequestInstance.get("/table/settings/get",n)]:[2,console.warn("[dynamicConfigDialog]: invalid dynamicConfig")];case 1:return r=l.sent().data,t.value=null!==(i=null==r?void 0:r.itemList)&&void 0!==i?i:[],Object.assign(o,{"居左固定字段":[],"非固定字段":[],"居右固定字段":[]}),null===(a=null==r?void 0:r.displayList)||void 0===a||a.forEach((function(e){switch(e.fixed){case"left":o["居左固定字段"].push(e);break;case"right":o["居右固定字段"].push(e);break;default:o["非固定字段"].push(e)}})),[2]}}))}))},submit:function(t){return __awaiter(void 0,void 0,void 0,(function(){var n;return __generator(this,(function(r){switch(r.label){case 0:return t?(n=Object.entries(o).reduce((function(e,t){var n=__read(t,2),o=n[0],r=n[1];return e.push.apply(e,__spreadArray([],__read(r.map((function(e){return{id:e.id,fixed:o.includes("左")?"left":o.includes("右")?"right":void 0}}))))),e}),[]),[4,e.dynamicRequestInstance.putJSON("/table/settings/save",__assign(__assign({},t),{columnList:n}))]):[2,console.warn("[dynamicConfigDialog]: invalid dynamicConfig")];case 1:return 200!==r.sent().state?[2,Promise.reject()]:(R.path(["messageInstance"],e).success("修改成功"),[2])}}))}))}}},script$2=defineComponent({name:"ColumnSettingDialog",components:{Draggable:Draggable,CxDialog:_CX_DIALOG},props:{dynamicList:{type:Array,required:!0}},emits:["submit"],install:function(e){e.component("columnSettingDialog",this)},setup:function(e,t){var n=this,o=t.emit,r=t.expose,i=__read(useCxDialog(),2),a=i[0],l=i[1].openDialog,c=useCxTable().getContext().dynamicType.DYNAMIC_BUSINESS_TYPE,u=useDynamicConfigDialog(),s=u.totalList,d=u.departmentMap,f=u.listMap,p=u.checkedList,m=u.updateCheckedList,_=u.getData,v=u.submit,h=u.getDisabledKey,g=ref(0),C=computed((function(){return e.dynamicList[g.value]})),y=computed((function(){var t;return null===(t=e.dynamicList)||void 0===t?void 0:t.map((function(e,t){var n;return{id:t,name:c[null!==(n=null==e?void 0:e.businessType)&&void 0!==n?n:""]}}))})),R=__read(useLoading((function(){return __awaiter(n,void 0,void 0,(function(){return __generator(this,(function(e){switch(e.label){case 0:return g.value=0,[4,w()];case 1:return e.sent(),[2]}}))}))})),2),b=R[0],T=R[1],w=function(){return __awaiter(n,void 0,void 0,(function(){return __generator(this,(function(e){switch(e.label){case 0:return C.value?[4,_(C.value)]:[2];case 1:return e.sent(),l(),[2]}}))}))};watch(g,w),r({open:b});var x=__read(useLoading((function(){return __awaiter(n,void 0,void 0,(function(){var t;return __generator(this,(function(n){switch(n.label){case 0:return C.value?[4,v(C.value)]:[2];case 1:return n.sent(),(null===(t=e.dynamicList)||void 0===t?void 0:t.length)<2&&l(!1),o("submit",C.value),[2]}}))}))})),2),S=x[0],A=x[1],E=computed((function(){var e,t;return"设置"+(null!==(t=c[null===(e=C.value)||void 0===e?void 0:e.dataType])&&void 0!==t?t:"")+"显示字段"}));return{totalList:s,checkedList:p,updateCheckedList:m,listMap:f,tabOptionList:y,departmentMap:d,register:a,submitData:S,activeTab:g,submitLoading:A,open:b,openLoading:T,header:E,onMove:function(e){var t,n=e.relatedContext,o=e.draggedContext,r=null==n?void 0:n.element,i=null==o?void 0:o.element,a=h(r),l=h(i);return!a||a===l||(null===(t=f[a])||void 0===t?void 0:t.length)<3}}}});const _withId$1=withScopeId("data-v-0b829fd6");pushScopeId("data-v-0b829fd6");const _hoisted_1$1=createVNode("div",null,[createVNode("div",{class:"cx_flex_center cx_justify_between"},[createVNode("div",{class:"cx_ptb_12 cx_pl_16 cx_flex_1"},"可选属性"),createVNode("div",{class:"cx_ptb_12 cx_w_250"},"已选属性")]),createVNode("div",{class:"cx_line cx_w_100p cx_m_0"})],-1),_hoisted_2={class:"cx_dp_flex cx_justify_between"},_hoisted_3={class:"cx_flex_1 cx_br cx_p_16 cx_h_500",style:{overflow:"auto",position:"relative"}},_hoisted_4={class:"cx_fs_16 cx_pl_12 cx_ptb_8",style:{"font-weight":"500"}},_hoisted_5=createVNode("div",{class:"cx_line cx_m_0 cx_w_100p cx_mtb_6"},null,-1),_hoisted_6={class:"cx_w_230 cx_p_16 cx_h_500",style:{overflow:"auto"}},_hoisted_7={key:0,class:"cx_line cx_mb_10 cx_mt_14"},_hoisted_8={class:"cx_mb_8 cx_fs_14"},_hoisted_9={class:"cx_fs_14 cx_ptb_9 hover_active cx_cursor_move"},_hoisted_10=createVNode("i",{class:"iconfont icon-tuodong1 cx_mr_8"},null,-1);popScopeId();const render$1=_withId$1(((e,t)=>{const n=resolveComponent("CxTab"),o=resolveComponent("ElCheckbox"),r=resolveComponent("Draggable"),i=resolveComponent("CxDialog"),a=resolveDirective("loading");return openBlock(),createBlock(i,{okLoading:e.submitLoading,width:"1020px",onRegister:e.register,top:"50px",title:e.header,onOk:e.submitData,"append-to-body":""},{default:_withId$1((()=>[e.tabOptionList&&e.tabOptionList.length>1?(openBlock(),createBlock(n,{key:0,class:"cx_plr_16",level:"2",options:e.tabOptionList,modelValue:e.activeTab,"onUpdate:modelValue":t[1]||(t[1]=t=>e.activeTab=t)},null,8,["options","modelValue"])):createCommentVNode("v-if",!0),_hoisted_1$1,withDirectives(createVNode("div",_hoisted_2,[createVNode("section",_hoisted_3,[(openBlock(!0),createBlock(Fragment,null,renderList(e.departmentMap,((t,n)=>(openBlock(),createBlock("div",{key:n,class:"cx_mtb_5"},[createVNode("h3",_hoisted_4,toDisplayString(n),1),(openBlock(!0),createBlock(Fragment,null,renderList(t,(t=>(openBlock(),createBlock("div",{key:t.id,class:"cx_dp_ib cx_mtb_16 cx_w_130 cx_pl_12"},[createVNode(o,{"model-value":e.checkedList.includes(t.id),"onUpdate:modelValue":n=>e.updateCheckedList(n,t.id),disabled:t.irrevocable,label:t.label,value:t.id},null,8,["model-value","onUpdate:modelValue","disabled","label","value"])])))),128)),_hoisted_5])))),128))]),createVNode("section",_hoisted_6,[(openBlock(!0),createBlock(Fragment,null,renderList(e.listMap,((t,n,o)=>(openBlock(),createBlock("div",{key:n},[0!==o?(openBlock(),createBlock("div",_hoisted_7)):createCommentVNode("v-if",!0),createVNode("h3",_hoisted_8,toDisplayString(n),1),createVNode(r,{modelValue:e.listMap[n],"onUpdate:modelValue":t=>e.listMap[n]=t,"item-key":"id",group:"list",tag:"transition-group","component-data":{tag:"ul",name:"flip-list",type:"transition"},ghostClass:"cx_opacity_20",move:e.onMove},{item:_withId$1((({element:e})=>[createVNode("li",_hoisted_9,[_hoisted_10,createTextVNode(toDisplayString(e.label),1)])])),_:2},1032,["modelValue","onUpdate:modelValue","move"])])))),128))])],512),[[a,e.openLoading]])])),_:1},8,["okLoading","onRegister","title","onOk"])}));script$2.render=render$1,script$2.__scopeId="data-v-0b829fd6",script$2.__file="src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";var script$1=defineComponent({name:"DynamicConfigSettings",components:{ColumnSettingDialog:script$2},props:{dynamicConfig:{type:Object,requred:!0}},emits:["submit"],setup:function(e,t){var n=this,o=t.emit,r=ref(null),i=__read(useLoading((function(){return __awaiter(n,void 0,void 0,(function(){var e,t;return __generator(this,(function(n){switch(n.label){case 0:return[4,null===(t=null===(e=r.value)||void 0===e?void 0:e.open)||void 0===t?void 0:t.call(e)];case 1:return n.sent(),[2]}}))}))})),2),a=i[0],l=i[1],c=inject("CxTable"),u=computed((function(){return c&&c.scrollStore.rightScrollBar?c.styleStore.CX_TABLE_SCROLL_BAR+"px":0}));return{open:a,openLoading:l,submit:function(){o("submit")},dialogRef:r,right:u}}});const _withId=withScopeId("data-v-df9138d6");pushScopeId("data-v-df9138d6");const _hoisted_1={class:"setting_btn cx_flex_center cx_justify_center"};popScopeId();const render=_withId(((e,t)=>{const n=resolveComponent("CxBtn"),o=resolveComponent("ElTooltip"),r=resolveComponent("ColumnSettingDialog");return openBlock(),createBlock("div",{style:{position:"absolute",right:e.right,top:0,zIndex:1500}},[createVNode("div",_hoisted_1,[createVNode(o,{effect:"dark",placement:"left-start",content:"设置表头字段"},{default:_withId((()=>[createVNode(n,{class:"cx_p_0",icon:"shezhi1",onClick:e.open,loading:e.openLoading},null,8,["onClick","loading"])])),_:1})]),createVNode(r,{ref:"dialogRef",onSubmit:e.submit,dynamicList:[e.dynamicConfig]},null,8,["onSubmit","dynamicList"])],4)}));script$1.render=render,script$1.__scopeId="data-v-df9138d6",script$1.__file="src/lib/cx-table/components/dynamicConfigSetting/index.vue";var CxTableProp={tableConfig:{type:Object,default:function(){return{items:[]}}},tableData:{type:Array,default:function(){return[]}},showTotalSum:{type:Boolean,default:!1},floatTotalSum:{type:Boolean,default:!1},fixTotalSum:{type:Boolean,default:!1},pagination:{type:Object,default:null},customTotalSum:{type:Object,default:null},height:{type:[Number,String],default:""},disabled:{type:Boolean,default:!1},emptyLimit:{type:Number,default:0},spanMethod:{type:Function,default:null},showAddBtn:{type:String,default:""},virtualScroll:{type:Boolean,default:!1},activeRows:{type:Array,default:function(){return[]}},ignoreControl:{type:Function,default:function(){return!1}},forceControl:{type:Function,default:function(){return!1}},styleSetting:{type:Object,default:function(){return{}}},keyboard:{type:Boolean,default:!0},expand:{type:[String,Function],default:""},title:{type:String,default:""},lazy:{type:Boolean,default:!0},widthAdaptor:{type:Boolean,default:!0},dynamic:{type:Object},cellStyle:{type:[Function,Object]},headCellStyle:{type:[Function,Object]},checkSelect:{type:Function},dynamicInject:{type:Function},cache:{type:[String,Function]},configurable:{type:Boolean,default:!0},showForm:{type:Boolean,default:!1},formTeleport:{type:String},hooks:{type:Object},cacheListBtn:{type:String},setCacheBtn:{type:String},stripe:{type:Boolean,default:!1}},script=defineComponent({name:"CxTable",props:CxTableProp,components:{Pagination:Pagination},emits:CX_TABLE_EVENT_LIST,setup:function(e,t){var n=this,o=t.slots,r=t.emit,i=t.expose,a=createCxTableConfig(),l=useDynamicConfig(e,r),c=l.columnProxy,u=l.dynamicColumn,s=l.loading,d=l.forceUpdate,f=ref(!1),p=useBus(a,e,r).bus,m=useTableId().generateTableId(),_=useCxSort(e).tableDataVisitor,v=useSelectConfig(_,r),h=v.selectConfig,g=v.setCheckSelect,C=v.clearSelection,y=v.toggleRowSelection,R=v.toggleAllSelection,b=v.getSelectValue,T=v.getSelectAllValue,w=v.setSelectDisabled,x=v.updateSelectConfig;g(e.checkSelect),p.on("toggleAllSelection",R),p.on("toggleRowSelection",y);var S=useRadioConfig(r),A=S.radioValue,E=S.removeRadio,N=S.setRadio,O=S.getRadio,L=useExpandConfig(),D=L.expandConfig,I=L.setExpand,P=L.clearExpand,F=useValidator(a,e).validate,M=usePriorityConfig(a),B=M.setConfig,k=M.removeConfig,V=M.clearConfig,j=M.onSetConfig,H=useBroadcast().broadcast,G=debounce((function(){return __awaiter(n,void 0,void 0,(function(){return __generator(this,(function(e){switch(e.label){case 0:return useAutoWidth(a),[4,nextTick()];case 1:return e.sent(),scrollUpdateShadow(a),[2]}}))}))}),50);H.registEntireListener((function(t){return __awaiter(n,void 0,void 0,(function(){var n;return __generator(this,(function(o){switch(o.label){case 0:return n=t.prop,[4,nextTick()];case 1:return o.sent(),updateCxTableWidth(a,e,n),G(),r("broadcast",t),[2]}}))}))}));var W={removeRadio:E,setRadio:N,getRadio:O,clearSelection:C,toggleRowSelection:y,toggleAllSelection:R,getSelectValue:b,getSelectAllValue:T,setSelectDisabled:w,updateSelectConfig:x,setExpand:I,clearExpand:P,setConfig:B,removeConfig:k,clearConfig:V,validate:F,forceUpdate:d,triggerBroadcast:function(e,t){H.trigger(e,t,{prop:e,rowData:t})},focusCell:function(t){var o=t.prop,r=t.rowData,i=t.rowIndex;return __awaiter(n,void 0,void 0,(function(){var t,n,l,c;return __generator(this,(function(u){switch(u.label){case 0:return o&&(r||null!=i)?e.virtualScroll?isNumber(i=null!=i?i:e.tableData.findIndex((function(e){return e===r})))&&a.wrapperEle?(t=a.styleStore.CX_TABLE_HEIGHT,a.wrapperEle.scrollTop=t*i,[4,nextTick()]):[2]:[3,2]:[2];case 1:u.sent(),u.label=2;case 2:return r=null!=r?r:e.tableData[i],(n=null===(c=a.flatColumns)||void 0===c?void 0:c.find((function(e){return e.prop===o})))?(l=domShare.getCell(a,n,r),setTimeout((function(){null==l||l.click()})),[2]):[2]}}))}))},removeCacheItem:function(){p.emit("removeCacheItem")},search:function(e){p.emit("search",e)}};i(W),r("register",{registerTarget:W,props:e}),provide("broadcast",H),provide("tableDataVisitor",_),provide("CxTable",a),provide("rootProp",e),provide("rootSlots",o),provide("bus",p),provide("loading",s),provide("selectConfig",h),provide("radioValue",A),provide("expandConfig",D),provide("tid",m),provide("dynamicColumn",u);var U=ref(null),X=ref(!e.lazy);onMounted((function(){if(U.value){a.wrapperEle=U.value;var t=useWatch(e,a,c,U,D,X),n=t.updateColumn,o=t.updateData;j.push(n),j.push(o),e.lazy&&useLazyLoad(U.value,X)}})),useRegister(a,e,_,U,p,m);var $="cx-table_wrapper",Y="cx-table_scrollWrapper",q=resolveDirective("loading"),z=function(e){return createVNode(CxTableContent,{tableData:_.sortedData,fixed:e},null,PATCH_FLAG.PROPS,["tableData"])},K=function(){var t=a.columnStore,n=t.leftFixedColumns,o=t.rightFixedColumns,r=a.scrollStore,i=r.rightScrollBar,l=r.bottomScrollBar;return[z(),(openBlock(),createBlock(Fragment,null,[n.length&&l?z("left"):createCommentVNode("v-if_left",!0)])),(openBlock(),createBlock(Fragment,null,[o.length&&l?z("right"):createCommentVNode("v-if_right",!0)])),(openBlock(),createBlock(Fragment,null,[e.height&&i?z("top"):createCommentVNode("v-if_top",!0)])),(openBlock(),createBlock(Fragment,null,[e.fixTotalSum&&e.showTotalSum&&i?z("bottom"):createCommentVNode("v-if_bottom",!0)]))]},J=function(e){return createVNode(e,{dynamicColumn:u.value,tableDataVisitor:_},null,PATCH_FLAG.PROPS,["dynamicColumn","tableDataVisitor"])},Z=computed((function(){var t=(e.tableData.length+ +!!e.showTotalSum+invokeLayeredRow(a.columns).length)*a.styleStore.CX_TABLE_HEIGHT;return{style:{height:formatWidth(e.height?Math.min(t,isNaN(+e.height)?400:+e.height):t)}}})),Q=computed((function(){return{maxHeight:isNumber(e.height)?e.height+"px":e.height}})),ee=useCSSVariable(a).cssVariable;return function(t,n){return createVNode("div",{style:ee.value,class:"cx-table_container"},[createVNode(CxTableTitle),(openBlock(),createBlock(Fragment,null,[e.setCacheBtn?J(SetCacheBtn):createCommentVNode("v-if_set_cache_btn",!0),e.cacheListBtn?J(CacheListBtn):createCommentVNode("v-if_cache_list_btn",!0)])),(openBlock(),createBlock(Fragment,null,[e.showForm?createVNode(TeleForm,{dynamicColumn:u.value,tableDataVisitor:_,loading:f.value,"onUpdate:loading":function(e){return f.value=e}},null,PATCH_FLAG.PROPS,["dynamicColumn","tableDataVisitor","loading"]):createCommentVNode("v-if_form",!0)])),createVNode("div",{tid:m,class:$},[withDirectives(createVNode("div",{class:Y,style:Q.value,ref:U},[(openBlock(),createBlock(Fragment,null,X.value?[K(),(openBlock(),createBlock(Fragment,null,[_.sortedData.length||e.emptyLimit>0||e.showAddBtn?createCommentVNode("v-if_empty",!0):createVNode(CxTableEmpty)])),n[0]||(n[0]=createVNode("div",{class:"cx-table_border_line"})),(openBlock(),createBlock(Fragment,null,[e.configurable&&e.dynamic?createVNode(script$1,{dynamicConfig:e.dynamic,onSubmit:function(){d(),r("dynamicSetting")}},null,PATCH_FLAG.PROPS|PATCH_FLAG.NEED_PATCH,["dynamicConfig"]):createCommentVNode("v-if_dynamic_config",!0)]))]:[createVNode("div",Z.value)]))],PATCH_FLAG.STYLE|PATCH_FLAG.NEED_PATCH),[[null!=q?q:{},s.value||f.value]])],PATCH_FLAG.STYLE),(openBlock(),createBlock(Fragment,null,[e.floatTotalSum?createVNode("div",{class:$},[createVNode("div",{class:Y+" cx_of_hidden"},[createVNode(CxTableBody,{tableData:_.sortedData,onlyTotal:!0,float:!0,class:"cx_mt_20",style:{right:a.scrollStore.scrollLeft+"px",position:"relative"}},null,PATCH_FLAG.FULL_PROPS)])]):createCommentVNode("v-if_float_total_sum",!0)])),(openBlock(),createBlock(Fragment,null,[isObject$1(e.pagination)?createVNode(Pagination,{pagination:e.pagination,onPaging:n[1]||(n[1]=function(){return r("paging")})},null,PATCH_FLAG.PROPS,["pagination"]):createCommentVNode("v-if_pagination",!0)]))],PATCH_FLAG.STYLE)}}});script.install=function(e){e.component(script.name,script)};var _CX_TABLE=script,components=Object.freeze({__proto__:null,CxBtn:_CX_BTN,CxTab:_CX_TAB,CxForm:_CX_FORM,CxDialog:_CX_DIALOG,CxTable:_CX_TABLE}),CxUI={install:function(e){Object.values(components).forEach((function(t){e.use(t)}))}};export default CxUI;export{ARROW_KEY,COLUMN_FLAG,CX_ADAPTOR_INT_PRECISION,CX_ADAPTOR_LOSS_PRECISION,CX_ADAPTOR_PRECISION_TYPE,CX_SORT_STATUS,CX_SPAN_METHOD_TYPE,CX_STYLE_SETTING,CX_TABLE_CACHE_PENDING,CX_TABLE_COLUMN_ID_PREPEND,CX_TABLE_COLUMN_KEY,CX_TABLE_DYNAMIC_CACHE,CX_TABLE_DYNAMIC_PROPS,CX_TABLE_EMPTY_INDEX,CX_TABLE_EVENT_LIST,CX_TABLE_ID_PREPEND,CX_TABLE_INPUT_TYPE,CX_TABLE_NOT_HOVER_ID,CX_TABLE_PER_CHAR_WIDTH,CX_TABLE_ROW_ID_PREPEND,CX_TABLE_ROW_KEY,CX_TABLE_SUM_INDEX,CX_TABLE_SUM_ROW_KEY,CX_TABLE_THROTTLE_DURATION,CX_TABLE_VISUAL_ROW_KEY,CxBroadcast,_CX_BTN as CxBtn,CxConfigAdaptor,CxControlConfig,_CX_DIALOG as CxDialog,_CX_FORM as CxForm,_CX_TAB as CxTab,_CX_TABLE as CxTable,CxTableActiveControl,CxTableRendererMap,Either,EventBus,EventBusCreator,IO,Identify,Left,Maybe,PATCH_FLAG,Right,Task,TypeOption,addResizeListener,appendChild,appendToBody,arrFlat,assignAttrs,awaitTimeout,calcInnerFormula,calcInnerItem,calcInnerOptions,calcInnerValidator,calcInvoker,calledBy,changeDynamicIdToText,clearClassList,clearInnerHTML,clearTimer,copySort,createTag,curryAddListener,curryRemoveListener,curryTimeout,cxFormRender,cxTableWarn,decimalFixed,decimals,deepMerge,defaultPromise,domShare,either,eventBus,falsy,findAncestor,formatDate,formatFormDefaultValue,formatTime,formatWidth,functorWarn,getColumnSelectText,getCxDynamicHead,getDateRange,getDoNothingIO,getEvalResult,getFunctionAttrs,getMaybeValue,getOptionsDeps,getParentColumn,getPreOrNextItem,getPrecision,getRefs,getStatusAttrs,getStringDepends,getStringWidth,getSums,getTargetColumn,getTemplateResult,getTotalSumData,hideEle,invokeLayeredRow,is,isAbsolutePath,isAnyObject,isArray,isBoolean,isClient,isDate,isDeepObjectEqual,isDef,isElement,isEmpty,isErrorLike,isFunction,isHTMLElement,isHTMLInputElement,isImageDom,isMobile,isNameWithId,isNull,isNullAndUnDef,isNumber,isObject$1 as isObject,isPromise,isRegExp,isSame,isServer$1 as isServer,isString,isTextarea,isUnDef,isUrl,isWindow,map,nextTimeout,omit,pick,preventDefault,propCall,queryDom,removeResizeListener,setClassByArr,setDisplay,setInnerText,showEle,splat,stateEq200,staticConfigList,stopPropagation,throttle$1 as throttle,toggleArrState,trace,truthy,unsafeAssign,unsafeClearArray,unsafeClearAssign,unsafeClearObj,unsafeClearPush,unsafeDeleteProperty,unsafeGet,unsafePerformIO,unsafePush,unsafeRemoveItem,unsafeSet,unsafeWhenDevCall,unsplat,updateCxTableWidth,useAutoWidth,useBroadcast,useBus,useCSSVariable,useCalcSpanMethod,useColumn,useColumnValidity,useComputed,useCopy,useCxDialog,useCxForm,useCxPagination,useCxSort,useCxTable,useCxTableCompose,useDynamicConfig,useEnumOptions,useExpandConfig,useLazyLoad,useLoading,usePriorityConfig,useRadioConfig,useRef,useRefs,useRefsArray,useRegister,useRowDataValidity,useScrollState,useSelectConfig,useState,useStyle,useSync,useTableClass,useTableId,useTableStyle,useValidator,useWatch,withParams};
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+}
+
+var toString = Object.prototype.toString;
+function is(val, type) {
+    return toString.call(val) === "[object " + type + "]";
+}
+function isEmpty(value) {
+    return (value === undefined ||
+        value === null ||
+        (typeof value === 'string' && value.trim() === '') ||
+        (typeof value === 'object' && Object.keys(value).length === 0));
+}
+function isAbsolutePath(path) {
+    return /^(https?|tel|mailto)/.test(path);
+}
+var isDef = function (val) {
+    return typeof val !== 'undefined';
+};
+var isUnDef = function (val) {
+    return !isDef(val);
+};
+var isObject$1 = function (val) {
+    return val !== null && is(val, 'Object');
+};
+function isDate(val) {
+    return is(val, 'Date');
+}
+function isNull(val) {
+    return val === null;
+}
+function isNullAndUnDef(val) {
+    return isUnDef(val) && isNull(val);
+}
+function isNumber(val) {
+    return is(val, 'Number');
+}
+function isPromise(val) {
+    return is(val, 'Promise') && isObject$1(val) && isFunction(val.then) && isFunction(val["catch"]);
+}
+function isString(val) {
+    return is(val, 'String');
+}
+// eslint-disable-next-line @typescript-eslint/ban-types
+var isFunction = function (val) { return typeof val === 'function'; };
+function isBoolean(val) {
+    return is(val, 'Boolean');
+}
+function isRegExp(val) {
+    return is(val, 'RegExp');
+}
+function isArray(val) {
+    return val && Array.isArray(val);
+}
+var isWindow = function (val) {
+    return typeof window !== 'undefined' && is(val, 'Window');
+};
+var isElement$1 = function (val) {
+    return isObject$1(val) && !!val.tagName;
+};
+var isServer$1 = typeof window === 'undefined';
+var isClient = typeof window !== 'undefined';
+function isImageDom(o) {
+    return o && ['IMAGE', 'IMG'].includes(o.tagName);
+}
+var isTextarea = function (element) {
+    return element !== null && element.tagName.toLowerCase() === 'textarea';
+};
+var isMobile = function () {
+    return !!navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
+};
+var isUrl = function (path) {
+    // eslint-disable-next-line
+    var reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
+    return reg.test(path);
+};
+function isHTMLElement$1(node) {
+    return !!node && Reflect.get(node, 'nodeType') === Node.ELEMENT_NODE;
+}
+function isHTMLInputElement(el) {
+    return isHTMLElement$1(el) && el.tagName === 'INPUT';
+}
+function isAnyObject(data) {
+    return Object.prototype.toString.call(data) === '[object Object]';
+}
+function isErrorLike(err) {
+    return typeof err === 'object' && !!err && Reflect.has(err, 'message');
+}
+function isNameWithId(obj) {
+    return Reflect.has(obj, 'id') && Reflect.has(obj, 'name');
+}
+function isSame(reg, str) {
+    if (str.indexOf('.') === -1) {
+        return false;
+    }
+    var res = str.match(reg);
+    if (Array.isArray(res) && res[0] === str) {
+        return true;
+    }
+    return false;
+}
+
+var script$9 = defineComponent({
+    name: 'CxTab',
+    props: {
+        /**
+         * tab等级,分1,2,3级,默认1级
+         */
+        level: { type: [String, Number], "default": '1' },
+        modelValue: { type: [Number, String], "default": 0 },
+        /**
+         * tab项列表,支持只传入数字项与字符创项,它们会自动转化为name+id形式
+         */
+        options: {
+            type: Array,
+            "default": function () { return []; },
+        },
+        disabled: { type: Boolean, "default": false },
+        /**
+         * badge数据源,对应tab项中的badgeKey
+         */
+        badgeObj: { type: Object, "default": function () { return ({}); } },
+    },
+    emits: ['update:modelValue', 'change'],
+    setup: function (props, _a) {
+        var _this = this;
+        var emit = _a.emit, slots = _a.slots;
+        var clickHandle = function (id) {
+            if (id === props.modelValue)
+                return;
+            if (props.disabled)
+                return;
+            emit('update:modelValue', id);
+            emit('change', id);
+        };
+        var tabs = computed(function () {
+            return props.options
+                .filter(function (item) {
+                return isObject$1(item) ? !item.hide : item;
+            })
+                .map(function (item) {
+                return isObject$1(item) ? item : { id: item, name: item };
+            });
+        });
+        var renderItems = function () {
+            return tabs.value.map(function (item) {
+                var _a, _b, _c;
+                var classList = ['cx-tab_item', 'clickable', 'cx_flex_center'];
+                props.modelValue === item.id && classList.push('cx-tab_item_active');
+                var badgeValue = (_b = props.badgeObj[(_a = item.badgeKey) !== null && _a !== void 0 ? _a : '']) !== null && _b !== void 0 ? _b : 0;
+                var badgeUnit = (_c = item.unit) !== null && _c !== void 0 ? _c : '';
+                if (badgeValue >= 100)
+                    badgeValue = '99+';
+                return createVNode('div', { onClick: function () { return clickHandle(item.id); }, "class": classList }, [
+                    item.name,
+                    badgeValue
+                        ? createVNode('div', { "class": "cx-tab_badge_" + props.level }, "" + badgeValue + badgeUnit, 2 /* CLASS */ | 1 /* TEXT */)
+                        : createCommentVNode('v-if_badge', true),
+                ], 512 /* NEED_PATCH */ | 2 /* CLASS */);
+            });
+        };
+        var wrapRef = ref(null);
+        var renderArrow = function (type) {
+            var onClick = function () {
+                if (!wrapRef.value)
+                    return;
+                var base = 300;
+                var offset = base / 10;
+                var timer = setInterval(function () {
+                    if (!wrapRef.value)
+                        return;
+                    var targetPosition = wrapRef.value.scrollLeft + (type === 'left' ? -offset : offset);
+                    wrapRef.value.scrollTo(targetPosition, 0);
+                    var stop = type === 'left'
+                        ? targetPosition <= 0
+                        : targetPosition >= wrapRef.value.scrollWidth - wrapRef.value.clientWidth;
+                    if (base === 0 || stop)
+                        clearInterval(timer);
+                    else if (base <= 3)
+                        base = 0;
+                    else {
+                        base -= base / 10;
+                        offset = base / 10;
+                    }
+                }, 10);
+            };
+            var classList = [
+                "cx-tab_" + type + "_arrow",
+                'iconfont',
+                'cx_flex_center',
+                type === 'left' ? 'icon-xiangzuo' : 'icon-xiangyou',
+            ];
+            return createVNode('div', { onClick: onClick, "class": classList }, null, 512 /* NEED_PATCH */ | 2 /* CLASS */);
+        };
+        var isShowArrow = function () {
+            if (!wrapRef.value)
+                return;
+            var tabs = wrapRef.value.querySelector('.cx-tabs');
+            if (!tabs)
+                return;
+            var wrapWidth = wrapRef.value.clientWidth;
+            var tabsWidth = tabs.clientWidth;
+            return tabsWidth > wrapWidth;
+        };
+        var showArrow = ref(isShowArrow());
+        // const MutationObserver = window.MutationObserver;
+        // const observer = new MutationObserver(() => {
+        // })
+        var debounce = function (cb, delay) {
+            var timer;
+            return function () {
+                clearTimeout(timer);
+                timer = setTimeout(cb, delay);
+            };
+        };
+        var tabsResize = debounce(function () {
+            showArrow.value = isShowArrow();
+        }, 100);
+        onMounted(function () {
+            window.addEventListener('resize', tabsResize);
+        });
+        onBeforeUnmount(function () {
+            window.removeEventListener('resize', tabsResize);
+        });
+        watch(function () { return tabs.value; }, function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _a.sent();
+                        showArrow.value = isShowArrow();
+                        return [2 /*return*/];
+                }
+            });
+        }); }, { deep: true, immediate: true });
+        return function (_, cache) {
+            var classList = [
+                'cx-tab_scroll_wrapper',
+                'cx_flex_center',
+                'cx_justify_between',
+                "level-" + props.level + "_wrapper"
+            ];
+            showArrow.value && classList.push('cx_plr_20');
+            props.disabled && classList.push('cx-tab_disabled');
+            return createVNode('div', { "class": classList }, [
+                createVNode('div', { "class": 'cx-tab_wrapper', ref: wrapRef }, [createVNode('div', { "class": 'cx-tabs' }, renderItems())], 512 /* NEED_PATCH */),
+                showArrow.value
+                    ? cache[0] || (cache[0] = renderArrow('left'))
+                    : createCommentVNode('v-if_left_arrow', true),
+                showArrow.value
+                    ? cache[1] || (cache[1] = renderArrow('right'))
+                    : createCommentVNode('v-if_right_arrow', true),
+                createVNode('div', { "class": 'cx-tab_extension' }, [slots.ext && slots.ext()])
+            ], 2 /* CLASS */);
+        };
+    },
+});
+script$9.install = function (app) {
+    app.component(script$9.name, script$9);
+};
+var _CX_TAB = script$9;
+
+// getDoNothingIO::void->IO<NOOP>
+var getDoNothingIO = function () { return IO.of(R.identity); };
+var functorWarn = function () {
+    var msg = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        msg[_i] = arguments[_i];
+    }
+    console.warn.apply(console, __spreadArray(["[Functor warn]:"], __read(msg)));
+};
+var trace = R.tap(console.log);
+var withParams = function (func, params) { return function () {
+    return func.apply(void 0, __spreadArray([], __read(params)));
+}; };
+var map = R.curry(function (cb, f) { return f.map(cb); });
+var unsafePerformIO = R.curryN(2, function (arg, io) { return io.unsafePerformIO(arg); });
+var queryDom = function (selector) { return document.querySelector(selector); };
+var calledBy = function (func, params) { return function () { return func.apply(void 0, __spreadArray([], __read(params.map(function (f) { return f(); })))); }; };
+var getMaybeValue = function (maybe) {
+    return maybe.getWithDefault();
+};
+//  either :: (a -> c) -> (b -> c) -> Either a b -> c
+var either = R.curryN(3, function (f, g, e) {
+    switch (e.constructor) {
+        case Left:
+            return f(e.__value);
+        case Right:
+            return g(e.__value);
+    }
+});
+var unsafePush = R.curryN(2, function (item, arr) {
+    arr.push.apply(arr, __spreadArray([], __read(item)));
+    return arr;
+});
+var unsafeClearPush = R.curryN(2, function (items, arr) { return (arr.splice(0), arr.push.apply(arr, __spreadArray([], __read(items))), arr); });
+var unsafeClearArray = function (arr) { return (arr.splice(0), arr); };
+var unsafeSet = R.curryN(3, Reflect.set);
+var unsafeGet = R.curryN(2, Reflect.get);
+var unsafeDeleteProperty = R.curryN(2, Reflect.deleteProperty);
+var unsafeRemoveItem = R.curryN(2, function (index, arr) {
+    arr.splice(index, 1);
+    return arr;
+});
+var unsafeClearObj = function (target) {
+    R.forEach(unsafeDeleteProperty(target), R.keys(target));
+    return target;
+};
+var unsafeAssign = R.curryN(2, function (obj, target) {
+    Object.assign(target, obj);
+    return target;
+});
+var unsafeClearAssign = R.curryN(2, function (obj, target) {
+    Object.assign(unsafeClearObj(target), obj);
+    return target;
+});
+var unsafeWhenDevCall = function (func) { return function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return process.env.NODE_ENV === 'development'
+        ? Maybe.of(func.apply(void 0, __spreadArray([], __read(args))))
+        : Maybe.none();
+}; };
+var splat = function (fun) { return function (args) { return fun.apply(void 0, __spreadArray([], __read(args))); }; };
+var unsplat = function (fun) { return function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return fun(args);
+}; };
+// truthy::any->boolean
+var truthy = function (val) { return !!val; };
+// falsy::any->boolean
+var falsy = function (val) { return !val; };
+var propCall = function (prop) {
+    return R.tap(R.when(R.compose(R.is(Function), R.prop(prop)), R.compose(R.call, R.converge(R.bind, [R.prop(prop), R.identity]))));
+};
+var preventDefault = propCall('preventDefault');
+var stopPropagation = propCall('stopPropagation');
+// stateEq200::object->boolean
+var stateEq200 = R.propEq('state', 200);
+var curryTimeout = R.curryN(2, setTimeout);
+var nextTimeout = function (cb) { return function (payload) {
+    return setTimeout(function () { return cb(payload); }, 0);
+}; };
+var awaitTimeout = function () {
+    return new Promise(R.nAry(1, setTimeout));
+};
+// clearTimer::a->a
+var clearTimer = function (timer) { return (clearTimeout(timer), clearInterval(timer), timer); };
+// successMessage::string->void->IMessageHandle
+// export const successMessage = (msg: string) => () => ElMessage.success(msg);
+// export const errorMessage = (msg: string) => () => ElMessage.error(msg);
+var defaultPromise = function (val) { return function () { return Promise.resolve(val); }; };
+// ------------------------------ dom ------------------------------
+var appendToBody = function (ele) { return (document.body.appendChild(ele), ele); };
+// createTag::string->HTMLElement
+var createTag = function (tagName) { return document.createElement(tagName); };
+var clearInnerHTML = function (ele) { return ((ele.innerHTML = ''), ele); };
+var setInnerText = R.curryN(2, function (text, ele) { return ((ele.innerText = text), ele); });
+var setClassByArr = R.curryN(2, function (classList, ele) {
+    var _a;
+    return ((_a = ele.classList).add.apply(_a, __spreadArray([], __read(classList))), ele);
+});
+// setDisplay::string->(a:HTMLElement->a:HTMLElement)
+var setDisplay = function (val) {
+    return R.when(truthy, function (ele) { return (ele.style.display = val); });
+};
+var hideEle = setDisplay('none');
+var showEle = setDisplay('block');
+var appendChild = R.curryN(2, function (child, parent) { return (parent.appendChild(child), parent); });
+var curryAddListener = R.curryN(3, function (eventName, listener, ele) {
+    return ele.addEventListener(eventName, listener), ele;
+});
+var curryRemoveListener = R.curryN(3, function (eventName, listener, ele) {
+    return ele.removeEventListener(eventName, listener), ele;
+});
+var clearClassList = function (ele) {
+    ele.className = '';
+    return ele;
+};
+
+var Identify = /** @class */ (function () {
+    function Identify(__value) {
+        this.__value = __value;
+    }
+    Identify.of = function (value) {
+        if (value == undefined) {
+            functorWarn('Provided Identify value must not be empty');
+        }
+        return new Identify(value);
+    };
+    Identify.prototype.map = function (f) {
+        return Identify.of(f(this.__value));
+    };
+    Identify.prototype.ap = function (functor) {
+        return (R.is(Function, this.__value) ? functor.map(this.__value) : this);
+    };
+    return Identify;
+}());
+var Maybe = /** @class */ (function () {
+    function Maybe(__value) {
+        this.__value = __value;
+    }
+    Maybe.of = function (value) {
+        return value == undefined ? Maybe.none() : new Maybe(value);
+    };
+    Maybe.none = function () {
+        return new Maybe(null);
+    };
+    Maybe.run = function (gen) {
+        function step(value) {
+            var result = gen.next(value);
+            if (result.done) {
+                return Maybe.of(result.value);
+            }
+            return result.value.chain(step);
+        }
+        return step();
+    };
+    Maybe.prototype.map = function (f) {
+        if (this.__value == undefined) {
+            return Maybe.none();
+        }
+        else {
+            return Maybe.of(f(this.__value));
+        }
+    };
+    Maybe.prototype.isNegative = function () {
+        return this.__value == undefined;
+    };
+    Maybe.prototype.join = function () {
+        return this.isNegative() ? Maybe.none() : this.__value;
+    };
+    Maybe.prototype.chain = function (f) {
+        return this.map(f).join();
+    };
+    Maybe.prototype.getWithDefault = function (defaultValue) {
+        return this.isNegative() ? defaultValue : this.__value;
+    };
+    Maybe.prototype.ap = function (functor) {
+        return (R.is(Function, this.__value) ? functor.map(this.__value) : this);
+    };
+    return Maybe;
+}());
+var IO = /** @class */ (function () {
+    function IO(__value) {
+        this.__value = __value;
+    }
+    IO.of = function (value) {
+        return new IO(value);
+    };
+    IO.prototype.map = function (f) {
+        return new IO(R.compose(f, this.__value));
+    };
+    IO.prototype.join = function () {
+        return this.unsafePerformIO();
+    };
+    IO.prototype.chain = function (f) {
+        return this.map(f).join();
+    };
+    IO.prototype.unsafePerformIO = function (arg) {
+        return this.__value(arg);
+    };
+    IO.prototype.ap = function (functor) {
+        var res = this.unsafePerformIO(functor.unsafePerformIO());
+        return (R.is(Function, res) ? IO.of(res) : IO.of(function () { return res; }));
+    };
+    return IO;
+}());
+var Task = /** @class */ (function () {
+    function Task(fork, cleanup) {
+        if (cleanup === void 0) { cleanup = function () { return void 0; }; }
+        this.fork = fork;
+        this.cleanup = cleanup;
+    }
+    Task.of = function (b) {
+        return new Task(function (_, resolve) {
+            return resolve(b);
+        });
+    };
+    Task.prototype.map = function (f) {
+        var fork = this.fork;
+        var cleanup = this.cleanup;
+        return new Task(function (reject, resolve) {
+            return fork(reject, R.compose(resolve, f));
+        }, cleanup);
+    };
+    return Task;
+}());
+var Left = /** @class */ (function () {
+    function Left(__value) {
+        this.__value = __value;
+    }
+    Left.of = function (value) {
+        if (value == undefined) {
+            functorWarn('Provided value must not be empty');
+        }
+        return new Left(value);
+    };
+    Left.prototype.map = function (f) {
+        return this;
+    };
+    Left.prototype.ap = function (functor) {
+        return this;
+    };
+    return Left;
+}());
+var Right = /** @class */ (function () {
+    function Right(__value) {
+        this.__value = __value;
+    }
+    Right.of = function (value) {
+        if (value == undefined) {
+            functorWarn('Provided Right value must not be empty');
+        }
+        return new Right(value);
+    };
+    Right.prototype.map = function (f) {
+        return Right.of(f(this.__value));
+    };
+    Right.prototype.ap = function (functor) {
+        return (R.is(Function, this.__value) ? functor.map(this.__value) : this);
+    };
+    return Right;
+}());
+var Either = /** @class */ (function () {
+    function Either(left, right) {
+        this.left = left;
+        this.right = right;
+    }
+    return Either;
+}());
+
+/**
+ * A collection of shims that provide minimal functionality of the ES6 collections.
+ *
+ * These implementations are not meant to be used outside of the ResizeObserver
+ * modules as they cover only a limited range of use cases.
+ */
+/* eslint-disable require-jsdoc, valid-jsdoc */
+var MapShim = (function () {
+    if (typeof Map !== 'undefined') {
+        return Map;
+    }
+    /**
+     * Returns index in provided array that matches the specified key.
+     *
+     * @param {Array<Array>} arr
+     * @param {*} key
+     * @returns {number}
+     */
+    function getIndex(arr, key) {
+        var result = -1;
+        arr.some(function (entry, index) {
+            if (entry[0] === key) {
+                result = index;
+                return true;
+            }
+            return false;
+        });
+        return result;
+    }
+    return /** @class */ (function () {
+        function class_1() {
+            this.__entries__ = [];
+        }
+        Object.defineProperty(class_1.prototype, "size", {
+            /**
+             * @returns {boolean}
+             */
+            get: function () {
+                return this.__entries__.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @param {*} key
+         * @returns {*}
+         */
+        class_1.prototype.get = function (key) {
+            var index = getIndex(this.__entries__, key);
+            var entry = this.__entries__[index];
+            return entry && entry[1];
+        };
+        /**
+         * @param {*} key
+         * @param {*} value
+         * @returns {void}
+         */
+        class_1.prototype.set = function (key, value) {
+            var index = getIndex(this.__entries__, key);
+            if (~index) {
+                this.__entries__[index][1] = value;
+            }
+            else {
+                this.__entries__.push([key, value]);
+            }
+        };
+        /**
+         * @param {*} key
+         * @returns {void}
+         */
+        class_1.prototype.delete = function (key) {
+            var entries = this.__entries__;
+            var index = getIndex(entries, key);
+            if (~index) {
+                entries.splice(index, 1);
+            }
+        };
+        /**
+         * @param {*} key
+         * @returns {void}
+         */
+        class_1.prototype.has = function (key) {
+            return !!~getIndex(this.__entries__, key);
+        };
+        /**
+         * @returns {void}
+         */
+        class_1.prototype.clear = function () {
+            this.__entries__.splice(0);
+        };
+        /**
+         * @param {Function} callback
+         * @param {*} [ctx=null]
+         * @returns {void}
+         */
+        class_1.prototype.forEach = function (callback, ctx) {
+            if (ctx === void 0) { ctx = null; }
+            for (var _i = 0, _a = this.__entries__; _i < _a.length; _i++) {
+                var entry = _a[_i];
+                callback.call(ctx, entry[1], entry[0]);
+            }
+        };
+        return class_1;
+    }());
+})();
+
+/**
+ * Detects whether window and document objects are available in current environment.
+ */
+var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined' && window.document === document;
+
+// Returns global object of a current environment.
+var global$1 = (function () {
+    if (typeof global !== 'undefined' && global.Math === Math) {
+        return global;
+    }
+    if (typeof self !== 'undefined' && self.Math === Math) {
+        return self;
+    }
+    if (typeof window !== 'undefined' && window.Math === Math) {
+        return window;
+    }
+    // eslint-disable-next-line no-new-func
+    return Function('return this')();
+})();
+
+/**
+ * A shim for the requestAnimationFrame which falls back to the setTimeout if
+ * first one is not supported.
+ *
+ * @returns {number} Requests' identifier.
+ */
+var requestAnimationFrame$1 = (function () {
+    if (typeof requestAnimationFrame === 'function') {
+        // It's required to use a bounded function because IE sometimes throws
+        // an "Invalid calling object" error if rAF is invoked without the global
+        // object on the left hand side.
+        return requestAnimationFrame.bind(global$1);
+    }
+    return function (callback) { return setTimeout(function () { return callback(Date.now()); }, 1000 / 60); };
+})();
+
+// Defines minimum timeout before adding a trailing call.
+var trailingTimeout = 2;
+/**
+ * Creates a wrapper function which ensures that provided callback will be
+ * invoked only once during the specified delay period.
+ *
+ * @param {Function} callback - Function to be invoked after the delay period.
+ * @param {number} delay - Delay after which to invoke callback.
+ * @returns {Function}
+ */
+function throttle$2 (callback, delay) {
+    var leadingCall = false, trailingCall = false, lastCallTime = 0;
+    /**
+     * Invokes the original callback function and schedules new invocation if
+     * the "proxy" was called during current request.
+     *
+     * @returns {void}
+     */
+    function resolvePending() {
+        if (leadingCall) {
+            leadingCall = false;
+            callback();
+        }
+        if (trailingCall) {
+            proxy();
+        }
+    }
+    /**
+     * Callback invoked after the specified delay. It will further postpone
+     * invocation of the original function delegating it to the
+     * requestAnimationFrame.
+     *
+     * @returns {void}
+     */
+    function timeoutCallback() {
+        requestAnimationFrame$1(resolvePending);
+    }
+    /**
+     * Schedules invocation of the original function.
+     *
+     * @returns {void}
+     */
+    function proxy() {
+        var timeStamp = Date.now();
+        if (leadingCall) {
+            // Reject immediately following calls.
+            if (timeStamp - lastCallTime < trailingTimeout) {
+                return;
+            }
+            // Schedule new call to be in invoked when the pending one is resolved.
+            // This is important for "transitions" which never actually start
+            // immediately so there is a chance that we might miss one if change
+            // happens amids the pending invocation.
+            trailingCall = true;
+        }
+        else {
+            leadingCall = true;
+            trailingCall = false;
+            setTimeout(timeoutCallback, delay);
+        }
+        lastCallTime = timeStamp;
+    }
+    return proxy;
+}
+
+// Minimum delay before invoking the update of observers.
+var REFRESH_DELAY = 20;
+// A list of substrings of CSS properties used to find transition events that
+// might affect dimensions of observed elements.
+var transitionKeys = ['top', 'right', 'bottom', 'left', 'width', 'height', 'size', 'weight'];
+// Check if MutationObserver is available.
+var mutationObserverSupported = typeof MutationObserver !== 'undefined';
+/**
+ * Singleton controller class which handles updates of ResizeObserver instances.
+ */
+var ResizeObserverController = /** @class */ (function () {
+    /**
+     * Creates a new instance of ResizeObserverController.
+     *
+     * @private
+     */
+    function ResizeObserverController() {
+        /**
+         * Indicates whether DOM listeners have been added.
+         *
+         * @private {boolean}
+         */
+        this.connected_ = false;
+        /**
+         * Tells that controller has subscribed for Mutation Events.
+         *
+         * @private {boolean}
+         */
+        this.mutationEventsAdded_ = false;
+        /**
+         * Keeps reference to the instance of MutationObserver.
+         *
+         * @private {MutationObserver}
+         */
+        this.mutationsObserver_ = null;
+        /**
+         * A list of connected observers.
+         *
+         * @private {Array<ResizeObserverSPI>}
+         */
+        this.observers_ = [];
+        this.onTransitionEnd_ = this.onTransitionEnd_.bind(this);
+        this.refresh = throttle$2(this.refresh.bind(this), REFRESH_DELAY);
+    }
+    /**
+     * Adds observer to observers list.
+     *
+     * @param {ResizeObserverSPI} observer - Observer to be added.
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.addObserver = function (observer) {
+        if (!~this.observers_.indexOf(observer)) {
+            this.observers_.push(observer);
+        }
+        // Add listeners if they haven't been added yet.
+        if (!this.connected_) {
+            this.connect_();
+        }
+    };
+    /**
+     * Removes observer from observers list.
+     *
+     * @param {ResizeObserverSPI} observer - Observer to be removed.
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.removeObserver = function (observer) {
+        var observers = this.observers_;
+        var index = observers.indexOf(observer);
+        // Remove observer if it's present in registry.
+        if (~index) {
+            observers.splice(index, 1);
+        }
+        // Remove listeners if controller has no connected observers.
+        if (!observers.length && this.connected_) {
+            this.disconnect_();
+        }
+    };
+    /**
+     * Invokes the update of observers. It will continue running updates insofar
+     * it detects changes.
+     *
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.refresh = function () {
+        var changesDetected = this.updateObservers_();
+        // Continue running updates if changes have been detected as there might
+        // be future ones caused by CSS transitions.
+        if (changesDetected) {
+            this.refresh();
+        }
+    };
+    /**
+     * Updates every observer from observers list and notifies them of queued
+     * entries.
+     *
+     * @private
+     * @returns {boolean} Returns "true" if any observer has detected changes in
+     *      dimensions of it's elements.
+     */
+    ResizeObserverController.prototype.updateObservers_ = function () {
+        // Collect observers that have active observations.
+        var activeObservers = this.observers_.filter(function (observer) {
+            return observer.gatherActive(), observer.hasActive();
+        });
+        // Deliver notifications in a separate cycle in order to avoid any
+        // collisions between observers, e.g. when multiple instances of
+        // ResizeObserver are tracking the same element and the callback of one
+        // of them changes content dimensions of the observed target. Sometimes
+        // this may result in notifications being blocked for the rest of observers.
+        activeObservers.forEach(function (observer) { return observer.broadcastActive(); });
+        return activeObservers.length > 0;
+    };
+    /**
+     * Initializes DOM listeners.
+     *
+     * @private
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.connect_ = function () {
+        // Do nothing if running in a non-browser environment or if listeners
+        // have been already added.
+        if (!isBrowser || this.connected_) {
+            return;
+        }
+        // Subscription to the "Transitionend" event is used as a workaround for
+        // delayed transitions. This way it's possible to capture at least the
+        // final state of an element.
+        document.addEventListener('transitionend', this.onTransitionEnd_);
+        window.addEventListener('resize', this.refresh);
+        if (mutationObserverSupported) {
+            this.mutationsObserver_ = new MutationObserver(this.refresh);
+            this.mutationsObserver_.observe(document, {
+                attributes: true,
+                childList: true,
+                characterData: true,
+                subtree: true
+            });
+        }
+        else {
+            document.addEventListener('DOMSubtreeModified', this.refresh);
+            this.mutationEventsAdded_ = true;
+        }
+        this.connected_ = true;
+    };
+    /**
+     * Removes DOM listeners.
+     *
+     * @private
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.disconnect_ = function () {
+        // Do nothing if running in a non-browser environment or if listeners
+        // have been already removed.
+        if (!isBrowser || !this.connected_) {
+            return;
+        }
+        document.removeEventListener('transitionend', this.onTransitionEnd_);
+        window.removeEventListener('resize', this.refresh);
+        if (this.mutationsObserver_) {
+            this.mutationsObserver_.disconnect();
+        }
+        if (this.mutationEventsAdded_) {
+            document.removeEventListener('DOMSubtreeModified', this.refresh);
+        }
+        this.mutationsObserver_ = null;
+        this.mutationEventsAdded_ = false;
+        this.connected_ = false;
+    };
+    /**
+     * "Transitionend" event handler.
+     *
+     * @private
+     * @param {TransitionEvent} event
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.onTransitionEnd_ = function (_a) {
+        var _b = _a.propertyName, propertyName = _b === void 0 ? '' : _b;
+        // Detect whether transition may affect dimensions of an element.
+        var isReflowProperty = transitionKeys.some(function (key) {
+            return !!~propertyName.indexOf(key);
+        });
+        if (isReflowProperty) {
+            this.refresh();
+        }
+    };
+    /**
+     * Returns instance of the ResizeObserverController.
+     *
+     * @returns {ResizeObserverController}
+     */
+    ResizeObserverController.getInstance = function () {
+        if (!this.instance_) {
+            this.instance_ = new ResizeObserverController();
+        }
+        return this.instance_;
+    };
+    /**
+     * Holds reference to the controller's instance.
+     *
+     * @private {ResizeObserverController}
+     */
+    ResizeObserverController.instance_ = null;
+    return ResizeObserverController;
+}());
+
+/**
+ * Defines non-writable/enumerable properties of the provided target object.
+ *
+ * @param {Object} target - Object for which to define properties.
+ * @param {Object} props - Properties to be defined.
+ * @returns {Object} Target object.
+ */
+var defineConfigurable = (function (target, props) {
+    for (var _i = 0, _a = Object.keys(props); _i < _a.length; _i++) {
+        var key = _a[_i];
+        Object.defineProperty(target, key, {
+            value: props[key],
+            enumerable: false,
+            writable: false,
+            configurable: true
+        });
+    }
+    return target;
+});
+
+/**
+ * Returns the global object associated with provided element.
+ *
+ * @param {Object} target
+ * @returns {Object}
+ */
+var getWindowOf = (function (target) {
+    // Assume that the element is an instance of Node, which means that it
+    // has the "ownerDocument" property from which we can retrieve a
+    // corresponding global object.
+    var ownerGlobal = target && target.ownerDocument && target.ownerDocument.defaultView;
+    // Return the local global object if it's not possible extract one from
+    // provided element.
+    return ownerGlobal || global$1;
+});
+
+// Placeholder of an empty content rectangle.
+var emptyRect = createRectInit(0, 0, 0, 0);
+/**
+ * Converts provided string to a number.
+ *
+ * @param {number|string} value
+ * @returns {number}
+ */
+function toFloat(value) {
+    return parseFloat(value) || 0;
+}
+/**
+ * Extracts borders size from provided styles.
+ *
+ * @param {CSSStyleDeclaration} styles
+ * @param {...string} positions - Borders positions (top, right, ...)
+ * @returns {number}
+ */
+function getBordersSize(styles) {
+    var positions = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        positions[_i - 1] = arguments[_i];
+    }
+    return positions.reduce(function (size, position) {
+        var value = styles['border-' + position + '-width'];
+        return size + toFloat(value);
+    }, 0);
+}
+/**
+ * Extracts paddings sizes from provided styles.
+ *
+ * @param {CSSStyleDeclaration} styles
+ * @returns {Object} Paddings box.
+ */
+function getPaddings(styles) {
+    var positions = ['top', 'right', 'bottom', 'left'];
+    var paddings = {};
+    for (var _i = 0, positions_1 = positions; _i < positions_1.length; _i++) {
+        var position = positions_1[_i];
+        var value = styles['padding-' + position];
+        paddings[position] = toFloat(value);
+    }
+    return paddings;
+}
+/**
+ * Calculates content rectangle of provided SVG element.
+ *
+ * @param {SVGGraphicsElement} target - Element content rectangle of which needs
+ *      to be calculated.
+ * @returns {DOMRectInit}
+ */
+function getSVGContentRect(target) {
+    var bbox = target.getBBox();
+    return createRectInit(0, 0, bbox.width, bbox.height);
+}
+/**
+ * Calculates content rectangle of provided HTMLElement.
+ *
+ * @param {HTMLElement} target - Element for which to calculate the content rectangle.
+ * @returns {DOMRectInit}
+ */
+function getHTMLElementContentRect(target) {
+    // Client width & height properties can't be
+    // used exclusively as they provide rounded values.
+    var clientWidth = target.clientWidth, clientHeight = target.clientHeight;
+    // By this condition we can catch all non-replaced inline, hidden and
+    // detached elements. Though elements with width & height properties less
+    // than 0.5 will be discarded as well.
+    //
+    // Without it we would need to implement separate methods for each of
+    // those cases and it's not possible to perform a precise and performance
+    // effective test for hidden elements. E.g. even jQuery's ':visible' filter
+    // gives wrong results for elements with width & height less than 0.5.
+    if (!clientWidth && !clientHeight) {
+        return emptyRect;
+    }
+    var styles = getWindowOf(target).getComputedStyle(target);
+    var paddings = getPaddings(styles);
+    var horizPad = paddings.left + paddings.right;
+    var vertPad = paddings.top + paddings.bottom;
+    // Computed styles of width & height are being used because they are the
+    // only dimensions available to JS that contain non-rounded values. It could
+    // be possible to utilize the getBoundingClientRect if only it's data wasn't
+    // affected by CSS transformations let alone paddings, borders and scroll bars.
+    var width = toFloat(styles.width), height = toFloat(styles.height);
+    // Width & height include paddings and borders when the 'border-box' box
+    // model is applied (except for IE).
+    if (styles.boxSizing === 'border-box') {
+        // Following conditions are required to handle Internet Explorer which
+        // doesn't include paddings and borders to computed CSS dimensions.
+        //
+        // We can say that if CSS dimensions + paddings are equal to the "client"
+        // properties then it's either IE, and thus we don't need to subtract
+        // anything, or an element merely doesn't have paddings/borders styles.
+        if (Math.round(width + horizPad) !== clientWidth) {
+            width -= getBordersSize(styles, 'left', 'right') + horizPad;
+        }
+        if (Math.round(height + vertPad) !== clientHeight) {
+            height -= getBordersSize(styles, 'top', 'bottom') + vertPad;
+        }
+    }
+    // Following steps can't be applied to the document's root element as its
+    // client[Width/Height] properties represent viewport area of the window.
+    // Besides, it's as well not necessary as the <html> itself neither has
+    // rendered scroll bars nor it can be clipped.
+    if (!isDocumentElement(target)) {
+        // In some browsers (only in Firefox, actually) CSS width & height
+        // include scroll bars size which can be removed at this step as scroll
+        // bars are the only difference between rounded dimensions + paddings
+        // and "client" properties, though that is not always true in Chrome.
+        var vertScrollbar = Math.round(width + horizPad) - clientWidth;
+        var horizScrollbar = Math.round(height + vertPad) - clientHeight;
+        // Chrome has a rather weird rounding of "client" properties.
+        // E.g. for an element with content width of 314.2px it sometimes gives
+        // the client width of 315px and for the width of 314.7px it may give
+        // 314px. And it doesn't happen all the time. So just ignore this delta
+        // as a non-relevant.
+        if (Math.abs(vertScrollbar) !== 1) {
+            width -= vertScrollbar;
+        }
+        if (Math.abs(horizScrollbar) !== 1) {
+            height -= horizScrollbar;
+        }
+    }
+    return createRectInit(paddings.left, paddings.top, width, height);
+}
+/**
+ * Checks whether provided element is an instance of the SVGGraphicsElement.
+ *
+ * @param {Element} target - Element to be checked.
+ * @returns {boolean}
+ */
+var isSVGGraphicsElement = (function () {
+    // Some browsers, namely IE and Edge, don't have the SVGGraphicsElement
+    // interface.
+    if (typeof SVGGraphicsElement !== 'undefined') {
+        return function (target) { return target instanceof getWindowOf(target).SVGGraphicsElement; };
+    }
+    // If it's so, then check that element is at least an instance of the
+    // SVGElement and that it has the "getBBox" method.
+    // eslint-disable-next-line no-extra-parens
+    return function (target) { return (target instanceof getWindowOf(target).SVGElement &&
+        typeof target.getBBox === 'function'); };
+})();
+/**
+ * Checks whether provided element is a document element (<html>).
+ *
+ * @param {Element} target - Element to be checked.
+ * @returns {boolean}
+ */
+function isDocumentElement(target) {
+    return target === getWindowOf(target).document.documentElement;
+}
+/**
+ * Calculates an appropriate content rectangle for provided html or svg element.
+ *
+ * @param {Element} target - Element content rectangle of which needs to be calculated.
+ * @returns {DOMRectInit}
+ */
+function getContentRect(target) {
+    if (!isBrowser) {
+        return emptyRect;
+    }
+    if (isSVGGraphicsElement(target)) {
+        return getSVGContentRect(target);
+    }
+    return getHTMLElementContentRect(target);
+}
+/**
+ * Creates rectangle with an interface of the DOMRectReadOnly.
+ * Spec: https://drafts.fxtf.org/geometry/#domrectreadonly
+ *
+ * @param {DOMRectInit} rectInit - Object with rectangle's x/y coordinates and dimensions.
+ * @returns {DOMRectReadOnly}
+ */
+function createReadOnlyRect(_a) {
+    var x = _a.x, y = _a.y, width = _a.width, height = _a.height;
+    // If DOMRectReadOnly is available use it as a prototype for the rectangle.
+    var Constr = typeof DOMRectReadOnly !== 'undefined' ? DOMRectReadOnly : Object;
+    var rect = Object.create(Constr.prototype);
+    // Rectangle's properties are not writable and non-enumerable.
+    defineConfigurable(rect, {
+        x: x, y: y, width: width, height: height,
+        top: y,
+        right: x + width,
+        bottom: height + y,
+        left: x
+    });
+    return rect;
+}
+/**
+ * Creates DOMRectInit object based on the provided dimensions and the x/y coordinates.
+ * Spec: https://drafts.fxtf.org/geometry/#dictdef-domrectinit
+ *
+ * @param {number} x - X coordinate.
+ * @param {number} y - Y coordinate.
+ * @param {number} width - Rectangle's width.
+ * @param {number} height - Rectangle's height.
+ * @returns {DOMRectInit}
+ */
+function createRectInit(x, y, width, height) {
+    return { x: x, y: y, width: width, height: height };
+}
+
+/**
+ * Class that is responsible for computations of the content rectangle of
+ * provided DOM element and for keeping track of it's changes.
+ */
+var ResizeObservation = /** @class */ (function () {
+    /**
+     * Creates an instance of ResizeObservation.
+     *
+     * @param {Element} target - Element to be observed.
+     */
+    function ResizeObservation(target) {
+        /**
+         * Broadcasted width of content rectangle.
+         *
+         * @type {number}
+         */
+        this.broadcastWidth = 0;
+        /**
+         * Broadcasted height of content rectangle.
+         *
+         * @type {number}
+         */
+        this.broadcastHeight = 0;
+        /**
+         * Reference to the last observed content rectangle.
+         *
+         * @private {DOMRectInit}
+         */
+        this.contentRect_ = createRectInit(0, 0, 0, 0);
+        this.target = target;
+    }
+    /**
+     * Updates content rectangle and tells whether it's width or height properties
+     * have changed since the last broadcast.
+     *
+     * @returns {boolean}
+     */
+    ResizeObservation.prototype.isActive = function () {
+        var rect = getContentRect(this.target);
+        this.contentRect_ = rect;
+        return (rect.width !== this.broadcastWidth ||
+            rect.height !== this.broadcastHeight);
+    };
+    /**
+     * Updates 'broadcastWidth' and 'broadcastHeight' properties with a data
+     * from the corresponding properties of the last observed content rectangle.
+     *
+     * @returns {DOMRectInit} Last observed content rectangle.
+     */
+    ResizeObservation.prototype.broadcastRect = function () {
+        var rect = this.contentRect_;
+        this.broadcastWidth = rect.width;
+        this.broadcastHeight = rect.height;
+        return rect;
+    };
+    return ResizeObservation;
+}());
+
+var ResizeObserverEntry = /** @class */ (function () {
+    /**
+     * Creates an instance of ResizeObserverEntry.
+     *
+     * @param {Element} target - Element that is being observed.
+     * @param {DOMRectInit} rectInit - Data of the element's content rectangle.
+     */
+    function ResizeObserverEntry(target, rectInit) {
+        var contentRect = createReadOnlyRect(rectInit);
+        // According to the specification following properties are not writable
+        // and are also not enumerable in the native implementation.
+        //
+        // Property accessors are not being used as they'd require to define a
+        // private WeakMap storage which may cause memory leaks in browsers that
+        // don't support this type of collections.
+        defineConfigurable(this, { target: target, contentRect: contentRect });
+    }
+    return ResizeObserverEntry;
+}());
+
+var ResizeObserverSPI = /** @class */ (function () {
+    /**
+     * Creates a new instance of ResizeObserver.
+     *
+     * @param {ResizeObserverCallback} callback - Callback function that is invoked
+     *      when one of the observed elements changes it's content dimensions.
+     * @param {ResizeObserverController} controller - Controller instance which
+     *      is responsible for the updates of observer.
+     * @param {ResizeObserver} callbackCtx - Reference to the public
+     *      ResizeObserver instance which will be passed to callback function.
+     */
+    function ResizeObserverSPI(callback, controller, callbackCtx) {
+        /**
+         * Collection of resize observations that have detected changes in dimensions
+         * of elements.
+         *
+         * @private {Array<ResizeObservation>}
+         */
+        this.activeObservations_ = [];
+        /**
+         * Registry of the ResizeObservation instances.
+         *
+         * @private {Map<Element, ResizeObservation>}
+         */
+        this.observations_ = new MapShim();
+        if (typeof callback !== 'function') {
+            throw new TypeError('The callback provided as parameter 1 is not a function.');
+        }
+        this.callback_ = callback;
+        this.controller_ = controller;
+        this.callbackCtx_ = callbackCtx;
+    }
+    /**
+     * Starts observing provided element.
+     *
+     * @param {Element} target - Element to be observed.
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.observe = function (target) {
+        if (!arguments.length) {
+            throw new TypeError('1 argument required, but only 0 present.');
+        }
+        // Do nothing if current environment doesn't have the Element interface.
+        if (typeof Element === 'undefined' || !(Element instanceof Object)) {
+            return;
+        }
+        if (!(target instanceof getWindowOf(target).Element)) {
+            throw new TypeError('parameter 1 is not of type "Element".');
+        }
+        var observations = this.observations_;
+        // Do nothing if element is already being observed.
+        if (observations.has(target)) {
+            return;
+        }
+        observations.set(target, new ResizeObservation(target));
+        this.controller_.addObserver(this);
+        // Force the update of observations.
+        this.controller_.refresh();
+    };
+    /**
+     * Stops observing provided element.
+     *
+     * @param {Element} target - Element to stop observing.
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.unobserve = function (target) {
+        if (!arguments.length) {
+            throw new TypeError('1 argument required, but only 0 present.');
+        }
+        // Do nothing if current environment doesn't have the Element interface.
+        if (typeof Element === 'undefined' || !(Element instanceof Object)) {
+            return;
+        }
+        if (!(target instanceof getWindowOf(target).Element)) {
+            throw new TypeError('parameter 1 is not of type "Element".');
+        }
+        var observations = this.observations_;
+        // Do nothing if element is not being observed.
+        if (!observations.has(target)) {
+            return;
+        }
+        observations.delete(target);
+        if (!observations.size) {
+            this.controller_.removeObserver(this);
+        }
+    };
+    /**
+     * Stops observing all elements.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.disconnect = function () {
+        this.clearActive();
+        this.observations_.clear();
+        this.controller_.removeObserver(this);
+    };
+    /**
+     * Collects observation instances the associated element of which has changed
+     * it's content rectangle.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.gatherActive = function () {
+        var _this = this;
+        this.clearActive();
+        this.observations_.forEach(function (observation) {
+            if (observation.isActive()) {
+                _this.activeObservations_.push(observation);
+            }
+        });
+    };
+    /**
+     * Invokes initial callback function with a list of ResizeObserverEntry
+     * instances collected from active resize observations.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.broadcastActive = function () {
+        // Do nothing if observer doesn't have active observations.
+        if (!this.hasActive()) {
+            return;
+        }
+        var ctx = this.callbackCtx_;
+        // Create ResizeObserverEntry instance for every active observation.
+        var entries = this.activeObservations_.map(function (observation) {
+            return new ResizeObserverEntry(observation.target, observation.broadcastRect());
+        });
+        this.callback_.call(ctx, entries, ctx);
+        this.clearActive();
+    };
+    /**
+     * Clears the collection of active observations.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.clearActive = function () {
+        this.activeObservations_.splice(0);
+    };
+    /**
+     * Tells whether observer has active observations.
+     *
+     * @returns {boolean}
+     */
+    ResizeObserverSPI.prototype.hasActive = function () {
+        return this.activeObservations_.length > 0;
+    };
+    return ResizeObserverSPI;
+}());
+
+// Registry of internal observers. If WeakMap is not available use current shim
+// for the Map collection as it has all required methods and because WeakMap
+// can't be fully polyfilled anyway.
+var observers = typeof WeakMap !== 'undefined' ? new WeakMap() : new MapShim();
+/**
+ * ResizeObserver API. Encapsulates the ResizeObserver SPI implementation
+ * exposing only those methods and properties that are defined in the spec.
+ */
+var ResizeObserver = /** @class */ (function () {
+    /**
+     * Creates a new instance of ResizeObserver.
+     *
+     * @param {ResizeObserverCallback} callback - Callback that is invoked when
+     *      dimensions of the observed elements change.
+     */
+    function ResizeObserver(callback) {
+        if (!(this instanceof ResizeObserver)) {
+            throw new TypeError('Cannot call a class as a function.');
+        }
+        if (!arguments.length) {
+            throw new TypeError('1 argument required, but only 0 present.');
+        }
+        var controller = ResizeObserverController.getInstance();
+        var observer = new ResizeObserverSPI(callback, controller, this);
+        observers.set(this, observer);
+    }
+    return ResizeObserver;
+}());
+// Expose public methods of ResizeObserver.
+[
+    'observe',
+    'unobserve',
+    'disconnect'
+].forEach(function (method) {
+    ResizeObserver.prototype[method] = function () {
+        var _a;
+        return (_a = observers.get(this))[method].apply(_a, arguments);
+    };
+});
+
+var index = (function () {
+    // Export existing implementation if available.
+    if (typeof global$1.ResizeObserver !== 'undefined') {
+        return global$1.ResizeObserver;
+    }
+    return ResizeObserver;
+})();
+
+var isServer = typeof window === 'undefined';
+var resizeHandler = function (entries) {
+    var e_1, _a;
+    try {
+        for (var entries_1 = __values(entries), entries_1_1 = entries_1.next(); !entries_1_1.done; entries_1_1 = entries_1.next()) {
+            var entry = entries_1_1.value;
+            var listeners = entry.target.__resizeListeners__ || [];
+            if (listeners.length) {
+                listeners.forEach(function (fn) {
+                    fn();
+                });
+            }
+        }
+    }
+    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+    finally {
+        try {
+            if (entries_1_1 && !entries_1_1.done && (_a = entries_1["return"])) _a.call(entries_1);
+        }
+        finally { if (e_1) throw e_1.error; }
+    }
+};
+var addResizeListener = function (element, fn) {
+    if (isServer || !element)
+        return;
+    if (!element.__resizeListeners__) {
+        element.__resizeListeners__ = [];
+        element.__ro__ = new index(resizeHandler);
+        element.__ro__.observe(element);
+    }
+    element.__resizeListeners__.push(fn);
+};
+var removeResizeListener = function (element, fn) {
+    if (!element || !element.__resizeListeners__)
+        return;
+    element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
+    if (!element.__resizeListeners__.length) {
+        element.__ro__.disconnect();
+    }
+};
+
+var arrInsert = function (target, position) {
+    var args = [];
+    for (var _i = 2; _i < arguments.length; _i++) {
+        args[_i - 2] = arguments[_i];
+    }
+    return target
+        .slice(0, position)
+        .concat(flatten(args))
+        .concat(target.slice(position, Infinity));
+};
+var flatten = function (arr) {
+    if (!Array.isArray(arr))
+        return [arr];
+    if (arr.length === 0)
+        return arr;
+    var result = [];
+    var stack = [arr];
+    var currentItem;
+    while ((currentItem = stack.shift())) {
+        Array.isArray(currentItem) ? stack.push.apply(stack, __spreadArray([], __read(currentItem))) : result.push(currentItem);
+    }
+    return result;
+};
+var copyInnerText = function (ele) {
+    var range = document.createRange();
+    range.selectNodeContents(ele);
+    var selection = window.getSelection();
+    selection === null || selection === void 0 ? void 0 : selection.removeAllRanges();
+    selection === null || selection === void 0 ? void 0 : selection.addRange(range);
+    document.execCommand('copy');
+    return ele;
+};
+function omit(target, keys) {
+    if (!isObject$1(target))
+        return target;
+    return Object.keys(target).reduce(function (res, key) {
+        if (!keys.includes(key)) {
+            Reflect.set(res, key, target[key]);
+        }
+        return res;
+    }, {});
+}
+function useEnumOptions(obj, name, id) {
+    if (name === void 0) { name = 'name'; }
+    if (id === void 0) { id = 'id'; }
+    var result = [];
+    Object.entries(obj).forEach(function (_a) {
+        var _b;
+        var _c = __read(_a, 2), key = _c[0], val = _c[1];
+        if (R.is(Number, val)) {
+            result.push((_b = {}, _b[name] = key, _b[id] = val, _b));
+        }
+    });
+    return result;
+}
+function throttle$1(func, wait, options) {
+    if (wait === void 0) { wait = 100; }
+    var timeout, context, args, result;
+    var previous = 0;
+    if (!options)
+        options = {};
+    function later() {
+        previous = (options === null || options === void 0 ? void 0 : options.leading) === false ? 0 : Date.now();
+        timeout = null;
+        result = func.apply(context, args);
+        if (!timeout)
+            context = args = null; // 显式地释放内存，防止内存泄漏
+    }
+    function throttled() {
+        var innerArgs = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            innerArgs[_i] = arguments[_i];
+        }
+        var now = Date.now();
+        if (!previous && (options === null || options === void 0 ? void 0 : options.leading) === false)
+            previous = now;
+        var remaining = wait - (now - previous);
+        context = this;
+        args = innerArgs;
+        if (remaining <= 0 || remaining > wait) {
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+            previous = now;
+            result = func.apply(context, innerArgs);
+            if (!timeout)
+                context = args = null;
+        }
+        else if (!timeout && (options === null || options === void 0 ? void 0 : options.trailing) !== false) {
+            timeout = setTimeout(later, remaining);
+        }
+        return result;
+    }
+    return throttled;
+}
+/**
+ * 为函数添加状态改变
+ */
+function useLoading(fn, argLoading) {
+    var loading = ref(false);
+    if (argLoading)
+        argLoading.value = false;
+    function call() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        return __awaiter(this, void 0, void 0, function () {
+            var result, e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (loading.value) {
+                            return [2 /*return*/, Promise.reject('loading...')];
+                        }
+                        loading.value = true;
+                        if (argLoading)
+                            argLoading.value = true;
+                        result = null;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, fn.apply(void 0, __spreadArray([], __read(args)))];
+                    case 2:
+                        result = _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_1 = _a.sent();
+                        result = Promise.reject(e_1);
+                        return [3 /*break*/, 4];
+                    case 4:
+                        if (argLoading)
+                            argLoading.value = false;
+                        loading.value = false;
+                        return [2 /*return*/, result];
+                }
+            });
+        });
+    }
+    return [call, loading];
+}
+var isDeepObjectEqual = function (obj1, obj2) {
+    //1.如果是比较对象===，返回true
+    if (obj1 === obj2)
+        return true;
+    //2.如果比较的是两个方法，转成字符串比较
+    if (typeof obj1 === 'function' && typeof obj2 === 'function') {
+        return obj1.toString() === obj2.toString();
+    }
+    //3如果obj1和obj2都是Date实例，获取毫秒值比较
+    if (obj1 instanceof Date && obj2 instanceof Date)
+        return obj1.getTime() === obj2.getTime();
+    //4如果比较是两个类型不一致,无须比较直接返回false
+    if (Object.prototype.toString.call(obj1) !== Object.prototype.toString.call(obj2) ||
+        typeof obj1 !== 'object') {
+        return false;
+    }
+    //5.获取对象所有自身属性的属性名（包括不可枚举属性但不包括Symbol值作为名称的属性
+    var obj1Props = Object.getOwnPropertyNames(obj1);
+    var obj2Props = Object.getOwnPropertyNames(obj2);
+    //自身属性长度相等,
+    if (obj1Props.length !== obj2Props.length)
+        return false;
+    //递归调用判断每一个属性值是否相等
+    return obj1Props.every(function (prop) { return isDeepObjectEqual(obj1[prop], obj2[prop]); });
+};
+
+var renderComp = function (attrs, slots, Comp) {
+    return (openBlock(),
+        createBlock(Fragment, null, [
+            Comp
+                ? isFunction(Comp)
+                    ? (function () {
+                        var prop = attrs.__prop;
+                        return Comp(Object.assign(omit(attrs, ['__closable', '__emit', '__prop']), { prop: prop }));
+                    })()
+                    : createVNode(Comp, omit(attrs, ['__closable', '__emit', '__prop']), slots, 16 /* FULL_PROPS */)
+                : createCommentVNode('v-if_component', true),
+        ]));
+};
+var CxFormRender = /** @class */ (function () {
+    function CxFormRender() {
+        this.renderComp = renderComp;
+    }
+    CxFormRender.prototype.renderControl = function (attrs, slots, Comp) {
+        return createVNode('div', { style: { position: 'relative' } }, [
+            renderComp(attrs, slots, Comp),
+            attrs.__closable
+                ? createVNode('i', {
+                    style: { position: 'absolute', right: '-3px', top: '-3px' },
+                    "class": 'iconfont icon-shanchu',
+                    onClick: function () {
+                        isFunction(attrs.__emit) && attrs.__emit('close', attrs.__prop);
+                    },
+                })
+                : createCommentVNode('v-if_closable', true),
+        ]);
+    };
+    return CxFormRender;
+}());
+var cxFormRender = (function () {
+    var _instance = null;
+    return function () {
+        if (!_instance) {
+            _instance = new CxFormRender();
+        }
+        return _instance;
+    };
+})();
+
+var CxFormTemplate = /** @class */ (function () {
+    function CxFormTemplate() {
+        this.name = '';
+        this.slots = {};
+        this.attrs = {};
+    }
+    CxFormTemplate.prototype.init = function () {
+        this.propAdaptor();
+        return this;
+    };
+    CxFormTemplate.prototype.propAdaptor = function () {
+        throw new Error('请重写propAdaptor方法');
+    };
+    CxFormTemplate.prototype.addSlots = function (slots) {
+        if (typeof slots === 'function') {
+            Reflect.set(this.slots, 'default', slots);
+        }
+        else if (typeof slots === 'object') {
+            Object.assign(this.slots, slots);
+        }
+        return this;
+    };
+    CxFormTemplate.prototype.renderVNode = function (Comp) {
+        return cxFormRender().renderComp(this.attrs, this.slots, Comp);
+    };
+    CxFormTemplate.prototype.renderControl = function (Comp) {
+        return cxFormRender().renderControl(this.attrs, this.slots, Comp);
+    };
+    CxFormTemplate.prototype.render = function () {
+        throw new Error('请重写render方法');
+    };
+    return CxFormTemplate;
+}());
+
+var CxFormError = /** @class */ (function (_super) {
+    __extends(CxFormError, _super);
+    function CxFormError(msg) {
+        return _super.call(this, "CxFormError: " + msg) || this;
+    }
+    return CxFormError;
+}(Error));
+
+var CxFormRenderMap = new Map();
+var useCxForm = function () {
+    var _instance;
+    var _config;
+    var register = function (payload) {
+        var config = payload.props, ref = payload.ref;
+        _instance = ref;
+        _config = config;
+    };
+    var getFormRef = function () {
+        return _instance;
+    };
+    var setFormConfig = function (prop, attr, val) {
+        if (!_config)
+            throw new CxFormError("can't set property before regist");
+        var item = _config === null || _config === void 0 ? void 0 : _config.items.find(function (item) { return item.prop === prop; });
+        if (!item) {
+            return console.warn("[cxForm warn]: prop " + prop + " isn't exist on this form's configList ");
+        }
+        if (Reflect.has(item, attr))
+            return Reflect.set(item, attr, val);
+        __spreadArray([], __read(CxFormRenderMap.keys())).find(function (type) {
+            var typeAttrs = Reflect.get(item, type);
+            if (!isObject$1(typeAttrs))
+                return;
+            if (attr === 'options') {
+                if (!Array.isArray(val))
+                    throw new CxFormError("can't set options with non-array");
+                var options = Reflect.get(typeAttrs, 'options');
+                Array.isArray(options) ? (options.splice(0), options.push.apply(options, __spreadArray([], __read(val)))) : Reflect.set(typeAttrs, 'options', val);
+                Reflect.set(typeAttrs, 'key', Date.now());
+            }
+            else {
+                Reflect.set(typeAttrs, attr, val);
+            }
+            return true;
+        });
+    };
+    return {
+        register: register,
+        getFormRef: getFormRef,
+        setFormConfig: setFormConfig,
+        /**
+         * @description 注册组件
+         * @param params {comp:组件,type:组件名,configAdaptor:组件配置项适配器,默认直接合并}
+         */
+        registerRenderer: function (params) {
+            var comp = params.comp, type = params.type, adaptor = params.adaptor;
+            CxFormRenderMap.set(type, { comp: comp, adaptor: adaptor });
+        },
+        getRenderer: function (key) {
+            return CxFormRenderMap.get(key);
+        },
+        getRendererKeys: function () {
+            return CxFormRenderMap.keys();
+        },
+    };
+};
+
+var CxFormControl = /** @class */ (function (_super) {
+    __extends(CxFormControl, _super);
+    function CxFormControl(form, controlConfig, rootConfig, emit) {
+        var _this = _super.call(this) || this;
+        _this.name = 'CxFormControl';
+        _this.parse = null;
+        _this.attrs = {};
+        _this.type = '';
+        _this.form = form;
+        _this.emit = emit;
+        _this.config = controlConfig;
+        _this.rootConfig = rootConfig;
+        _this.prop = controlConfig.prop;
+        _this.init();
+        return _this;
+    }
+    CxFormControl.prototype.init = function () {
+        this.propAdaptor().bindModel();
+        return this;
+    };
+    CxFormControl.prototype.addSlots = function (slots) {
+        var _this = this;
+        var _a, _b, _c;
+        if (!isObject$1(slots))
+            return this;
+        isObject$1((_a = this.config) === null || _a === void 0 ? void 0 : _a.slot) &&
+            Object.entries(this.config.slot).forEach(function (_a) {
+                var _b = __read(_a, 2), key = _b[0], val = _b[1];
+                Reflect.set(_this.slots, key, Reflect.get(slots, val));
+            });
+        var customSlot = (_c = (_b = this.config) === null || _b === void 0 ? void 0 : _b.custom) === null || _c === void 0 ? void 0 : _c.slot;
+        customSlot && Reflect.set(this.slots, customSlot, Reflect.get(slots, customSlot));
+        return this;
+    };
+    CxFormControl.prototype.bindModel = function () {
+        var _this = this;
+        if (this.prop) {
+            Reflect.set(this.attrs, 'modelValue', this.form[this.prop]);
+            Reflect.set(this.attrs, 'onUpdate:modelValue', function (val) {
+                if (Array.isArray(val)) {
+                    val = val.map(function (item) {
+                        return _this.parse ? _this.parse(item) : item;
+                    });
+                }
+                else if (val) {
+                    val = _this.parse ? _this.parse(val) : val;
+                }
+                Reflect.set(_this.form, _this.prop, val);
+            });
+        }
+        return this;
+    };
+    CxFormControl.prototype.propAdaptor = function () {
+        var _this = this;
+        var _a, _b, _c, _d;
+        var _e = useCxForm(), getRendererKeys = _e.getRendererKeys, getRenderer = _e.getRenderer;
+        __spreadArray([], __read(getRendererKeys())).find(function (type) {
+            var _a;
+            if (!isObject$1(Reflect.get(_this.config, type)))
+                return;
+            var adaptor = ((_a = getRenderer(type)) !== null && _a !== void 0 ? _a : {}).adaptor;
+            _this.type = type;
+            isFunction(adaptor)
+                ? adaptor.apply(_this)
+                : Object.assign(_this.attrs, Reflect.get(_this.config, type));
+            return true;
+        });
+        var placeholder = Reflect.get((_a = this.config) !== null && _a !== void 0 ? _a : {}, 'placeholder');
+        placeholder && Reflect.set(this.attrs, 'placeholder', placeholder);
+        Reflect.set(this.attrs, 'onChange', function (val) {
+            var _a, _b;
+            var payload = { prop: _this.prop, val: val, form: _this.form };
+            if (Array.isArray(_this.attrs.options)) {
+                Reflect.set(payload, 'option', _this.attrs.options.find(function (option) { return option.id === val; }));
+            }
+            isFunction(_this.emit) && _this.emit('change', payload);
+            isFunction((_a = _this.config) === null || _a === void 0 ? void 0 : _a.onChange) && ((_b = _this.config) === null || _b === void 0 ? void 0 : _b.onChange(payload));
+        });
+        !isObject$1((_b = this.attrs) === null || _b === void 0 ? void 0 : _b.style) && Reflect.set(this.attrs, 'style', {});
+        this.config.width &&
+            isObject$1((_c = this.attrs) === null || _c === void 0 ? void 0 : _c.style) &&
+            Reflect.set(this.attrs.style, 'width', this.config.width + "px");
+        Reflect.set(this.attrs, '__closable', ((_d = this.rootConfig) === null || _d === void 0 ? void 0 : _d.closable) || this.config.closable);
+        Reflect.set(this.attrs, '__emit', this.emit);
+        Reflect.set(this.attrs, '__prop', this.prop);
+        return this;
+    };
+    CxFormControl.prototype.render = function () {
+        var _a, _b, _c, _d;
+        var Control;
+        if (this.type === 'custom') {
+            Control = Reflect.get(this.slots, (_c = (_b = (_a = this.config) === null || _a === void 0 ? void 0 : _a.custom) === null || _b === void 0 ? void 0 : _b.slot) !== null && _c !== void 0 ? _c : '');
+        }
+        else {
+            var comp = (_d = useCxForm().getRenderer(this.type)) === null || _d === void 0 ? void 0 : _d.comp;
+            Control = isFunction(comp) ? comp() : comp;
+        }
+        return this.renderControl(Control);
+    };
+    return CxFormControl;
+}(CxFormTemplate));
+
+var form = function () { return ({
+    size: 'small',
+    labelSuffix: ':',
+    // labelWidth: 'auto',
+    labelPosition: 'left',
+    onSubmit: function (e) { return e.preventDefault(); },
+}); };
+var cxFormDefaultConfig = {
+    form: form
+};
+
+var CxForm$1 = /** @class */ (function (_super) {
+    __extends(CxForm, _super);
+    function CxForm(config) {
+        var _this = _super.call(this) || this;
+        _this.name = 'CxForm';
+        _this.attrs = {};
+        _this.ref = ref(null);
+        _this.config = config;
+        _this.init();
+        return _this;
+    }
+    CxForm.prototype.getFormRef = function () {
+        return this.ref;
+    };
+    CxForm.prototype.propAdaptor = function () {
+        var _a, _b, _c, _d;
+        Object.assign(this.attrs, cxFormDefaultConfig.form(), omit(this.config, ['items', 'formAttrs']));
+        this.config.formAttrs && Object.assign(this.attrs, omit(this.config.formAttrs, ['form', 'inline', 'disabled', 'closable', 'items', 'class']));
+        Reflect.set(this.attrs, 'ref', this.ref);
+        Reflect.set(this.attrs, 'model', (_b = (_a = this.config) === null || _a === void 0 ? void 0 : _a.form) !== null && _b !== void 0 ? _b : {});
+        Reflect.set(this.attrs, 'rules', (_d = (_c = this.config) === null || _c === void 0 ? void 0 : _c.items) === null || _d === void 0 ? void 0 : _d.reduce(function (res, item) {
+            item.rule && Reflect.set(res, item.prop, item.rule);
+            return res;
+        }, {}));
+        return this;
+    };
+    CxForm.prototype.render = function () {
+        var _a, _b;
+        var form = (_b = (_a = useCxForm().getRenderer('form')) === null || _a === void 0 ? void 0 : _a.comp) !== null && _b !== void 0 ? _b : resolveComponent('ElForm');
+        return this.renderVNode(form);
+    };
+    return CxForm;
+}(CxFormTemplate));
+
+var CxFormItem = /** @class */ (function (_super) {
+    __extends(CxFormItem, _super);
+    function CxFormItem(config) {
+        var _this = _super.call(this) || this;
+        _this.name = 'CxFormItem';
+        _this.attrs = {};
+        _this.config = config;
+        _this.init();
+        return _this;
+    }
+    CxFormItem.prototype.addSlots = function (slots) {
+        var _this = this;
+        if (isObject$1(slots)) {
+            var itemSlot = { "default": slots["default"] };
+            this.config.labelSlot && Reflect.set(itemSlot, 'label', function () { var _a; return (_a = slots[_this.config.labelSlot]) === null || _a === void 0 ? void 0 : _a.call(slots, __assign({}, _this.config)); });
+            Object.assign(this.slots, itemSlot);
+        }
+        return this;
+    };
+    CxFormItem.prototype.propAdaptor = function () {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+        // 以下顺序请勿变更
+        isNumber((_a = this.config) === null || _a === void 0 ? void 0 : _a.spacing) && Reflect.set(this.attrs, 'style', { paddingRight: ((_b = this.config) === null || _b === void 0 ? void 0 : _b.spacing) + 'px' });
+        Reflect.set(this.attrs, 'key', (_d = (_c = this.config) === null || _c === void 0 ? void 0 : _c.prop) !== null && _d !== void 0 ? _d : '');
+        Object.assign(this.attrs, (_f = (_e = this.config) === null || _e === void 0 ? void 0 : _e.itemAttrs) !== null && _f !== void 0 ? _f : {});
+        ((_g = this.config) === null || _g === void 0 ? void 0 : _g.labelWidth) && Reflect.set(this.attrs, 'labelWidth', this.config.labelWidth + 'px');
+        Reflect.set(this.attrs, 'label', (_j = (_h = this.config) === null || _h === void 0 ? void 0 : _h.label) !== null && _j !== void 0 ? _j : '');
+        Reflect.set(this.attrs, 'prop', (_l = (_k = this.config) === null || _k === void 0 ? void 0 : _k.prop) !== null && _l !== void 0 ? _l : '');
+        return this;
+    };
+    CxFormItem.prototype.render = function () {
+        var _a, _b;
+        var formItem = (_b = (_a = useCxForm().getRenderer('formItem')) === null || _a === void 0 ? void 0 : _a.comp) !== null && _b !== void 0 ? _b : resolveComponent('ElFormItem');
+        return this.renderVNode(formItem);
+    };
+    return CxFormItem;
+}(CxFormTemplate));
+
+var CxFormProps = {
+    form: { type: Object, "default": function () { return ({}); } },
+    inline: { type: Boolean, "default": true },
+    disabled: { type: Boolean, "default": false },
+    closable: { type: Boolean, "default": false },
+    items: { type: Array, "default": function () { return []; } },
+    "class": { type: [Array, Object, String], "default": function () { return []; } },
+    formAttrs: { type: Object },
+};
+
+var CxForm = defineComponent({
+    props: CxFormProps,
+    name: 'CxForm',
+    emits: ['change', 'register', 'close'],
+    setup: function (props, _a) {
+        var slots = _a.slots, emit = _a.emit, expose = _a.expose;
+        function renderControl(itemConfig) {
+            return new CxFormControl(props.form, itemConfig, props, emit).addSlots(slots).render();
+        }
+        function renderFormItem(itemConfig) {
+            var slot = __assign(__assign({}, slots), { "default": function () { return [renderControl(itemConfig)]; } });
+            return new CxFormItem(itemConfig).addSlots(slot).render();
+        }
+        function renderForm() {
+            var slot = function () {
+                var _a;
+                return (_a = props.items) === null || _a === void 0 ? void 0 : _a.reduce(function (res, itemConfig) {
+                    !itemConfig.hide && res.push(renderFormItem(itemConfig));
+                    return res;
+                }, []);
+            };
+            var instance = new CxForm$1(props).addSlots(slot);
+            emit('register', { props: props, ref: instance.getFormRef() });
+            return instance.render();
+        }
+        expose({
+            trigger: function (prop) {
+                emit('change', { prop: prop, val: props.form[prop], form: props.form });
+            },
+        });
+        return function () {
+            return createVNode('div', { name: 'cx-form' }, [renderForm()]);
+        };
+    },
+});
+
+var script$8 = CxForm;
+script$8.install = function (app) {
+    app.component(script$8.name, script$8);
+};
+var _CX_FORM = script$8;
+
+var ARROW_KEY;
+(function (ARROW_KEY) {
+    ARROW_KEY["L"] = "ArrowLeft";
+    ARROW_KEY["R"] = "ArrowRight";
+    ARROW_KEY["U"] = "ArrowUp";
+    ARROW_KEY["D"] = "ArrowDown";
+})(ARROW_KEY || (ARROW_KEY = {}));
+var COLUMN_FLAG;
+(function (COLUMN_FLAG) {
+    COLUMN_FLAG[COLUMN_FLAG["TEXT_COLUMN"] = 1] = "TEXT_COLUMN";
+    COLUMN_FLAG[COLUMN_FLAG["CONTROL_COLUMN"] = 2] = "CONTROL_COLUMN";
+    COLUMN_FLAG[COLUMN_FLAG["SLOT_COLUMN"] = 4] = "SLOT_COLUMN";
+    COLUMN_FLAG[COLUMN_FLAG["FIX_COLUMN"] = 8] = "FIX_COLUMN";
+    COLUMN_FLAG[COLUMN_FLAG["CALC_COLUMN"] = 16] = "CALC_COLUMN";
+    COLUMN_FLAG[COLUMN_FLAG["ADD_SUM_COLUMN"] = 32] = "ADD_SUM_COLUMN";
+    COLUMN_FLAG[COLUMN_FLAG["CUSTOM_SUM_COLUMN"] = 64] = "CUSTOM_SUM_COLUMN";
+    COLUMN_FLAG[COLUMN_FLAG["TEXT_SUM_COLUMN"] = 128] = "TEXT_SUM_COLUMN";
+    COLUMN_FLAG[COLUMN_FLAG["VALIDATE_COLUMN"] = 256] = "VALIDATE_COLUMN";
+    COLUMN_FLAG[COLUMN_FLAG["ARRAY_CHILDREN"] = 512] = "ARRAY_CHILDREN";
+})(COLUMN_FLAG || (COLUMN_FLAG = {}));
+var CX_STYLE_SETTING;
+(function (CX_STYLE_SETTING) {
+    CX_STYLE_SETTING["width"] = "CX_TABLE_MIN_WIDTH";
+    CX_STYLE_SETTING["height"] = "CX_TABLE_HEIGHT";
+    CX_STYLE_SETTING["cache"] = "CX_VISUAL_CACHE";
+    CX_STYLE_SETTING["padding"] = "CX_TABLE_PADDING";
+})(CX_STYLE_SETTING || (CX_STYLE_SETTING = {}));
+var CX_SPAN_METHOD_TYPE;
+(function (CX_SPAN_METHOD_TYPE) {
+    CX_SPAN_METHOD_TYPE[CX_SPAN_METHOD_TYPE["MISSING"] = 1] = "MISSING";
+    CX_SPAN_METHOD_TYPE[CX_SPAN_METHOD_TYPE["EXTEND"] = 2] = "EXTEND";
+})(CX_SPAN_METHOD_TYPE || (CX_SPAN_METHOD_TYPE = {}));
+var CX_SORT_STATUS;
+(function (CX_SORT_STATUS) {
+    CX_SORT_STATUS[CX_SORT_STATUS["REVERSE"] = 0] = "REVERSE";
+    CX_SORT_STATUS[CX_SORT_STATUS["POSITIVE"] = 1] = "POSITIVE";
+    CX_SORT_STATUS[CX_SORT_STATUS["NONE"] = 2] = "NONE";
+})(CX_SORT_STATUS || (CX_SORT_STATUS = {}));
+var PATCH_FLAG;
+(function (PATCH_FLAG) {
+    PATCH_FLAG[PATCH_FLAG["TEXT"] = 1] = "TEXT";
+    PATCH_FLAG[PATCH_FLAG["CLASS"] = 2] = "CLASS";
+    PATCH_FLAG[PATCH_FLAG["STYLE"] = 4] = "STYLE";
+    PATCH_FLAG[PATCH_FLAG["PROPS"] = 8] = "PROPS";
+    PATCH_FLAG[PATCH_FLAG["FULL_PROPS"] = 16] = "FULL_PROPS";
+    PATCH_FLAG[PATCH_FLAG["HYDRATE_EVENTS"] = 32] = "HYDRATE_EVENTS";
+    PATCH_FLAG[PATCH_FLAG["STABLE_FRAGMENT"] = 64] = "STABLE_FRAGMENT";
+    PATCH_FLAG[PATCH_FLAG["KEYED_FRAGMENT"] = 128] = "KEYED_FRAGMENT";
+    PATCH_FLAG[PATCH_FLAG["UNKEYED_FRAGMENT"] = 256] = "UNKEYED_FRAGMENT";
+    PATCH_FLAG[PATCH_FLAG["NEED_PATCH"] = 512] = "NEED_PATCH";
+    PATCH_FLAG[PATCH_FLAG["DYNAMIC_SLOTS"] = 1024] = "DYNAMIC_SLOTS";
+    PATCH_FLAG[PATCH_FLAG["HOISTED"] = -1] = "HOISTED";
+    PATCH_FLAG[PATCH_FLAG["BAIL"] = -2] = "BAIL";
+})(PATCH_FLAG || (PATCH_FLAG = {}));
+var CX_ADAPTOR_PRECISION_TYPE;
+(function (CX_ADAPTOR_PRECISION_TYPE) {
+    CX_ADAPTOR_PRECISION_TYPE[CX_ADAPTOR_PRECISION_TYPE["GOLD"] = 1] = "GOLD";
+    CX_ADAPTOR_PRECISION_TYPE[CX_ADAPTOR_PRECISION_TYPE["STONE"] = 2] = "STONE";
+    CX_ADAPTOR_PRECISION_TYPE[CX_ADAPTOR_PRECISION_TYPE["PRICE"] = 3] = "PRICE";
+    CX_ADAPTOR_PRECISION_TYPE[CX_ADAPTOR_PRECISION_TYPE["INT"] = 4] = "INT";
+    CX_ADAPTOR_PRECISION_TYPE[CX_ADAPTOR_PRECISION_TYPE["LOSS"] = 5] = "LOSS";
+})(CX_ADAPTOR_PRECISION_TYPE || (CX_ADAPTOR_PRECISION_TYPE = {}));
+var TypeOption;
+(function (TypeOption) {
+    TypeOption[TypeOption["\u672A\u63D0\u4EA4"] = 0] = "\u672A\u63D0\u4EA4";
+    TypeOption[TypeOption["\u5DF2\u9A73\u56DE"] = 1] = "\u5DF2\u9A73\u56DE";
+    TypeOption[TypeOption["\u5DF2\u53CD\u5BA1"] = 2] = "\u5DF2\u53CD\u5BA1";
+})(TypeOption || (TypeOption = {}));
+
+var CX_TABLE_ROW_ID_PREPEND = 'cxrow-';
+var CX_TABLE_ROW_KEY = 'row-key-';
+var CX_TABLE_COLUMN_ID_PREPEND = 'cxcol-';
+var CX_TABLE_COLUMN_KEY = 'col-key-';
+var CX_TABLE_ID_PREPEND = 'cxtable-';
+var CX_TABLE_SUM_ROW_KEY = 'cxtable-sum';
+var CX_TABLE_VISUAL_ROW_KEY = 'cxtable-virtual-row';
+var CX_TABLE_EVENT_LIST = [
+    'register',
+    'radioChange',
+    'selectChange',
+    'paging',
+    'addNewRow',
+    'tdFocus',
+    'expandCheck',
+    'broadcast',
+    'dynamicUpdate',
+    'dynamicSetting',
+    'cached'
+];
+var CX_TABLE_INPUT_TYPE = ['input', 'select', 'search', 'numberInput', 'specification'];
+var CX_TABLE_SUM_INDEX = -100;
+var CX_TABLE_EMPTY_INDEX = -200;
+var CX_TABLE_PER_CHAR_WIDTH = 20;
+var CX_TABLE_NOT_HOVER_ID = 'cxrow-not-hover';
+var CX_TABLE_DYNAMIC_PROPS = [
+    'moduleType',
+    'businessType',
+    'priceType',
+    'modelType'
+];
+var CX_TABLE_DYNAMIC_CACHE = '__CX_TABLE_DYNAMIC_CACHE__';
+var CX_TABLE_CACHE_PENDING = '__CX_TABLE_CACHE_PENDING_';
+var CX_TABLE_THROTTLE_DURATION = 0.5;
+
+var createCxTableConfig = function () {
+    return reactive({
+        wrapperEle: null,
+        hoveringRowid: CX_TABLE_NOT_HOVER_ID,
+        cacheItemRemove: null,
+        entireTotalSum: null,
+        editStore: {
+            actived: {
+                rowData: null,
+                column: null
+            },
+            activedControl: false,
+            activedCell: null
+        },
+        priorityColumnMap: new Map(),
+        columns: [],
+        flatColumns: [],
+        columnStore: {
+            centerColumns: [],
+            leftFixedColumns: [],
+            rightFixedColumns: [],
+            pxColumns: [],
+            percentColumns: [],
+            noWidthColumns: [],
+            pxMinColumns: [],
+            percentMinColumns: []
+        },
+        scrollStore: {
+            showBottomShadow: false,
+            showLeftShadow: false,
+            showRightShadow: false,
+            showTopShadow: false,
+            scrollLeft: 0,
+            scrollTop: 0,
+            leftFixedWidth: 0,
+            rightFixedWidth: 0,
+            topFixedHeight: 0,
+            bottomScrollBar: false,
+            rightScrollBar: false,
+            clientHeight: 0,
+            clientWidth: 0,
+            renderTotalWidth: 0
+        },
+        virtualStore: {
+            renderPaddingTop: 0,
+            renderPaddingBottom: 0,
+            renderStartIndex: 0,
+            renderLength: 9999,
+            renderEndIndex: 9999,
+            rowSpanMap: []
+        },
+        styleStore: {
+            CX_TABLE_MIN_WIDTH: 110,
+            CX_TABLE_HEIGHT: 40,
+            CX_TABLE_SCROLL_BAR: 8,
+            CX_TABLE_PADDING: 8,
+            CX_VISUAL_CACHE: 5
+        }
+    });
+};
+
+var clipboard = ref(null);
+var useCopy = function (props) {
+    var copy = function () {
+        clipboard.value = clone(props.tableData);
+        return clipboard.value;
+    };
+    var paste = function (payload) {
+        var _a;
+        if (!Array.isArray(clipboard.value)) {
+            return;
+        }
+        var omitProps = payload.omitProps, onPaste = payload.onPaste;
+        var rows = clone(clipboard.value).map(function (item) {
+            if (Array.isArray(omitProps)) {
+                return omit$1(omitProps, item);
+            }
+            return item;
+        });
+        (_a = props.tableData).push.apply(_a, __spreadArray([], __read((isFunction(onPaste) ? onPaste(rows) : rows))));
+    };
+    return { copy: copy, paste: paste };
+};
+
+var CxTableRendererMap = new Map();
+var CxTableActiveControl = new Set();
+var createCxTableContext = function () {
+    return {
+        contextScopeId: 'defaultScope',
+        messageInstance: {
+            success: function () { return undefined; },
+            warning: function () { return undefined; },
+            info: function () { return undefined; },
+            error: function () { return undefined; }
+        },
+        dynamicRequestInstance: null,
+        dynamicInject: new Set(),
+        dynamicFormContext: { requestApiMap: {} },
+        dynamicCacheContext: {
+            requestApiMap: {},
+            removeApiMap: {},
+            cacheTypeTab: function () { return false; },
+            requestInstance: {},
+            cacheLabelConfig: []
+        },
+        dynamicType: {
+            DYNAMIC_MODULE_TYPE: {},
+            DYNAMIC_BUSINESS_TYPE: {},
+            DYNAMIC_MODEL_TYPE: {},
+            DYNAMIC_PRICE_TYPE: {}
+        },
+        precision: {}
+    };
+};
+var context = createCxTableContext();
+var readOnlyContext = new Proxy(context, {
+    get: function (target, key) {
+        return target[key];
+    },
+    set: function () {
+        return false;
+    }
+});
+var useCxTable = function () {
+    var getContext = function () { return readOnlyContext; };
+    var instance = ref({});
+    var instanceProps = ref({});
+    var copyHandler = ref({});
+    var registCxTable = function (payload) {
+        instance.value = payload.registerTarget;
+        instanceProps.value = payload.props;
+        copyHandler.value = useCopy(payload.props);
+        return cxTableManager;
+    };
+    var registCxRenderer = function (params) {
+        var render = null;
+        if (isFunction(params.payload)) {
+            render = params.payload;
+        }
+        else if (params.payload) {
+            render = params.payload.render;
+            params.payload.active && CxTableActiveControl.add(params.type);
+        }
+        render && CxTableRendererMap.set(params.type, render);
+        return cxTableManager;
+    };
+    var setCxTableScopeId = function (id) {
+        context.contextScopeId = id;
+        return cxTableManager;
+    };
+    var setMessageInstance = function (instance) {
+        context.messageInstance = instance;
+        return cxTableManager;
+    };
+    var setDynamicFormSearchApi = function (moduleType, rules) {
+        context.dynamicFormContext.requestApiMap[moduleType] = rules;
+        return cxTableManager;
+    };
+    var setDynamicCacheContext = function (key, val) {
+        context.dynamicCacheContext[key] = val;
+        return cxTableManager;
+    };
+    var setDynamicRequestInstance = function (instance) {
+        context.dynamicRequestInstance = instance;
+        return cxTableManager;
+    };
+    var setDynamicType = function (types) {
+        Object.keys(context.dynamicType).forEach(function (dynamicKey) {
+            if (isObject$1(types[dynamicKey])) {
+                context.dynamicType[dynamicKey] = types[dynamicKey];
+            }
+        });
+        return cxTableManager;
+    };
+    var setPrecision = function (precision) {
+        Object.assign(context.precision, precision);
+        return cxTableManager;
+    };
+    var use = function (plugin) {
+        if (isFunction(plugin.dynamicInject)) {
+            context.dynamicInject.add(plugin.dynamicInject);
+        }
+        return cxTableManager;
+    };
+    var cxTableManager = {
+        registCxTable: registCxTable,
+        setPrecision: setPrecision,
+        setCxTableScopeId: setCxTableScopeId,
+        setMessageInstance: setMessageInstance,
+        setDynamicType: setDynamicType,
+        setDynamicFormSearchApi: setDynamicFormSearchApi,
+        setDynamicRequestInstance: setDynamicRequestInstance,
+        setDynamicCacheContext: setDynamicCacheContext,
+        getContext: getContext,
+        use: use,
+        instance: instance,
+        registCxRenderer: registCxRenderer,
+        copyHandler: copyHandler
+    };
+    return cxTableManager;
+};
+
+var EventBus = /** @class */ (function () {
+    function EventBus() {
+        this.eventDep = {};
+    }
+    EventBus.prototype.on = function (eventName, func) {
+        var _a;
+        if (this.eventDep[eventName]) {
+            (_a = this.eventDep[eventName]) === null || _a === void 0 ? void 0 : _a.push(func);
+        }
+        else {
+            this.eventDep[eventName] = [func];
+        }
+    };
+    EventBus.prototype.emit = function (eventName) {
+        var _a;
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (this.eventDep[eventName]) {
+            (_a = this.eventDep[eventName]) === null || _a === void 0 ? void 0 : _a.forEach(function (func) { return func.apply(void 0, __spreadArray([], __read(args))); });
+        }
+    };
+    EventBus.prototype.off = function (eventName) {
+        this.eventDep[eventName] = null;
+    };
+    EventBus.prototype.clear = function () {
+        this.eventDep = {};
+    };
+    return EventBus;
+}());
+function EventBusCreator() {
+    return new EventBus();
+}
+var eventBus = EventBusCreator();
+
+var colid = 0, rowid = 0, tid = 0;
+var rowIdMap = new WeakMap();
+var colIdMap = new Map();
+var useTableId = function () {
+    var generateColId = function (col) {
+        var key = col.label + col.prop;
+        var result = colIdMap.get(key);
+        if (!result) {
+            result = CX_TABLE_COLUMN_ID_PREPEND + colid++;
+            colIdMap.set(key, result);
+        }
+        return result;
+    };
+    var generateRowId = function () {
+        return CX_TABLE_COLUMN_ID_PREPEND + rowid++;
+    };
+    var generateTableId = function () {
+        return CX_TABLE_ID_PREPEND + tid++;
+    };
+    var getRowIdFromMap = function (key) {
+        var result = rowIdMap.get(key);
+        if (!result) {
+            result = generateRowId();
+            setRowIdToMap(key, result);
+        }
+        return result;
+    };
+    var setRowIdToMap = function (key, value) {
+        rowIdMap.set(key, value);
+        return value;
+    };
+    return { generateColId: generateColId, generateRowId: generateRowId, generateTableId: generateTableId, getRowIdFromMap: getRowIdFromMap, setRowIdToMap: setRowIdToMap };
+};
+
+var domShare = {
+    getEle: function (container, selector) {
+        return container.querySelector(selector);
+    },
+    getCell: function ($CxTable, column, rowData) {
+        var wrapperEle = $CxTable.wrapperEle;
+        return wrapperEle.querySelector(".cx-table_wrapper tr[rowid=" + useTableId().getRowIdFromMap(rowData) + "] td[colid=" + column._colid + "]");
+    },
+    getAncestor: function (ele, nodeName, limited) {
+        if (nodeName === void 0) { nodeName = 'TD'; }
+        if (limited === void 0) { limited = 5; }
+        var result = ele;
+        while (result && limited > 0) {
+            if (result.nodeName === nodeName)
+                break;
+            result = result.parentElement;
+            limited--;
+        }
+        return result;
+    },
+    scrollTo: function ($CxTable, targetPosition) {
+        var _a;
+        (_a = $CxTable.wrapperEle) === null || _a === void 0 ? void 0 : _a.scrollTo({ top: targetPosition });
+    },
+    scrollToTd: function (td, container, fixLeft, fixRight, fixTop) {
+        if (!td || !container)
+            return;
+        var tdLeft = td.offsetLeft, tdTop = td.offsetTop, tdWidth = td.clientWidth, tdHeight = td.clientHeight;
+        var containerLeft = container.scrollLeft, containerTop = container.scrollTop, containerWidth = container.clientWidth, containerHeight = container.clientHeight;
+        if (tdLeft < containerLeft + fixLeft) {
+            // 说明td被卷入了左侧
+            container.scrollLeft = tdLeft - fixLeft;
+        }
+        if (tdLeft + tdWidth > containerLeft + containerWidth - fixRight) {
+            // 说明td被卷入了右侧
+            container.scrollLeft = tdLeft + tdWidth - containerWidth + fixRight;
+        }
+        if (tdTop < containerTop) {
+            // 说明td被卷入了上侧
+            container.scrollTop = tdTop;
+        }
+        if (tdTop + tdHeight > containerTop + containerHeight - fixTop) {
+            // 说明td被卷入了下侧
+            container.scrollTop = tdTop - containerHeight + tdHeight + fixTop;
+        }
+    }
+};
+
+var useColumnValidity = function ($CxTable) {
+    var flatColumns = $CxTable.flatColumns;
+    var keys = new Map();
+    flatColumns.forEach(function (item) {
+        var key = item.label + item.prop;
+        if (keys.get(key)) {
+            throw new Error("config\u4E2D\u4F20\u9012\u4E86\u91CD\u590D\u7684key: label=>" + item.label + ",prop=>" + item.prop);
+        }
+        else {
+            keys.set(key, 1);
+        }
+    });
+};
+var useRowDataValidity = function (props) {
+    var tableData = props.tableData;
+    var rows = new Map();
+    tableData === null || tableData === void 0 ? void 0 : tableData.forEach(function (rowData) {
+        if (rows.get(rowData)) {
+            throw new Error("tableData\u4E2D\u4F20\u9012\u4E86\u91CD\u590D\u7684rowData\u5F15\u7528:" + JSON.stringify(rowData));
+        }
+        else {
+            rows.set(rowData, 1);
+        }
+    });
+};
+
+function includeArr(arr) {
+    return function (label) { return arr.some(function (item) { return label === null || label === void 0 ? void 0 : label.includes(item); }); };
+}
+function equal(target) {
+    return function (label) { return label === target; };
+}
+var CxTableWidthMap = new Map([
+    ['序号', { width: 60, rule: equal('序号'), static: true }],
+    // special
+    ['金', { width: 140, rule: equal('金Au (g)') }],
+    ['收藏', { width: 100, rule: function (label) { return label === null || label === void 0 ? void 0 : label.includes('收藏'); }, static: true }],
+    ['手寸', { width: 80, rule: equal('手寸') }],
+    ['导入', { width: 255, rule: equal('失败原因') }],
+    ['cc不给号', { width: 250, rule: function (label) { return ['石号', '证书号'].includes(label); } }],
+    ['名称', { width: 180, rule: equal('名称') }],
+    ['款型', { width: 80, rule: equal('款型') }],
+    ['刻字', { width: 180, rule: equal('刻字') }],
+    ['计价方式', { width: 200, rule: equal('计价方式') }],
+    ['下单', { width: 180, rule: includeArr(['责任方', '维修内容']) }],
+    ['石单价(元/ct或元/颗)', { width: 180, rule: equal('石单价(元/ct或元/颗)'), important: true }],
+    ['业务类型', { width: 240, rule: equal('业务类型') }],
+    ['结料材质', { width: 100, rule: equal('结料材质') }],
+    ['计量单位', { width: 100, rule: equal('计量单位') }],
+    ['款型', { width: 100, rule: equal('款型') }],
+    ['颜色', { width: 130, rule: equal('颜色') }],
+    ['净度', { width: 90, rule: equal('净度') }],
+    ['形状', { width: 130, rule: equal('形状') }],
+    ['特殊工艺', { width: 180, rule: equal('特殊工艺') }],
+    ['规格', { width: 120, rule: equal('规格') }],
+    ['品名', { width: 180, rule: equal('品名') }],
+    ['订单编号', { width: 140, rule: equal('订单编号') }],
+    ['客来石编号', { width: 180, rule: equal('客来石编号') }],
+    ['生产单号', { width: 120, rule: function (label) { return ['生产单号', '销售单号'].includes(label); } }],
+    ['选择', { width: 60, rule: equal('选择'), static: true }],
+    ['货号', { width: 60, rule: equal('货号'), static: true }],
+    ['空', { width: 50, rule: equal('') }],
+    ['时间', { width: 140, rule: includeArr(['时间', '日期']) }],
+    ['姓名', { width: 110, rule: includeArr(['提交人', '审核人', '客户名', '工人']) }],
+    [
+        '商户类',
+        {
+            width: 240,
+            rule: function (label) {
+                return ((['采购单位', '销售对象', '结算对象', '业务对象'].includes(label) ||
+                    includeArr(['商户', '供应商'])(label)) &&
+                    !(label === null || label === void 0 ? void 0 : label.includes('单号')));
+            }
+        }
+    ],
+    ['仓位', { width: 100, rule: function (label) { return ['调入仓', '调出仓'].includes(label); } }],
+    [
+        '手输单号',
+        { width: 140, rule: function (label) { return ['关联业务单号', '商户单号', '关联订单'].includes(label); } }
+    ],
+    ['批号', { width: 130, rule: function (label) { return label === null || label === void 0 ? void 0 : label.includes('批号'); } }],
+    ['纯度', { width: 100, rule: function (label) { return label === null || label === void 0 ? void 0 : label.includes('纯度'); } }],
+    ['重量', { width: 100, rule: includeArr(['重量', '(g)', '（ct）']) }],
+    ['金额', { width: 120, rule: includeArr(['金额', '元', '价']) }],
+    [
+        '数量',
+        {
+            width: 80,
+            rule: function (label) {
+                return includeArr(['数'])(label) ||
+                    [
+                        '已指派',
+                        '已完成',
+                        '当前未完成',
+                        '未生产',
+                        '分件',
+                        '手镶',
+                        '执模',
+                        '抛光',
+                        '维修抛光',
+                        '微镶',
+                        '抛镶口',
+                        '维修执模'
+                    ].includes(label);
+            }
+        }
+    ],
+    ['率', { width: 120, rule: includeArr(['率', '损耗']) }],
+    ['备注', { width: 180, rule: function (label) { return label === null || label === void 0 ? void 0 : label.includes('备注'); } }],
+    ['状态', { width: 100, rule: function (label) { return label === null || label === void 0 ? void 0 : label.includes('状态'); }, static: true }],
+    ['图片', { width: 80, rule: function (label) { return (label === null || label === void 0 ? void 0 : label.includes('图')) && label !== '审图'; }, static: true }],
+    ['操作', { width: 100, rule: equal('操作'), static: true }],
+    ['默认', { width: 120, rule: function () { return true; } }]
+]);
+
+// 表格内容区字符宽度(基准宽度)
+var contentWidthAdaptor = function (column, props) {
+    var _a;
+    return Math.max.apply(Math, __spreadArray([], __read((_a = props.tableData) === null || _a === void 0 ? void 0 : _a.map(function (rowData) {
+        var _a, _b;
+        var content = rowData[column.prop], append = 0;
+        var type = (_a = column === null || column === void 0 ? void 0 : column.control) === null || _a === void 0 ? void 0 : _a.type;
+        // 当处于特殊字段时,直接取最大宽度
+        if (['备注'].includes(column.label) && ((_b = column === null || column === void 0 ? void 0 : column.control) === null || _b === void 0 ? void 0 : _b.type) === 'input') {
+            return +Infinity;
+        }
+        else if (type === 'input') {
+            append = 40;
+        }
+        else if (type === 'select' || type === 'search') {
+            content = rowData[getColumnSelectText(column)];
+            append = 55;
+        }
+        else if (['nativeCheckbox', 'nativeRadio'].includes(type)) {
+            return 60;
+        }
+        else if (['nativeDelete'].includes(type)) {
+            return 60;
+        }
+        else if (type === 'inscription') {
+            // 当处于多选框情况,直接取最大宽度
+            return +Infinity;
+        }
+        else if (['status', 'tag'].includes(type)) {
+            content = getStatusAttrs(rowData, column).content;
+        }
+        else if (column.renderText) {
+            content = rowData[getColumnSelectText(column)];
+        }
+        if (column.accuracy) {
+            content = decimalFixed(content, column.accuracy, true);
+        }
+        var contentWidth = getStringWidth(content !== null && content !== void 0 ? content : '');
+        if (column.slot) {
+            var textContentWidth = getStringWidth(rowData[getColumnSelectText(column)]);
+            var nameContentWidth = getStringWidth(rowData[getColumnSelectText(column, 'Name')]);
+            contentWidth = Math.max(contentWidth, textContentWidth, nameContentWidth);
+            if (['search', 'select'].includes(column.slotType)) {
+                contentWidth += 55;
+            }
+            else if (['input'].includes(column.slotType)) {
+                contentWidth += 40;
+            }
+        }
+        return contentWidth + append + 16;
+    }))));
+};
+// 表头字符宽度(最小宽度)
+var headWidthAdaptor = function (_a) {
+    var label = _a.label, required = _a.required, icon = _a.icon, control = _a.control, slot = _a.slot, headSlot = _a.headSlot, configWidth = _a.configWidth, configMinWidth = _a.configMinWidth, slotType = _a.slotType, headTip = _a.headTip;
+    var type = control === null || control === void 0 ? void 0 : control.type;
+    if (['nativeCheckbox', 'nativeRadio'].includes(type)) {
+        return 60;
+    }
+    else if (['nativeDelete', 'expandSwitch'].includes(type)) {
+        return 60;
+    }
+    // 对于插槽的情况, 无法判断具体长度, 故单独处理(取配置项当中的值)
+    else if ((slot || headSlot) && (configWidth || configMinWidth)) {
+        return (configWidth !== null && configWidth !== void 0 ? configWidth : configMinWidth);
+    }
+    var width = getStringWidth(label) + 16 + +!!required * 16 + +!!icon * 20;
+    if ((slot || headSlot) && ['search', 'select'].includes(slotType)) {
+        width += 55;
+    }
+    else if (['input'].includes(slotType)) {
+        width += 40;
+    }
+    if (headTip) {
+        width += 20;
+    }
+    return width;
+};
+// 表头映射宽度(最大宽度)
+var widthMapAdaptor = function (_a) {
+    var label = _a.label, slot = _a.slot, headSlot = _a.headSlot, slotType = _a.slotType, configWidth = _a.configWidth, configMinWidth = _a.configMinWidth;
+    var targetItem = __spreadArray([], __read(CxTableWidthMap.values())).find(function (item) { return item.rule(label); });
+    var width = targetItem.width, isStatic = targetItem.static;
+    // 对于插槽的情况, 无法判断具体长度, 故单独处理(取配置项当中的值)
+    if (slot || headSlot) {
+        if (configWidth || configMinWidth) {
+            width = (configWidth !== null && configWidth !== void 0 ? configWidth : configMinWidth);
+            isStatic = !!configWidth;
+        }
+        if (['search', 'select'].includes(slotType)) {
+            width += 55;
+        }
+        else if (['input'].includes(slotType)) {
+            width += 40;
+        }
+    }
+    var result = __assign(__assign({}, targetItem), { width: width, 
+        // 是否允许拉伸
+        isMin: !isStatic });
+    return result;
+};
+/**
+ * 宽度优先级:
+ * 由低到高排序为
+ * 一级: widthMap映射-------------------- 最大宽度1
+ * 二级: widthMap中带important关键字------ 最大宽度2 (L_MAX)
+ * 三级: 表头字符长度--------------------- 最小宽度 (L_MIN)
+ * 四级: 表格内容区宽度  ------------------ 一般情况 (L_CONTENT)
+ * 五级: 通过setConfig设置的宽度----------- 特殊情况(高优先级)
+ * 六级: 通过动态表头设置的宽度
+ *
+ * 在需求变动后, 前三级得到的结果作为最大宽度使用(L_MAX), 内容区宽度即作为通常宽度,五级,六级为特殊情况处理的宽度,优先级高于前四级
+ * 特殊情况: 带有控件的列宽度为'一般情况'宽度加上控件所必须的宽度
+ * 存在的问题: 插槽无法通过组件控制, 只能通过setConfig,动态表头配置等方式覆盖
+ */
+var getColumnWidth = function ($CxTable, column, props) {
+    var _a, _b;
+    !isString(column.label) && cxTableWarn("invalid cxTable config => " + column.label + " label");
+    var priority = (_a = $CxTable.priorityColumnMap.get(column.prop)) !== null && _a !== void 0 ? _a : {};
+    var result = { isMin: false, width: 0 };
+    if (column.importantWidth) {
+        // 六级
+        var width = +column.importantWidth;
+        isNaN(width) && cxTableWarn("invalid cxTable config => " + column.prop + " importantWidth");
+        result.width = width || 0;
+        result.isMin = !!column.autoWidth;
+        return result;
+    }
+    else if (priority.width) {
+        // 五级
+        var width = +priority.width;
+        isNaN(width) && cxTableWarn("invalid cxTable config => " + column.prop + " priorityWidth");
+        result.width = width || 0;
+    }
+    // 二级(一级)
+    var _c = (_b = widthMapAdaptor(column)) !== null && _b !== void 0 ? _b : {}, L_MAX = _c.width, isMin = _c.isMin;
+    // 是否使用适配器中的宽度可通过widthAdaptor开关关闭(不影响最高优先级的importantWidth与setConfig中的宽度)
+    if (!props.widthAdaptor) {
+        Reflect.set(result, 'width', column.configWidth);
+    }
+    else if (!result.width) {
+        // 四级
+        var L_CONTENT = contentWidthAdaptor(column, props);
+        // 三级
+        var L_MIN = headWidthAdaptor(column);
+        result.width = L_CONTENT < L_MIN ? L_MIN : L_CONTENT > L_MAX ? L_MAX : L_CONTENT;
+    }
+    result.isMin = isMin;
+    return result;
+};
+
+var useAutoWidth = function ($CxTable) {
+    var wrapperEle = $CxTable.wrapperEle;
+    if (!wrapperEle)
+        return;
+    var columnStore = $CxTable.columnStore, styleStore = $CxTable.styleStore;
+    var pxColumns = columnStore.pxColumns, pxMinColumns = columnStore.pxMinColumns, percentColumns = columnStore.percentColumns, percentMinColumns = columnStore.percentMinColumns, noWidthColumns = columnStore.noWidthColumns;
+    var wrapperWidth = wrapperEle.clientWidth;
+    var remainWidth = wrapperWidth;
+    var meanWidth = wrapperWidth / 100;
+    var tableWidth = 0;
+    pxColumns.forEach(function (col) {
+        var pxWidth = parseInt(col.width + '');
+        tableWidth += pxWidth;
+        col.renderWidth = pxWidth;
+    });
+    pxMinColumns.forEach(function (col) {
+        var pxWidth = parseInt(col.minWidth + '');
+        tableWidth += pxWidth;
+        col.renderWidth = pxWidth;
+    });
+    percentColumns.forEach(function (col) {
+        var scaleWidth = Math.floor(parseInt(col.width + '') * meanWidth);
+        tableWidth += scaleWidth;
+        col.renderWidth = scaleWidth;
+    });
+    percentMinColumns.forEach(function (col) {
+        var scaleWidth = Math.floor(parseInt(col.minWidth + '') * meanWidth);
+        tableWidth += scaleWidth;
+        col.renderWidth = scaleWidth;
+    });
+    noWidthColumns.forEach(function (col) {
+        var width = styleStore.CX_TABLE_MIN_WIDTH;
+        tableWidth += width;
+        col.renderWidth = width;
+    });
+    remainWidth -= tableWidth;
+    meanWidth =
+        remainWidth > 0
+            ? Math.floor(remainWidth / (percentMinColumns.length + pxMinColumns.length + noWidthColumns.length))
+            : 0;
+    if (remainWidth > 0) {
+        if (remainWidth > 0) {
+            percentMinColumns
+                .concat(pxMinColumns)
+                .concat(noWidthColumns)
+                .forEach(function (col) {
+                tableWidth += meanWidth;
+                col.renderWidth += meanWidth;
+            });
+        }
+    }
+    var dynamicList = percentMinColumns.concat(pxMinColumns).concat(noWidthColumns);
+    var dynamicSize = dynamicList.length - 1;
+    if (dynamicSize > 0) {
+        var offsetWidth = wrapperWidth - tableWidth;
+        if (offsetWidth > 0) {
+            while (offsetWidth > 0 && dynamicSize >= 0) {
+                offsetWidth--;
+                dynamicList[dynamicSize--].renderWidth++;
+            }
+            tableWidth = wrapperWidth;
+        }
+    }
+    $CxTable.scrollStore.renderTotalWidth = tableWidth;
+};
+var updateCxTableWidth = function ($CxTable, props, prop) { return __awaiter(void 0, void 0, void 0, function () {
+    var targetColumn, parentColumn, idProp_1, widthState, width, isMin, parentWidth;
+    var _a, _b, _c, _d;
+    return __generator(this, function (_e) {
+        targetColumn = (_a = $CxTable.flatColumns) === null || _a === void 0 ? void 0 : _a.find(function (column) { return column.prop === prop; });
+        parentColumn = getParentColumn($CxTable.columns, prop);
+        /**
+         * 由于在select,search,slot等情况下, 存在只有text变化而id不变化的情况, 难以通过列prop(xxxId)监听到全部的表格内容变化
+         * 故需要由xxxText反推id列prop
+         */
+        if (!targetColumn) {
+            if (/.+Text/.test(prop)) {
+                idProp_1 = prop.replace(/Text$/, 'Id');
+                targetColumn = (_b = $CxTable.flatColumns) === null || _b === void 0 ? void 0 : _b.find(function (column) { return column.prop === idProp_1; });
+            }
+        }
+        if (!targetColumn) {
+            targetColumn = (_c = $CxTable.flatColumns) === null || _c === void 0 ? void 0 : _c.find(function (column) { var _a; return ((_a = column.control) === null || _a === void 0 ? void 0 : _a.selectText) === prop; });
+        }
+        if (!targetColumn)
+            return [2 /*return*/];
+        widthState = getColumnWidth($CxTable, targetColumn, props);
+        width = widthState.width;
+        isMin = widthState.isMin;
+        // 处理只有一个子项的情况
+        if (((_d = parentColumn === null || parentColumn === void 0 ? void 0 : parentColumn.children) === null || _d === void 0 ? void 0 : _d.length) === 1) {
+            parentWidth = getColumnWidth($CxTable, parentColumn, props).width;
+            width = Math.max(parentWidth, width);
+        }
+        // 当处于最后一列且配置了configurable,需要增加40px
+        if (prop === $CxTable.flatColumns[$CxTable.flatColumns.length - 1].prop && props.configurable) {
+            width += 40;
+        }
+        Reflect.set(targetColumn, isMin ? 'minWidth' : 'width', width),
+            Reflect.deleteProperty(targetColumn, isMin ? 'width' : 'minWidth');
+        return [2 /*return*/];
+    });
+}); };
+
+var CxBroadcast = /** @class */ (function () {
+    function CxBroadcast() {
+        this.deps = new Map();
+        this.entireDep = [];
+    }
+    CxBroadcast.prototype.trigger = function (key, rowData, payload) {
+        var dep = this.getDep(key, rowData);
+        // 发送局部广播
+        dep.forEach(function (cb) { return isFunction(cb) && cb(payload); });
+        // 发送全局广播
+        this.entireDep.forEach(function (cb) { return isFunction(cb) && cb(payload); });
+    };
+    CxBroadcast.prototype.registEntireListener = function (cb) {
+        !this.entireDep.includes(cb) && this.entireDep.push(cb);
+    };
+    CxBroadcast.prototype.registListener = function (key, rowData, cb) {
+        var dep = this.getDep(key, rowData);
+        !dep.includes(cb) && dep.push(cb);
+    };
+    CxBroadcast.prototype.getDep = function (key, rowData) {
+        var result = [];
+        var rowsDep = this.deps.get(key);
+        if (!rowsDep) {
+            rowsDep = new WeakMap();
+            rowsDep.set(rowData, result);
+            this.deps.set(key, rowsDep);
+        }
+        else {
+            var deps = rowsDep.get(rowData);
+            if (deps) {
+                result = deps;
+            }
+            else {
+                rowsDep.set(rowData, result);
+            }
+        }
+        return result;
+    };
+    return CxBroadcast;
+}());
+var useBroadcast = function () {
+    return {
+        broadcast: new CxBroadcast()
+    };
+};
+
+var useBus = function ($CxTable, props, emit) {
+    var bus = new EventBus();
+    bus.on('addNewRow', function (content) {
+        if (props.disabled)
+            return;
+        var emptyRow = $CxTable.flatColumns.reduce(function (res, column) {
+            Reflect.set(res, column.prop, '');
+            return res;
+        }, {});
+        emit(content, emptyRow);
+    });
+    bus.on('expandCheck', function (params) {
+        emit('expandCheck', params);
+    });
+    bus.on('tdFocus', function (params) { return emit('tdFocus', params); });
+    bus.on('deleteRow', function (rowIndex) {
+        var tableData = props.tableData;
+        tableData === null || tableData === void 0 ? void 0 : tableData.splice(rowIndex, 1);
+    });
+    return { bus: bus };
+};
+
+var useCSSVariable = function ($CxTable) {
+    return {
+        cssVariable: computed(function () {
+            return {
+                '--padding': $CxTable.styleStore.CX_TABLE_PADDING,
+                '--cellHeight': $CxTable.styleStore.CX_TABLE_HEIGHT,
+                '--scrollWidth': $CxTable.styleStore.CX_TABLE_SCROLL_BAR
+            };
+        })
+    };
+};
+
+var useCalcSpanMethod = function ($CxTable, props) {
+    var _a, _b, _c;
+    var virtualStore = $CxTable.virtualStore, flatColumns = $CxTable.flatColumns;
+    var rowSpanMap = virtualStore.rowSpanMap;
+    rowSpanMap.length = (_b = (_a = props.tableData) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 0;
+    rowSpanMap.fill(0);
+    (_c = props.tableData) === null || _c === void 0 ? void 0 : _c.forEach(function (rowData, rowIndex) {
+        flatColumns.some(function (column) {
+            var _a, _b;
+            var result = (_b = (_a = props.spanMethod) === null || _a === void 0 ? void 0 : _a.call(props, { rowData: rowData, column: column, rowIndex: rowIndex })) !== null && _b !== void 0 ? _b : {};
+            if (isArray(result)) {
+                result = { rowspan: result[0], colspan: result[1] };
+            }
+            if (result.rowspan === 0) {
+                rowSpanMap[rowIndex] |= CX_SPAN_METHOD_TYPE.MISSING;
+            }
+            else if (result.rowspan > 1) {
+                rowSpanMap[rowIndex] |= CX_SPAN_METHOD_TYPE.EXTEND;
+            }
+        });
+    });
+};
+
+function assignStyle(current, assign, payload) {
+    Object.assign(current, isFunction(assign) ? assign(payload) : assign);
+}
+function useStyle(col, props) {
+    return function (params, type, rowData, rowIndex) {
+        var result = { textAlign: col.align === 'center' ? 'center' : 'left' };
+        if (type === 'body') {
+            props.cellStyle && assignStyle(result, props.cellStyle, { column: col, rowData: rowData, rowIndex: rowIndex });
+            col.cellStyle && assignStyle(result, col.cellStyle, { column: col, rowData: rowData, rowIndex: rowIndex });
+        }
+        if (type === 'head') {
+            props.headCellStyle && assignStyle(result, props.headCellStyle, { column: col });
+            col.headCellStyle && assignStyle(result, col.headCellStyle, { column: col });
+        }
+        if (isNumber(params === null || params === void 0 ? void 0 : params.height)) {
+            result.height = formatWidth(params === null || params === void 0 ? void 0 : params.height);
+        }
+        return result;
+    };
+}
+
+function getColumnFlag(col) {
+    var _a;
+    var result = 0;
+    if (col.slot) {
+        result |= COLUMN_FLAG.SLOT_COLUMN;
+    }
+    else if (col.control) {
+        result |= COLUMN_FLAG.CONTROL_COLUMN;
+    }
+    else if (col.calculate) {
+        result |= COLUMN_FLAG.CALC_COLUMN;
+    }
+    else {
+        result |= COLUMN_FLAG.TEXT_COLUMN;
+    }
+    if (col.fixed) {
+        result |= COLUMN_FLAG.FIX_COLUMN;
+    }
+    if ((_a = col.children) === null || _a === void 0 ? void 0 : _a.length) {
+        result |= COLUMN_FLAG.ARRAY_CHILDREN;
+    }
+    if (col.sum === 'add') {
+        result |= COLUMN_FLAG.ADD_SUM_COLUMN;
+    }
+    else if (isFunction(col.sum)) {
+        result |= COLUMN_FLAG.CUSTOM_SUM_COLUMN;
+    }
+    else if (col.sum === 'text') {
+        result |= COLUMN_FLAG.TEXT_SUM_COLUMN;
+    }
+    if (col.validator || col.required) {
+        result |= COLUMN_FLAG.VALIDATE_COLUMN;
+    }
+    return result;
+}
+function normalizeColumn(col, $CxTable, props, parent, uniqueChildren) {
+    var _a, _b, _c;
+    var priority = (_a = $CxTable.priorityColumnMap.get(col.prop)) !== null && _a !== void 0 ? _a : {};
+    var column = deepMerge(deepMerge({}, col), priority);
+    var result = __assign(__assign({}, column), { configWidth: column.width, configMinWidth: column.minWidth, columnFlag: getColumnFlag(column), getStyle: useStyle(column, props), renderWidth: 0, children: undefined, _colid: useTableId().generateColId(column) });
+    var widthState = getColumnWidth($CxTable, result, props);
+    var width = widthState.width;
+    var isMin = widthState.isMin;
+    // 处理只有一个子项的情况
+    if (uniqueChildren && parent) {
+        var parentWidth = getColumnWidth($CxTable, parent, props).width;
+        width = Math.max(parentWidth, width);
+    }
+    Reflect.set(result, isMin ? 'minWidth' : 'width', width),
+        Reflect.deleteProperty(result, isMin ? 'width' : 'minWidth');
+    result.children = (_c = (_b = column.children) === null || _b === void 0 ? void 0 : _b.filter(function (item) { return !item.hide; })) === null || _c === void 0 ? void 0 : _c.map(function (column) { var _a; return normalizeColumn(column, $CxTable, props, result, ((_a = col.children) === null || _a === void 0 ? void 0 : _a.length) === 1); });
+    return result;
+}
+function useColumn($CxTable, columnProxy, props) {
+    var cols = columnProxy.value;
+    var columns = cols
+        .filter(function (col) { return !col.hide; })
+        .map(function (col) { return normalizeColumn(col, $CxTable, props); });
+    var leftFixedColumns = columns.filter(function (col) { return col.fixed === 'left'; });
+    $CxTable.columnStore.leftFixedColumns = leftFixedColumns;
+    var rightFixedColumns = columns.filter(function (col) { return col.fixed === 'right'; });
+    $CxTable.columnStore.rightFixedColumns = rightFixedColumns;
+    var middenColumns = columns.filter(function (column) { return !column.fixed; });
+    $CxTable.columnStore.centerColumns = arrFlat(middenColumns);
+    $CxTable.columns = [].concat($CxTable.columnStore.leftFixedColumns, middenColumns, $CxTable.columnStore.rightFixedColumns);
+    $CxTable.flatColumns = arrFlat($CxTable.columns);
+    classifyColumn($CxTable, $CxTable.flatColumns);
+}
+function classifyColumn($CxTable, columns) {
+    var pxColumns = columns.filter(function (col) {
+        if (!isEmpty(col.minWidth))
+            return false;
+        return isNumber(col.width) || (isString(col.width) && col.width.endsWith('px'));
+    });
+    $CxTable.columnStore.pxColumns = pxColumns;
+    var percentColumns = columns.filter(function (col) {
+        if (!isEmpty(col.minWidth))
+            return false;
+        return isString(col.width) && col.width.endsWith('%');
+    });
+    $CxTable.columnStore.percentColumns = percentColumns;
+    var pxMinColumns = columns.filter(function (col) {
+        return isNumber(col.minWidth) || (isString(col.minWidth) && col.minWidth.endsWith('px'));
+    });
+    $CxTable.columnStore.pxMinColumns = pxMinColumns;
+    var percentMinColumns = columns.filter(function (col) {
+        return isString(col.minWidth) && col.minWidth.endsWith('%');
+    });
+    $CxTable.columnStore.percentMinColumns = percentMinColumns;
+    var noWidthColumns = columns.filter(function (col) {
+        return isEmpty(col.width) && isEmpty(col.minWidth);
+    });
+    $CxTable.columnStore.noWidthColumns = noWidthColumns;
+}
+
+function useCxPagination() {
+    return reactive({
+        currentPage: 1,
+        pageCapacity: 10,
+        pageSizes: [10, 20, 50],
+        total: 0
+    });
+}
+
+var useCxSort = function (props) {
+    var sortProp = ref('');
+    var sortStatus = ref(CX_SORT_STATUS.NONE);
+    var sort = ref(false);
+    // const sortedData = computed(() => {
+    //   if (unref(sortStatus) === CX_SORT_STATUS.NONE) {
+    //     return props.tableData;
+    //   } else if (unref(sort)) {
+    //     let sortFun;
+    //     if (isFunction(unref(sort))) {
+    //       sortFun = (a: AnyObject, b: AnyObject) => {
+    //         const fun = unref(sort) as CxTableSortFun;
+    //         return unref(sortStatus) === CX_SORT_STATUS.POSITIVE
+    //           ? fun(a[unref(sortProp)], b[unref(sortProp)])
+    //           : fun(b[unref(sortProp)], a[unref(sortProp)]);
+    //       };
+    //     } else {
+    //       sortFun = (a: AnyObject, b: AnyObject) => {
+    //         return unref(sortStatus) === CX_SORT_STATUS.POSITIVE
+    //           ? a[unref(sortProp)] - b[unref(sortProp)]
+    //           : b[unref(sortProp)] - a[unref(sortProp)];
+    //       };
+    //     }
+    //     return copySort(props.tableData, sortFun);
+    //   } else {
+    //     return props.tableData;
+    //   }
+    // });
+    return {
+        tableDataVisitor: new Proxy({}, {
+            get: function (target, key) {
+                if (key === 'sortedData')
+                    return props.tableData;
+                if (key === 'sortProp')
+                    return sortProp.value;
+                if (key === 'sortStatus')
+                    return sortStatus.value;
+            },
+            set: function (target, key, val) {
+                switch (key) {
+                    case 'sortProp':
+                        sortProp.value = val;
+                        break;
+                    case 'sort':
+                        sort.value = val;
+                    case 'sortStatus':
+                        sortStatus.value = val;
+                }
+                return true;
+            }
+        })
+    };
+};
+
+var onInits$1 = [];
+var onOutputs$1 = [];
+var FormConfigAdaptor$1 = /** @class */ (function () {
+    function FormConfigAdaptor(config) {
+        this.__items = {
+            label: '',
+            prop: '',
+            closable: true,
+            register: []
+        };
+        var configDuplicate = onInits$1.reduce(function (res, hook) { return (R.is(Function, hook) ? hook(res) : res); }, R.clone(config));
+        this.adaptor(configDuplicate);
+    }
+    FormConfigAdaptor.use = function (plugin) {
+        // push::a->a[]->number
+        var push = R.curry(function (arr, item) { return arr.push(item); });
+        // updateHooks::object a=>a[]->string->object->Maybe b
+        var updateHooks = function (source, key) {
+            // map::Maybe->a
+            var MaybeMap = map(R.ifElse(R.is(Function), push(source), R.identity));
+            return R.compose(MaybeMap, Maybe.of, R.prop(key));
+        };
+        updateHooks(onInits$1, 'onInit')(plugin);
+        updateHooks(onOutputs$1, 'onOutput')(plugin);
+    };
+    FormConfigAdaptor.prototype.getItems = function () {
+        return onOutputs$1.reduce(function (res, hook) { return (R.is(Function, hook) ? hook(res) : res); }, R.clone(this.__items));
+    };
+    FormConfigAdaptor.of = function (config) {
+        return new FormConfigAdaptor(config).getItems();
+    };
+    FormConfigAdaptor.prototype.adaptor = function (config) {
+        var _this = this;
+        var _a, _b, _c;
+        // 静态部分
+        ['label', 'prop'].forEach(function (key) { return unsafeSet(_this.__items, key, config[key]); });
+        // 动态部分
+        var searchStates = R.prop('searchStates', config);
+        // options
+        Maybe.of(searchStates.dynamicSearchOptions).map(unsafeSet(searchStates, 'searchOptions'));
+        var controlConfig = {};
+        Reflect.set(this.__items, (_a = searchStates.searchType) !== null && _a !== void 0 ? _a : 'input', controlConfig);
+        R.equals('input', searchStates.searchType) && unsafeSet(controlConfig, 'searchIcon', false);
+        // options::NameWithId a=>object->a[]
+        var options = R.curryN(2, R.compose(R.prepend({ name: '全部', id: -1 }), calcInnerOptions))((_b = searchStates.searchOptions) !== null && _b !== void 0 ? _b : []);
+        if (Array.isArray(searchStates.searchOptions)) {
+            Reflect.set(controlConfig, 'options', options(searchStates.searchOptions));
+        }
+        else if (isObject$1(searchStates.searchOptions)) {
+            Reflect.set(controlConfig, 'options', R.compose(options, R.prop('form')));
+        }
+        else if (isFunction(searchStates.searchOptions)) {
+            Reflect.set(controlConfig, 'options', function (payload) { return searchStates.searchOptions(payload); });
+        }
+        // options依赖项发生改变时清空该列数据 TODO
+        var deps = getOptionsDeps((_c = searchStates.searchOptions) !== null && _c !== void 0 ? _c : []);
+        var cb = unsafeDeleteProperty(R.__, this.__items.prop);
+        this.__items.register = deps.map(R.compose(unsafeSet(R.__, 'cb', cb), R.objOf('dep')));
+    };
+    return FormConfigAdaptor;
+}());
+
+//格式化条码
+function formatBarcode(str) {
+    var code = str;
+    if (code.length >= 12) {
+        code = Number(code.substr(0, code.length - 1));
+        if (!isNaN(code)) {
+            return code.toString();
+        }
+    }
+    return str;
+}
+var dataInitPlugin = {
+    onOutput: function (config) {
+        if (config.label === '生产单号') {
+            config.onChange = function (_a) {
+                var prop = _a.prop, form = _a.form;
+                form[prop] = formatBarcode(form[prop]);
+            };
+        }
+        return config;
+    }
+};
+
+FormConfigAdaptor$1.use(dataInitPlugin);
+var FormConfigAdaptor = FormConfigAdaptor$1;
+
+var useCxTableCompose = function () {
+    // getAllSearchableColumn::CxTableDynamicColumn a=>a[]->a[]
+    var getAllSearchableColumn = R.compose(R.filter(R.compose(R.is(Object), unsafeGet(R.__, 'searchStates'))), arrFlat);
+    var getDefaultFormItem = R.compose(R.map(R.prop('prop')), R.filter(R.compose(truthy, R.path(['jsonData', 'defaultFormItem']))), getAllSearchableColumn);
+    // getSearchableFormConfig::CxTableDynamicColumn[]->CxFormItemConfig[]
+    var getSearchableFormConfig = R.compose(R.map(FormConfigAdaptor.of), getAllSearchableColumn);
+    // column2NameWithId::CxTableDynamicColumn[]->NameWithId[]
+    var column2NameWithId = R.compose(R.zipObj(['id', 'name']), R.props(['prop', 'label']));
+    // getOptionListFromColumn::CxTableDynamicColumn[]->Option[]
+    var getOptionListFromColumn = R.compose(R.map(column2NameWithId), getAllSearchableColumn);
+    // getCurrentFormConfig::CxTableDynamicColumn[]->string[]->CxFormItemConfig[]
+    var getCurrentFormConfig = function (columns, currentItems) {
+        var itemList = getSearchableFormConfig(columns);
+        return R.compose(R.append({ label: '', prop: 'add', custom: { slot: 'add' } }), R.reduce(function (res, prop) {
+            return R.compose(R.ifElse(R.isNil, R.always(res), R.flip(R.append)(res)), R.find(R.propEq('prop', prop)))(itemList);
+        }, []))(currentItems);
+    };
+    // isEmptyValue::a->boolean
+    var isEmptyValue = R.anyPass([
+        R.isNil,
+        R.equals(-1),
+        R.equals(''),
+        R.ifElse(R.is(Array), R.compose(R.equals(0), R.length), R.F)
+    ]);
+    // isRenderInTeleport::object->boolean
+    var isRenderInTeleport = R.allPass([R.prop('formTeleport')]);
+    // formValueFormat::a->object
+    var formValueFormat = R.ifElse(Array.isArray, R.compose(R.zipObj(['val1', 'val2']), R.props(['0', '1'])), R.objOf('value'));
+    // arrayIsNotEmpty::array a=>a->boolean
+    var arrayIsNotEmpty = R.compose(R.gt(R.__, 0), R.length);
+    // isPositive::number->boolean
+    var isPositive = R.gte(R.__, 0);
+    // getDynamicKeyPair::Object a=>a->{DynamicKey,any}[]
+    var getDynamicKeyPair = R.compose(R.toPairs, R.omit(['config', 'api', 'requestInstance']));
+    // splatEq::a->b->boolean
+    var splatEq = splat(R.equals);
+    // statesProp::CxDynamicItem a->Object|undefined
+    var statesProp = R.prop('searchStates');
+    // statesDefault::CxDynamicItem a->string|undefined
+    var statesDefault = R.compose(R.prop('searchDefault'), statesProp);
+    // getTargetColumnDefault::CxTableDynamicColumn a->Maybe any
+    var getTargetColumnDefault = R.ifElse(R.compose(truthy, statesDefault), R.compose(Maybe.of, R.converge(formatFormDefaultValue, [
+        statesDefault,
+        R.compose(R.prop('searchType'), statesProp)
+    ])), Maybe.none);
+    // getParamsItems::Object->string[]->ParamsItem[]
+    var getParamsItems = function (form, currentFormItems) {
+        if (!form || !currentFormItems)
+            return [];
+        return currentFormItems.reduce(function (res, prop) {
+            return Maybe.of(form[prop])
+                .map(R.ifElse(R.compose(R.not, isEmptyValue), R.compose(unsafePush(R.__, res), R.of, R.mergeRight(R.objOf('prop', R.replace(/Text|Name$/, 'Id', prop))), formValueFormat), R.always(res)))
+                .getWithDefault(res);
+        }, []);
+    };
+    // innerBracket::string->string
+    var innerBracket = R.compose(R.join(''), R.prepend('('), R.append(')'), R.of);
+    var multiRuleWarn = R.curryN(2, unsafeWhenDevCall(function (rules, dynamic) {
+        if (rules.length > 1) {
+            cxTableWarn("matched " + R.length(rules) + " rule ", rules, "  by config ", changeDynamicIdToText(dynamic), "");
+        }
+    }));
+    var getConfigByDynamicConfig = function (dynamic, rules) {
+        return Maybe.run((function () {
+            var ruleList, compareDynamicProp, fitCurrentDynamic;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Maybe.of(rules)];
+                    case 1:
+                        ruleList = _a.sent();
+                        compareDynamicProp = R.compose(splatEq, R.adjust(0, R.prop(R.__, dynamic)));
+                        fitCurrentDynamic = R.compose(R.all(compareDynamicProp), getDynamicKeyPair);
+                        return [2 /*return*/, R.compose(R.head, R.tap(multiRuleWarn(R.__, dynamic)), R.filter(fitCurrentDynamic))(ruleList)];
+                }
+            });
+        })());
+    };
+    // arrNotEmpty::a[]->boolean
+    var arrNotEmpty = R.compose(truthy, R.length);
+    return {
+        arrNotEmpty: arrNotEmpty,
+        multiRuleWarn: multiRuleWarn,
+        getConfigByDynamicConfig: getConfigByDynamicConfig,
+        getDefaultFormItem: getDefaultFormItem,
+        innerBracket: innerBracket,
+        getAllSearchableColumn: getAllSearchableColumn,
+        getTargetColumnDefault: getTargetColumnDefault,
+        getDynamicKeyPair: getDynamicKeyPair,
+        getSearchableFormConfig: getSearchableFormConfig,
+        column2NameWithId: column2NameWithId,
+        isEmptyValue: isEmptyValue,
+        isPositive: isPositive,
+        splatEq: splatEq,
+        arrayIsNotEmpty: arrayIsNotEmpty,
+        formValueFormat: formValueFormat,
+        getOptionListFromColumn: getOptionListFromColumn,
+        getCurrentFormConfig: getCurrentFormConfig,
+        isRenderInTeleport: isRenderInTeleport,
+        getParamsItems: getParamsItems
+    };
+};
+
+var session = new CxLocalStore('session');
+session.use(storeFilter);
+var sessionStore = session;
+var local = new CxLocalStore('local');
+local.use(storeFilter);
+var localStore = local;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Built-in value references. */
+var Symbol$1 = root.Symbol;
+
+/** Used for built-in method references. */
+var objectProto$1 = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto$1.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString$1 = objectProto$1.toString;
+
+/** Built-in value references. */
+var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined;
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag$1),
+      tag = value[symToStringTag$1];
+
+  try {
+    value[symToStringTag$1] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString$1.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag$1] = tag;
+    } else {
+      delete value[symToStringTag$1];
+    }
+  }
+  return result;
+}
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && baseGetTag(value) == symbolTag);
+}
+
+/** Used to match a single whitespace character. */
+var reWhitespace = /\s/;
+
+/**
+ * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
+ * character of `string`.
+ *
+ * @private
+ * @param {string} string The string to inspect.
+ * @returns {number} Returns the index of the last non-whitespace character.
+ */
+function trimmedEndIndex(string) {
+  var index = string.length;
+
+  while (index-- && reWhitespace.test(string.charAt(index))) {}
+  return index;
+}
+
+/** Used to match leading whitespace. */
+var reTrimStart = /^\s+/;
+
+/**
+ * The base implementation of `_.trim`.
+ *
+ * @private
+ * @param {string} string The string to trim.
+ * @returns {string} Returns the trimmed string.
+ */
+function baseTrim(string) {
+  return string
+    ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
+    : string;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = baseTrim(value);
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT$1 = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce$1(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT$1);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        timeWaiting = wait - timeSinceLastCall;
+
+    return maxing
+      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+      : timeWaiting;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        clearTimeout(timerId);
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a throttled function that only invokes `func` at most once per
+ * every `wait` milliseconds. The throttled function comes with a `cancel`
+ * method to cancel delayed `func` invocations and a `flush` method to
+ * immediately invoke them. Provide `options` to indicate whether `func`
+ * should be invoked on the leading and/or trailing edge of the `wait`
+ * timeout. The `func` is invoked with the last arguments provided to the
+ * throttled function. Subsequent calls to the throttled function return the
+ * result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the throttled function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.throttle` and `_.debounce`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to throttle.
+ * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=true]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new throttled function.
+ * @example
+ *
+ * // Avoid excessively updating the position while scrolling.
+ * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+ *
+ * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+ * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+ * jQuery(element).on('click', throttled);
+ *
+ * // Cancel the trailing throttled invocation.
+ * jQuery(window).on('popstate', throttled.cancel);
+ */
+function throttle(func, wait, options) {
+  var leading = true,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  if (isObject(options)) {
+    leading = 'leading' in options ? !!options.leading : leading;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+  return debounce$1(func, wait, {
+    'leading': leading,
+    'maxWait': wait,
+    'trailing': trailing
+  });
+}
+
+var cacheMap = {};
+var resolveColumns = function (cols, props) {
+    var context = useCxTable().getContext();
+    return __spreadArray(__spreadArray([], __read(context.dynamicInject)), [props.dynamicInject]).reduce(function (res, inject) {
+        return isFunction(inject) ? inject(res) : res;
+    }, cols);
+};
+var getCxDynamicHead = function (dynamic) { return __awaiter(void 0, void 0, void 0, function () {
+    var url;
+    return __generator(this, function (_a) {
+        url = '/header/dynamic';
+        return [2 /*return*/, new Promise(function (resolve, reject) {
+                var _a, _b;
+                var key = JSON.stringify(dynamic);
+                var data = sessionStore.get(key, CX_TABLE_DYNAMIC_CACHE);
+                if (data === CX_TABLE_CACHE_PENDING) {
+                    new Promise(function (innerResolve) {
+                        !cacheMap[key] && Reflect.set(cacheMap, key, []);
+                        cacheMap[key].push(innerResolve);
+                    })
+                        .then(resolve)["catch"](reject);
+                }
+                else if (data) {
+                    resolve({ data: data, state: 200, message: '' });
+                }
+                else {
+                    sessionStore.set(key, CX_TABLE_CACHE_PENDING, CX_TABLE_THROTTLE_DURATION, CX_TABLE_DYNAMIC_CACHE);
+                    var invalidIndex = CX_TABLE_DYNAMIC_PROPS.findIndex(function (key) {
+                        if (!isNumber(Reflect.get(dynamic, key))) {
+                            cxTableWarn("dynamic\u53C2\u6570\u4F20\u9012\u9519\u8BEF:" + key + " is not a number");
+                            return true;
+                        }
+                    });
+                    if (invalidIndex >= 0) {
+                        return reject();
+                    }
+                    (_b = (_a = useCxTable()) === null || _a === void 0 ? void 0 : _a.getContext()) === null || _b === void 0 ? void 0 : _b.dynamicRequestInstance.get(url, __assign(__assign({}, dynamic), { random: Math.random() })).then(resolve)["catch"](reject);
+                }
+            })];
+    });
+}); };
+var useDynamicConfig = function (props, emit) {
+    var columnProxy = ref([]);
+    var dynamicColumn = ref([]);
+    var loading = ref(false);
+    var forceUpdate = debounce$1(function (isDynamicChange) {
+        if (isDynamicChange === void 0) { isDynamicChange = false; }
+        if (isObject$1(props.dynamic)) {
+            loading.value = true;
+            var key_1 = JSON.stringify(props.dynamic);
+            getCxDynamicHead(props.dynamic)
+                .then(function (_a) {
+                var data = _a.data;
+                return __awaiter(void 0, void 0, void 0, function () {
+                    var duplicate_1;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0:
+                                if (Array.isArray(data)) {
+                                    sessionStore.set(key_1, data, CX_TABLE_THROTTLE_DURATION, CX_TABLE_DYNAMIC_CACHE);
+                                    if (Array.isArray(cacheMap[key_1])) {
+                                        duplicate_1 = R.clone(data);
+                                        cacheMap[key_1].forEach(function (resolve) {
+                                            resolve({ data: duplicate_1, state: 200, message: '' });
+                                        });
+                                        Reflect.deleteProperty(cacheMap, key_1);
+                                    }
+                                    data = data.map(CxConfigAdaptor.of);
+                                    dynamicColumn.value = R.clone(data);
+                                    data = resolveColumns(data, props);
+                                    columnProxy.value = data;
+                                }
+                                return [4 /*yield*/, nextTick()];
+                            case 1:
+                                _b.sent();
+                                isDynamicChange && emit('dynamicUpdate');
+                                return [2 /*return*/];
+                        }
+                    });
+                });
+            })["finally"](function () {
+                loading.value = false;
+                var data = sessionStore.get(key_1, CX_TABLE_DYNAMIC_CACHE);
+                if (data === CX_TABLE_CACHE_PENDING) {
+                    sessionStore.remove(key_1, CX_TABLE_DYNAMIC_CACHE);
+                }
+                if (Array.isArray(cacheMap[key_1])) {
+                    cacheMap[key_1].forEach(function (resolve) {
+                        resolve({ data: R.clone(data), state: 200, message: '' });
+                    });
+                }
+                Reflect.deleteProperty(cacheMap, key_1);
+            });
+        }
+        else {
+            columnProxy.value = resolveColumns(R.clone(props.tableConfig.items), props);
+        }
+    }, 300);
+    if (isObject$1(props.dynamic)) {
+        watch(function () { return props.dynamic; }, R.converge(forceUpdate, [R.T]), { deep: true, immediate: true });
+    }
+    else {
+        watch(function () { return props.tableConfig.items; }, R.converge(forceUpdate, [R.F]), {
+            deep: true,
+            immediate: true
+        });
+    }
+    return { columnProxy: columnProxy, loading: loading, forceUpdate: forceUpdate, dynamicColumn: dynamicColumn };
+};
+
+var useExpandConfig = function () {
+    var expandConfig = reactive([]);
+    var clearExpand = function () {
+        expandConfig.splice(0);
+    };
+    var setExpand = function (index, val) {
+        Reflect.set(expandConfig, index, val);
+    };
+    return { expandConfig: expandConfig, clearExpand: clearExpand, setExpand: setExpand };
+};
+
+var useLazyLoad = function (ele, tableVisible) {
+    if (!IntersectionObserver) {
+        tableVisible.value = true;
+    }
+    var observer = new IntersectionObserver(function (entries) { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    if (tableVisible.value)
+                        return [2 /*return*/];
+                    return [4 /*yield*/, nextTick()];
+                case 1:
+                    _b.sent();
+                    tableVisible.value = Reflect.get((_a = entries === null || entries === void 0 ? void 0 : entries[0]) !== null && _a !== void 0 ? _a : { isIntersecting: true }, 'isIntersecting');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    observer.observe(ele);
+};
+
+var usePriorityConfig = function (_a) {
+    var priorityColumnMap = _a.priorityColumnMap;
+    var onSetConfig = [];
+    var setConfig = function (prop, config) {
+        var _a;
+        if (!config || !isObject$1(config))
+            throw new TypeError('config must be a object');
+        var old = (_a = priorityColumnMap.get(prop)) !== null && _a !== void 0 ? _a : {};
+        deepMerge(old, config);
+        priorityColumnMap.set(prop, old);
+        onSetConfig.forEach(function (cb) { return cb(); });
+    };
+    var clearConfig = function () {
+        priorityColumnMap.clear();
+    };
+    var removeConfig = function (prop) {
+        priorityColumnMap["delete"](prop);
+    };
+    return { setConfig: setConfig, removeConfig: removeConfig, clearConfig: clearConfig, onSetConfig: onSetConfig };
+};
+
+var useRadioConfig = function (emit) {
+    var radioValue = ref(-1);
+    watch(function () { return radioValue.value; }, function (val) {
+        emit('radioChange', val);
+    });
+    var removeRadio = function () {
+        radioValue.value = -1;
+    };
+    var setRadio = function (val) {
+        radioValue.value = val;
+    };
+    var getRadio = function () {
+        return radioValue.value;
+    };
+    return { radioValue: radioValue, removeRadio: removeRadio, setRadio: setRadio, getRadio: getRadio };
+};
+
+var registResponsive = function (wrapper, callbacks) {
+    onMounted(function () {
+        if (observer) {
+            observer.observe(document, {
+                attributes: true,
+                subtree: true,
+                childList: true,
+                characterData: true
+            });
+        }
+        else {
+            window.addEventListener('resize', updateWidth);
+        }
+    });
+    onBeforeUnmount(function () {
+        if (observer) {
+            observer.disconnect();
+        }
+        else {
+            window.removeEventListener('resize', updateWidth);
+        }
+    });
+    var recordOldWidth = '0';
+    var updateWidth = debounce$1(function () { return __awaiter(void 0, void 0, void 0, function () {
+        var width;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, nextTick()];
+                case 1:
+                    _a.sent();
+                    if (!wrapper.value)
+                        return [2 /*return*/];
+                    width = getComputedStyle(wrapper.value).getPropertyValue('width');
+                    if (width === recordOldWidth)
+                        return [2 /*return*/];
+                    recordOldWidth = width;
+                    callbacks.forEach(function (cb) { return cb(); });
+                    return [2 /*return*/];
+            }
+        });
+    }); }, 100);
+    var MutationObserver = window.MutationObserver;
+    var supportMutation = typeof MutationObserver !== undefined;
+    var observer = null;
+    if (supportMutation) {
+        observer = new MutationObserver(updateWidth);
+    }
+};
+var scrollUpdateVisualScroll = function ($CxTable, props) {
+    if (props.virtualScroll) {
+        var wrapperEle = $CxTable.wrapperEle;
+        if (!wrapperEle)
+            return;
+        var virtualStore = $CxTable.virtualStore, styleStore = $CxTable.styleStore;
+        var scrollTop = wrapperEle.scrollTop, clientHeight = wrapperEle.clientHeight;
+        var CX_TABLE_HEIGHT = styleStore.CX_TABLE_HEIGHT, CX_VISUAL_CACHE = styleStore.CX_VISUAL_CACHE;
+        var appendNum = +!!props.showTotalSum;
+        var rowNum = props.tableData.length + appendNum;
+        var renderStartIndex = Math.max(0, Math.floor(scrollTop / CX_TABLE_HEIGHT) - CX_VISUAL_CACHE);
+        var topRowSpanPrepend = 0;
+        if (props.spanMethod) {
+            while (renderStartIndex > 0 &&
+                virtualStore.rowSpanMap[renderStartIndex] & CX_SPAN_METHOD_TYPE.MISSING) {
+                topRowSpanPrepend++;
+                renderStartIndex--;
+            }
+        }
+        var renderLength = Math.ceil(clientHeight / CX_TABLE_HEIGHT) + CX_VISUAL_CACHE * 2 + topRowSpanPrepend;
+        if (props.spanMethod) {
+            var startBrokenFlag = virtualStore.rowSpanMap[renderStartIndex + renderLength] & CX_SPAN_METHOD_TYPE.EXTEND;
+            if (startBrokenFlag && renderStartIndex + renderLength < rowNum)
+                renderLength++;
+            while (renderStartIndex + renderLength < rowNum &&
+                virtualStore.rowSpanMap[renderStartIndex + renderLength] & CX_SPAN_METHOD_TYPE.MISSING) {
+                renderLength++;
+            }
+        }
+        virtualStore.renderLength = renderLength;
+        virtualStore.renderStartIndex = renderStartIndex;
+        virtualStore.renderEndIndex = Math.min(rowNum, renderStartIndex + renderLength);
+        virtualStore.renderPaddingTop = renderStartIndex * CX_TABLE_HEIGHT;
+        virtualStore.renderPaddingBottom = (rowNum - virtualStore.renderEndIndex) * CX_TABLE_HEIGHT;
+    }
+};
+var scrollUpdateShadow = function ($CxTable) {
+    var wrapperEle = $CxTable.wrapperEle, scrollStore = $CxTable.scrollStore;
+    if (!wrapperEle)
+        return;
+    var scrollLeft = wrapperEle.scrollLeft, scrollWidth = wrapperEle.scrollWidth, scrollHeight = wrapperEle.scrollHeight, scrollTop = wrapperEle.scrollTop, clientWidth = wrapperEle.clientWidth, clientHeight = wrapperEle.clientHeight;
+    scrollStore.scrollLeft = scrollLeft;
+    scrollStore.scrollTop = scrollTop;
+    scrollStore.showLeftShadow = scrollLeft !== 0;
+    scrollStore.showTopShadow = scrollTop !== 0;
+    // 当屏幕缩放比不是整十数时,会出现scrollLeft为小数的情况,此时如果以严格等于0去计算样式会出现问题
+    scrollStore.showRightShadow = scrollWidth - clientWidth - scrollLeft >= 1;
+    scrollStore.showBottomShadow = scrollHeight - clientHeight - scrollTop >= 1;
+};
+var wrapperScrollEventHandle = function ($CxTable, props) {
+    var throttleVisual = throttle(scrollUpdateVisualScroll, 100, { leading: true, trailing: true });
+    var throttleShadow = throttle(scrollUpdateShadow, 20, { leading: true, trailing: true });
+    throttleShadow($CxTable);
+    throttleVisual($CxTable, props);
+};
+var registScrollEvent = function ($CxTable, props) {
+    onMounted(function () {
+        var wrapperEle = $CxTable.wrapperEle;
+        if (!wrapperEle)
+            return;
+        wrapperEle.onscroll = function () { return wrapperScrollEventHandle($CxTable, props); };
+        setTimeout(function () { return wrapperScrollEventHandle($CxTable, props); });
+    });
+};
+var registCellEvent = function ($CxTable, props) {
+    var onClick = function (event) {
+        var _a, _b, _c, _d;
+        var td = event.currentTarget;
+        var ele = event.target;
+        if (ele.nodeName === 'INPUT')
+            return true;
+        // 兼容el-checkbox的写法
+        if (ele.classList.contains('el-checkbox__inner'))
+            return true;
+        var editStore = $CxTable.editStore, scrollStore = $CxTable.scrollStore, wrapperEle = $CxTable.wrapperEle, columnStore = $CxTable.columnStore;
+        var actived = editStore.actived;
+        var centerColumns = columnStore.centerColumns;
+        actived.column = props.column;
+        actived.rowData = props.rowData;
+        editStore.activedCell = td;
+        editStore.activedControl = null;
+        var targetTd = td;
+        if (((_a = props.column) === null || _a === void 0 ? void 0 : _a.fixed) === 'left') {
+            targetTd = (_b = domShare.getCell($CxTable, centerColumns[0], actived.rowData)) !== null && _b !== void 0 ? _b : td;
+        }
+        else if (((_c = props.column) === null || _c === void 0 ? void 0 : _c.fixed) === 'right') {
+            targetTd =
+                (_d = domShare.getCell($CxTable, centerColumns[centerColumns.length - 1], actived.rowData)) !== null && _d !== void 0 ? _d : td;
+        }
+        domShare.scrollToTd(targetTd, wrapperEle, scrollStore.leftFixedWidth, scrollStore.rightFixedWidth, scrollStore.topFixedHeight);
+    };
+    return { onClick: onClick };
+};
+var registMouseEvent = function ($CxTable) {
+    onMounted(function () {
+        var wrapperEle = $CxTable.wrapperEle;
+        if (!wrapperEle)
+            return;
+        wrapperEle.onmousemove = throttle(function (event) {
+            var target = domShare.getAncestor(event.target, 'TR');
+            if (target) {
+                var tid = target.getAttribute('rowid');
+                if ($CxTable.hoveringRowid !== tid) {
+                    $CxTable.hoveringRowid = tid ? tid : CX_TABLE_NOT_HOVER_ID;
+                }
+            }
+        }, 100, { leading: true, trailing: true });
+        wrapperEle.onmouseleave = function () {
+            $CxTable.hoveringRowid = CX_TABLE_NOT_HOVER_ID;
+        };
+    });
+};
+var registKeyboardEvent = function ($CxTable, props, tableDataVisitor, bus, tid) {
+    var isTableActived = false;
+    var editStore = $CxTable.editStore, scrollStore = $CxTable.scrollStore;
+    var updateActivedCell = function (oldTd) {
+        var _a, _b, _c, _d;
+        var centerColumns = $CxTable.columnStore.centerColumns;
+        var actived = editStore.actived;
+        var getCell = domShare.getCell, scrollToTd = domShare.scrollToTd;
+        var td = getCell($CxTable, actived.column, actived.rowData) || oldTd;
+        editStore.activedCell = td;
+        var targetTd = td;
+        if (((_a = actived.column) === null || _a === void 0 ? void 0 : _a.fixed) === 'left') {
+            targetTd = (_b = getCell($CxTable, centerColumns[0], actived.rowData)) !== null && _b !== void 0 ? _b : td;
+        }
+        else if (((_c = actived.column) === null || _c === void 0 ? void 0 : _c.fixed) === 'right') {
+            targetTd = (_d = getCell($CxTable, centerColumns[centerColumns.length - 1], actived.rowData)) !== null && _d !== void 0 ? _d : td;
+        }
+        scrollToTd(targetTd, $CxTable.wrapperEle, scrollStore.leftFixedWidth, scrollStore.rightFixedWidth, scrollStore.topFixedHeight);
+    };
+    var dblclickHandle = function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(function () { return resolve(''); }); })];
+                case 1:
+                    _a.sent();
+                    keydownHandle({ key: ' ', preventDefault: function () { return ({}); } });
+                    return [2 /*return*/];
+            }
+        });
+    }); };
+    var isEleSelectItem = function (ele) {
+        return (ele === null || ele === void 0 ? void 0 : ele.nodeName) === 'LI' && ele.classList.contains('el-select-dropdown__item');
+    };
+    var clickHandle = function (event) { return __awaiter(void 0, void 0, void 0, function () {
+        var eventTarget, parentTarget, currentId;
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(function () { return resolve(''); }); })];
+                case 1:
+                    _b.sent();
+                    eventTarget = event.target;
+                    parentTarget = eventTarget === null || eventTarget === void 0 ? void 0 : eventTarget.parentElement;
+                    // 此逻辑是为了避免element下拉框点击退出的问题
+                    if (isEleSelectItem(eventTarget) || isEleSelectItem(parentTarget)) {
+                        return [2 /*return*/];
+                    }
+                    while ((eventTarget = (_a = eventTarget === null || eventTarget === void 0 ? void 0 : eventTarget.parentElement) !== null && _a !== void 0 ? _a : null)) {
+                        currentId = eventTarget === null || eventTarget === void 0 ? void 0 : eventTarget.getAttribute('tid');
+                        if (currentId && currentId !== tid) {
+                            isTableActived = false;
+                            break;
+                        }
+                        isTableActived = currentId === tid;
+                        if (isTableActived)
+                            break;
+                    }
+                    if (!isTableActived) {
+                        editStore.actived.column = null;
+                        editStore.actived.rowData = null;
+                        editStore.activedCell = null;
+                        editStore.activedControl = null;
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    }); };
+    var bindEscapeEvent = function (inputEle, td) {
+        inputEle.addEventListener('keydown', function (event) {
+            var key = event.key;
+            if (key === 'Escape' && event.target) {
+                editStore.activedControl = null;
+                editStore.activedCell = td !== null && td !== void 0 ? td : null;
+            }
+        });
+    };
+    var inputActiveHandle = function (inputEle, td) {
+        var _a, _b;
+        inputEle.focus();
+        if (inputEle.type === 'checkbox') {
+            var parent_1 = inputEle.parentNode;
+            if ((_a = parent_1 === null || parent_1 === void 0 ? void 0 : parent_1.classList) === null || _a === void 0 ? void 0 : _a.contains('is-checked')) {
+                (_b = parent_1.click) === null || _b === void 0 ? void 0 : _b.call(parent_1);
+            }
+        }
+        else {
+            inputEle.click();
+        }
+        bindEscapeEvent(inputEle, td);
+    };
+    var isSilentCell = function () {
+        var _a, _b, _c;
+        return (!CxTableActiveControl.has((_b = (_a = $CxTable.editStore.actived.column) === null || _a === void 0 ? void 0 : _a.control) === null || _b === void 0 ? void 0 : _b.type) &&
+            !((_c = $CxTable.editStore.actived.column) === null || _c === void 0 ? void 0 : _c.slot));
+    };
+    var keydownEventHandle = throttle(function (event) { return __awaiter(void 0, void 0, void 0, function () {
+        var actived, activedCell, flatColumns, key, ctrlKey, target, isTd, isInput, range, selection, column, rowData, prop, control, actived_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!isTableActived)
+                        return [2 /*return*/];
+                    actived = editStore.actived, activedCell = editStore.activedCell;
+                    if (!activedCell)
+                        return [2 /*return*/];
+                    flatColumns = $CxTable.flatColumns;
+                    key = event.key, ctrlKey = event.ctrlKey;
+                    target = activedCell;
+                    isTd = target.nodeName === 'TD';
+                    isInput = target.nodeName === 'INPUT';
+                    if (!(key === 'Tab')) return [3 /*break*/, 2];
+                    if (actived.rowData === tableDataVisitor.sortedData[tableDataVisitor.sortedData.length - 1]) {
+                        bus.emit('addNewRow', 'addNewRow');
+                    }
+                    return [4 /*yield*/, nextTick()];
+                case 1:
+                    _a.sent();
+                    editStore.activedControl = null;
+                    actived.rowData = getPreOrNextItem(tableDataVisitor.sortedData, actived.rowData, 'next');
+                    updateActivedCell(target);
+                    return [2 /*return*/];
+                case 2:
+                    if (isTd) {
+                        if (ctrlKey) {
+                            if (key === 'c') {
+                                range = document.createRange();
+                                range.selectNodeContents(activedCell);
+                                selection = window.getSelection();
+                                selection === null || selection === void 0 ? void 0 : selection.removeAllRanges();
+                                selection === null || selection === void 0 ? void 0 : selection.addRange(range);
+                                document.execCommand('copy');
+                            }
+                            return [2 /*return*/];
+                        }
+                        if (key === 'Delete') {
+                            if (props.disabled)
+                                return [2 /*return*/];
+                            column = actived.column, rowData = actived.rowData;
+                            if (!column || !rowData)
+                                return [2 /*return*/];
+                            prop = column.prop, control = column.control;
+                            if (!(control === null || control === void 0 ? void 0 : control.type))
+                                return [2 /*return*/];
+                            if (['search', 'select'].includes(control === null || control === void 0 ? void 0 : control.type)) {
+                                Reflect.set(rowData, prop, '');
+                                if (control.selectText) {
+                                    Reflect.set(rowData, control.selectText, '');
+                                }
+                                else {
+                                    Reflect.set(rowData, getColumnSelectText(column), '');
+                                }
+                            }
+                            if (['input', 'numberInput'].includes(control === null || control === void 0 ? void 0 : control.type)) {
+                                Reflect.set(rowData, prop, '');
+                            }
+                        }
+                        else if (key === ARROW_KEY.L) {
+                            editStore.activedControl = null;
+                            actived.column = getPreOrNextItem(flatColumns, actived.column, 'pre', '_colid');
+                            updateActivedCell(target);
+                        }
+                        else if (key === ARROW_KEY.R) {
+                            editStore.activedControl = null;
+                            actived.column = getPreOrNextItem(flatColumns, actived.column, 'next', '_colid');
+                            updateActivedCell(target);
+                        }
+                        else if (key === ARROW_KEY.U) {
+                            editStore.activedControl = null;
+                            actived.rowData = getPreOrNextItem(tableDataVisitor.sortedData, actived.rowData, 'pre');
+                            updateActivedCell(target);
+                        }
+                        else if (key === ARROW_KEY.D) {
+                            editStore.activedControl = null;
+                            actived.rowData = getPreOrNextItem(tableDataVisitor.sortedData, actived.rowData, 'next');
+                            updateActivedCell(target);
+                        }
+                        else if ((key === ' ' || /[0-9A-Za-z]/.test(key)) && !['Escape', 'Enter'].includes(key)) {
+                            if (isSilentCell()) {
+                                return [2 /*return*/];
+                            }
+                            editStore.activedControl = true;
+                            setTimeout(function () {
+                                var inputEle = domShare.getEle(target, 'input');
+                                if (inputEle) {
+                                    editStore.activedControl = inputEle;
+                                    editStore.activedCell = inputEle;
+                                    inputEle.select();
+                                    inputActiveHandle(inputEle, target);
+                                }
+                                else {
+                                    editStore.activedControl = null;
+                                }
+                            });
+                        }
+                    }
+                    else if (isInput) {
+                        if (key === 'Escape') {
+                            editStore.activedControl = null;
+                            actived_1 = $CxTable.editStore.actived;
+                            if (actived_1.column && actived_1.rowData) {
+                                editStore.activedCell = domShare.getCell($CxTable, actived_1.column, actived_1.rowData);
+                            }
+                        }
+                    }
+                    if (key === 'Enter') {
+                        requestAnimationFrame(function () { return __awaiter(void 0, void 0, void 0, function () {
+                            var nextColumn, nextRowData;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        nextColumn = getPreOrNextItem(flatColumns, actived.column, 'next', '_colid');
+                                        if (nextColumn === actived.column) {
+                                            nextRowData = getPreOrNextItem(tableDataVisitor.sortedData, actived.rowData, 'next');
+                                            if (nextRowData === actived.rowData) {
+                                                return [2 /*return*/];
+                                            }
+                                            else {
+                                                actived.rowData = nextRowData;
+                                                actived.column = flatColumns[0];
+                                            }
+                                        }
+                                        else {
+                                            actived.column = nextColumn;
+                                        }
+                                        updateActivedCell(target);
+                                        if (isSilentCell()) {
+                                            return [2 /*return*/, (editStore.activedControl = false)];
+                                        }
+                                        editStore.activedControl = true;
+                                        return [4 /*yield*/, nextTick()];
+                                    case 1:
+                                        _a.sent();
+                                        setTimeout(function () {
+                                            if (!editStore.activedCell)
+                                                return;
+                                            var inputEle = domShare.getEle(editStore.activedCell, 'input');
+                                            if (inputEle) {
+                                                var td = editStore.activedCell;
+                                                editStore.activedControl = inputEle;
+                                                editStore.activedCell = inputEle;
+                                                inputActiveHandle(inputEle, td);
+                                            }
+                                            else {
+                                                editStore.activedControl = false;
+                                            }
+                                        });
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); });
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    }); }, 50, { trailing: true, leading: true });
+    var keydownHandle = function (event) {
+        var _a;
+        var key = event.key;
+        var activedCell = editStore.activedCell;
+        var isTd = (activedCell === null || activedCell === void 0 ? void 0 : activedCell.nodeName) === 'TD';
+        if (isTableActived) {
+            if (key === 'Tab' ||
+                key === 'Enter' ||
+                (key === ' ' && Reflect.get((_a = event.target) !== null && _a !== void 0 ? _a : {}, 'nodeName') !== 'INPUT')) {
+                event.preventDefault();
+            }
+        }
+        if (isTd) {
+            if (Object.values(ARROW_KEY).includes(key)) {
+                event.preventDefault();
+            }
+        }
+        keydownEventHandle(event);
+    };
+    document.addEventListener('keydown', keydownHandle, true);
+    // 以下两个事件顺序不可颠倒,由于需求变化双击事件也修改成了单击事件
+    document.addEventListener('click', clickHandle, true);
+    document.addEventListener('click', dblclickHandle, true);
+    onUnmounted(function () {
+        document.removeEventListener('keydown', keydownHandle, true);
+        document.removeEventListener('click', clickHandle, true);
+        document.removeEventListener('click', dblclickHandle, true);
+    });
+};
+// 全选联动处理
+var onSelectItemChange = function (config) {
+    if (config.selectItem.length === 0) {
+        config.actualAll = config.selectAll = false;
+        config.indeterminate = false;
+    }
+    else {
+        if (config.selectItem.every(function (item) { return item; })) {
+            config.actualAll = config.selectAll = true;
+            config.indeterminate = false;
+        }
+        else {
+            config.actualAll = config.selectAll = false;
+            config.indeterminate = config.selectItem.some(function (item) { return item; });
+        }
+    }
+};
+
+var useScrollState = function ($CxTable) {
+    var wrapperEle = $CxTable.wrapperEle, scrollStore = $CxTable.scrollStore;
+    if (!wrapperEle)
+        return;
+    setTimeout(function () {
+        var clientHeight = wrapperEle.clientHeight, scrollHeight = wrapperEle.scrollHeight, clientWidth = wrapperEle.clientWidth, scrollWidth = wrapperEle.scrollWidth;
+        scrollStore.clientHeight = clientHeight;
+        scrollStore.clientWidth = clientWidth;
+        scrollStore.rightScrollBar = clientHeight < scrollHeight;
+        scrollStore.bottomScrollBar = clientWidth < scrollWidth;
+    });
+};
+
+var useRegister = function ($CxTable, props, tableDataVisitor, tableWrapper, bus, tid) {
+    registMouseEvent($CxTable);
+    registScrollEvent($CxTable, props);
+    props.keyboard && registKeyboardEvent($CxTable, props, tableDataVisitor, bus, tid);
+    registResponsive(tableWrapper, [
+        function () { return __awaiter(void 0, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _a.sent();
+                        useAutoWidth($CxTable);
+                        return [4 /*yield*/, nextTick()];
+                    case 2:
+                        _a.sent();
+                        wrapperScrollEventHandle($CxTable, props);
+                        return [4 /*yield*/, nextTick()];
+                    case 3:
+                        _a.sent();
+                        useScrollState($CxTable);
+                        return [2 /*return*/];
+                }
+            });
+        }); }
+    ]);
+};
+
+var useSelectConfig = function (tableDataVisitor, emit) {
+    var selectConfig = reactive({
+        selectAll: false,
+        actualAll: false,
+        indeterminate: false,
+        selectItem: [],
+        disabled: false,
+        checkSelect: void 0,
+        disabledItem: []
+    });
+    watch(function () { return tableDataVisitor.sortedData.length; }, function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    selectConfig.selectItem.length = tableDataVisitor.sortedData.length;
+                    selectConfig.actualAll = false;
+                    (_a = tableDataVisitor.sortedData) === null || _a === void 0 ? void 0 : _a.forEach(function (row, index) {
+                        selectConfig.selectItem[index] = !!selectConfig.selectItem[index];
+                    });
+                    return [4 /*yield*/, nextTick()];
+                case 1:
+                    _c.sent();
+                    selectConfig.disabledItem.length = 0;
+                    (_b = tableDataVisitor.sortedData) === null || _b === void 0 ? void 0 : _b.forEach(function (row) {
+                        var _a;
+                        selectConfig.disabledItem.push(isFunction(selectConfig.checkSelect) && !!((_a = selectConfig.checkSelect) === null || _a === void 0 ? void 0 : _a.call(selectConfig, row)));
+                    });
+                    return [2 /*return*/];
+            }
+        });
+    }); }, { immediate: true });
+    var updateSelectAllStatus = function () {
+        selectConfig.selectAll = selectConfig.selectItem.every(function (item) { return item; });
+        selectConfig.indeterminate =
+            !selectConfig.selectAll && selectConfig.selectItem.some(function (item) { return item; });
+    };
+    var updateSelectConfig = function () {
+        var checkedList = [];
+        var unCheckList = [];
+        selectConfig.selectItem.forEach(function (item, index) {
+            if (!tableDataVisitor.sortedData[index])
+                return;
+            (item ? checkedList : unCheckList).push({ index: index, row: tableDataVisitor.sortedData[index] });
+        });
+        onSelectItemChange(selectConfig);
+        emit('selectChange', { checkedList: checkedList, unCheckList: unCheckList });
+    };
+    watch(function () { return selectConfig.selectItem; }, updateSelectConfig, { deep: true, immediate: false });
+    var clearSelection = function () {
+        toggleAllSelection(false);
+    };
+    var toggleRowSelection = function (index, state) {
+        var disabledItem = selectConfig.disabledItem;
+        selectConfig.actualAll = !selectConfig.selectItem.some(function (selectVal, index) { return !disabledItem[index] && selectVal; });
+        selectConfig.selectItem[index] = state !== null && state !== void 0 ? state : !selectConfig.selectItem[index];
+        updateSelectAllStatus();
+    };
+    var toggleAllSelection = function (state) {
+        if (state && !selectConfig.actualAll) {
+            selectConfig.actualAll = true;
+        }
+        else if (selectConfig.actualAll && state) {
+            selectConfig.actualAll = state = false;
+        }
+        else if (!state) {
+            selectConfig.actualAll = false;
+        }
+        var items = __spreadArray([], __read(selectConfig.selectItem));
+        selectConfig.selectItem = selectConfig.disabledItem.map(function (bool, index) {
+            return bool ? items[index] : state;
+        });
+        updateSelectAllStatus();
+    };
+    var getSelectValue = function () {
+        return selectConfig.selectItem;
+    };
+    var setSelectDisabled = function (val) {
+        selectConfig.disabled = val;
+    };
+    var getSelectAllValue = function () {
+        return selectConfig.selectAll;
+    };
+    var setCheckSelect = function (cb) {
+        selectConfig.checkSelect = cb;
+    };
+    return {
+        selectConfig: selectConfig,
+        setCheckSelect: setCheckSelect,
+        updateSelectConfig: updateSelectConfig,
+        clearSelection: clearSelection,
+        setSelectDisabled: setSelectDisabled,
+        toggleRowSelection: toggleRowSelection,
+        toggleAllSelection: toggleAllSelection,
+        getSelectValue: getSelectValue,
+        getSelectAllValue: getSelectAllValue
+    };
+};
+
+var useTableClass = function (props, CxTable) {
+    return computed(function () {
+        var result = [];
+        if (props.fixed) {
+            var scrollStore = CxTable.scrollStore;
+            var showLeftShadow = scrollStore.showLeftShadow, showRightShadow = scrollStore.showRightShadow, showTopShadow = scrollStore.showTopShadow, showBottomShadow = scrollStore.showBottomShadow;
+            result.push("cx-table_fixed_" + props.fixed);
+            if (showLeftShadow && props.fixed === 'left') {
+                result.push('cx-table_left_shadow');
+            }
+            else if (showRightShadow && props.fixed === 'right') {
+                result.push('cx-table_right_shadow');
+            }
+            else if (showTopShadow && props.fixed === 'top') {
+                result.push('cx-table_top_shadow');
+            }
+            else if (showBottomShadow && props.fixed === 'bottom') {
+                result.push('cx-table_bottom_shadow');
+            }
+        }
+        return result;
+    });
+};
+
+var useTableStyle = function (props, CxTable, type) {
+    var scrollStore = CxTable.scrollStore, styleStore = CxTable.styleStore, columnStore = CxTable.columnStore;
+    var CX_TABLE_SCROLL_BAR = styleStore.CX_TABLE_SCROLL_BAR, CX_TABLE_HEIGHT = styleStore.CX_TABLE_HEIGHT;
+    if (type === 'head') {
+        return computed(function () {
+            var result = {};
+            if (props.fixed) {
+                result.height = scrollStore.topFixedHeight + 'px';
+                if (props.fixed === 'top') {
+                    result.top = 0;
+                    result.left = -scrollStore.scrollLeft + 'px';
+                    result.width = scrollStore.clientWidth + 'px';
+                }
+                if (props.fixed === 'left') {
+                    result.left = 0;
+                }
+                if (props.fixed === 'right') {
+                    result.right = scrollStore.rightScrollBar ? CX_TABLE_SCROLL_BAR + 'px' : 0;
+                }
+            }
+            return result;
+        });
+    }
+    else if (type === 'body') {
+        return computed(function () {
+            var result = {};
+            if (props.fixed) {
+                if (props.fixed === 'left') {
+                    var topFixedHeight = scrollStore.topFixedHeight, bottomScrollBar = scrollStore.bottomScrollBar, clientHeight = scrollStore.clientHeight;
+                    result.left = 0;
+                    result.top = props.onlyTotal ? 0 : topFixedHeight + 'px';
+                    if (props.onlyTotal) {
+                        result.height = CX_TABLE_HEIGHT + 'px';
+                    }
+                    else {
+                        result.height = bottomScrollBar ? clientHeight - topFixedHeight + 'px' : 0;
+                    }
+                }
+                if (props.fixed === 'right') {
+                    var topFixedHeight = scrollStore.topFixedHeight, rightScrollBar = scrollStore.rightScrollBar, bottomScrollBar = scrollStore.bottomScrollBar, clientHeight = scrollStore.clientHeight;
+                    result.right = rightScrollBar && !props.onlyTotal ? CX_TABLE_SCROLL_BAR + 'px' : 0;
+                    result.top = props.onlyTotal ? 0 : topFixedHeight + 'px';
+                    if (props.onlyTotal) {
+                        result.height = CX_TABLE_HEIGHT + 'px';
+                    }
+                    else {
+                        result.height = bottomScrollBar ? clientHeight - topFixedHeight + 'px' : 0;
+                    }
+                }
+                if (props.fixed === 'bottom') {
+                    var bottomScrollBar = scrollStore.bottomScrollBar;
+                    result.left = 0;
+                    result.bottom = bottomScrollBar ? CX_TABLE_SCROLL_BAR + 'px' : 0;
+                    result.width = scrollStore.clientWidth + 'px';
+                    result.height = CX_TABLE_HEIGHT + 'px';
+                    result.left = -scrollStore.scrollLeft + 'px';
+                }
+            }
+            return result;
+        });
+    }
+    else {
+        return computed(function () {
+            var result = {};
+            var fixedHeight = invokeLayeredRow(CxTable.columns).length * CX_TABLE_HEIGHT;
+            scrollStore.topFixedHeight = fixedHeight;
+            if (props.fixed === 'left') {
+                var width = getSums(columnStore.leftFixedColumns);
+                result.width = width + 'px';
+                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                scrollStore.leftFixedWidth = width;
+            }
+            else if (props.fixed === 'right') {
+                var width = getSums(columnStore.rightFixedColumns);
+                result.width = width + 'px';
+                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                scrollStore.rightFixedWidth = width;
+            }
+            else if (props.fixed === 'top') {
+                result.height = fixedHeight + 'px';
+                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+            }
+            else if (props.fixed === 'bottom') {
+                result.height = CX_TABLE_HEIGHT + 'px';
+            }
+            return result;
+        });
+    }
+};
+
+var useValidator = function ($CxTable, props) {
+    var validate = function (params, dataSource) {
+        var invalidCells = [];
+        var hasTargetProp = isString(params === null || params === void 0 ? void 0 : params.prop);
+        var hasTargetRow = isNumber(params === null || params === void 0 ? void 0 : params.rowIndex);
+        $CxTable.flatColumns.forEach(function (column, colIndex) {
+            if (hasTargetProp && (params === null || params === void 0 ? void 0 : params.prop) !== column.prop)
+                return;
+            var handle = function (rowData, rowIndex, column) {
+                var _a, _b;
+                var errMsg = '';
+                errMsg =
+                    (_b = (_a = column.validator) === null || _a === void 0 ? void 0 : _a.call(column, {
+                        rowData: rowData,
+                        column: column,
+                        value: rowData[column.prop],
+                        rowIndex: rowIndex
+                    })) !== null && _b !== void 0 ? _b : '';
+                if (!errMsg && column.required && isEmpty(rowData[column.prop])) {
+                    errMsg = column.label + '不能为空';
+                }
+                if (errMsg)
+                    invalidCells.push({ rowIndex: rowIndex, rowData: rowData, colIndex: colIndex, errMsg: errMsg, column: column });
+            };
+            if (!isFunction(column.validator) && !column.required)
+                return;
+            (isArray(dataSource) ? dataSource : props.tableData).forEach(function (rowData, rowIndex) {
+                if (hasTargetRow && (params === null || params === void 0 ? void 0 : params.rowIndex) !== rowIndex)
+                    return;
+                handle(rowData, rowIndex, column);
+            });
+        });
+        if (invalidCells.length) {
+            setTimeout(function () {
+                var _a = invalidCells[0], column = _a.column, rowData = _a.rowData;
+                var td = domShare.getCell($CxTable, column, rowData);
+                td === null || td === void 0 ? void 0 : td.click();
+            });
+        }
+        return invalidCells;
+    };
+    return { validate: validate };
+};
+
+var useWatch = function (props, $CxTable, columnProxy, tableWrapper, expandConfig, tableVisible) {
+    var updateVisible = function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, nextTick()];
+                case 1:
+                    _a.sent();
+                    useScrollState($CxTable);
+                    wrapperScrollEventHandle($CxTable, props);
+                    return [2 /*return*/];
+            }
+        });
+    }); };
+    watch(function () { return tableVisible.value; }, updateVisible);
+    var updateTableState = debounce$1(function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (props.spanMethod && props.virtualScroll) {
+                        useCalcSpanMethod($CxTable, props);
+                    }
+                    $CxTable.flatColumns.forEach(function (column) {
+                        updateCxTableWidth($CxTable, props, column.prop);
+                    });
+                    useAutoWidth($CxTable);
+                    return [4 /*yield*/, nextTick()];
+                case 1:
+                    _a.sent();
+                    scrollUpdateShadow($CxTable);
+                    if (tableWrapper.value) {
+                        wrapperScrollEventHandle($CxTable, props);
+                        useScrollState($CxTable);
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    }); }, 50);
+    var updateColumn = function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            useColumn($CxTable, columnProxy, props);
+            useColumnValidity($CxTable);
+            updateTableState();
+            return [2 /*return*/];
+        });
+    }); };
+    // 当表头变化时,需要更新column对象以及重新计算宽度,触发一些样式计算
+    watch(columnProxy, updateColumn, { immediate: true, deep: true });
+    var updateData = function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            useRowDataValidity(props);
+            updateTableState();
+            return [2 /*return*/];
+        });
+    }); };
+    watch([function () { return props.tableData.length; }, function () { return props.emptyLimit; }], updateData);
+    watch(function () { return props.tableData; }, updateTableState, { deep: true });
+    var updateExpand = function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            setTimeout(function () {
+                useScrollState($CxTable);
+            });
+            return [2 /*return*/];
+        });
+    }); };
+    watch(function () { return expandConfig; }, updateExpand, { deep: true, immediate: true });
+    var updateStyleSetting = function () {
+        var _a;
+        Object.entries((_a = props.styleSetting) !== null && _a !== void 0 ? _a : {}).forEach(function (_a) {
+            var _b = __read(_a, 2), key = _b[0], val = _b[1];
+            var settingKey = Reflect.get(CX_STYLE_SETTING, key);
+            settingKey && isNumber(val) && Reflect.set($CxTable.styleStore, settingKey, val);
+        });
+    };
+    watch(function () { return props.styleSetting; }, updateStyleSetting, { immediate: true, deep: true });
+    return {
+        updateVisible: updateVisible,
+        updateColumn: updateColumn,
+        updateData: updateData,
+        updateExpand: updateExpand,
+        updateTableState: updateTableState,
+        updateStyleSetting: updateStyleSetting
+    };
+};
+
+var staticConfigList = [
+    'label',
+    'prop',
+    'slot',
+    'icon',
+    'required',
+    'number',
+    'defaultValue',
+    'accuracy',
+    'fixed',
+    'align',
+    'importantWidth',
+    'autoWidth',
+    'sortable',
+    'slotType',
+    'renderText',
+    'searchStates',
+    'sortable',
+    'headTip',
+    'jsonData'
+];
+var CX_ADAPTOR_LOSS_PRECISION = 2;
+var CX_ADAPTOR_INT_PRECISION = 0;
+
+/**
+ * 保留几位小数
+ * @param {String | Number} num
+ * @param {Number} fixed
+ * @return {Number | "-"}
+ */
+function decimals(num, fixed) {
+    if (fixed === void 0) { fixed = 3; }
+    num = parseFloat(num + '');
+    if (!isNaN(num)) {
+        num = Math.round(num * Math.pow(10, 6)) / Math.pow(10, 6 - fixed);
+        return Math.round(num) / Math.pow(10, fixed);
+    }
+    return 0;
+}
+/**
+ * 数字补位
+ * @param precision 精度
+ * @param force 是否强制修正
+ */
+function decimalFixed(value, precision, force) {
+    var _a;
+    if (force === void 0) { force = false; }
+    if (value === '' || isNaN(+value) || precision === undefined) {
+        return value;
+    }
+    if (precision < 0 || precision !== parseInt(precision + '', 10)) {
+        cxTableWarn("\u7CBE\u5EA6\u9519\u8BEF => " + precision);
+        return value;
+    }
+    var num = +(+value).toPrecision(12);
+    if (force) {
+        return (+decimals(+num, precision)).toFixed(precision);
+    }
+    var len = ((_a = num.toString().split('.')[1]) === null || _a === void 0 ? void 0 : _a.length) || 0;
+    return (+decimals(+num, Math.max(precision, len))).toFixed(Math.max(precision, len));
+}
+var getPrecision = function (state) {
+    var _a = useCxTable().getContext().precision, goldAccuracy = _a.goldAccuracy, stoneAccuracy = _a.stoneAccuracy, priceAccuracy = _a.priceAccuracy;
+    switch (state) {
+        case CX_ADAPTOR_PRECISION_TYPE.GOLD:
+            return goldAccuracy;
+        case CX_ADAPTOR_PRECISION_TYPE.STONE:
+            return stoneAccuracy;
+        case CX_ADAPTOR_PRECISION_TYPE.PRICE:
+            return priceAccuracy;
+        case CX_ADAPTOR_PRECISION_TYPE.INT:
+            return CX_ADAPTOR_INT_PRECISION;
+        case CX_ADAPTOR_PRECISION_TYPE.LOSS:
+            return CX_ADAPTOR_LOSS_PRECISION;
+        default:
+            return;
+    }
+};
+var calcInvoker = function (calc, column) {
+    return function (rowData) {
+        var result = calcInnerFormula(calc, rowData);
+        result = decimalFixed(result, column.accuracy, true);
+        Reflect.set(rowData, column.prop, result);
+        return result;
+    };
+};
+var getTemplateResult = function (str, data) {
+    var _a;
+    return ((_a = str === null || str === void 0 ? void 0 : str.replace(/\{\{.+\}\}/g, function (p) {
+        return data[p.replace(/\{\{(.+)\}\}/, '$1')];
+    })) !== null && _a !== void 0 ? _a : str);
+};
+Reflect.set(window, 'getTemplateResult', getTemplateResult);
+var getInFactVal = function (val) {
+    if (isString(val))
+        return val.match(/[^\d^.]+/) ? "'" + val + "'" : val;
+    if (!isNumber(val))
+        return 'null';
+    return val + '';
+};
+// 获取字符公式结果
+var getEvalResult = function (formula, data, withCalc) {
+    if (withCalc === void 0) { withCalc = false; }
+    var getToken = function () {
+        return formula.replace(/[a-zA-Z]+/g, function (prop) {
+            if (prop === 'undefined')
+                return prop;
+            return withCalc ? (+data[prop] || 0) + '' : getInFactVal(data[prop]);
+        });
+    };
+    try {
+        var token = getToken();
+        var res = eval(token);
+        if (isNaN(res)) {
+            withCalc = true;
+            res = eval(token);
+        }
+        return res;
+    }
+    catch (err) {
+        if (!withCalc) {
+            withCalc = true;
+            try {
+                return eval(getToken());
+            }
+            catch (innerErr) {
+                cxTableWarn("\u5339\u914D\u516C\u5F0F\u65F6\u53D1\u751F\u9519\u8BEF==>" + formula);
+            }
+        }
+        cxTableWarn("\u5339\u914D\u516C\u5F0F\u65F6\u53D1\u751F\u9519\u8BEF==>" + formula);
+        return null;
+    }
+};
+// 获取options依赖的props
+var getOptionsDeps = function (options) {
+    if (Array.isArray(options)) {
+        return [];
+    }
+    var result = [];
+    function search(obj) {
+        Object.entries(obj).forEach(function (_a) {
+            var _b = __read(_a, 2), key = _b[0], val = _b[1];
+            result.push(key);
+            if (typeof val === 'object') {
+                search(val);
+            }
+        });
+    }
+    if (typeof options === 'object') {
+        search(options);
+    }
+    return result;
+};
+// 获取计算后的options
+var calcInnerOptions = function (options, data) {
+    return calcInnerItem(options, data, Array.isArray, [], function (result) { return result; });
+};
+// 获取计算后的校验规则
+var calcInnerValidator = function (validator, data) {
+    return calcInnerItem(validator, data, Array.isArray, {}, function (result) { return result; });
+};
+// 获取计算后的公式值
+var calcInnerFormula = function (formula, data) {
+    return calcInnerItem(formula, data, isString, 0, getEvalResult);
+};
+// 获取嵌套对象中的值
+var calcInnerItem = function (formula, data, finder, defaultValue, getResult) {
+    if (finder(formula)) {
+        return getResult(formula, data);
+    }
+    else if (typeof formula === 'object') {
+        var result_1 = defaultValue;
+        Object.entries(formula).some(function (_a) {
+            var _b = __read(_a, 2), key = _b[0], val = _b[1];
+            if (typeof val === 'object') {
+                Object.entries(val).some(function (_a) {
+                    var _b = __read(_a, 2), innerKey = _b[0], innerVal = _b[1];
+                    if (+data[key] === +innerKey) {
+                        if (finder(innerVal)) {
+                            result_1 = getResult(innerVal, data);
+                        }
+                        else if (typeof innerVal === 'object') {
+                            result_1 = calcInnerItem(innerVal, data, finder, defaultValue, getResult);
+                        }
+                        return true;
+                    }
+                });
+            }
+        });
+        return result_1;
+    }
+    return defaultValue;
+};
+var getStringDepends = function (formula) {
+    if (!isString(formula))
+        return [];
+    return formula.match(/[a-zA-Z]+/g);
+};
+
+var CxControlConfig = /** @class */ (function () {
+    function CxControlConfig(config) {
+        var _a, _b;
+        this.type = '';
+        this.attrs = {};
+        Reflect.set(this, 'type', (_b = (_a = config.control) === null || _a === void 0 ? void 0 : _a.type) !== null && _b !== void 0 ? _b : '');
+        switch (this.type) {
+            case 'input':
+                this.inputConfigAdaptor(config);
+                break;
+            case 'inscription':
+            case 'search':
+            case 'select':
+                this.selectConfigAdaptor(config);
+                break;
+            case 'status':
+            case 'tag':
+                this.tagConfigAdaptor(config);
+                break;
+        }
+    }
+    CxControlConfig.prototype.tagConfigAdaptor = function (config) {
+        var _a, _b;
+        var statusMap = Object.entries((_b = (_a = config.control) === null || _a === void 0 ? void 0 : _a.statusMap) !== null && _b !== void 0 ? _b : {}).reduce(function (res, _a) {
+            var _b = __read(_a, 2), key = _b[0], val = _b[1];
+            res[key] = __assign(__assign({}, val), { prop: config.prop });
+            return res;
+        }, {});
+        Reflect.set(this, 'statusMap', statusMap);
+    };
+    // 文本输入框配置项
+    CxControlConfig.prototype.inputConfigAdaptor = function (config) {
+        var _this = this;
+        var control = config.control, influenced = config.influenced, sideEffect = config.sideEffect, prop = config.prop;
+        if (!control)
+            return;
+        isNumber(control.maxLength) && Reflect.set(this.attrs, 'maxlength', control.maxLength);
+        isNumber(control.minLength) && Reflect.set(this.attrs, 'minlength', control.minLength);
+        control.showWordLimit && Reflect.set(this.attrs, 'showWordLimit', true);
+        influenced &&
+            (this.attrs.broadcastRegister = function (register) {
+                _this.influencedRegister(register, config);
+            });
+        sideEffect &&
+            Reflect.set(this.attrs, 'onChange', function (val, rowData) {
+                _this.sideEffectHandle(prop, rowData, sideEffect);
+            });
+    };
+    // 单选框配置项
+    CxControlConfig.prototype.selectConfigAdaptor = function (config) {
+        var _this = this;
+        var prop = config.prop, control = config.control, influenced = config.influenced, sideEffect = config.sideEffect;
+        if (!control)
+            return;
+        var currentOption = [];
+        if (Array.isArray(control.options)) {
+            Reflect.set(this, 'options', (currentOption = control.options));
+        }
+        else if (isObject$1(control.options)) {
+            Reflect.set(this, 'options', function (_a) {
+                var _b;
+                var rowData = _a.rowData;
+                return (currentOption = calcInnerOptions((_b = control === null || control === void 0 ? void 0 : control.options) !== null && _b !== void 0 ? _b : [], rowData));
+            });
+        }
+        else if (isFunction(control.options)) {
+            Reflect.set(this, 'options', function (params) {
+                return (currentOption = control.options(params));
+            });
+        }
+        // 选项唯一
+        if (control.exclusion) {
+            var oldValMap_1 = new WeakMap();
+            // 将特定逻辑注册至广播接收器
+            this.attrs.broadcastRegister = function (register) {
+                var _a;
+                // 删除事件的广播
+                register('nativeDelete', function (params) {
+                    var option = currentOption.find(function (item) { return item.id === params.rowData[prop]; });
+                    option && Reflect.set(option, 'disabled', false);
+                });
+                // options依赖项发生改变时清空该列数据
+                var deps = getOptionsDeps((_a = control === null || control === void 0 ? void 0 : control.options) !== null && _a !== void 0 ? _a : []);
+                var cb = function (params) {
+                    Reflect.set(params.rowData, prop, '');
+                    Reflect.set(params.rowData, prop + 'Text', '');
+                };
+                deps.forEach(function (dep) { return register(dep, cb); });
+                // 注册influenced
+                influenced && _this.influencedRegister(register, config);
+            };
+            Reflect.set(this.attrs, 'onChange', function (val, rowData) {
+                var oldVal = oldValMap_1.get(rowData);
+                var oldItem = currentOption.find(function (item) { return item.id === oldVal; });
+                oldItem && Reflect.set(oldItem, 'disabled', false);
+                oldValMap_1.set(rowData, val);
+                var currentItem = currentOption.find(function (item) { return item.id === val; });
+                currentItem && Reflect.set(currentItem, 'disabled', true);
+                sideEffect && _this.sideEffectHandle(prop, rowData, sideEffect);
+            });
+        }
+        else {
+            sideEffect &&
+                Reflect.set(this.attrs, 'onChange', function (val, rowData) {
+                    sideEffect && _this.sideEffectHandle(prop, rowData, sideEffect);
+                });
+        }
+    };
+    // 将influenced中的项注册至广播接收器
+    CxControlConfig.prototype.influencedRegister = function (register, config) {
+        if (typeof config.influenced === 'object') {
+            var _a = config.influenced, rule_1 = _a.rule, type_1 = _a.type;
+            if (!rule_1 || !type_1)
+                return;
+            var depends = getStringDepends(rule_1);
+            depends.forEach(function (prop) {
+                if (type_1 === 'equal') {
+                    register(prop, function (params) {
+                        Reflect.set(params.rowData, config.prop, getEvalResult(rule_1, params.rowData, true));
+                    });
+                }
+            });
+        }
+    };
+    // 副作用处理
+    CxControlConfig.prototype.sideEffectHandle = function (prop, rowData, sideEffect) {
+        if (typeof sideEffect !== 'object')
+            return;
+        Object.entries(sideEffect).forEach(function (_a) {
+            var _b = __read(_a, 2); _b[0]; _b[1];
+        });
+    };
+    return CxControlConfig;
+}());
+
+var onInits = [];
+var onOutputs = [];
+var CxConfigAdaptor = /** @class */ (function () {
+    function CxConfigAdaptor(config) {
+        this.basicColumn = { prop: '', label: '' };
+        var configDuplicate = onInits.reduce(function (res, hook) { return (isFunction(hook) ? hook(res) : res); }, R.clone(config));
+        this.staticConfigAdaptor(configDuplicate)
+            .dynamicConfigAdaptor(configDuplicate)
+            .controlAdaptor(configDuplicate)
+            .childrenAdaptor(configDuplicate);
+    }
+    CxConfigAdaptor.use = function (plugin) {
+        var onInit = plugin.onInit, onOutput = plugin.onOutput;
+        isFunction(onInit) && onInits.push(onInit);
+        isFunction(onOutput) && onOutputs.push(onOutput);
+        return this;
+    };
+    CxConfigAdaptor.prototype.getColumn = function () {
+        if (onOutputs.length === 0)
+            return this.basicColumn;
+        return onOutputs.reduce(function (res, hook) { return (isFunction(hook) ? hook(res) : res); }, R.clone(this.basicColumn));
+    };
+    CxConfigAdaptor.of = function (config) {
+        return new CxConfigAdaptor(config).getColumn();
+    };
+    // children处理
+    CxConfigAdaptor.prototype.childrenAdaptor = function (config) {
+        var _a;
+        if ((_a = config.children) === null || _a === void 0 ? void 0 : _a.length) {
+            this.basicColumn.children = config.children.map(CxConfigAdaptor.of);
+        }
+        return this;
+    };
+    // 静态部分
+    CxConfigAdaptor.prototype.staticConfigAdaptor = function (config) {
+        var _this = this;
+        staticConfigList.forEach(function (key) { return Reflect.set(_this.basicColumn, key, config[key]); });
+        return this;
+    };
+    // 动态部分
+    CxConfigAdaptor.prototype.dynamicConfigAdaptor = function (config) {
+        var _this = this;
+        var _a;
+        if (config.calculate) {
+            this.basicColumn.calculate = function (rowData) {
+                var result = calcInvoker(config.calculate, _this.basicColumn)(rowData);
+                return isNumber(config.accuracy) ? decimalFixed(result, config.accuracy, true) : result;
+            };
+        }
+        if (config.sum) {
+            var sumMap = { 1: 'add' };
+            Reflect.set(this.basicColumn, 'sum', (_a = sumMap[config.sum]) !== null && _a !== void 0 ? _a : config.sum);
+        }
+        if (Array.isArray(config.validator)) {
+            this.basicColumn.validator = function (params) {
+                var _a;
+                var result;
+                (_a = config.validator) === null || _a === void 0 ? void 0 : _a.some(function (validator) {
+                    var validates = validator.rule && validator.msg
+                        ? [validator]
+                        : calcInnerValidator(validator, params.rowData);
+                    if (!(validates === null || validates === void 0 ? void 0 : validates.length))
+                        return;
+                    validates.some(function (valid) {
+                        var _a;
+                        if (!getEvalResult(valid.rule, params.rowData)) {
+                            return (result = getTemplateResult((_a = valid === null || valid === void 0 ? void 0 : valid.msg) !== null && _a !== void 0 ? _a : '', params.rowData));
+                        }
+                    });
+                });
+                return result;
+            };
+        }
+        return this;
+    };
+    // 控件部分
+    CxConfigAdaptor.prototype.controlAdaptor = function (config) {
+        config.control && Reflect.set(this.basicColumn, 'control', new CxControlConfig(config));
+        return this;
+    };
+    return CxConfigAdaptor;
+}());
+
+function getDateRange(num, type, _a) {
+    if (num === void 0) { num = 1; }
+    var _b = _a === void 0 ? {} : _a, _c = _b.isInt, isInt = _c === void 0 ? false : _c, _d = _b.isDate, isDate = _d === void 0 ? false : _d;
+    var currentDate = new Date();
+    var start = new Date();
+    switch (type) {
+        case 'year':
+            start = new Date(start.setFullYear(currentDate.getFullYear() - num));
+            break;
+        case 'month':
+            start = new Date(start.setMonth(currentDate.getMonth() - num));
+            break;
+        case 'day':
+            start = new Date(start.setDate(currentDate.getDate() - num));
+            break;
+        case 'hour':
+            start = new Date(start.setHours(currentDate.getHours() - num));
+            break;
+        case 'minute':
+            start = new Date(start.setMinutes(currentDate.getMinutes() - num));
+            break;
+        case 'second':
+            start = new Date(start.setSeconds(currentDate.getSeconds() - num));
+    }
+    var end = new Date();
+    if (isInt) {
+        start = new Date(start.setDate(1));
+        if (num)
+            end = new Date(new Date().setDate(0));
+    }
+    if (isDate)
+        return start;
+    return [start, end];
+}
+var getFunctionAttrs = function (rowData, attrs) {
+    if (isFunction(attrs)) {
+        var result = attrs({ rowData: rowData });
+        return isObject$1(result) ? result : void 0;
+    }
+    return attrs;
+};
+var changeDynamicIdToText = function (dynamic) {
+    var _a = useCxTable().getContext().dynamicType, DYNAMIC_BUSINESS_TYPE = _a.DYNAMIC_BUSINESS_TYPE, DYNAMIC_MODULE_TYPE = _a.DYNAMIC_MODULE_TYPE, DYNAMIC_MODEL_TYPE = _a.DYNAMIC_MODEL_TYPE, DYNAMIC_PRICE_TYPE = _a.DYNAMIC_PRICE_TYPE;
+    return {
+        businessType: DYNAMIC_BUSINESS_TYPE[dynamic.businessType],
+        moduleType: DYNAMIC_MODULE_TYPE[dynamic.moduleType],
+        modelType: DYNAMIC_MODEL_TYPE[dynamic.modelType],
+        priceType: DYNAMIC_PRICE_TYPE[dynamic.priceType]
+    };
+};
+var getParentColumn = function (columns, prop) {
+    var result;
+    function find(cols) {
+        if (!Array.isArray(cols))
+            return;
+        cols.some(function (col) {
+            if (Array.isArray(col.children)) {
+                var target = col.children.some(function (child) {
+                    find(child.children);
+                    return child.prop === prop;
+                });
+                if (target) {
+                    return (result = col);
+                }
+            }
+        });
+    }
+    find(columns);
+    return result;
+};
+function getTargetColumn(prop, cols) {
+    if (!Array.isArray(cols))
+        return;
+    var result;
+    cols.find(function (col) {
+        if (col.prop === prop) {
+            return (result = col);
+        }
+        return (result = getTargetColumn(prop, col.children));
+    });
+    return result;
+}
+function deepMerge(src, target) {
+    var key;
+    for (key in target) {
+        src[key] =
+            src[key] && isObject$1(src[key]) ? deepMerge(src[key], target[key]) : (src[key] = target[key]);
+    }
+    return src;
+}
+var format$1 = function (val) { return dayjs(val).format('YYYY-MM-DD'); };
+var formatDate = R.ifElse(R.is(Array), R.map(format$1), format$1);
+var format2 = function (val) { return dayjs(val).format('YYYY-MM-DD HH-mm-ss'); };
+var formatTime = R.ifElse(R.is(Array), R.map(format2), format2);
+function formatFormDefaultValue(defaultEnum, searchType) {
+    switch (defaultEnum) {
+        case 'all':
+            return -1;
+        case 'week':
+            return formatDate(getDateRange(7, 'day'));
+        case 'today':
+            return searchType === 'dateRange'
+                ? formatDate(getDateRange(1, 'day'))
+                : formatDate(Date.now());
+        case 'mouth':
+            return searchType === 'dateRange'
+                ? formatDate(getDateRange(0, 'month', { isInt: true }))
+                : formatDate(Date.now());
+        case 'now':
+            return formatTime(Date.now());
+        default:
+            return +defaultEnum || defaultEnum;
+    }
+}
+/**
+ * 选择对象属性
+ * @param object 需要copy属性的对象
+ * @param props 需要copy的属性列表
+ */
+function pick(object, props) {
+    if (props === void 0) { props = []; }
+    var res = {};
+    var arr = Array.isArray(props) ? props : [props];
+    Object.keys(object).forEach(function (key) {
+        if (arr.includes(key)) {
+            res[key] =
+                typeof object[key] === 'object' && object[key] !== null
+                    ? R.clone(object[key])
+                    : object[key];
+        }
+    });
+    return res;
+}
+var getColumnSelectText = function (column, replaceProp) {
+    var _a;
+    if (replaceProp === void 0) { replaceProp = 'Text'; }
+    return ((_a = column.control) === null || _a === void 0 ? void 0 : _a.selectText) || "" + column.prop.replace(/Id$/, '') + replaceProp;
+};
+function cxTableWarn() {
+    var msgs = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        msgs[_i] = arguments[_i];
+    }
+    console.warn.apply(console, __spreadArray(["[cxTable warn]:"], __read(msgs)));
+}
+Reflect.set(window, 'getStringWidth', getStringWidth);
+function getStringWidth(str) {
+    if (!str)
+        return 0;
+    if (isNumber(str)) {
+        str = str + '';
+    }
+    if (str === true) {
+        return 64;
+    }
+    return __spreadArray([], __read(str)).reduce(function (width, char) {
+        if (/[a-zA-Z]/.test(char)) {
+            return width + 13;
+        }
+        if (/\d/.test(char)) {
+            return width + 9;
+        }
+        if (/\./.test(char)) {
+            return width + 4;
+        }
+        if (/[\u4e00-\u9fa5]/.test(char)) {
+            return width + 16;
+        }
+        if (/-/.test(char)) {
+            return width + 4;
+        }
+        if (/（|）/.test(char)) {
+            return width + 14;
+        }
+        if (/\(|\)/.test(char)) {
+            return width + 5;
+        }
+        if (/-/.test(char)) {
+            return width + 10;
+        }
+        if (/%/.test(char)) {
+            return width + 14;
+        }
+        if (/‰/.test(char)) {
+            return width + 16;
+        }
+        return width + 6;
+    }, 0);
+}
+function copySort(arr, sortFun) {
+    return __spreadArray([], __read(arr)).sort(sortFun);
+}
+var getTotalSumData = function (cols, data) {
+    var result = {};
+    cols.forEach(function (col) {
+        if (col.columnFlag & COLUMN_FLAG.TEXT_SUM_COLUMN) {
+            result[col.prop] = '总计';
+        }
+        else if (col.columnFlag & COLUMN_FLAG.ADD_SUM_COLUMN) {
+            if (col.columnFlag & COLUMN_FLAG.CALC_COLUMN) {
+                data.forEach(function (rowData) {
+                    var _a, _b;
+                    rowData[col.prop] = (_b = (_a = col.calculate) === null || _a === void 0 ? void 0 : _a.call(col, rowData)) !== null && _b !== void 0 ? _b : rowData[col.prop];
+                });
+            }
+            result[col.prop] = getSums(data, col.prop);
+        }
+        else if (col.columnFlag & COLUMN_FLAG.CUSTOM_SUM_COLUMN) {
+            result[col.prop] = isFunction(col.sum) ? col.sum(data) : null;
+        }
+    });
+    return result;
+};
+var findAncestor = function (inputEle, className, searchLimit) {
+    if (searchLimit === void 0) { searchLimit = 6; }
+    var result = null;
+    var parent = inputEle.parentNode;
+    do {
+        if (parent.nodeName === 'TD')
+            break;
+        if (parent.classList.contains(className)) {
+            result = parent;
+            break;
+        }
+        parent = parent.parentNode;
+    } while (searchLimit--);
+    return result;
+};
+/**
+ * @param {boolean[]} arr 数据源
+ * @param {number} index 索引
+ * @description 更新boolean数组状态
+ */
+var toggleArrState = function (arr, index) {
+    Reflect.set(arr, index, !arr[index]);
+};
+// items数组扁平化
+var arrFlat = function (items, childProp) {
+    if (childProp === void 0) { childProp = 'children'; }
+    var result = [];
+    var getItems = function (item) {
+        var _a;
+        if ((_a = item[childProp]) === null || _a === void 0 ? void 0 : _a.length) {
+            item[childProp].forEach(function (child) {
+                getItems(child);
+            });
+        }
+        else {
+            result.push(item);
+        }
+    };
+    items.forEach(getItems);
+    return result;
+};
+/**
+ * @param {string | number | undefined} width 数据源
+ * @description 宽度字符格式化
+ */
+var formatWidth = function (width) {
+    if (!width)
+        return;
+    var duplicate = width + '';
+    if (duplicate.includes('%') || duplicate.includes('px'))
+        return duplicate;
+    return parseFloat(duplicate) + "px";
+};
+/**
+ * @param {Object} target 被覆盖对象
+ * @param {Object} attr 覆盖对象
+ * @description 合并元素属性,对class,style属性进行特殊合并
+ */
+var assignAttrs = function (target, attr) {
+    if (target === void 0) { target = {}; }
+    if (attr === void 0) { attr = {}; }
+    var style = Object.assign({}, target.style, attr.style);
+    var classDup = (target["class"] || '') + " " + (attr["class"] || '');
+    return Object.assign({}, target, attr, { style: style, "class": classDup });
+};
+/**
+ * @description 转换为分层表头列表
+ * @param columns 表头参数列表
+ */
+var invokeLayeredRow = function (columns) {
+    var result = [];
+    var getHeaders = function (columns, level) {
+        if (!result[level])
+            result[level] = [];
+        columns.forEach(function (item) {
+            var _a;
+            if (!item.hide) {
+                result[level].push(item);
+            }
+            if ((_a = item.children) === null || _a === void 0 ? void 0 : _a.length) {
+                getHeaders(item.children, level + 1);
+            }
+        });
+    };
+    getHeaders(columns, 0);
+    return result;
+};
+var getSums = function (arr, prop) {
+    if (prop === void 0) { prop = 'renderWidth'; }
+    var result = 0;
+    function sums(arr) {
+        arr.forEach(function (item) {
+            var _a;
+            if ((_a = item === null || item === void 0 ? void 0 : item.children) === null || _a === void 0 ? void 0 : _a.length) {
+                sums(item.children);
+            }
+            else {
+                result += +item[prop] || 0;
+            }
+        });
+    }
+    sums(arr);
+    return result;
+};
+var getPreOrNextItem = function (arr, item, direction, prop) {
+    var _a;
+    var index = arr.findIndex(function (arrItem) {
+        return prop ? arrItem[prop] === item[prop] : arrItem === item;
+    });
+    if (index < 0)
+        return item;
+    return (_a = arr[index + (direction === 'pre' ? -1 : 1)]) !== null && _a !== void 0 ? _a : item;
+};
+var getStatusAttrs = function (rowData, column) {
+    var _a, _b, _c, _d;
+    var statusMap = ((_a = column.control) !== null && _a !== void 0 ? _a : {}).statusMap;
+    // statusMap分2种情况, Array => string[] / Object => { [k:string]:{content?:string,prop?:string,type?:string} }
+    var _e = Array.isArray(statusMap)
+        ? { content: statusMap[rowData[column.prop]], prop: undefined, type: undefined }
+        : (_c = (_b = statusMap === null || statusMap === void 0 ? void 0 : statusMap[rowData[column.prop]]) !== null && _b !== void 0 ? _b : statusMap === null || statusMap === void 0 ? void 0 : statusMap["default"]) !== null && _c !== void 0 ? _c : {}, content = _e.content, prop = _e.prop, type = _e.type;
+    return {
+        content: content ? content : prop ? rowData[prop] : (_d = rowData[prop + 'Text']) !== null && _d !== void 0 ? _d : '',
+        type: type
+    };
+};
+
+var HeadCell = defineComponent({
+    name: 'CxTableHeadCell',
+    props: {
+        layeredLevel: { type: Number, "default": 1 },
+        column: { type: Object, "default": function () { return ({}); } }
+    },
+    setup: function (props) {
+        var rootSlots = inject('rootSlots', {});
+        var selectConfig = inject('selectConfig');
+        var CxTable = inject('CxTable');
+        var tableDataVisitor = inject('tableDataVisitor');
+        var bus = inject('bus');
+        // 单元格内盒宽度
+        var cellWidth = ref(0);
+        watchEffect(function () {
+            var _a;
+            var arrChildren = props.column.columnFlag & COLUMN_FLAG.ARRAY_CHILDREN;
+            cellWidth.value = arrChildren
+                ? getSums((_a = props.column.children) !== null && _a !== void 0 ? _a : [])
+                : props.column.renderWidth;
+        });
+        // 单元格属性
+        var thAttrs = computed(function () {
+            var _a, _b, _c;
+            var column = props.column, layeredLevel = props.layeredLevel;
+            var arrChildren = column.columnFlag & COLUMN_FLAG.ARRAY_CHILDREN;
+            var styleParams = {};
+            if (!arrChildren) {
+                styleParams.height = CxTable.styleStore.CX_TABLE_HEIGHT * layeredLevel;
+            }
+            return {
+                colspan: (_b = (_a = props.column.children) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 1,
+                rowspan: ((_c = props.column.children) === null || _c === void 0 ? void 0 : _c.length) ? 1 : props.layeredLevel,
+                style: column.getStyle(styleParams, 'head')
+            };
+        });
+        var hoisted_1 = 'cx-table_cell';
+        // const hoisted_2 = 'iconfont';
+        var hoisted_3 = 'color:red';
+        var hoisted_4 = 'cx_w_10';
+        var hoisted_5 = 'cx-table_sort';
+        var hoisted_6 = 'cx-table_sort_positive';
+        var hoisted_7 = 'cx-table_sort_reverse';
+        return function (_, cache) {
+            var _a;
+            var column = props.column;
+            return createVNode('th', thAttrs.value, [
+                (openBlock(),
+                    createBlock('div', { "class": hoisted_1, style: { width: formatWidth(cellWidth.value) } }, [
+                        column.headTip
+                            ? createVNode(resolveComponent('ElTooltip'), { content: column.headTip, placement: 'top-start', key: -1 }, {
+                                "default": function () {
+                                    return [
+                                        cache[5] ||
+                                            (cache[5] = createVNode('i', { "class": 'iconfont icon-bangzhu' }))
+                                    ];
+                                }
+                            }, PATCH_FLAG.PROPS, ['content'])
+                            : createCommentVNode('c-if_tip', true),
+                        column.headSlot && (rootSlots === null || rootSlots === void 0 ? void 0 : rootSlots[column.headSlot])
+                            ? createVNode(rootSlots === null || rootSlots === void 0 ? void 0 : rootSlots[column.headSlot], { column: column })
+                            : ((_a = column.control) === null || _a === void 0 ? void 0 : _a.type) === 'nativeCheckbox'
+                                ? createVNode(resolveComponent('ElCheckbox'), {
+                                    key: 0,
+                                    modelValue: selectConfig.selectAll,
+                                    'onUpdate:modelValue': cache[0] || (cache[0] = function (val) { return (selectConfig.selectAll = val); }),
+                                    indeterminate: selectConfig.indeterminate,
+                                    disabled: selectConfig.disabled,
+                                    onChange: cache[1] ||
+                                        (cache[1] = function () { return bus.emit('toggleAllSelection', selectConfig.selectAll); })
+                                }, null, PATCH_FLAG.FULL_PROPS | PATCH_FLAG.NEED_PATCH)
+                                : (openBlock(),
+                                    createBlock(Fragment, null, [
+                                        (openBlock(),
+                                            createBlock(Fragment, null, [
+                                                column.required
+                                                    ? cache[2] ||
+                                                        (cache[2] = createVNode('i', { style: hoisted_3, key: 1 }, '*'))
+                                                    : createCommentVNode('v-if_required', true)
+                                            ])),
+                                        // column.icon
+                                        //   ? createVNode(
+                                        //       'i',
+                                        //       { class: [hoisted_2, 'icon-' + column.icon], key: 2 },
+                                        //       null,
+                                        //       PATCH_FLAG.CLASS
+                                        //     )
+                                        //   : createCommentVNode('v-if_icon', true),
+                                        createVNode('span', { key: 3 }, column.label, PATCH_FLAG.TEXT),
+                                        column.sortable
+                                            ? cache[3] || (cache[3] = createVNode('i', { "class": hoisted_4, key: 4 }))
+                                            : createCommentVNode('v-if_sortable_space', true),
+                                        column.sortable
+                                            ? createVNode('i', {
+                                                key: 5,
+                                                onClick: cache[4] ||
+                                                    (cache[4] = function () {
+                                                        tableDataVisitor.sort = column.sortable;
+                                                        tableDataVisitor.sortProp = column.prop;
+                                                        switch (tableDataVisitor.sortStatus) {
+                                                            case CX_SORT_STATUS.NONE:
+                                                                tableDataVisitor.sortStatus = CX_SORT_STATUS.POSITIVE;
+                                                                break;
+                                                            case CX_SORT_STATUS.POSITIVE:
+                                                                tableDataVisitor.sortStatus = CX_SORT_STATUS.REVERSE;
+                                                                break;
+                                                            case CX_SORT_STATUS.REVERSE:
+                                                                tableDataVisitor.sortStatus = CX_SORT_STATUS.NONE;
+                                                        }
+                                                    }),
+                                                "class": [
+                                                    hoisted_5,
+                                                    tableDataVisitor.sortProp === column.prop
+                                                        ? tableDataVisitor.sortStatus === CX_SORT_STATUS.POSITIVE
+                                                            ? hoisted_6
+                                                            : tableDataVisitor.sortStatus === CX_SORT_STATUS.REVERSE
+                                                                ? hoisted_7
+                                                                : null
+                                                        : null
+                                                ]
+                                            }, null, PATCH_FLAG.CLASS)
+                                            : createCommentVNode('v-if_sortable', true)
+                                    ], PATCH_FLAG.KEYED_FRAGMENT | PATCH_FLAG.STABLE_FRAGMENT))
+                    ], PATCH_FLAG.CLASS | PATCH_FLAG.STYLE))
+            ], PATCH_FLAG.PROPS | PATCH_FLAG.STYLE, ['colspan', 'rowspan']);
+        };
+    }
+});
+
+var CxTableHead = defineComponent({
+    name: 'CxTableHead',
+    props: { fixed: { type: String, "default": '' }, left: { type: Number, "default": 0 } },
+    components: { HeadCell: HeadCell },
+    setup: function (props) {
+        var CxTable = inject('CxTable');
+        var style = useTableStyle(props, CxTable, 'head');
+        // 分层表头
+        var layeredHeadItems = computed(function () {
+            return invokeLayeredRow(CxTable.columns);
+        });
+        var hoisted_1 = ['top', 'height', 'width', 'right'];
+        var hoisted_2 = 'cx-table_head';
+        return function () {
+            return createVNode('div', { "class": hoisted_2, style: pick(style.value, hoisted_1) }, [
+                createVNode('table', { style: pick(style.value, ['left']) }, [
+                    (openBlock(),
+                        createBlock(Fragment, null, layeredHeadItems.value.map(function (headers, index) {
+                            return (openBlock(),
+                                createBlock('tr', null, [
+                                    (openBlock(true),
+                                        createBlock(Fragment, null, headers.map(function (col) {
+                                            return props.fixed && props.fixed !== 'top' && col.fixed !== props.fixed
+                                                ? createCommentVNode('v-if_table_head', true)
+                                                : (openBlock(),
+                                                    createBlock(HeadCell, {
+                                                        column: col,
+                                                        layeredLevel: layeredHeadItems.value.length - index
+                                                    }, null, PATCH_FLAG.PROPS, ['column', 'layeredLevel']));
+                                        }), PATCH_FLAG.UNKEYED_FRAGMENT))
+                                ]));
+                        }, PATCH_FLAG.UNKEYED_FRAGMENT)))
+                ], PATCH_FLAG.STYLE)
+            ], PATCH_FLAG.CLASS | PATCH_FLAG.STYLE);
+        };
+    }
+});
+
+var renderDefaultNode = function (params) {
+    var defaultRenderer = CxTableRendererMap.get('default');
+    return isFunction(defaultRenderer)
+        ? defaultRenderer(params)
+        : createVNode('div', null, params.rowData[params.column.prop]);
+};
+var renderCellContent = function (props, isActived, rowIndex, sum, rootSlots, selectConfig, radioValue, disabled, bus, expandConfig, broadcast, pagination, ignoreControl, forceControl) {
+    if (sum === void 0) { sum = false; }
+    var params = __assign(__assign({}, props), { expandConfig: expandConfig, rowIndex: rowIndex, selectConfig: selectConfig, radioValue: radioValue, bus: bus, pagination: pagination, broadcast: broadcast });
+    return (openBlock(),
+        createBlock(Fragment, null, [
+            sum
+                ? renderCellSum(params, rootSlots)
+                : props.column.columnFlag & COLUMN_FLAG.SLOT_COLUMN
+                    ? renderCellSlot(params, isActived, disabled, rootSlots, ignoreControl, forceControl)
+                    : props.column.columnFlag & COLUMN_FLAG.CONTROL_COLUMN
+                        ? renderCustomCell(params, isActived, disabled, ignoreControl, forceControl)
+                        : props.column.columnFlag & COLUMN_FLAG.CALC_COLUMN
+                            ? renderCalcCell(params)
+                            : renderDefaultNode(params),
+        ]));
+};
+var renderCellSum = function (params, rootSlots) {
+    var _a, _b;
+    return (openBlock(),
+        createBlock(Fragment, null, [
+            params.column.sumSlot
+                ? (rootSlots === null || rootSlots === void 0 ? void 0 : rootSlots[params.column.sumSlot])
+                    ? rootSlots === null || rootSlots === void 0 ? void 0 : rootSlots[params.column.sumSlot](params)
+                    : null
+                : ((_a = params.column.control) === null || _a === void 0 ? void 0 : _a.type) === 'index' || (isString(params.column.sum) && params.column.sum !== 'add')
+                    ? createTextVNode((_b = params.column.sum) !== null && _b !== void 0 ? _b : '总计')
+                    : renderDefaultNode(params),
+        ]));
+};
+var renderCellSlot = function (params, isActived, disabled, rootSlots, ignoreControl, forceControl) {
+    if (isFunction(params.column.slot)) {
+        return params.column.slot(__assign(__assign({}, params), { isActived: isActived, disabled: disabled, prop: params.column.prop, ignore: ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false, force: forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false }));
+    }
+    return (rootSlots === null || rootSlots === void 0 ? void 0 : rootSlots[params.column.slot])
+        ? rootSlots === null || rootSlots === void 0 ? void 0 : rootSlots[params.column.slot](__assign(__assign({}, params), { isActived: isActived, disabled: disabled, prop: params.column.prop, ignore: ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false, force: forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false }))
+        : null;
+};
+var renderCalcCell = function (params) {
+    var column = params.column, rowData = params.rowData;
+    return (openBlock(),
+        createBlock(Fragment, null, [
+            isFunction(column.calculate)
+                ? createVNode('span', null, column.calculate(rowData), PATCH_FLAG.TEXT)
+                : createCommentVNode('v-if', true),
+        ]));
+};
+var renderCustomCell = function (params, isActived, disabled, ignoreControl, forceControl) {
+    var _a;
+    var type = ((_a = params.column.control) !== null && _a !== void 0 ? _a : {}).type;
+    var renderer = CxTableRendererMap.get(type);
+    if (isFunction(renderer)) {
+        var ignore = ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false;
+        var force = forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false;
+        return renderer(__assign(__assign({}, params), { isActived: isActived, disabled: disabled, prop: params.column.prop, ignore: ignore, force: force }));
+    }
+    var defaultRenderer = CxTableRendererMap.get('default');
+    return isFunction(defaultRenderer)
+        ? defaultRenderer(__assign(__assign({}, params), { isActived: isActived, disabled: disabled, prop: params.column.prop, ignore: true, force: false }))
+        : createVNode('div', null, params.rowData[params.column.prop]);
+};
+
+var Cell = defineComponent({
+    name: 'CxTableCell',
+    props: {
+        column: { type: Object, "default": function () { return ({}); } },
+        rowData: { type: Object, "default": function () { return ({}); } },
+        rowIndex: { type: Number, "default": -1 },
+        sum: { type: Boolean, "default": false },
+        empty: { type: Boolean, "default": false }
+    },
+    setup: function (props) {
+        var _a;
+        var rootSlots = inject('rootSlots', {});
+        var selectConfig = inject('selectConfig');
+        var CxTable = inject('CxTable');
+        var radioValue = inject('radioValue');
+        var expandConfig = inject('expandConfig');
+        var rootProp = inject('rootProp');
+        var broadcast = inject('broadcast');
+        var bus = inject('bus');
+        var _hoisted_direction_1 = resolveDirective('uni-popper');
+        var handles = rootProp.keyboard ? registCellEvent(CxTable, props) : {};
+        // 如果设置了validate,则计算其校验结果
+        var invalidContent = computed(function () {
+            if (!(props.column.columnFlag & COLUMN_FLAG.VALIDATE_COLUMN))
+                return;
+            CxTable.editStore.actived;
+            props.rowData[props.column.prop];
+            var result = isFunction(props.column.validator)
+                ? props.column.validator({
+                    column: props.column,
+                    value: props.rowData[props.column.prop],
+                    rowIndex: props.rowIndex,
+                    rowData: props.rowData
+                })
+                : null;
+            if (!result && props.column.required) {
+                result = isEmpty(props.rowData[props.column.prop]) ? props.column.label + '为必填' : null;
+            }
+            return result;
+        });
+        // 聚焦,此写法可避免render函数收集到无用依赖,此处请勿使用computed
+        var isActived = ref(false);
+        watchEffect(function () {
+            var _a;
+            var result = props.column._colid === ((_a = CxTable.editStore.actived.column) === null || _a === void 0 ? void 0 : _a._colid) &&
+                props.rowData === CxTable.editStore.actived.rowData;
+            isActived.value = result;
+        });
+        // 聚焦提交tdFocus事件
+        watch(function () { return isActived.value; }, function () {
+            if (isActived.value) {
+                var rowIndex = props.rowIndex, rowData = props.rowData, column = props.column;
+                bus.emit('tdFocus', { rowIndex: rowIndex, rowData: rowData, column: column });
+            }
+        });
+        // 如果设置了spanMethod,则计算其colspan/rowspan
+        var mergeSpan = computed(function () {
+            var _a, _b;
+            if (!isFunction(rootProp.spanMethod) || props.sum)
+                return {};
+            var result = (_b = (_a = rootProp.spanMethod) === null || _a === void 0 ? void 0 : _a.call(rootProp, {
+                rowData: props.rowData,
+                column: props.column,
+                rowIndex: props.rowIndex
+            })) !== null && _b !== void 0 ? _b : {};
+            if (isArray(result)) {
+                result = { rowspan: result[0], colspan: result[1] };
+            }
+            return result;
+        });
+        // 单元格是否显示控件
+        var isControl = computed(function () {
+            return isActived.value && !!CxTable.editStore.activedControl;
+        });
+        var errorVisible = computed(function () {
+            return !!(invalidContent.value && isControl.value);
+        });
+        var directionOption = reactive({
+            visible: false,
+            classList: ['fold-table_wrong_msg', 'cx_mtb_8'],
+            text: invalidContent.value,
+            controlType: 'handle',
+            placement: 'top-start',
+            key: 'errorMsg'
+        });
+        watch(invalidContent, function (val) {
+            directionOption.text = val;
+        });
+        watch(errorVisible, function (val) {
+            directionOption.visible = val;
+        });
+        // 单元格内容
+        var renderContent = function () {
+            if (props.empty)
+                return;
+            var renderInnerContent = function () {
+                return renderCellContent(props, isControl.value, props.rowIndex, props.sum, rootSlots, selectConfig, radioValue, !!rootProp.disabled, bus, expandConfig, broadcast, rootProp.pagination, rootProp.ignoreControl, rootProp.forceControl);
+            };
+            invalidContent.value;
+            if (props.column.columnFlag & COLUMN_FLAG.VALIDATE_COLUMN && !props.sum) {
+                return withDirectives(createVNode('div', null, [renderInnerContent()]), [
+                    [_hoisted_direction_1 !== null && _hoisted_direction_1 !== void 0 ? _hoisted_direction_1 : {}, directionOption]
+                ]);
+            }
+            else {
+                return renderInnerContent();
+            }
+        };
+        // 单元格样式
+        var tdStyle = ref({});
+        watchEffect(function () {
+            var _a, _b;
+            var params = {};
+            if (((_a = mergeSpan.value) === null || _a === void 0 ? void 0 : _a.rowspan) > 1) {
+                params.height = ((_b = mergeSpan.value) === null || _b === void 0 ? void 0 : _b.rowspan) * CxTable.styleStore.CX_TABLE_HEIGHT;
+            }
+            var result = props.column.getStyle(params, 'body', props.rowData, props.rowIndex);
+            if (!isDeepObjectEqual(tdStyle.value, result)) {
+                tdStyle.value = result;
+            }
+        });
+        var key = CX_TABLE_COLUMN_KEY + props.column._colid;
+        watch(function () { return mergeSpan.value.rowspan; }, function (val, oldVal) {
+            if (val === oldVal)
+                return;
+            if (rootProp.virtualScroll) {
+                var rowSpanMap = CxTable.virtualStore.rowSpanMap;
+                if (mergeSpan.value.rowspan > 1) {
+                    rowSpanMap[props.rowIndex] |= CX_SPAN_METHOD_TYPE.EXTEND;
+                }
+                if (mergeSpan.value.rowspan === 0) {
+                    rowSpanMap[props.rowIndex] |= CX_SPAN_METHOD_TYPE.MISSING;
+                }
+            }
+        }, { immediate: true });
+        // 此写法可避免render函数收集到无用依赖,此处请勿使用computed
+        var cellActived = ref(false);
+        watchEffect(function () {
+            if (cellActived.value === (isActived.value && !CxTable.editStore.activedControl))
+                return;
+            cellActived.value = isActived.value && !CxTable.editStore.activedControl;
+        });
+        // 当值发生改变时发送一个广播
+        watch(function () { return props.rowData[props.column.prop]; }, function () {
+            broadcast === null || broadcast === void 0 ? void 0 : broadcast.trigger(props.column.prop, props.rowData, {
+                prop: props.column.prop,
+                rowData: props.rowData
+            });
+        });
+        // 当column为select/search时,由于text的存在,不能仅仅监听id变化,text值也会对渲染有影响,同时,插槽内容的变化也难以监听
+        if (['search', 'select'].includes((_a = props.column.control) === null || _a === void 0 ? void 0 : _a.type) || props.column.slot) {
+            var textKey_1 = getColumnSelectText(props.column);
+            watch(function () { return props.rowData[textKey_1]; }, function () {
+                broadcast === null || broadcast === void 0 ? void 0 : broadcast.trigger(textKey_1, props.rowData, {
+                    prop: textKey_1,
+                    rowData: props.rowData
+                });
+            });
+        }
+        return function () {
+            var _a, _b, _c;
+            // 广播注册,每次重新渲染时需要重新注册,否则会出现行数据错误的问题(虚拟滚动)
+            var attrs = getFunctionAttrs(props.rowData, (_a = props.column.control) === null || _a === void 0 ? void 0 : _a.attrs);
+            var broadcastRegister = attrs === null || attrs === void 0 ? void 0 : attrs.broadcastRegister;
+            if (broadcastRegister && isFunction(broadcastRegister)) {
+                broadcastRegister(function (prop, cb) { return broadcast.registListener(prop, props.rowData, cb); });
+            }
+            if (mergeSpan.value && (((_b = mergeSpan.value) === null || _b === void 0 ? void 0 : _b.rowspan) === 0 || ((_c = mergeSpan.value) === null || _c === void 0 ? void 0 : _c.colspan) === 0)) {
+                return;
+            }
+            return createVNode('td', __assign(__assign(__assign({ key: key }, handles), mergeSpan.value), { style: tdStyle.value, colid: props.column._colid, "class": { actived: cellActived.value } }), [
+                createVNode('div', {
+                    "class": 'cx-table_cell',
+                    style: { width: props.column.renderWidth + 'px' }
+                }, [renderContent()], PATCH_FLAG.CLASS | PATCH_FLAG.STYLE)
+            ], PATCH_FLAG.FULL_PROPS);
+        };
+    }
+});
+
+var TableRow = defineComponent({
+    name: 'CxTableRow',
+    props: {
+        rowData: { type: Object, "default": function () { return ({}); } },
+        rowIndex: { type: Number, "default": -1 },
+        activedRow: { type: Array, "default": function () { return []; } },
+        sum: { type: Boolean, "default": false },
+        rowid: { type: [String, Number], "default": '' }
+    },
+    setup: function (props, _a) {
+        var slots = _a.slots;
+        var selectConfig = inject('selectConfig', { selectItem: [] });
+        var radioValue = inject('radioValue', ref(-1));
+        var CxTable = inject('CxTable');
+        var isHover = ref(false);
+        watchEffect(function () {
+            isHover.value = props.rowid === CxTable.hoveringRowid;
+        });
+        var isActive = ref(false);
+        watchEffect(function () {
+            var _a, _b;
+            isActive.value =
+                ((_a = selectConfig.selectItem) === null || _a === void 0 ? void 0 : _a[props.rowIndex]) ||
+                    radioValue.value === props.rowIndex ||
+                    ((_b = props.activedRow) === null || _b === void 0 ? void 0 : _b.includes(props.rowIndex));
+        });
+        var trAttrs = computed(function () {
+            var result = { rowid: props.rowid, "class": [] };
+            if (isActive.value) {
+                result["class"].push('active');
+            }
+            if (isHover.value) {
+                result["class"].push('cx-table_row_hover');
+            }
+            return result;
+        });
+        return function () {
+            return createVNode('tr', trAttrs.value, slots, PATCH_FLAG.PROPS | PATCH_FLAG.CLASS, [
+                'rowid'
+            ]);
+        };
+    }
+});
+
+var FixedBottom = defineComponent({
+    name: 'CxTableFixedBottom',
+    props: {
+        tableData: { type: Array, "default": function () { return []; } }
+    },
+    setup: function (props) {
+        var CxTable = inject('CxTable');
+        var component = CxTableBody;
+        return function () {
+            return [
+                CxTable.columnStore.rightFixedColumns.length
+                    ? createVNode(component, {
+                        tableData: props.tableData,
+                        style: {
+                            width: getSums(CxTable.columnStore.rightFixedColumns) + 'px',
+                            zIndex: 15
+                        },
+                        fixed: 'right',
+                        "class": {
+                            'cx-table_fixed_right': true,
+                            'cx-table_right_shadow': CxTable.scrollStore.showRightShadow,
+                            'cx-bt': true
+                        },
+                        onlyTotal: true
+                    })
+                    : null,
+                CxTable.columnStore.leftFixedColumns.length
+                    ? createVNode(component, {
+                        tableData: props.tableData,
+                        style: {
+                            width: getSums(CxTable.columnStore.leftFixedColumns) + 'px',
+                            zIndex: 15
+                        },
+                        fixed: 'left',
+                        "class": {
+                            'cx-table_fixed_left': true,
+                            'cx-table_left_shadow': CxTable.scrollStore.showLeftShadow,
+                            'cx-bt': true
+                        },
+                        onlyTotal: true
+                    })
+                    : null
+            ];
+        };
+    }
+});
+
+var TableAddBtn = defineComponent({
+    name: 'CxTableAddBtn',
+    props: {
+        fixed: { type: String, "default": '' },
+        tableData: { type: Array, "default": function () { return []; } }
+    },
+    setup: function (props) {
+        var rootProp = inject('rootProp');
+        var CxTable = inject('CxTable');
+        var bus = inject('bus');
+        var hoisted_1 = 'cx_opacity_0';
+        var classList = computed(function () {
+            return [
+                'cx-table_add_btn',
+                'cx_mlr_10',
+                props.tableData.length ? 'cx_h_80' : 'cx_h_160',
+                props.fixed ? hoisted_1 : null
+            ];
+        });
+        var realShow = computed(function () {
+            return !rootProp.showAddBtn || props.fixed === 'top' || props.fixed === 'bottom';
+        });
+        return function (_, cache) {
+            return (openBlock(),
+                createBlock(Fragment, null, [
+                    realShow.value
+                        ? createCommentVNode('v-if_add_btn', true)
+                        : createVNode('tr', null, [
+                            createVNode('td', { "class": props.fixed ? hoisted_1 : null, colspan: CxTable.flatColumns.length }, [
+                                createVNode('div', {
+                                    onClick: cache[0] || (cache[0] = function () { return bus.emit('addNewRow', 'addNewRow'); }),
+                                    "class": classList.value
+                                }, rootProp.showAddBtn, PATCH_FLAG.CLASS | PATCH_FLAG.NEED_PATCH | PATCH_FLAG.TEXT)
+                            ], PATCH_FLAG.CLASS | PATCH_FLAG.PROPS, ['colspan'])
+                        ])
+                ], PATCH_FLAG.STABLE_FRAGMENT));
+        };
+    }
+});
+
+var Expand = defineComponent({
+    name: 'CxTableExpand',
+    props: {
+        fixed: { type: String, "default": '' },
+        rowData: { type: Object, "default": function () { return ({}); } },
+        rowIndex: { type: Number, "default": -1 }
+    },
+    setup: function (props) {
+        var CxTable = inject('CxTable');
+        var rootProp = inject('rootProp');
+        var expandConfig = inject('expandConfig', []);
+        var rootSlots = inject('rootSlots', {});
+        var classList = computed(function () {
+            var result = [];
+            props.fixed && result.push('cx_opacity_0');
+            return result;
+        });
+        var colspan = computed(function () {
+            var _a, _b, _c;
+            return props.fixed === 'left'
+                ? (_a = CxTable.columnStore.leftFixedColumns) === null || _a === void 0 ? void 0 : _a.length
+                : props.fixed === 'right'
+                    ? (_b = CxTable.columnStore.rightFixedColumns) === null || _b === void 0 ? void 0 : _b.length
+                    : (_c = CxTable.flatColumns) === null || _c === void 0 ? void 0 : _c.length;
+        });
+        var slotName = computed(function () {
+            var result = '';
+            if (isString(rootProp.expand) && rootProp.expand) {
+                result = rootProp.expand;
+            }
+            else if (isFunction(rootProp.expand)) {
+                var expandSlot = rootProp.expand(props.rowData, props.rowIndex);
+                expandSlot && (result = expandSlot);
+            }
+            return result;
+        });
+        var hoisted_1 = 'cx-table_expand';
+        return function () {
+            return (openBlock(),
+                createBlock(Fragment, null, [
+                    slotName.value && expandConfig[props.rowIndex] && rootSlots[slotName.value]
+                        ? createVNode('tr', { "class": classList.value }, [
+                            createVNode('td', { colspan: colspan.value }, [
+                                createVNode('div', {
+                                    "class": "" + hoisted_1,
+                                    style: (function () {
+                                        var result = {};
+                                        if (props.fixed) {
+                                            var width = useTableStyle(props, CxTable, 'table').value.width;
+                                            if (width) {
+                                                Reflect.set(result, 'width', width);
+                                                Reflect.set(result, 'overflow', 'hidden');
+                                            }
+                                        }
+                                        return result;
+                                    })()
+                                }, [
+                                    createVNode('div', { style: { width: CxTable.scrollStore.renderTotalWidth + 'px' } }, [
+                                        createVNode(rootSlots[slotName.value], { rowIndex: props.rowIndex, rowData: props.rowData }, null, PATCH_FLAG.FULL_PROPS)
+                                    ], PATCH_FLAG.STYLE)
+                                ], PATCH_FLAG.STYLE)
+                            ], PATCH_FLAG.PROPS, ['colspan'])
+                        ], PATCH_FLAG.CLASS)
+                        : createCommentVNode('v-if_expand', true)
+                ]));
+        };
+    }
+});
+
+var CxTableBody = defineComponent({
+    name: 'CxTableBody',
+    props: {
+        fixed: { type: String, "default": '' },
+        onlyTotal: { type: Boolean, "default": false },
+        tableData: { type: Array, "default": function () { return []; } },
+        float: { type: Boolean, "default": false }
+    },
+    setup: function (props) {
+        var CxTable = inject('CxTable');
+        var rootProp = inject('rootProp');
+        var hoisted_1 = 'cx-table_footer';
+        var hoisted_2 = 'cx-table_body';
+        var getRowIdFromMap = useTableId().getRowIdFromMap;
+        // 行渲染
+        var renderRow = function (rowData, rowIndex, sum, empty) {
+            if (sum === void 0) { sum = false; }
+            if (empty === void 0) { empty = false; }
+            var rowid;
+            if (sum) {
+                rowid = CX_TABLE_SUM_ROW_KEY;
+            }
+            else {
+                rowid = getRowIdFromMap(rowData);
+            }
+            return createVNode(TableRow, {
+                sum: sum,
+                "class": sum ? hoisted_1 : '',
+                rowData: rowData,
+                rowIndex: rowIndex,
+                activedRow: rootProp.activeRows,
+                rowid: rowid,
+                key: rowid
+            }, {
+                "default": function () {
+                    return (openBlock(true),
+                        createBlock(Fragment, null, CxTable.flatColumns.map(function (col) { return (openBlock(),
+                            createBlock(Fragment, null, [
+                                props.fixed && props.fixed !== 'bottom' && col.fixed !== props.fixed
+                                    ? createCommentVNode('v-if', true)
+                                    : (openBlock(),
+                                        createBlock(Cell, { rowData: rowData, rowIndex: rowIndex, column: col, sum: sum, empty: empty, key: col._colid }, null, PATCH_FLAG.PROPS, ['rowData', 'rowIndex', 'column', 'sum', 'empty']))
+                            ])); }), PATCH_FLAG.KEYED_FRAGMENT));
+                }
+            }, PATCH_FLAG.PROPS | PATCH_FLAG.CLASS | PATCH_FLAG.DYNAMIC_SLOTS, ['rowData', 'rowIndex', 'activedRow', 'rowid', 'key']);
+        };
+        // body主体内容渲染
+        var renderContent = function () {
+            return (openBlock(),
+                createBlock(Fragment, null, [
+                    props.fixed === 'bottom' || props.onlyTotal
+                        ? createCommentVNode('v-if', true)
+                        : (openBlock(true),
+                            createBlock(Fragment, null, (function () {
+                                var result = [];
+                                var data;
+                                var indexPrepend = 0;
+                                if (rootProp.virtualScroll) {
+                                    var virtualStore = CxTable.virtualStore;
+                                    data = props.tableData.slice(virtualStore.renderStartIndex, virtualStore.renderEndIndex);
+                                    indexPrepend = virtualStore.renderStartIndex;
+                                }
+                                else {
+                                    data = props.tableData;
+                                }
+                                data.forEach(function (rowData, rowIndex) {
+                                    result.push(renderRow(rowData, rowIndex + indexPrepend));
+                                    if (rootProp.expand) {
+                                        result.push(createVNode(Expand, { rowData: rowData, rowIndex: rowIndex + indexPrepend, fixed: props.fixed }, null, PATCH_FLAG.FULL_PROPS));
+                                    }
+                                });
+                                if (isNumber(rootProp.emptyLimit) &&
+                                    rootProp.emptyLimit > props.tableData.length) {
+                                    Array(rootProp.emptyLimit - props.tableData.length)
+                                        .fill('')
+                                        .forEach(function () {
+                                        result.push(renderRow({}, CX_TABLE_EMPTY_INDEX, false, true));
+                                    });
+                                }
+                                return result;
+                            })(), PATCH_FLAG.KEYED_FRAGMENT))
+                ]));
+        };
+        // 添加按钮渲染
+        var renderAddBtn = function () {
+            return createVNode(TableAddBtn, { fixed: props.fixed, tableData: props.tableData }, null, PATCH_FLAG.PROPS, ['fixed', 'tableData']);
+        };
+        var hideTotalSum = ref(false);
+        watchEffect(function () {
+            var _a;
+            hideTotalSum.value =
+                (rootProp.virtualScroll &&
+                    props.fixed !== 'bottom' &&
+                    !props.onlyTotal &&
+                    CxTable.virtualStore.renderEndIndex < rootProp.tableData.length) ||
+                    (((!rootProp.showTotalSum && !rootProp.showForm) || ((_a = props.tableData) === null || _a === void 0 ? void 0 : _a.length) <= 0) &&
+                        !rootProp.showAddBtn &&
+                        !props.float);
+        });
+        var transferOtherSum = function (columns) {
+            var result = {};
+            columns.forEach(function (_a) {
+                var prop = _a.prop, sum = _a.sum;
+                if (sum === 'add' || !isString(sum))
+                    return;
+                result[prop] = sum;
+            });
+            return result;
+        };
+        // 合计行渲染
+        var renderTotalSum = function () {
+            var _a;
+            return (openBlock(),
+                createBlock(Fragment, null, [
+                    hideTotalSum.value
+                        ? createCommentVNode('v-if', true)
+                        : isObject$1(rootProp.customTotalSum)
+                            ? renderRow(Object.assign({}, rootProp.customTotalSum), CX_TABLE_SUM_INDEX, true)
+                            : isObject$1(CxTable.entireTotalSum)
+                                ? renderRow(R.mergeLeft(transferOtherSum(CxTable.flatColumns), CxTable.entireTotalSum), CX_TABLE_SUM_INDEX, true)
+                                : renderRow(getTotalSumData(CxTable.flatColumns, (_a = rootProp.tableData) !== null && _a !== void 0 ? _a : []), CX_TABLE_SUM_INDEX, true)
+                ]));
+        };
+        // 基准style对象,根据不同的元素取出不同的项
+        var style = useTableStyle(props, CxTable, 'body');
+        var tableStyle = computed(function () {
+            var styleStore = CxTable.styleStore;
+            var result = __assign(__assign({}, pick(style.value, ['left'])), { top: props.fixed === 'bottom' || props.onlyTotal ? 0 : -CxTable.scrollStore.scrollTop + 'px' });
+            if (rootProp.virtualScroll && props.fixed !== 'bottom' && !props.onlyTotal) {
+                result.paddingTop = CxTable.virtualStore.renderPaddingTop + 'px';
+                result.paddingBottom = CxTable.virtualStore.renderPaddingBottom + 'px';
+                result.height =
+                    (props.tableData.length + +!!rootProp.showTotalSum) * styleStore.CX_TABLE_HEIGHT + 'px';
+            }
+            return result;
+        });
+        var bodyWrapperStyle = computed(function () {
+            return pick(style.value, ['right', 'bottom', 'top', 'height', 'width']);
+        });
+        // 不宜使用computed
+        var tableClass = ref('');
+        watchEffect(function () {
+            tableClass.value = rootProp.stripe || rootProp.showForm ? 'stripe' : '';
+        });
+        return function () { return (openBlock(),
+            createBlock('div', { "class": hoisted_2, style: bodyWrapperStyle.value }, [
+                createVNode('table', { style: tableStyle.value, "class": tableClass.value }, [createVNode('tbody', null, [renderContent(), renderAddBtn(), renderTotalSum()])], PATCH_FLAG.STYLE),
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        props.fixed === 'bottom'
+                            ? createVNode(FixedBottom, { tableData: props.tableData }, null, PATCH_FLAG.PROPS | PATCH_FLAG.NEED_PATCH, ['tableData'])
+                            : createCommentVNode('v-if_fixed_bottom', true)
+                    ], PATCH_FLAG.STABLE_FRAGMENT))
+            ], PATCH_FLAG.CLASS | PATCH_FLAG.STYLE)); };
+    }
+});
+
+var CxTableContent = defineComponent({
+    name: 'CxTableContent',
+    props: {
+        fixed: { type: String, "default": '' },
+        tableData: { type: Array, "default": function () { return []; } }
+    },
+    setup: function (props) {
+        var CxTable = inject('CxTable');
+        var style = useTableStyle(props, CxTable, 'table');
+        var classList = useTableClass(props, CxTable);
+        return function () {
+            var fixed = props.fixed;
+            return [
+                openBlock(),
+                createBlock(Fragment, null, [
+                    [
+                        (openBlock(),
+                            createBlock(Fragment, null, [
+                                fixed !== 'bottom'
+                                    ? createVNode(CxTableHead, { "class": classList.value, style: style.value, fixed: fixed }, null, PATCH_FLAG.FULL_PROPS | PATCH_FLAG.CLASS | PATCH_FLAG.STYLE)
+                                    : createCommentVNode('v-if_table_bottom', true)
+                            ], PATCH_FLAG.STABLE_FRAGMENT)),
+                        (openBlock(),
+                            createBlock(Fragment, null, [
+                                fixed !== 'top'
+                                    ? createVNode(CxTableBody, {
+                                        tableData: props.tableData,
+                                        "class": classList.value,
+                                        style: style.value,
+                                        fixed: fixed
+                                    }, null, PATCH_FLAG.FULL_PROPS | PATCH_FLAG.CLASS | PATCH_FLAG.STYLE)
+                                    : createCommentVNode('v-if_table_top', true)
+                            ], PATCH_FLAG.STABLE_FRAGMENT))
+                    ]
+                ])
+            ];
+        };
+    }
+});
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var script$7 = {
+    name: 'Empty',
+};
+
+const _hoisted_1$4 = { class: "cx_flex_center cx_flex_d_column cx_justify_center" };
+const _hoisted_2$2 = /*#__PURE__*/createVNode("div", { class: "cx_h_100" }, [
+  /*#__PURE__*/createVNode("svg", {
+    width: "120",
+    height: "100",
+    viewBox: "0 0 184 152",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, [
+    /*#__PURE__*/createVNode("g", {
+      fill: "none",
+      "fill-rule": "evenodd"
+    }, [
+      /*#__PURE__*/createVNode("g", { transform: "translate(24 31.67)" }, [
+        /*#__PURE__*/createVNode("ellipse", {
+          "fill-opacity": ".8",
+          fill: "#F5F5F7",
+          cx: "67.797",
+          cy: "106.89",
+          rx: "67.797",
+          ry: "12.668"
+        }),
+        /*#__PURE__*/createVNode("path", {
+          d: "M122.034 69.674L98.109 40.229c-1.148-1.386-2.826-2.225-4.593-2.225h-51.44c-1.766 0-3.444.839-4.592 2.225L13.56 69.674v15.383h108.475V69.674z",
+          fill: "#AEB8C2"
+        }),
+        /*#__PURE__*/createVNode("path", {
+          d: "M101.537 86.214L80.63 61.102c-1.001-1.207-2.507-1.867-4.048-1.867H31.724c-1.54 0-3.047.66-4.048 1.867L6.769 86.214v13.792h94.768V86.214z",
+          fill: "url(#linearGradient-1)",
+          transform: "translate(13.56)"
+        }),
+        /*#__PURE__*/createVNode("path", {
+          d: "M33.83 0h67.933a4 4 0 0 1 4 4v93.344a4 4 0 0 1-4 4H33.83a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z",
+          fill: "#F5F5F7"
+        }),
+        /*#__PURE__*/createVNode("path", {
+          d: "M42.678 9.953h50.237a2 2 0 0 1 2 2V36.91a2 2 0 0 1-2 2H42.678a2 2 0 0 1-2-2V11.953a2 2 0 0 1 2-2zM42.94 49.767h49.713a2.262 2.262 0 1 1 0 4.524H42.94a2.262 2.262 0 0 1 0-4.524zM42.94 61.53h49.713a2.262 2.262 0 1 1 0 4.525H42.94a2.262 2.262 0 0 1 0-4.525zM121.813 105.032c-.775 3.071-3.497 5.36-6.735 5.36H20.515c-3.238 0-5.96-2.29-6.734-5.36a7.309 7.309 0 0 1-.222-1.79V69.675h26.318c2.907 0 5.25 2.448 5.25 5.42v.04c0 2.971 2.37 5.37 5.277 5.37h34.785c2.907 0 5.277-2.421 5.277-5.393V75.1c0-2.972 2.343-5.426 5.25-5.426h26.318v33.569c0 .617-.077 1.216-.221 1.789z",
+          fill: "#DCE0E6"
+        })
+      ]),
+      /*#__PURE__*/createVNode("path", {
+        d: "M149.121 33.292l-6.83 2.65a1 1 0 0 1-1.317-1.23l1.937-6.207c-2.589-2.944-4.109-6.534-4.109-10.408C138.802 8.102 148.92 0 161.402 0 173.881 0 184 8.102 184 18.097c0 9.995-10.118 18.097-22.599 18.097-4.528 0-8.744-1.066-12.28-2.902z",
+        fill: "#DCE0E6"
+      }),
+      /*#__PURE__*/createVNode("g", {
+        transform: "translate(149.65 15.383)",
+        fill: "#FFF"
+      }, [
+        /*#__PURE__*/createVNode("ellipse", {
+          cx: "20.654",
+          cy: "3.167",
+          rx: "2.849",
+          ry: "2.815"
+        }),
+        /*#__PURE__*/createVNode("path", { d: "M5.698 5.63H0L2.898.704zM9.259.704h4.985V5.63H9.259z" })
+      ])
+    ])
+  ])
+], -1 /* HOISTED */);
+const _hoisted_3$2 = /*#__PURE__*/createVNode("p", null, "暂无数据", -1 /* HOISTED */);
+
+function render$5(_ctx, _cache) {
+  return (openBlock(), createBlock("div", _hoisted_1$4, [
+    _hoisted_2$2,
+    _hoisted_3$2
+  ]))
+}
+
+script$7.render = render$5;
+script$7.__file = "src/lib/cx-table/components/empty.vue";
+
+var CxTableEmpty = defineComponent({
+    name: 'CxTableEmpty',
+    setup: function () {
+        var CxTable = inject('CxTable');
+        var hoisted_1 = { style: { height: '150px' } };
+        var hoisted_2 = { "class": 'cx-table_empty' };
+        return function () {
+            var rowspan = CxTable.flatColumns.length;
+            return (openBlock(),
+                createBlock('div', hoisted_1, [
+                    createVNode('table', hoisted_2, [
+                        createVNode('tbody', null, [
+                            createVNode('tr', null, [
+                                createVNode('td', { rowspan: rowspan }, [
+                                    (function () {
+                                        setBlockTracking(-1);
+                                        var node = createVNode(script$7);
+                                        setBlockTracking(1);
+                                        return node;
+                                    })()
+                                ], PATCH_FLAG.PROPS, ['rowspan'])
+                            ])
+                        ])
+                    ])
+                ]));
+        };
+    }
+});
+
+var Pagination = defineComponent({
+    name: 'CxTablePagination',
+    props: { pagination: { type: Object, "default": function () { return ({}); } } },
+    setup: function (props, _a) {
+        var emit = _a.emit;
+        var handleSizeChange = function (size) {
+            var pagination = props.pagination;
+            pagination.currentPage = 1;
+            pagination.pageCapacity = size;
+            emit('paging');
+        };
+        var handleCurrentChange = function (currentPage) {
+            var pagination = props.pagination;
+            pagination.currentPage = currentPage;
+            emit('paging');
+        };
+        var hoisted_1 = 'total, sizes, prev, pager, next, jumper';
+        var Pagination = resolveComponent('ElPagination');
+        return function () {
+            return createVNode(Pagination, {
+                "class": 'cx_align_right cx_p_20',
+                background: true,
+                currentPage: props.pagination.currentPage,
+                pageSizes: props.pagination.pageSizes,
+                pageSize: props.pagination.pageCapacity,
+                layout: hoisted_1,
+                total: props.pagination.total,
+                onSizeChange: handleSizeChange,
+                onCurrentChange: handleCurrentChange
+            }, null, PATCH_FLAG.FULL_PROPS);
+        };
+    }
+});
+
+var DynamicFormCacheModule = 'dynamicForm';
+var DynamicFormVisibleCacheModule = 'dynamicFormVisible';
+
+var useDynamicFormCache = function (rootProps) {
+    var getCacheKey = function (dynamic) {
+        return !dynamic
+            ? ''
+            : "u_" + useCxTable().getContext().contextScopeId + "_m1_" + dynamic.moduleType + "_b_" + dynamic.businessType + "_m2_" + dynamic.modelType + "_p_" + dynamic.priceType;
+    };
+    var getCache = function (module) {
+        if (module === void 0) { module = DynamicFormCacheModule; }
+        return function () { return localStore.get(getCacheKey(rootProps.dynamic), module); };
+    };
+    var getFormCacheIO = IO.of(getCache());
+    var getVisibleCacheIO = IO.of(getCache(DynamicFormVisibleCacheModule));
+    var setCache = function (module) {
+        if (module === void 0) { module = DynamicFormCacheModule; }
+        return function (val) {
+            try {
+                localStore.set(getCacheKey(rootProps.dynamic), val, void 0, module);
+            }
+            catch (_a) {
+                cxTableWarn("can't set dynamic form cache from dynamicConfig:", rootProps.dynamic);
+            }
+        };
+    };
+    var setFormCacheIO = IO.of(setCache());
+    var setVisibleCacheIO = IO.of(setCache(DynamicFormVisibleCacheModule));
+    return { getFormCacheIO: getFormCacheIO, getVisibleCacheIO: getVisibleCacheIO, setFormCacheIO: setFormCacheIO, setVisibleCacheIO: setVisibleCacheIO };
+};
+
+var useDynamicFormSearch = function () {
+    var _a = useCxTableCompose(), getParamsItems = _a.getParamsItems, getConfigByDynamicConfig = _a.getConfigByDynamicConfig, arrNotEmpty = _a.arrNotEmpty;
+    var context = useCxTable().getContext();
+    var devTip = R.tap(unsafeWhenDevCall(function (dynamic) {
+        return console.info("[CxTable]:dynamic form auto fetchData by config ", changeDynamicIdToText(dynamic));
+    }));
+    var errorDevTip = unsafeWhenDevCall(function (dynamic) {
+        cxTableWarn("can't match api by config ", changeDynamicIdToText(dynamic));
+    });
+    var initRequestParams = function (rootProp, form, currentFormItems, tableDataVisitor) {
+        var setItems = R.set(R.lensProp('items'), getParamsItems(form, currentFormItems));
+        var mergeSort = R.mergeLeft(R.zipObj(['sortDirection', 'sortProp'], [tableDataVisitor.sortStatus, tableDataVisitor.sortProp]));
+        var mergePagination = R.mergeLeft(R.pick(['currentPage', 'pageCapacity'], R.prop('pagination', rootProp)));
+        return R.compose(setItems, mergeSort, mergePagination, R.prop('dynamic'))(rootProp);
+    };
+    var updateTableData = R.curryN(2, function (data, rootProp) {
+        var _a, _b;
+        var rows = data.rows, total = data.total;
+        isNumber(total) && Maybe.of(rootProp.pagination).map(unsafeSet(R.__, 'total', total));
+        if (!Array.isArray(rows))
+            return;
+        if (R.isEmpty(rows) && R.gt(R.defaultTo(0, (_a = rootProp.pagination) === null || _a === void 0 ? void 0 : _a.currentPage), 1)) {
+            rootProp.pagination.currentPage--;
+        }
+        else {
+            R.compose(R.when(R.is(Array), unsafeClearPush(R.__, rootProp.tableData)), R.ifElse(R.is(Function), function (cb) { return cb(rows, data); }, R.always(rows)))((_b = rootProp.hooks) === null || _b === void 0 ? void 0 : _b.onSearch);
+        }
+    });
+    var updateTotal = R.useWith(unsafeClearAssign, [
+        R.identity,
+        R.prop('entireTotalSum')
+    ]);
+    var checkDynamic = function (dynamic) {
+        if (!dynamic) {
+            throw cxTableWarn("can't fetch data if dynamic ", dynamic, " is invalid");
+        }
+    };
+    var matchedRule = R.compose(getMaybeValue, R.converge(getConfigByDynamicConfig, [
+        R.identity,
+        R.compose(R.prop(R.__, context.dynamicFormContext.requestApiMap), R.prop('moduleType'))
+    ]));
+    var search = function (rootProp, form, currentFormItems, tableDataVisitor) { return __awaiter(void 0, void 0, void 0, function () {
+        var dynamic, matchedRuleEither;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    dynamic = rootProp.dynamic;
+                    checkDynamic(dynamic);
+                    matchedRuleEither = R.compose(R.ifElse(R.isNil, Left.of, Right.of), matchedRule);
+                    return [4 /*yield*/, either(withParams(errorDevTip, [dynamic]), function (rule) { return __awaiter(void 0, void 0, void 0, function () {
+                            var rulePropVal, stateEq200, _a;
+                            return __generator(this, function (_b) {
+                                switch (_b.label) {
+                                    case 0:
+                                        devTip(dynamic);
+                                        rulePropVal = R.prop(R.__, rule);
+                                        stateEq200 = R.propEq('state', 200);
+                                        _a = R.when(stateEq200, R.compose(updateTableData(R.__, rootProp), R.prop('data')));
+                                        return [4 /*yield*/, rulePropVal('requestInstance').postJSON(rulePropVal('api'), initRequestParams(rootProp, form, currentFormItems, tableDataVisitor))];
+                                    case 1:
+                                        _a.apply(void 0, [_b.sent()]);
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); }, matchedRuleEither(dynamic))];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    }); };
+    var searchTotal = function (rootProp, form, currentFormItems, tableDataVisitor, CxTable) { return __awaiter(void 0, void 0, void 0, function () {
+        var dynamic, matchedRuleEither;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    dynamic = rootProp.dynamic;
+                    checkDynamic(dynamic);
+                    matchedRuleEither = R.compose(R.ifElse(R.isNil, Left.of, Right.of), matchedRule);
+                    return [4 /*yield*/, either(R.converge(errorDevTip, [R.always(dynamic)]), function (rule) { return __awaiter(void 0, void 0, void 0, function () {
+                            var rulePropVal, stateEq200, requestInstance, getTotals, _a;
+                            return __generator(this, function (_b) {
+                                switch (_b.label) {
+                                    case 0:
+                                        rulePropVal = R.prop(R.__, rule);
+                                        stateEq200 = R.propEq('state', 200);
+                                        requestInstance = rulePropVal('requestInstance');
+                                        getTotals = R.compose(getMaybeValue, map(R.objOf('totals')), map(R.map(R.prop('prop'))), map(R.filter(R.compose(truthy, R.prop('sum')))), map(R.prop('flatColumns')), Maybe.of);
+                                        _a = R.when(stateEq200, R.compose(R.curryN(3, R.call)(updateTotal, R.__, CxTable), R.prop('data')));
+                                        return [4 /*yield*/, R.compose(R.ifElse(R.compose(arrNotEmpty, R.prop('totals')), R.compose(R.converge(requestInstance.postJSON.bind(requestInstance), [
+                                                R.always('/header/total'),
+                                                R.identity
+                                            ]), R.mergeLeft(initRequestParams(rootProp, form, currentFormItems, tableDataVisitor))), defaultPromise({})), getTotals)(CxTable)];
+                                    case 1:
+                                        _a.apply(void 0, [_b.sent()]);
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); }, matchedRuleEither(dynamic))];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    }); };
+    return { initRequestParams: initRequestParams, updateTableData: updateTableData, search: search, searchTotal: searchTotal };
+};
+
+var TeleFormInstance = defineComponent({
+    name: 'TeleFormInstance',
+    emits: ['change', 'close'],
+    props: {
+        form: { type: Object, required: true },
+        items: { type: Array, required: true },
+        states: { type: Object, required: true }
+    },
+    setup: function (props, _a) {
+        var emit = _a.emit, slots = _a.slots;
+        var curryEmit = R.curryN(2, emit);
+        return function (_, cache) {
+            var _a, _b;
+            return createVNode('div', { style: { display: ((_b = (_a = props.states) === null || _a === void 0 ? void 0 : _a.visible) !== null && _b !== void 0 ? _b : true) ? 'block' : 'none' } }, [
+                createVNode(_CX_FORM, {
+                    form: props.form,
+                    items: props.items,
+                    formAttrs: { labelPosition: 'top', labelSuffix: '' },
+                    onChange: cache[0] || (cache[0] = curryEmit('change')),
+                    onClose: cache[1] || (cache[1] = curryEmit('close'))
+                }, { add: function () { var _a, _b; return [(_b = (_a = slots.add) === null || _a === void 0 ? void 0 : _a.call(slots)) !== null && _b !== void 0 ? _b : '']; } }, PATCH_FLAG.PROPS, ['form', 'items'])
+            ], PATCH_FLAG.STYLE);
+        };
+    }
+});
+
+function useState(initValue) {
+    var state = ref(initValue);
+    var getState = (function (isRef) { return (isRef ? state : unref(state)); });
+    return [getState, function (val) { return (state.value = val); }];
+}
+function useRef() {
+    return useState(null)[0];
+}
+/**
+ * v-for的ref引用
+ */
+function useRefs() {
+    var itemRefs = new Set();
+    var setItemRef = function (el) { return el && itemRefs.add(el); };
+    onBeforeUpdate(function () { return itemRefs.clear(); });
+    return [itemRefs, setItemRef];
+}
+/**
+ * v-for的ref引用
+ * @return 数组
+ */
+function useRefsArray() {
+    var itemRefs = [];
+    var setItemRef = function (el) {
+        itemRefs.push(el);
+    };
+    onBeforeUpdate(function () {
+        itemRefs = [];
+    });
+    return [itemRefs, setItemRef];
+}
+function isWritableComputedOptions(arg) {
+    return typeof arg === 'object' && Reflect.has(arg || {}, 'set');
+}
+function useComputed(arg) {
+    var data = isWritableComputedOptions(arg) ? computed(arg) : computed(arg);
+    var getData = function (isRef) { return (isRef ? data : data.value); };
+    if (!isWritableComputedOptions(arg)) {
+        return getData;
+    }
+    return [getData, function (val) { return (data.value = val); }];
+}
+// ===================================================================================================
+/**
+ * 返回{ [key]: Ref }
+ * @params obj { [变量名]: useState或useComputed返回的getter函数 }
+ */
+function getRefs(obj) {
+    var result = {};
+    Object.entries(obj).forEach(function (_a) {
+        var _b = __read(_a, 2), k = _b[0], fn = _b[1];
+        return (result[k] = fn(true));
+    });
+    return result;
+}
+function useSync(props, emit, arr) {
+    if (arr === void 0) { arr = []; }
+    if (!arr.length)
+        return [];
+    return arr.reduce(function (p, c) {
+        var option = computed({
+            get: function () { return props[c]; },
+            set: function (value) { return emit("update:" + c, value); }
+        });
+        p.push(option);
+        return p;
+    }, []);
+}
+
+var DynamicFormAdd = defineComponent({
+    name: 'DynamicFormAdd',
+    props: {
+        options: { type: Array, "default": function () { return []; } },
+        modelValue: { type: Array, required: true },
+        currentInstance: { type: Object }
+    },
+    emits: ['update:modelValue', 'change'],
+    setup: function (props, _a) {
+        var emit = _a.emit;
+        var _b = __read(useComputed({
+            get: function () {
+                var _a;
+                return (_a = props.modelValue) !== null && _a !== void 0 ? _a : [];
+            },
+            set: function (val) {
+                emit('update:modelValue', val);
+                setVisible(false);
+            }
+        }), 2), modelProxy = _b[0], setModelProxy = _b[1];
+        var _c = __read(useState(false), 2), visible = _c[0], setVisible = _c[1];
+        var toggleVisible = R.compose(setVisible, R.not, visible);
+        var addItem = function (id) {
+            R.compose(setModelProxy, R.uniq, R.append(id), modelProxy)();
+        };
+        var matchPinyinSearch = function (str) {
+            return R.ifElse(R.isEmpty, R.T, R.curryN(2, PinyinMatch.match)(str))(searchContent());
+        };
+        var currentOptions = useComputed(function () {
+            return R.filter(R.allPass([
+                R.compose(R.not, R.includes(R.__, modelProxy()), R.prop('id')),
+                R.compose(matchPinyinSearch, R.prop('name'))
+            ]))(props.options);
+        });
+        var _d = __read(useState(''), 2), searchContent = _d[0], setSearchContent = _d[1];
+        var _hoisted_class_1 = 'cx_mb_5';
+        var _hoisted_class_2 = 'hover-highlight cx_ptb_8 cx_plr_12';
+        var _hoisted_class_3 = 'cx_plr_7';
+        var _hoisted_class_4 = 'cx_flex_center cx_justify_center cx_mt_8';
+        var _hoisted_attrs_1 = {
+            style: {
+                maxHeight: '245px',
+                overflowY: 'auto',
+                margin: '0 -12px -10px'
+            }
+        };
+        return withCtx(function (_, cache) {
+            var _hoisted_component_1 = resolveComponent('ElPopover');
+            var _hoisted_component_2 = resolveComponent('CxBtn');
+            var _hoisted_component_3 = resolveComponent('ElInput');
+            return [
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        createVNode(_hoisted_component_1, {
+                            visible: visible(),
+                            'onUpdate:visible': setVisible,
+                            placement: 'right-start',
+                            width: 240,
+                            showArrow: false
+                        }, {
+                            reference: function () {
+                                return createVNode(_hoisted_component_2, {
+                                    onClick: toggleVisible,
+                                    icon: 'tianjia',
+                                    "class": _hoisted_class_3,
+                                    style: {
+                                        marginTop: props.modelValue.length ? '32px' : 0,
+                                        backgroundColor: '#f0f5ff'
+                                    }
+                                }, null, PATCH_FLAG.STYLE);
+                            },
+                            "default": function () {
+                                return (openBlock(),
+                                    createBlock(Fragment, null, [
+                                        createVNode(_hoisted_component_3, {
+                                            size: 'mini',
+                                            "class": _hoisted_class_1,
+                                            suffixIcon: 'iconfont icon-sousuo',
+                                            modelValue: searchContent(),
+                                            'onUpdate:modelValue': setSearchContent,
+                                            placeholder: '搜索过滤条件'
+                                        }, null, PATCH_FLAG.PROPS, ['modelValue']),
+                                        [
+                                            (openBlock(),
+                                                createBlock(Fragment, null, [
+                                                    currentOptions().length
+                                                        ? createVNode('div', _hoisted_attrs_1, [
+                                                            (openBlock(),
+                                                                createBlock(Fragment, null, currentOptions().map(function (option) {
+                                                                    return createVNode('div', {
+                                                                        key: option.id,
+                                                                        "class": _hoisted_class_2,
+                                                                        onClick: R.useWith(addItem, [R.always(option.id)])
+                                                                    }, option.name, PATCH_FLAG.PROPS, ['key']);
+                                                                }), PATCH_FLAG.KEYED_FRAGMENT))
+                                                        ])
+                                                        : cache[0] ||
+                                                            (cache[0] = createVNode('div', { "class": _hoisted_class_4 }, '暂无数据'))
+                                                ]))
+                                        ]
+                                    ]));
+                            }
+                        }, PATCH_FLAG.PROPS, ['visible'])
+                    ]))
+            ];
+        }, props.currentInstance);
+    }
+});
+
+var DynamicFilterBtn = defineComponent({
+    name: 'DynamicFilterBtn',
+    props: { states: { type: Object, required: true } },
+    emits: ['click'],
+    setup: function (props, _a) {
+        var emit = _a.emit;
+        var color = computed(function () {
+            var _a;
+            return ((_a = props.states) === null || _a === void 0 ? void 0 : _a.visible) ? '#0084ff' : 'rgba(0,0,0,.85)';
+        });
+        return function (_, cache) {
+            return createVNode(_CX_BTN, {
+                onClick: cache[0] || (cache[0] = function () { return emit('click'); }),
+                icon: 'filtershaixuan',
+                content: '筛选',
+                style: { color: color.value, borderColor: color.value }
+            }, null, PATCH_FLAG.STYLE | PATCH_FLAG.FULL_PROPS);
+        };
+    }
+});
+
+var TeleForm = defineComponent({
+    name: 'TeleForm',
+    props: {
+        dynamicColumn: { type: Array, required: true },
+        tableDataVisitor: { type: Object, required: true },
+        loading: { type: Boolean }
+    },
+    emit: ['update:loading'],
+    setup: function (props, _a) {
+        var _this = this;
+        var emit = _a.emit;
+        var _hoisted_direction = resolveDirective('loading');
+        var rootProp = inject('rootProp');
+        var bus = inject('bus');
+        var CxTable = inject('CxTable');
+        var cache = useDynamicFormCache(rootProp);
+        var _b = useCxTableCompose(), getOptionListFromColumn = _b.getOptionListFromColumn, getDefaultFormItem = _b.getDefaultFormItem, getCurrentFormConfig = _b.getCurrentFormConfig, isRenderInTeleport = _b.isRenderInTeleport, isEmptyValue = _b.isEmptyValue, isPositive = _b.isPositive, arrayIsNotEmpty = _b.arrayIsNotEmpty, getTargetColumnDefault = _b.getTargetColumnDefault;
+        var _c = useDynamicFormSearch(), search = _c.search, searchTotal = _c.searchTotal;
+        // 当前展示的表单项
+        var currentFormItems = reactive(R.defaultTo([], cache.getFormCacheIO.unsafePerformIO()));
+        var getCurrentFormItems = R.always(currentFormItems);
+        var oldCurrentFormItems = __spreadArray([], __read(currentFormItems));
+        watch(getCurrentFormItems, function () {
+            var defaultNotEmpty = R.find(R.compose(R.not, R.isNil, R.path(['searchStates', 'searchDefault']), R.flip(R.find)(props.dynamicColumn), R.curryN(2, R.pathEq)(['prop'])));
+            R.when(R.allPass([arrayIsNotEmpty, defaultNotEmpty]), R.compose(fetchAllData, R.forEach(setDefaultValueByProp)))(R.difference(currentFormItems, oldCurrentFormItems));
+            unsafeClearPush(currentFormItems, oldCurrentFormItems);
+        }, { deep: true });
+        // 表单
+        var form = reactive({});
+        var initForm = function (form) {
+            unsafeClearObj(form);
+            currentFormItems.forEach(setDefaultValueByProp);
+        };
+        var getDefaultValueByProp = R.compose(getTargetColumnDefault, R.converge(getTargetColumn, [R.identical, function () { return props.dynamicColumn; }]));
+        var setDefaultValueByProp = function (prop) {
+            getDefaultValueByProp(prop).map(unsafeSet(form, prop));
+        };
+        // 表格体loading
+        var _d = __read(useSync(props, emit, ['loading']), 1), loading = _d[0];
+        var setLoading = function (val) { return (loading.value = val); };
+        // 表单loading
+        var _e = __read(useState(false), 2), formLoading = _e[0], setFormLoading = _e[1];
+        // 当使用teleportForm时的承载容器
+        var _f = __read(useState(null), 2), container = _f[0], setContainer = _f[1];
+        var formConfig = reactive([]);
+        // 允许的表单项{id,name}[]
+        var searchableOptionList = reactive([]);
+        var setSearchableOptionList = unsafeClearPush(R.__, searchableOptionList);
+        var unsafeUpdateConfig = function () {
+            return unsafeClearPush(getCurrentFormConfig(props.dynamicColumn, currentFormItems), formConfig);
+        };
+        watch(getCurrentFormItems, R.compose(unsafeUpdateConfig, function (val) {
+            cache.setFormCacheIO.unsafePerformIO(val);
+        }), { deep: true });
+        var fetchTableData = debounce$1(function () {
+            setLoading(true);
+            unsafeClearArray(rootProp.tableData);
+            search(rootProp, form, currentFormItems, props.tableDataVisitor)["finally"](function () {
+                setLoading(false);
+            });
+        }, 100);
+        var fetchAllData = debounce$1(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        fetchTableData();
+                        return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _a.sent();
+                        CxTable.entireTotalSum = {};
+                        R.when(R.prop('showForm'), R.converge(searchTotal, [
+                            R.always(rootProp),
+                            R.always(form),
+                            R.always(currentFormItems),
+                            R.always(props.tableDataVisitor),
+                            R.always(CxTable)
+                        ]))(rootProp);
+                        return [2 /*return*/];
+                }
+            });
+        }); }, 50);
+        var onSearch = nextTimeout(function (payload) {
+            // 处理states
+            R.when(R.compose(R.not, R.prop('visible')), toggleVisibleStates)(states);
+            // 处理payload
+            R.when(R.is(Object), R.compose(unsafePush(R.__, currentFormItems), R.flip(R.difference)(currentFormItems), R.keys, R.tap(unsafeAssign(R.__, form)), R.pick(R.map(R.prop('id'), getOptionListFromColumn(props.dynamicColumn)))))(payload);
+            fetchAllData();
+        });
+        bus.on('search', onSearch);
+        var onClose = function (prop) {
+            R.compose(R.when(isPositive, unsafeRemoveItem(R.__, currentFormItems)), R.findIndex(R.equals(prop)))(currentFormItems);
+            var value = form[prop];
+            var removeItemFromConfig = unsafeRemoveItem(R.__, formConfig);
+            var removePropFromForm = function () { return Reflect.deleteProperty(form, prop); };
+            var reFetchData = R.compose(R.unless(isEmptyValue, fetchAllData), R.always(value));
+            var initForm = R.compose(removePropFromForm, removeItemFromConfig);
+            R.compose(R.when(isPositive, R.compose(reFetchData, initForm)), R.findIndex(R.pathEq(['prop'], prop)))(formConfig);
+        };
+        var currentInstance = getCurrentInstance();
+        var renderDynamicFormAdd = function () {
+            return [createVNode(DynamicFormAdd, {
+                    currentInstance: currentInstance,
+                    options: searchableOptionList,
+                    modelValue: currentFormItems,
+                    'onUpdate:modelValue': unsafeClearPush(R.__, currentFormItems)
+                }, null, PATCH_FLAG.FULL_PROPS)];
+        };
+        var states = reactive(cache.getVisibleCacheIO.map(R.compose(R.objOf('visible'), R.ifElse(R.isNil, R.T, R.identity))).unsafePerformIO());
+        var toggleVisibleStates = function () { return (states.visible = !states.visible); };
+        watch(function () { return states.visible; }, cache.setVisibleCacheIO.unsafePerformIO.bind(cache.setVisibleCacheIO));
+        var _hoisted_attrs_1 = { "class": 'cx_dp_flex cx_justify_end cx_mb_16' };
+        var _hoisted_attrs_2 = { "class": 'cx_line cx_mb_12 cx_mlr_0 cx_w_100p' };
+        var _hoisted_attrs_3 = { "class": 'cx_dp_flex' };
+        var _hoisted_node_1 = createVNode('div', _hoisted_attrs_2);
+        var renderForm = function () {
+            return createVNode('div', { "class": 'cx-table_tele_form' }, [
+                createVNode('div', _hoisted_attrs_1, [
+                    createVNode(DynamicFilterBtn, {
+                        onClick: toggleVisibleStates,
+                        states: states
+                    })
+                ]),
+                _hoisted_node_1,
+                createVNode('div', _hoisted_attrs_3, [
+                    withDirectives(createVNode(TeleFormInstance, { states: states, form: form, items: formConfig, onChange: fetchAllData, onClose: onClose }, { add: renderDynamicFormAdd }, PATCH_FLAG.FULL_PROPS), [[_hoisted_direction !== null && _hoisted_direction !== void 0 ? _hoisted_direction : {}, formLoading()]])
+                ])
+            ]);
+        };
+        // unsafeClearDom::void->string
+        var unsafeClearEle = R.compose(map(unsafeSet(R.__, 'innerHTML', '')), Maybe.of);
+        // renderVNodeToDom::HTMLElement->void
+        var renderVNodeToDom = R.compose(R.converge(render$6, [renderForm, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
+        var unsafeWarn = function () {
+            return cxTableWarn("can't find container element by selector", rootProp.formTeleport);
+        };
+        // 组件更新IO
+        var updateComponentIO = IO.of(queryDom).map(R.ifElse(R.isNil, R.compose(unsafeWarn, unsafeClearEle, container), R.compose(map(renderVNodeToDom), Maybe.of, setContainer)));
+        watch(function () { return props.dynamicColumn; }, function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _a.sent();
+                        unsafeUpdateConfig();
+                        cache.getFormCacheIO
+                            .map(R.compose(unsafeClearPush(R.__, currentFormItems), R.defaultTo(getDefaultFormItem(props.dynamicColumn))))
+                            .unsafePerformIO();
+                        initForm(form);
+                        setSearchableOptionList(getOptionListFromColumn(props.dynamicColumn));
+                        setFormLoading(false);
+                        fetchAllData();
+                        R.ifElse(isRenderInTeleport, R.always(updateComponentIO), getDoNothingIO)(rootProp).unsafePerformIO(rootProp.formTeleport);
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        watch(function () { return rootProp.dynamic; }, function () {
+            setFormLoading(true);
+            cache.getVisibleCacheIO
+                .map(R.compose(unsafeSet(states, 'visible'), R.ifElse(R.isNil, R.T, R.identity)))
+                .unsafePerformIO();
+        });
+        watch([function () { var _a; return (_a = rootProp.pagination) === null || _a === void 0 ? void 0 : _a.currentPage; }, function () { var _a; return (_a = rootProp.pagination) === null || _a === void 0 ? void 0 : _a.pageCapacity; }], fetchTableData);
+        return withParams(R.ifElse(isRenderInTeleport, R.always(''), renderForm), [rootProp]);
+    }
+});
+
+//
+var script$6 = defineComponent({
+    name: 'Ellipsis',
+    props: {
+        content: { type: [String, Number], "default": '' },
+        activeBgColor: { type: String, "default": '#fff' },
+        placement: {
+            type: String,
+            "default": 'left'
+        }
+    },
+    setup: function (props, _a) {
+        var expose = _a.expose;
+        var refOneEllipsis = ref();
+        var refContent = ref();
+        var tipVisible = ref(false);
+        var paddingRight = ref('0');
+        function calcContentWidth() {
+            var _a;
+            return __awaiter(this, void 0, void 0, function () {
+                var el, pW, wrapW, pdLeft, pdRight, realWidth;
+                return __generator(this, function (_b) {
+                    el = refContent.value;
+                    if (!el || !refOneEllipsis.value)
+                        return [2 /*return*/];
+                    pW = el === null || el === void 0 ? void 0 : el.clientWidth;
+                    wrapW = ((_a = refOneEllipsis.value) === null || _a === void 0 ? void 0 : _a.clientWidth) || 80;
+                    pdLeft = parseFloat(getComputedStyle(refOneEllipsis.value).paddingLeft);
+                    pdRight = parseFloat(getComputedStyle(refOneEllipsis.value).paddingRight);
+                    paddingRight.value = pdRight + 'px';
+                    realWidth = wrapW - pdLeft - pdRight;
+                    tipVisible.value = pW > realWidth;
+                    return [2 /*return*/];
+                });
+            });
+        }
+        var resizeFn = function () { return calcContentWidth(); };
+        onMounted(function () {
+            calcContentWidth();
+            addResizeListener(refContent.value, resizeFn);
+        });
+        onUnmounted(function () {
+            removeResizeListener(refContent.value, resizeFn);
+        });
+        expose({
+            calcContentWidth: calcContentWidth
+        });
+        var popperConfig = reactive({
+            text: props.content,
+            visible: tipVisible.value,
+            controlType: 'mouse',
+            placement: props.placement
+        });
+        watch([function () { return props.content; }, function () { return props.placement; }, tipVisible], function (_a) {
+            var _b = __read(_a, 3), content = _b[0], placement = _b[1], tipVisible = _b[2];
+            popperConfig.text = content;
+            popperConfig.placement = placement;
+            popperConfig.visible = tipVisible;
+        });
+        return {
+            popperConfig: popperConfig,
+            refOneEllipsis: refOneEllipsis,
+            tipVisible: tipVisible,
+            paddingRight: paddingRight,
+            refContent: refContent
+        };
+    }
+});
+
+const _withId$2 = /*#__PURE__*/withScopeId("data-v-4e1a77b7");
+
+pushScopeId("data-v-4e1a77b7");
+const _hoisted_1$3 = { style: {"overflow":"hidden"} };
+popScopeId();
+
+const render$4 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
+  const _directive_uni_popper = resolveDirective("uni-popper");
+
+  return withDirectives((openBlock(), createBlock("div", {
+    ref: "refOneEllipsis",
+    class: ["one-ellipsis", { ellipsis: _ctx.tipVisible }],
+    style: { '--paddingRight': _ctx.paddingRight, '--bgColor': _ctx.activeBgColor }
+  }, [
+    createVNode("div", _hoisted_1$3, [
+      createVNode("p", {
+        ref: "refContent",
+        class: "note-tooltip"
+      }, toDisplayString(_ctx.content), 513 /* TEXT, NEED_PATCH */)
+    ])
+  ], 6 /* CLASS, STYLE */)), [
+    [_directive_uni_popper, _ctx.popperConfig]
+  ])
+});
+
+script$6.render = render$4;
+script$6.__scopeId = "data-v-4e1a77b7";
+script$6.__file = "src/lib/cx-table/components/ellipsis/index.vue";
+
+function useCxDialog() {
+    var dialogRef = ref(null);
+    function register(instance) {
+        onUnmounted(function () {
+            dialogRef.value = null;
+        });
+        dialogRef.value = instance;
+    }
+    function getDialogInstance() {
+        var dialog = unref(dialogRef);
+        if (!dialog) {
+            throw new Error("can't get dialog's instance before register");
+        }
+        return dialog;
+    }
+    var methods = {
+        openDialog: function (visible) {
+            if (visible === void 0) { visible = true; }
+            getDialogInstance().openDialog(visible);
+        }
+    };
+    return [register, methods];
+}
+
+//
+var zIndex = 2000;
+var script$5 = defineComponent({
+    name: 'CxOverlay',
+    props: { disabled: { type: Boolean, "default": false }, lockScroll: { type: Boolean, "default": false } },
+    setup: function () {
+        return { zIndex: zIndex++ };
+    }
+});
+
+function render$3(_ctx, _cache) {
+  return (openBlock(), createBlock("div", {
+    onClick: _cache[1] || (_cache[1] = $event => (_ctx.$emit('click'))),
+    style: {'--zIndex':_ctx.zIndex},
+    class: {'cx-overlay':true ,'cx-overlay__disabled':_ctx.disabled,'cx_of_auto':!_ctx.lockScroll}
+  }, [
+    renderSlot(_ctx.$slots, "default")
+  ], 6 /* CLASS, STYLE */))
+}
+
+script$5.render = render$3;
+script$5.__file = "src/lib/cx-overlay/cx-overlay.vue";
+
+//
+var script$4 = defineComponent({
+    name: 'CxDialog',
+    components: { CxOverlay: script$5 },
+    emits: ['register', 'close', 'closed', 'open', 'opened', 'ok', 'cancel'],
+    props: {
+        cancelText: { type: String, "default": '取消', },
+        okText: { type: String, "default": '确认', },
+        disabledOk: { type: Boolean, "default": false },
+        okLoading: { type: Boolean, "default": false },
+        title: { type: String },
+        width: { type: [String, Number], "default": '50%' },
+        top: { type: [String, Number], "default": '50px' },
+        showFullScreen: { type: Boolean, "default": true, },
+        openDelay: { type: Number, "default": 0 },
+        closeDelay: { type: Number, "default": 0 },
+        closeOnClickModal: { type: Boolean, "default": true },
+        closeOnPressEscape: { type: Boolean, "default": true },
+        showClose: { type: Boolean, "default": true },
+        beforeClose: { type: Function },
+        destroyOnClose: { type: Boolean, "default": false },
+        appendToBody: { type: Boolean, "default": false },
+        modal: { type: Boolean, "default": true },
+        lockScroll: { type: Boolean, "default": false },
+        bodyStyle: { type: Object, "default": function () { return ({}); } }
+    },
+    setup: function (props, _a) {
+        var expose = _a.expose, emit = _a.emit;
+        var visible = ref(false);
+        var bodyExist = ref(false);
+        var isFullscreen = ref(false);
+        var setVisible = function (v) {
+            if (v === void 0) { v = true; }
+            if (v) {
+                visible.value = v;
+                bodyExist.value = true;
+                emit('open');
+            }
+            else {
+                props.beforeClose ? props.beforeClose(function () {
+                    visible.value = v;
+                }) : (visible.value = v);
+            }
+        };
+        var openDialog = function (v) {
+            if (v === void 0) { v = true; }
+            props[v ? 'openDelay' : 'closeDelay'] > 0 ? setTimeout(function () { return setVisible(v); }, props.openDelay) : setVisible(v);
+        };
+        function afterEnter() {
+            emit('opened');
+        }
+        function afterLeave() {
+            emit('closed');
+            bodyExist.value = !props.destroyOnClose;
+        }
+        function beforeLeave() {
+            emit('close');
+        }
+        var actions = { openDialog: openDialog };
+        var keydownEvent = function (e) {
+            (e.key === 'Escape' && visible.value && props.closeOnPressEscape) && openDialog(false);
+        };
+        onMounted(function () {
+            emit('register', actions);
+            document.body.addEventListener('keydown', keydownEvent, true);
+        });
+        onUnmounted(function () {
+            document.body.removeEventListener('keydown', keydownEvent, true);
+        });
+        expose(actions);
+        return { visible: visible, isFullscreen: isFullscreen, openDialog: openDialog, afterEnter: afterEnter, afterLeave: afterLeave, beforeLeave: beforeLeave, bodyExist: bodyExist };
+    }
+});
+
+const _hoisted_1$2 = { class: "cx-overlay-dialog" };
+const _hoisted_2$1 = { class: "cx-dialog__header" };
+const _hoisted_3$1 = { class: "cx-dialog__title" };
+const _hoisted_4$1 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_mlr_0 cx_w_100p" }, null, -1 /* HOISTED */);
+const _hoisted_5$1 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_mlr_0 cx_w_100p" }, null, -1 /* HOISTED */);
+const _hoisted_6$1 = { class: "cx-dialog__footer" };
+const _hoisted_7$1 = { class: "cx_flex_center cx_justify_end" };
+
+function render$2(_ctx, _cache) {
+  const _component_cx_btn = resolveComponent("cx-btn");
+  const _component_cx_overlay = resolveComponent("cx-overlay");
+
+  return (openBlock(), createBlock(Teleport, {
+    to: "body",
+    disabled: !_ctx.appendToBody
+  }, [
+    createVNode(Transition, {
+      name: "dialog-fade",
+      onAfterEnter: _ctx.afterEnter,
+      onAfterLeave: _ctx.afterLeave,
+      onBeforeLeave: _ctx.beforeLeave
+    }, {
+      default: withCtx(() => [
+        withDirectives(createVNode(_component_cx_overlay, {
+          disabled: !_ctx.modal,
+          lockScroll: _ctx.lockScroll,
+          onClick: _cache[6] || (_cache[6] = $event => (_ctx.closeOnClickModal && _ctx.openDialog(false)))
+        }, {
+          default: withCtx(() => [
+            createVNode("div", _hoisted_1$2, [
+              createVNode("div", mergeProps({
+                class: ["cx-dialog", {'is-fullscreen':_ctx.isFullscreen,'cx-dialog__border':!_ctx.modal}],
+                style: {'--width':_ctx.width,'--top':_ctx.top}
+              }, _ctx.$attrs, {
+                onClick: _cache[5] || (_cache[5] = withModifiers(() => {}, ["stop"]))
+              }), [
+                createVNode("header", _hoisted_2$1, [
+                  createVNode("h2", _hoisted_3$1, [
+                    renderSlot(_ctx.$slots, "title", {}, () => [
+                      createTextVNode(toDisplayString(_ctx.title), 1 /* TEXT */)
+                    ])
+                  ]),
+                  createVNode("div", null, [
+                    (_ctx.showFullScreen)
+                      ? (openBlock(), createBlock("i", {
+                          key: 0,
+                          class: `iconfont icon-${_ctx.isFullscreen?'fullscreen-shrink':'fullscreen-expand'}`,
+                          onClick: _cache[1] || (_cache[1] = $event => (_ctx.isFullscreen=!_ctx.isFullscreen)),
+                          title: _ctx.isFullscreen?'退出全屏':'全屏'
+                        }, null, 10 /* CLASS, PROPS */, ["title"]))
+                      : createCommentVNode("v-if", true),
+                    (_ctx.showClose)
+                      ? (openBlock(), createBlock("i", {
+                          key: 1,
+                          class: "iconfont icon-close",
+                          onClick: _cache[2] || (_cache[2] = $event => (_ctx.openDialog(false))),
+                          title: "关闭弹窗"
+                        }))
+                      : createCommentVNode("v-if", true)
+                  ])
+                ]),
+                _hoisted_4$1,
+                (_ctx.bodyExist)
+                  ? (openBlock(), createBlock("section", {
+                      key: 0,
+                      class: "cx-dialog__body",
+                      style: _ctx.bodyStyle
+                    }, [
+                      renderSlot(_ctx.$slots, "default")
+                    ], 4 /* STYLE */))
+                  : createCommentVNode("v-if", true),
+                _hoisted_5$1,
+                createVNode("footer", _hoisted_6$1, [
+                  renderSlot(_ctx.$slots, "footer", {}, () => [
+                    createVNode("div", _hoisted_7$1, [
+                      createVNode(_component_cx_btn, {
+                        onClick: _cache[3] || (_cache[3] = $event => (_ctx.openDialog(false),_ctx.$emit('cancel')))
+                      }, {
+                        default: withCtx(() => [
+                          createTextVNode(toDisplayString(_ctx.cancelText), 1 /* TEXT */)
+                        ]),
+                        _: 1 /* STABLE */
+                      }),
+                      createVNode(_component_cx_btn, {
+                        level: "1",
+                        class: "cx_ml_16",
+                        loading: _ctx.okLoading,
+                        disabled: _ctx.disabledOk,
+                        onClick: _cache[4] || (_cache[4] = $event => (_ctx.$emit('ok')))
+                      }, {
+                        default: withCtx(() => [
+                          createTextVNode(toDisplayString(_ctx.okText), 1 /* TEXT */)
+                        ]),
+                        _: 1 /* STABLE */
+                      }, 8 /* PROPS */, ["loading", "disabled"])
+                    ])
+                  ])
+                ])
+              ], 16 /* FULL_PROPS */)
+            ])
+          ]),
+          _: 3 /* FORWARDED */
+        }, 8 /* PROPS */, ["disabled", "lockScroll"]), [
+          [vShow, _ctx.visible]
+        ])
+      ]),
+      _: 1 /* STABLE */
+    }, 8 /* PROPS */, ["onAfterEnter", "onAfterLeave", "onBeforeLeave"])
+  ], 8 /* PROPS */, ["disabled"]))
+}
+
+script$4.render = render$2;
+script$4.__file = "src/lib/cx-dialog/cx-dialog.vue";
+
+script$4.install = function (app) {
+    app.component(script$4.name, script$4);
+};
+var _CX_DIALOG = script$4;
+
+var DEFAULT_CAPACITY = 10;
+var cacheListDialog = defineComponent({
+    name: 'CacheListDialog',
+    setup: function (_, _a) {
+        var _b;
+        var expose = _a.expose;
+        var rootProp = inject('rootProp');
+        var rootSlots = inject('rootSlots');
+        var $CxTable = inject('CxTable');
+        var bus = inject('bus');
+        var _c = useCxTableCompose(), getParamsItems = _c.getParamsItems, getConfigByDynamicConfig = _c.getConfigByDynamicConfig, arrNotEmpty = _c.arrNotEmpty;
+        var context = useCxTable().getContext();
+        var getDefaultRequestInstance = (function () {
+            return R.path(['dynamicCacheContext', 'requestInstance', 'default'], context);
+        });
+        var getRequestApiMap = (function () {
+            return R.path(['dynamicCacheContext', 'requestApiMap'], context);
+        });
+        var getRemoveApiMap = (function () {
+            return R.path(['dynamicCacheContext', 'removeApiMap'], context);
+        });
+        var getLabelConfig = (function () {
+            return R.path(['dynamicCacheContext', 'cacheLabelConfig'], context);
+        });
+        var getTabCondition = (function () {
+            return R.path(['dynamicCacheContext', 'cacheTypeTab'], context);
+        });
+        var getMessageInstance = (function () { return R.path(['messageInstance'], context); });
+        var needTypeTab = R.ifElse(R.is(Function), function (condition) { return condition(rootProp); }, R.T);
+        var _d = __read(useCxDialog(), 2), register = _d[0], dialogExpose = _d[1];
+        var openDialog = function () {
+            resetForm();
+            resetPage();
+            setCurrentType(TypeOption.未提交);
+            dialogExpose.openDialog();
+        };
+        expose({
+            openDialog: openDialog
+        });
+        var _e = __read(useState(TypeOption.未提交), 2), currentType = _e[0], setCurrentType = _e[1];
+        var typeOptionList = useEnumOptions(TypeOption);
+        var resetPage = function () {
+            setActiveItem(null);
+            unsafeClearArray(orderList());
+            setHasDone(false);
+        };
+        // ------------------------------ 表单 ------------------------------
+        var form = reactive({ gmtCreate: [] });
+        var resetForm = function () {
+            unsafeClearObj(form);
+            form.gmtCreate = [];
+        };
+        var items = [{ label: '提交日期', prop: 'gmtCreate', dateRange: {} }];
+        // ------------------------------ 数据源 ------------------------------
+        // 左侧列表相关
+        var _f = __read(useState(null), 2), activeItem = _f[0], setActiveItem = _f[1];
+        var _g = __read(useState(false), 2), hasDone = _g[0], setHasDone = _g[1];
+        var _h = __read(useState([]), 1), orderList = _h[0];
+        // 右侧明细相关
+        var tableData = useComputed(R.compose(R.prop('rows'), R.prop('content'), R.defaultTo({}), activeItem));
+        var tableConfig = reactive({ items: [] });
+        var setTableConfig = unsafeClearPush(R.__, tableConfig.items);
+        var _j = __read(useState([]), 2), globalConfig = _j[0], setGlobalConfig = _j[1];
+        var getGlobalConfig = R.nAry(0, globalConfig);
+        var initTableConfig = R.ifElse(R.is(Array), R.map(CxConfigAdaptor.of), R.always([]));
+        var initAndSetConfig = R.compose(setTableConfig, initTableConfig);
+        watch(function () { return activeItem(); }, nextTimeout(R.compose(R.ifElse(arrNotEmpty, initAndSetConfig, R.converge(initAndSetConfig, [getGlobalConfig])), R.prop('table'), R.defaultTo({}))));
+        // ------------------------------ api ------------------------------
+        // paramsGenerator::DYNAMIC_CONFIG|undefined->AnyObject->Params
+        var paramsGenerator = function (dynamic, form) {
+            var getItemObj = R.compose(R.objOf('items'), R.converge(getParamsItems, [R.identity, R.always(R.of('gmtCreate'))]));
+            var mergeDynamic = R.mergeLeft(R.defaultTo({}, dynamic));
+            var mergePage = R.mergeLeft(R.zipObj(['queryIndex', 'pageCapacity'], [R.length(orderList()), DEFAULT_CAPACITY]));
+            var mergeOrderType = R.when(R.compose(truthy, R.nAry(0, currentType)), R.mergeLeft(R.objOf('orderType', currentType())));
+            return R.compose(Maybe.of, mergeOrderType, mergeDynamic, mergePage, getItemObj)(form);
+        };
+        var getInnerTable = R.path(['data']);
+        var moduleTypePath = R.path(['dynamic', 'moduleType']);
+        var getSpecialAxios = R.compose(R.defaultTo(getDefaultRequestInstance()), R.prop(R.__, context.dynamicCacheContext.requestInstance));
+        var sendRequestIO = IO.of(function () {
+            return Maybe.run((function () {
+                var api, params, instance;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, Maybe.of(R.prop(currentType(), getRequestApiMap()))];
+                        case 1:
+                            api = _a.sent();
+                            return [4 /*yield*/, paramsGenerator(rootProp.dynamic, form)];
+                        case 2:
+                            params = _a.sent();
+                            return [4 /*yield*/, R.compose(Maybe.of, R.ifElse(isDraft, getDefaultRequestInstance, R.compose(getSpecialAxios, R.converge(moduleTypePath, [R.always(rootProp)]))))(currentType())];
+                        case 3:
+                            instance = _a.sent();
+                            return [2 /*return*/, R.andThen(R.compose(Maybe.of, R.ifElse(stateEq200, getInnerTable, R.always(void 0))), instance.postJSON(api, params))];
+                    }
+                });
+            })());
+        });
+        var maybePropTotal = R.compose(Maybe.of, R.prop('total'));
+        var maybePropRows = R.compose(Maybe.of, R.prop('rows'));
+        var maybePropTable = R.compose(Maybe.of, R.prop('table'));
+        var getOrderList = function () { return orderList(); };
+        var isHasDone = R.converge(R.gte, [R.compose(R.length, getOrderList), R.identity]);
+        var pushInOrderList = R.converge(unsafePush, [R.identity, getOrderList]);
+        var fetchHandleIO = sendRequestIO.map(map(R.andThen(map(R.compose(R.tap(R.compose(map(setGlobalConfig), maybePropTable)), R.tap(R.compose(map(R.compose(setHasDone, isHasDone)), maybePropTotal)), R.tap(R.compose(map(pushInOrderList), maybePropRows)), R.pick(['total', 'rows', 'table']))))));
+        var setDefaultActive = R.converge(R.when(R.compose(R.isNil, R.nAry(0, activeItem)), R.converge(setActiveItem, [R.compose(R.head, getOrderList)])), [R.F]);
+        var fetchData = R.converge(R.ifElse(R.complement(hasDone), fetchHandleIO.unsafePerformIO.bind(fetchHandleIO), Maybe.none), [R.F]);
+        var scrollFetchRequest = R.compose(map(R.andThen(setDefaultActive)), fetchData);
+        var scrollFetch = debounce$1(scrollFetchRequest, 50);
+        var conditionChangeFetch = R.compose(scrollFetch, resetPage);
+        watch(currentType, conditionChangeFetch);
+        var lock = false;
+        var getLock = function () { return lock; };
+        var setLock = function (val) {
+            if (val === void 0) { val = true; }
+            return (lock = val);
+        };
+        var removeFetch = R.ifElse(getLock, R.identity, R.compose(R.compose(map(R.andThen(R.converge(setLock, [R.F]))), scrollFetchRequest), setLock, R.T));
+        // ------------------------------ 删除 ------------------------------
+        var isDraft = R.equals(TypeOption.未提交);
+        var getQueryCompose = function (dynamic) {
+            return R.ifElse(R.compose(R.not, isDraft, R.prop('type')), R.always(dynamic), R.empty);
+        };
+        var getSendRequestWithId = function (requestType) {
+            return function (params) { return sendRequestWithId(requestType, params); };
+        };
+        function sendRequestWithId(requestType, params) {
+            var id, api, paramId, url, urlWithId, query, instance;
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        id = params.id, api = params.api;
+                        return [4 /*yield*/, Maybe.of(id)];
+                    case 1:
+                        paramId = _b.sent();
+                        return [4 /*yield*/, Maybe.of(api)];
+                    case 2:
+                        url = _b.sent();
+                        return [4 /*yield*/, Maybe.of(R.concat(url, R.toString(paramId)))];
+                    case 3:
+                        urlWithId = _b.sent();
+                        query = getQueryCompose(rootProp.dynamic)(params);
+                        return [4 /*yield*/, Maybe.of((_a = getDefaultRequestInstance()) === null || _a === void 0 ? void 0 : _a[requestType])];
+                    case 4:
+                        instance = _b.sent();
+                        return [2 /*return*/, instance.bind(getDefaultRequestInstance())(urlWithId, query)];
+                }
+            });
+        }
+        var removeItemIO = IO.of(R.compose(Maybe.run, getSendRequestWithId('delete')));
+        var doRemove = function (id) {
+            var index = R.findIndex(R.pathEq(['form', 'id'], id), orderList());
+            R.when(R.lte(0), unsafeRemoveItem(R.__, orderList()))(index);
+            R.when(R.pathEq(['form', 'id'], id), R.converge(setActiveItem, [R.always(null)]))(activeItem());
+            R.when(R.compose(R.gte(10), R.length), removeFetch)(orderList());
+        };
+        var removeItem = function (id) {
+            var _a;
+            removeItemIO
+                .map(map(R.andThen(R.when(stateEq200, R.converge(doRemove, [R.always(id)])))))
+                .unsafePerformIO({ id: id, api: (_a = getRemoveApiMap()) === null || _a === void 0 ? void 0 : _a[currentType()] });
+        };
+        var setBusOn = function (params) {
+            bus.on('removeCacheItem', function () {
+                var _a;
+                removeItemIO.unsafePerformIO(R.assoc('api', (_a = getRemoveApiMap()) === null || _a === void 0 ? void 0 : _a[currentType()], params));
+                setBusOff();
+            });
+        };
+        var setBusOff = function () {
+            bus.off('removeCacheItem');
+        };
+        // 使用数组绑定会出现异常触发的情况
+        watch(function () { return rootProp.dynamic.businessType; }, setBusOff);
+        watch(function () { return rootProp.dynamic.modelType; }, setBusOff);
+        // ------------------------------ 提交 ------------------------------
+        var getOmitRows = R.curryN(3, function (rows, mainTableConfig, currentTableConfig) {
+            var mapProp = R.map(R.prop('prop'));
+            var diffProp = R.difference(mapProp(mainTableConfig), mapProp(currentTableConfig));
+            return R.map(R.omit(diffProp), rows);
+        });
+        function mergeCacheData() {
+            var content, rows, getEditRows, callHook, _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
+            return __generator(this, function (_q) {
+                switch (_q.label) {
+                    case 0: return [4 /*yield*/, Maybe.of(R.path(['content'], activeItem()))];
+                    case 1:
+                        content = _q.sent();
+                        return [4 /*yield*/, Maybe.of(R.path(['rows'], content))];
+                    case 2:
+                        rows = _q.sent();
+                        getEditRows = getOmitRows(R.__, tableConfig.items, $CxTable.flatColumns);
+                        unsafeClearPush(getEditRows(rows), rootProp.tableData);
+                        dialogExpose.openDialog(false);
+                        setBusOff();
+                        setBusOn({ id: getId(activeItem()), type: currentType() });
+                        _b = (_a = R).converge;
+                        _c = [R.call];
+                        _e = (_d = R).always;
+                        return [4 /*yield*/, Maybe.of(R.path(['hooks', 'onGetCache'], rootProp))];
+                    case 3:
+                        _f = [
+                            _e.apply(_d, [_q.sent()])
+                        ];
+                        _h = (_g = R).always;
+                        _k = (_j = R).clone;
+                        return [4 /*yield*/, Maybe.of(R.path(['cache'], content))];
+                    case 4:
+                        _f = _f.concat([
+                            _h.apply(_g, [_k.apply(_j, [_q.sent()])]),
+                            R.nAry(0, currentType),
+                            R.always(getEditRows(rows))
+                        ]);
+                        _m = (_l = R).always;
+                        _p = (_o = R).clone;
+                        return [4 /*yield*/, Maybe.of(R.path(['form'], activeItem()))];
+                    case 5:
+                        callHook = _b.apply(_a, _c.concat([_f.concat([
+                                _m.apply(_l, [_p.apply(_o, [_q.sent()])])
+                            ])]));
+                        // 目前暂不清楚为何在同步调用的情况下会出现弹窗无法正确关闭的问题,故使用setTimeout
+                        setTimeout(callHook);
+                        return [2 /*return*/];
+                }
+            });
+        }
+        var continueEdit = R.compose(Maybe.run, mergeCacheData);
+        // ------------------------------ 判断是否存在 ------------------------------
+        var existApiMap = (_b = {},
+            _b[TypeOption.未提交] = '/draft/manager/draft/exist/',
+            _b[TypeOption.已驳回] = '/draft/manager/order/exist/',
+            _b[TypeOption.已反审] = '/draft/manager/order/exist/',
+            _b);
+        var orderIsExist = R.compose(Maybe.run, getSendRequestWithId('get'));
+        var dataIsFalsy = R.allPass([stateEq200, R.compose(falsy, R.prop('data'))]);
+        var notExistToast = R.converge(getMessageInstance().warning, [
+            R.always('此数据已被删除,请重新打开暂存弹窗!')
+        ]);
+        // ------------------------------ 组合exist与submit ------------------------------
+        var onOk = R.compose(map(R.andThen(R.ifElse(dataIsFalsy, continueEdit, notExistToast))), R.converge(orderIsExist, [
+            R.converge(R.zipObj, [
+                R.always(['id', 'api']),
+                R.converge(R.pair, [
+                    R.converge(R.path(['form', 'id']), [R.nAry(0, activeItem)]),
+                    R.converge(R.prop, [R.nAry(0, currentType), R.always(existApiMap)])
+                ])
+            ])
+        ]));
+        // ------------------------------ 渲染函数 ------------------------------
+        var _hoisted_direction_1 = resolveDirective('infinite-scroll');
+        var _hoisted_class_1 = 'cx_secondary_title cx_pl_16 cx_ptb_12';
+        var _hoisted_class_2 = 'cx_pl_16 cx_cursor_pointer cx_position_re hover_show_container';
+        var _hoisted_class_3 = 'cx_of_auto cx_h_500';
+        var _hoisted_class_4 = 'cx_ml_5 cx_mr_16';
+        var _hoisted_class_5 = 'cx_flex_center cx_ptb_12 cx_plr_16 cx_bb';
+        var _hoisted_class_6 = 'cx_p_16 cx_flex_center cx_justify_between';
+        var _hoisted_class_7 = 'cx_dp_flex cx_bt cx_w_100p';
+        var _hoisted_class_8 = 'cx_w_200 cx_br';
+        var _hoisted_class_9 = 'cx_bb cx_ptb_16';
+        var _hoisted_class_10 = 'cx_mb_12 cx_fs_14';
+        var _hoisted_attrs_1 = {
+            "class": 'iconfont icon-shanchu cx_position_ab hover_high_light_red hover_show',
+            style: 'right:16px;bottom:16px'
+        };
+        var _hoisted_attrs_2 = { "class": _hoisted_class_3 };
+        var _hoisted_attrs_3 = { style: { width: 'calc(100% - 200px)' } };
+        var _hoisted_attrs_4 = { style: 'color: rgba(0, 0, 0, 0.45)' };
+        var _hoisted_attrs_5 = __assign({ "class": 'cx_flex_center cx_justify_center' }, _hoisted_attrs_3);
+        var renderTitle = function (content) {
+            return createVNode('div', { "class": _hoisted_class_1 }, content, PATCH_FLAG.TEXT);
+        };
+        // getBaseInfo::object a,object b=>a->b
+        var getBaseInfo = R.converge(R.mergeRight, [
+            R.compose(R.defaultTo({}), R.path(['content', 'cache'])),
+            R.compose(R.defaultTo({}), R.path(['form']))
+        ]);
+        // getId::object->number
+        var getId = R.path(['form', 'id']);
+        // titlePath Object a,Object b::a->b
+        var titlePath = R.path(['config', 'listTitle']);
+        // defaultTitle
+        var defaultTitle = R.defaultTo('新建暂存数据');
+        var renderListItem = R.curryN(2, function (item, currentItem) {
+            var maybeConfig = getConfigByDynamicConfig(rootProp.dynamic, getLabelConfig());
+            var getItemValByPath = R.converge(R.path, [R.identity, R.always(getBaseInfo(item))]);
+            return createVNode('li', {
+                "class": _hoisted_class_2,
+                key: getId(item),
+                style: R.compose(R.objOf('backgroundColor'), R.ifElse(R.pathEq(['form', 'id'], getId(currentItem)), R.always('#F0F5FF'), R.always('transparent')))(item),
+                onClick: R.compose(setActiveItem, R.always(item))
+            }, [
+                createVNode('div', { "class": _hoisted_class_9 }, [
+                    createVNode('div', { "class": _hoisted_class_10 }, R.compose(defaultTitle, getMaybeValue, map(R.compose(getItemValByPath)), map(R.compose(R.of)), map(R.compose(R.prop('prop'), titlePath)))(maybeConfig), PATCH_FLAG.TEXT),
+                    createVNode('div', _hoisted_attrs_4, R.path(['form', 'gmtCreate'], item), PATCH_FLAG.TEXT),
+                    createVNode('i', __assign(__assign({}, _hoisted_attrs_1), { onClick: R.compose(R.converge(removeItem, [R.always(getId(item))]), stopPropagation, preventDefault) }))
+                ])
+            ], PATCH_FLAG.FULL_PROPS);
+        });
+        var renderList = function (list) {
+            return withDirectives(createVNode('ul', _hoisted_attrs_2, [
+                (openBlock(),
+                    createBlock(Fragment, null, R.map(renderListItem(R.__, activeItem()), list), PATCH_FLAG.KEYED_FRAGMENT))
+            ]), [[_hoisted_direction_1 !== null && _hoisted_direction_1 !== void 0 ? _hoisted_direction_1 : {}, scrollFetch]]);
+        };
+        // infoPath Object a,Object b::a->b[]
+        var infoPath = R.path(['config', 'tableInfo']);
+        var labelItemList = useComputed(function () {
+            var maybeConfig = getConfigByDynamicConfig(rootProp.dynamic, getLabelConfig());
+            return R.compose(R.defaultTo([]), getMaybeValue, map(infoPath))(maybeConfig);
+        });
+        var renderOrderInfoItem = function (state, item) {
+            var render = function (content) {
+                var _a;
+                return [
+                    createVNode('label', null, ((_a = state["label_" + currentType()]) !== null && _a !== void 0 ? _a : state.label) + ":"),
+                    createVNode('div', { "class": _hoisted_class_4 }, content !== null && content !== void 0 ? content : state.defaultValue, PATCH_FLAG.TEXT)
+                ];
+            };
+            return R.compose(R.ifElse(truthy, render, R.always(null)), R.defaultTo(state.defaultValue), R.path([state.prop]))(item);
+        };
+        var renderOrderInfo = function (item) {
+            return createVNode('article', { "class": _hoisted_class_5 }, R.compose(R.map(R.converge(renderOrderInfoItem, [R.identity, R.converge(getBaseInfo, [R.always(item)])])), labelItemList)());
+        };
+        var invokerWithChildren = function (cb) {
+            return R.compose(cb, R.when(R.compose(R.is(Array), R.prop('children')), R.converge(R.set(R.lensProp('children')), [
+                R.compose(R.map(cb), R.prop('children')),
+                R.identity
+            ])));
+        };
+        var labelContainer = function (label) {
+            return R.compose(truthy, R.find(R.includes(R.__, label)))(['操作', '选择', '多选']);
+        };
+        var noRequired = invokerWithChildren(R.omit(['required']));
+        var setImgsType = R.compose(R.when(R.compose(R.equals('款型图'), R.prop('label')), R.compose(R.set(R.lensProp('control'), R.objOf('type', 'imgs')), R.omit(['slot']))));
+        var setDefaultSlot = R.compose(R.when(R.compose(R.all(falsy), R.props(['slot', 'calculate', 'dynamicCalculate'])), R.assoc('slot', 'renderWithText')));
+        var imgsTypeInvoker = invokerWithChildren(setImgsType);
+        var slotInvoker = invokerWithChildren(setDefaultSlot);
+        var labelNotShow = R.compose(R.not, R.propSatisfies(labelContainer, 'label'));
+        var dynamicInject = R.compose(R.map(R.compose(imgsTypeInvoker, slotInvoker, noRequired)), R.filter(labelNotShow), R.when(R.converge(R.is(Function), [R.always(rootProp.dynamicInject)]), rootProp.dynamicInject));
+        var renderOrderTable = function (config, dataList) {
+            return createVNode(_CX_TABLE, __assign(__assign({ dynamicInject: dynamicInject }, R.pick(['ignoreControl'], rootProp)), { tableConfig: config, disabled: true, keyboard: false, height: 427, "class": 'cx_m_16', tableData: dataList, configurable: false }), __assign(__assign({}, rootSlots), { renderWithText: function (_a) {
+                    var _b, _c, _d, _e;
+                    var rowData = _a.rowData, column = _a.column;
+                    var prop = (_b = column.prop) !== null && _b !== void 0 ? _b : '';
+                    var content = prop.endsWith('Id')
+                        ? (_c = rowData[getColumnSelectText(column)]) !== null && _c !== void 0 ? _c : rowData[getColumnSelectText(column, 'Name')]
+                        : (_e = (_d = rowData[prop + 'Text']) !== null && _d !== void 0 ? _d : rowData[prop + 'Name']) !== null && _e !== void 0 ? _e : rowData[prop];
+                    if (R.is(Number, column.accuracy)) {
+                        content = decimalFixed(content, column.accuracy, true);
+                    }
+                    return [createVNode(script$6, { content: content }, null, PATCH_FLAG.PROPS, ['content'])];
+                } }), PATCH_FLAG.PROPS, R.pair('dynamic', 'tableData'));
+        };
+        return function (_, cache) {
+            return (openBlock(),
+                createBlock(Fragment, null, [
+                    createVNode(_CX_DIALOG, {
+                        title: TypeOption[currentType()],
+                        appendToBody: true,
+                        okText: '编辑',
+                        width: '1524px',
+                        top: '50px',
+                        destroyOnClose: true,
+                        onRegister: register,
+                        onOk: onOk,
+                        disabledOk: R.isNil(activeItem())
+                    }, {
+                        "default": function () {
+                            return [
+                                // 顶部
+                                createVNode('section', { "class": _hoisted_class_6 }, [
+                                    // tab切换
+                                    (openBlock(),
+                                        createBlock(Fragment, null, [
+                                            R.compose(needTypeTab, getTabCondition)()
+                                                ? createVNode(_CX_TAB, {
+                                                    level: 3,
+                                                    options: typeOptionList,
+                                                    modelValue: currentType(),
+                                                    'onUpdate:modelValue': setCurrentType
+                                                }, null, PATCH_FLAG.PROPS, R.of('modelValue'))
+                                                : cache[2] || (cache[2] = createVNode('div', null, '未提交'))
+                                        ])),
+                                    // 搜索项
+                                    createVNode(_CX_FORM, { form: form, items: items, onChange: conditionChangeFetch, style: 'margin-bottom:-18px' }, null, PATCH_FLAG.PROPS, R.of('form'))
+                                ]),
+                                // 内容区
+                                createVNode('section', { "class": _hoisted_class_7 }, [
+                                    // 订单列表
+                                    createVNode('div', { "class": _hoisted_class_8 }, [
+                                        cache[0] || (cache[0] = renderTitle('订单列表')),
+                                        R.compose(renderList, orderList)()
+                                    ]),
+                                    // 明细列表
+                                    (openBlock(),
+                                        createBlock(Fragment, null, [
+                                            activeItem()
+                                                ? createVNode('div', _hoisted_attrs_3, [
+                                                    cache[1] || (cache[1] = renderTitle('明细列表')),
+                                                    renderOrderInfo(activeItem()),
+                                                    renderOrderTable(tableConfig, tableData())
+                                                ])
+                                                : createVNode('div', _hoisted_attrs_5, [createVNode(script$7)])
+                                        ]))
+                                ])
+                            ];
+                        }
+                    }, PATCH_FLAG.PROPS, R.pair('title', 'disabledOk'))
+                ]));
+        };
+    }
+});
+
+var renderInnerBtn = function (_a) {
+    var _b, _c, _d;
+    var $attrs = _a.$attrs, $slots = _a.$slots;
+    return createVNode(_CX_BTN, __assign(__assign({}, $attrs), { level: (_b = $attrs.level) !== null && _b !== void 0 ? _b : 2, loading: (_c = $attrs.loadingState) === null || _c === void 0 ? void 0 : _c.loading, disabled: (_d = $attrs.disabledState) === null || _d === void 0 ? void 0 : _d.disabled }), $slots, PATCH_FLAG.FULL_PROPS);
+};
+var innerBtn = defineComponent({});
+innerBtn.render = renderInnerBtn;
+var TeleportBtn = defineComponent({
+    name: 'TeleportBtn',
+    props: {
+        dynamicColumn: { type: Array, required: true },
+        selector: { type: String, required: true },
+        clickHandler: { type: Function },
+        disabledState: { type: Object, "default": function () { return ({ disabled: false }); } }
+    },
+    setup: function (props, _a) {
+        var _this = this;
+        var attrs = _a.attrs, slots = _a.slots;
+        var _b = __read(useState(null), 2), container = _b[0], setContainer = _b[1];
+        var unsafeWarn = function () {
+            return cxTableWarn("can't find container element by selector", props.selector);
+        };
+        // unsafeClearDom::void->string
+        var unsafeClearEle = R.compose(map(unsafeSet(R.__, 'innerHTML', '')), Maybe.of);
+        var onClick = function () { return __awaiter(_this, void 0, void 0, function () {
+            var _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        setLoadingStates(true);
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, ((_b = props.clickHandler) === null || _b === void 0 ? void 0 : _b.call(props))];
+                    case 2:
+                        _c.sent();
+                        setLoadingStates(false);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        _c.sent();
+                        setLoadingStates(false);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        }); };
+        var loadingState = reactive({ loading: false });
+        var setLoadingStates = unsafeSet(loadingState, 'loading');
+        var renderBtn = function () {
+            return createVNode(innerBtn, __assign(__assign({}, attrs), { disabledState: props.disabledState, loadingState: loadingState, onClick: onClick }), slots, PATCH_FLAG.FULL_PROPS);
+        };
+        // renderVNodeToDom::HTMLElement->void
+        var renderVNodeToDom = R.compose(R.converge(render$6, [renderBtn, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
+        // 组件更新IO
+        var updateComponentIO = IO.of(queryDom).map(R.ifElse(R.isNil, R.compose(unsafeWarn, unsafeClearEle, container), R.compose(map(renderVNodeToDom), Maybe.of, setContainer)));
+        watch(function () { return props.dynamicColumn; }, function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _a.sent();
+                        updateComponentIO.unsafePerformIO(props.selector);
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        return R.always(null);
+    }
+});
+
+var CacheListBtn = defineComponent({
+    name: 'CacheListBtn',
+    props: {
+        dynamicColumn: { type: Array, required: true },
+        tableDataVisitor: { type: Object, required: true }
+    },
+    setup: function (props) {
+        var rootProp = inject('rootProp');
+        var _a = __read(useState(null), 2), dialogRef = _a[0], setDialogRef = _a[1];
+        var dialogRefIO = IO.of(dialogRef);
+        var setCacheIO = dialogRefIO.map(R.compose(map(R.compose(R.when(R.is(Function), R.call), R.prop('openDialog'))), Maybe.of));
+        return function () { return [
+            createVNode(TeleportBtn, {
+                dynamicColumn: props.dynamicColumn,
+                clickHandler: setCacheIO.unsafePerformIO.bind(setCacheIO),
+                selector: rootProp.cacheListBtn,
+                content: '暂存列表'
+            }, null, PATCH_FLAG.PROPS, R.pair('selector', 'dynamicColumn')),
+            createVNode(cacheListDialog, { ref: setDialogRef }, null, PATCH_FLAG.NEED_PATCH)
+        ]; };
+    }
+});
+
+var SetCacheBtn = defineComponent({
+    name: 'SetCacheBtn',
+    props: {
+        dynamicColumn: { type: Array, required: true },
+        tableDataVisitor: { type: Object, required: true }
+    },
+    setup: function (props) {
+        var _this = this;
+        var rootProp = inject('rootProp');
+        var bus = inject('bus');
+        var context = useCxTable().getContext();
+        var getDefaultRequestInstance = (function () {
+            return R.path(['dynamicCacheContext', 'requestInstance', 'default'], context);
+        });
+        var getMessageInstance = (function () { return R.path(['messageInstance'], context); });
+        var innerBracket = useCxTableCompose().innerBracket;
+        var getCacheData = function (tableProps) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        var next = R.ifElse(truthy, resolve, reject);
+                        var handle = R.ifElse(R.is(Function), function (cb) { return R.call(cb, next); }, resolve);
+                        IO.of(R.path(['hooks', 'onSetCache']))
+                            .map(handle)
+                            .unsafePerformIO(tableProps);
+                    })];
+            });
+        }); };
+        var paramsGenerator = function (innerProp, tableProps) { return __awaiter(_this, void 0, void 0, function () {
+            var cache, _a, _b, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        _b = (_a = R).objOf;
+                        _c = ['cache'];
+                        return [4 /*yield*/, getCacheData(tableProps)];
+                    case 1:
+                        cache = _b.apply(_a, _c.concat([_d.sent()]));
+                        return [2 /*return*/, IO.of(R.path(['tableDataVisitor', 'sortedData']))
+                                .map(R.objOf('rows'))
+                                .map(R.mergeLeft(cache))
+                                .map(R.objOf('content'))
+                                .map(R.mergeLeft(R.defaultTo({}, tableProps.dynamic)))
+                                .unsafePerformIO(innerProp)];
+                }
+            });
+        }); };
+        var _a = __read(useState(0), 2), disabledTime = _a[0], setDisabledTime = _a[1];
+        var disabledState = reactive(R.objOf('disabled', false));
+        var setDisabledState = unsafeSet(disabledState, 'disabled');
+        watch(disabledTime, R.compose(setDisabledState, R.not, R.gte(0)));
+        var decrease = R.compose(setDisabledTime, R.dec, disabledTime);
+        var setTimer = function () {
+            var timer = setInterval(R.compose(R.when(R.gte(0), R.converge(clearInterval, [function () { return timer; }])), decrease), 1000);
+        };
+        var content = useComputed(R.compose(R.concat('暂存'), R.ifElse(R.gte(0), R.always(''), R.compose(innerBracket, R.toString)), disabledTime));
+        var handleResult = R.when(stateEq200, R.converge(getMessageInstance().success, [R.always('暂存成功')]));
+        var sendRequest = R.converge(getDefaultRequestInstance().postJSON.bind(getDefaultRequestInstance()), [
+            R.always('/draft/manager/save'),
+            R.identity
+        ]);
+        var getParams = R.converge(paramsGenerator, [R.always(props), R.always(rootProp)]);
+        var afterSetCacheIO = IO.of(R.compose(Maybe.of, R.path(['hooks', 'afterSetCache'])));
+        var setCache = R.compose(R.andThen(function () { return afterSetCacheIO.map(map(R.call)).unsafePerformIO(rootProp); }), R.andThen(function () { return bus.emit('removeCacheItem'); }), R.andThen(R.compose(setTimer, R.converge(setDisabledTime, [R.always(10)]))), R.andThen(handleResult), R.andThen(sendRequest), getParams);
+        return function () {
+            return createVNode(TeleportBtn, {
+                clickHandler: setCache,
+                dynamicColumn: props.dynamicColumn,
+                selector: rootProp.setCacheBtn,
+                disabledState: disabledState
+            }, R.objOf('default', R.nAry(0, content)), PATCH_FLAG.PROPS, ['selector', 'dynamicColumn']);
+        };
+    }
+});
+
+var CxTableTitle = defineComponent({
+    name: 'CxTableTitle',
+    setup: function () {
+        var rootProp = inject('rootProp');
+        var hoisted_1 = { "class": 'cx_secondary_title cx_ptb_16' };
+        return function () {
+            return (openBlock(),
+                createBlock(Fragment, null, [
+                    rootProp.title
+                        ? createVNode('h3', hoisted_1, rootProp.title, PATCH_FLAG.TEXT)
+                        : createCommentVNode('v-if_title', true)
+                ], PATCH_FLAG.STABLE_FRAGMENT));
+        };
+    }
+});
+
+var useDynamicConfigDialog = function () {
+    var context = useCxTable().getContext();
+    var getMessageInstance = (function () { return R.path(['messageInstance'], context); });
+    var totalList = ref([]);
+    var departmentMap = computed(function () {
+        return totalList.value.reduce(function (res, item) {
+            var _a;
+            var tag = (_a = item.tag) !== null && _a !== void 0 ? _a : '基本信息';
+            if (Array.isArray(res[tag])) {
+                res[tag].push(item);
+            }
+            else {
+                res[tag] = [item];
+            }
+            return res;
+        }, {});
+    });
+    var getDefaultData = function () { return ({
+        居左固定字段: [],
+        非固定字段: [],
+        居右固定字段: []
+    }); };
+    var listMap = reactive(getDefaultData());
+    var getDisabledKey = function (item) {
+        if (!item)
+            return '';
+        var key = Object.keys(listMap).find(function (key) {
+            return listMap[key].find(function (innerItem) { return innerItem.id === item.id; });
+        });
+        if (key === null || key === void 0 ? void 0 : key.includes('居')) {
+            return key;
+        }
+        else {
+            return '';
+        }
+    };
+    var checkedList = computed(function () {
+        return Object.values(listMap).reduce(function (res, val) {
+            res.push.apply(res, __spreadArray([], __read(val.map(function (item) { return item.id; }))));
+            return res;
+        }, []);
+    });
+    var updateCheckedList = function (val, id) {
+        if (val) {
+            var item = totalList.value.find(function (item) { return item.id === id; });
+            item && listMap['非固定字段'].push(item);
+        }
+        else {
+            Object.values(listMap).some(function (list) {
+                var index = list.findIndex(function (item) { return item.id === id; });
+                if (index >= 0) {
+                    list.splice(index, 1);
+                    return true;
+                }
+            });
+        }
+    };
+    var getData = function (dynamicConfig) { return __awaiter(void 0, void 0, void 0, function () {
+        var data;
+        var _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    if (!dynamicConfig)
+                        return [2 /*return*/, console.warn('[dynamicConfigDialog]: invalid dynamicConfig')];
+                    return [4 /*yield*/, context.dynamicRequestInstance.get('/table/settings/get', dynamicConfig)];
+                case 1:
+                    data = (_c.sent()).data;
+                    totalList.value = (_a = data === null || data === void 0 ? void 0 : data.itemList) !== null && _a !== void 0 ? _a : [];
+                    Object.assign(listMap, getDefaultData());
+                    (_b = data === null || data === void 0 ? void 0 : data.displayList) === null || _b === void 0 ? void 0 : _b.forEach(function (item) {
+                        switch (item.fixed) {
+                            case 'left':
+                                listMap['居左固定字段'].push(item);
+                                break;
+                            case 'right':
+                                listMap['居右固定字段'].push(item);
+                                break;
+                            default:
+                                listMap['非固定字段'].push(item);
+                        }
+                    });
+                    return [2 /*return*/];
+            }
+        });
+    }); };
+    var submit = function (dynamicConfig) { return __awaiter(void 0, void 0, void 0, function () {
+        var columnList, state;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!dynamicConfig)
+                        return [2 /*return*/, console.warn('[dynamicConfigDialog]: invalid dynamicConfig')];
+                    columnList = Object.entries(listMap).reduce(function (res, _a) {
+                        var _b = __read(_a, 2), key = _b[0], val = _b[1];
+                        res.push.apply(res, __spreadArray([], __read(val.map(function (item) { return ({
+                            id: item.id,
+                            fixed: key.includes('左') ? 'left' : key.includes('右') ? 'right' : undefined
+                        }); }))));
+                        return res;
+                    }, []);
+                    return [4 /*yield*/, context.dynamicRequestInstance.putJSON('/table/settings/save', __assign(__assign({}, dynamicConfig), { columnList: columnList }))];
+                case 1:
+                    state = (_a.sent()).state;
+                    if (state !== 200)
+                        return [2 /*return*/, Promise.reject()];
+                    getMessageInstance().success('修改成功');
+                    return [2 /*return*/];
+            }
+        });
+    }); };
+    return {
+        totalList: totalList,
+        getDisabledKey: getDisabledKey,
+        departmentMap: departmentMap,
+        listMap: listMap,
+        checkedList: checkedList,
+        updateCheckedList: updateCheckedList,
+        getData: getData,
+        submit: submit
+    };
+};
+
+//
+var script$3 = defineComponent({
+    name: 'ColumnSettingDialog',
+    components: { Draggable: Draggable, CxDialog: _CX_DIALOG },
+    props: { dynamicList: { type: Array, required: true } },
+    emits: ['submit'],
+    install: function (app) {
+        app.component('columnSettingDialog', this);
+    },
+    setup: function (props, _a) {
+        var _this = this;
+        var emit = _a.emit, expose = _a.expose;
+        var _b = __read(useCxDialog(), 2), register = _b[0], openDialog = _b[1].openDialog;
+        var DYNAMIC_BUSINESS_TYPE = useCxTable().getContext().dynamicType.DYNAMIC_BUSINESS_TYPE;
+        var _c = useDynamicConfigDialog(), totalList = _c.totalList, departmentMap = _c.departmentMap, listMap = _c.listMap, checkedList = _c.checkedList, updateCheckedList = _c.updateCheckedList, getData = _c.getData, submit = _c.submit, getDisabledKey = _c.getDisabledKey;
+        var activeTab = ref(0);
+        var activeDynamicConfig = computed(function () {
+            return props.dynamicList[activeTab.value];
+        });
+        var tabOptionList = computed(function () {
+            var _a;
+            return (_a = props.dynamicList) === null || _a === void 0 ? void 0 : _a.map(function (config, index) {
+                var _a;
+                return {
+                    id: index,
+                    name: DYNAMIC_BUSINESS_TYPE[(_a = config === null || config === void 0 ? void 0 : config.businessType) !== null && _a !== void 0 ? _a : '']
+                };
+            });
+        });
+        var _d = __read(useLoading(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        activeTab.value = 0;
+                        return [4 /*yield*/, fetchList()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); }), 2), open = _d[0], openLoading = _d[1];
+        var fetchList = function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!activeDynamicConfig.value)
+                            return [2 /*return*/];
+                        return [4 /*yield*/, getData(activeDynamicConfig.value)];
+                    case 1:
+                        _a.sent();
+                        openDialog();
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        watch(activeTab, fetchList);
+        expose({ open: open });
+        var _e = __read(useLoading(function () { return __awaiter(_this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (!activeDynamicConfig.value)
+                            return [2 /*return*/];
+                        return [4 /*yield*/, submit(activeDynamicConfig.value)];
+                    case 1:
+                        _b.sent();
+                        if (((_a = props.dynamicList) === null || _a === void 0 ? void 0 : _a.length) < 2) {
+                            openDialog(false);
+                        }
+                        emit('submit', activeDynamicConfig.value);
+                        return [2 /*return*/];
+                }
+            });
+        }); }), 2), submitData = _e[0], submitLoading = _e[1];
+        var header = computed(function () {
+            var _a, _b;
+            return "\u8BBE\u7F6E" + ((_b = DYNAMIC_BUSINESS_TYPE[(_a = activeDynamicConfig.value) === null || _a === void 0 ? void 0 : _a.dataType]) !== null && _b !== void 0 ? _b : '') + "\u663E\u793A\u5B57\u6BB5";
+        });
+        var onMove = function (e) {
+            var _a;
+            var relatedContext = e.relatedContext, draggedContext = e.draggedContext;
+            var targetItem = relatedContext === null || relatedContext === void 0 ? void 0 : relatedContext.element;
+            var currentItem = draggedContext === null || draggedContext === void 0 ? void 0 : draggedContext.element;
+            var targetItemKey = getDisabledKey(targetItem);
+            var currentItemKey = getDisabledKey(currentItem);
+            return (!targetItemKey || targetItemKey === currentItemKey || ((_a = listMap[targetItemKey]) === null || _a === void 0 ? void 0 : _a.length) < 3);
+        };
+        return {
+            totalList: totalList,
+            checkedList: checkedList,
+            updateCheckedList: updateCheckedList,
+            listMap: listMap,
+            tabOptionList: tabOptionList,
+            departmentMap: departmentMap,
+            register: register,
+            submitData: submitData,
+            activeTab: activeTab,
+            submitLoading: submitLoading,
+            open: open,
+            openLoading: openLoading,
+            header: header,
+            onMove: onMove
+        };
+    }
+});
+
+const _withId$1 = /*#__PURE__*/withScopeId("data-v-0b829fd6");
+
+pushScopeId("data-v-0b829fd6");
+const _hoisted_1$1 = /*#__PURE__*/createVNode("div", null, [
+  /*#__PURE__*/createVNode("div", { class: "cx_flex_center cx_justify_between" }, [
+    /*#__PURE__*/createVNode("div", { class: "cx_ptb_12 cx_pl_16 cx_flex_1" }, "可选属性"),
+    /*#__PURE__*/createVNode("div", { class: "cx_ptb_12 cx_w_250" }, "已选属性")
+  ]),
+  /*#__PURE__*/createVNode("div", { class: "cx_line cx_w_100p cx_m_0" })
+], -1 /* HOISTED */);
+const _hoisted_2 = { class: "cx_dp_flex cx_justify_between" };
+const _hoisted_3 = {
+  class: "cx_flex_1 cx_br cx_p_16 cx_h_500",
+  style: {"overflow":"auto","position":"relative"}
+};
+const _hoisted_4 = {
+  class: "cx_fs_16 cx_pl_12 cx_ptb_8",
+  style: {"font-weight":"500"}
+};
+const _hoisted_5 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_m_0 cx_w_100p cx_mtb_6" }, null, -1 /* HOISTED */);
+const _hoisted_6 = {
+  class: "cx_w_230 cx_p_16 cx_h_500",
+  style: {"overflow":"auto"}
+};
+const _hoisted_7 = {
+  key: 0,
+  class: "cx_line cx_mb_10 cx_mt_14"
+};
+const _hoisted_8 = { class: "cx_mb_8 cx_fs_14" };
+const _hoisted_9 = { class: "cx_fs_14 cx_ptb_9 hover_active cx_cursor_move" };
+const _hoisted_10 = /*#__PURE__*/createVNode("i", { class: "iconfont icon-tuodong1 cx_mr_8" }, null, -1 /* HOISTED */);
+popScopeId();
+
+const render$1 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
+  const _component_CxTab = resolveComponent("CxTab");
+  const _component_ElCheckbox = resolveComponent("ElCheckbox");
+  const _component_Draggable = resolveComponent("Draggable");
+  const _component_CxDialog = resolveComponent("CxDialog");
+  const _directive_loading = resolveDirective("loading");
+
+  return (openBlock(), createBlock(_component_CxDialog, {
+    okLoading: _ctx.submitLoading,
+    width: "1020px",
+    onRegister: _ctx.register,
+    top: "50px",
+    title: _ctx.header,
+    onOk: _ctx.submitData,
+    "append-to-body": ""
+  }, {
+    default: _withId$1(() => [
+      (_ctx.tabOptionList && _ctx.tabOptionList.length > 1)
+        ? (openBlock(), createBlock(_component_CxTab, {
+            key: 0,
+            class: "cx_plr_16",
+            level: "2",
+            options: _ctx.tabOptionList,
+            modelValue: _ctx.activeTab,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => (_ctx.activeTab = $event))
+          }, null, 8 /* PROPS */, ["options", "modelValue"]))
+        : createCommentVNode("v-if", true),
+      _hoisted_1$1,
+      withDirectives(createVNode("div", _hoisted_2, [
+        createVNode("section", _hoisted_3, [
+          (openBlock(true), createBlock(Fragment, null, renderList(_ctx.departmentMap, (item, key) => {
+            return (openBlock(), createBlock("div", {
+              key: key,
+              class: "cx_mtb_5"
+            }, [
+              createVNode("h3", _hoisted_4, toDisplayString(key), 1 /* TEXT */),
+              (openBlock(true), createBlock(Fragment, null, renderList(item, (option) => {
+                return (openBlock(), createBlock("div", {
+                  key: option.id,
+                  class: "cx_dp_ib cx_mtb_16 cx_w_130 cx_pl_12"
+                }, [
+                  createVNode(_component_ElCheckbox, {
+                    "model-value": _ctx.checkedList.includes(option.id),
+                    "onUpdate:modelValue": val => _ctx.updateCheckedList(val, option.id),
+                    disabled: option.irrevocable,
+                    label: option.label,
+                    value: option.id
+                  }, null, 8 /* PROPS */, ["model-value", "onUpdate:modelValue", "disabled", "label", "value"])
+                ]))
+              }), 128 /* KEYED_FRAGMENT */)),
+              _hoisted_5
+            ]))
+          }), 128 /* KEYED_FRAGMENT */))
+        ]),
+        createVNode("section", _hoisted_6, [
+          (openBlock(true), createBlock(Fragment, null, renderList(_ctx.listMap, (_, key, index) => {
+            return (openBlock(), createBlock("div", { key: key }, [
+              (index !== 0)
+                ? (openBlock(), createBlock("div", _hoisted_7))
+                : createCommentVNode("v-if", true),
+              createVNode("h3", _hoisted_8, toDisplayString(key), 1 /* TEXT */),
+              createVNode(_component_Draggable, {
+                modelValue: _ctx.listMap[key],
+                "onUpdate:modelValue": $event => (_ctx.listMap[key] = $event),
+                "item-key": "id",
+                group: "list",
+                tag: "transition-group",
+                "component-data": { tag: 'ul', name: 'flip-list', type: 'transition' },
+                ghostClass: "cx_opacity_20",
+                move: _ctx.onMove
+              }, {
+                item: _withId$1(({ element }) => [
+                  createVNode("li", _hoisted_9, [
+                    _hoisted_10,
+                    createTextVNode(toDisplayString(element.label), 1 /* TEXT */)
+                  ])
+                ]),
+                _: 2 /* DYNAMIC */
+              }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["modelValue", "onUpdate:modelValue", "move"])
+            ]))
+          }), 128 /* KEYED_FRAGMENT */))
+        ])
+      ], 512 /* NEED_PATCH */), [
+        [_directive_loading, _ctx.openLoading]
+      ])
+    ]),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["okLoading", "onRegister", "title", "onOk"]))
+});
+
+script$3.render = render$1;
+script$3.__scopeId = "data-v-0b829fd6";
+script$3.__file = "src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";
+
+//
+var script$2 = defineComponent({
+    name: 'DynamicConfigSettings',
+    components: { ColumnSettingDialog: script$3 },
+    props: { dynamicConfig: { type: Object, requred: true } },
+    emits: ['submit'],
+    setup: function (_, _a) {
+        var _this = this;
+        var emit = _a.emit;
+        var dialogRef = ref(null);
+        var _b = __read(useLoading(function () { return __awaiter(_this, void 0, void 0, function () {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0: return [4 /*yield*/, ((_b = (_a = dialogRef.value) === null || _a === void 0 ? void 0 : _a.open) === null || _b === void 0 ? void 0 : _b.call(_a))];
+                    case 1:
+                        _c.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); }), 2), open = _b[0], openLoading = _b[1];
+        var CxTable = inject('CxTable');
+        var right = computed(function () {
+            if (!CxTable)
+                return 0;
+            return CxTable.scrollStore.rightScrollBar ? CxTable.styleStore.CX_TABLE_SCROLL_BAR + 'px' : 0;
+        });
+        return {
+            open: open,
+            openLoading: openLoading,
+            submit: function () {
+                emit('submit');
+            },
+            dialogRef: dialogRef,
+            right: right
+        };
+    }
+});
+
+const _withId = /*#__PURE__*/withScopeId("data-v-df9138d6");
+
+pushScopeId("data-v-df9138d6");
+const _hoisted_1 = { class: "setting_btn cx_flex_center cx_justify_center" };
+popScopeId();
+
+const render = /*#__PURE__*/_withId((_ctx, _cache) => {
+  const _component_CxBtn = resolveComponent("CxBtn");
+  const _component_ElTooltip = resolveComponent("ElTooltip");
+  const _component_ColumnSettingDialog = resolveComponent("ColumnSettingDialog");
+
+  return (openBlock(), createBlock("div", {
+    style: { position: 'absolute', right: _ctx.right, top: 0, zIndex: 1500 }
+  }, [
+    createVNode("div", _hoisted_1, [
+      createVNode(_component_ElTooltip, {
+        effect: "dark",
+        placement: "left-start",
+        content: "设置表头字段"
+      }, {
+        default: _withId(() => [
+          createVNode(_component_CxBtn, {
+            class: "cx_p_0",
+            icon: "shezhi1",
+            onClick: _ctx.open,
+            loading: _ctx.openLoading
+          }, null, 8 /* PROPS */, ["onClick", "loading"])
+        ]),
+        _: 1 /* STABLE */
+      })
+    ]),
+    createVNode(_component_ColumnSettingDialog, {
+      ref: "dialogRef",
+      onSubmit: _ctx.submit,
+      dynamicList: [_ctx.dynamicConfig]
+    }, null, 8 /* PROPS */, ["onSubmit", "dynamicList"])
+  ], 4 /* STYLE */))
+});
+
+script$2.render = render;
+script$2.__scopeId = "data-v-df9138d6";
+script$2.__file = "src/lib/cx-table/components/dynamicConfigSetting/index.vue";
+
+var CxTableProp = {
+    tableConfig: { type: Object, "default": function () { return ({ items: [] }); } },
+    tableData: { type: Array, "default": function () { return []; } },
+    /**
+     * @description 显示底部总计
+     */
+    showTotalSum: { type: Boolean, "default": false },
+    /**
+     * @description 显示悬浮底部总计
+     */
+    floatTotalSum: { type: Boolean, "default": false },
+    /**
+     * @description 固定底部总计
+     */
+    fixTotalSum: { type: Boolean, "default": false },
+    /**
+     * @description 集成分页器, 传入分页器参数对象即可开启, 可使用useCxPagination获得, 分页参数更新,将抛出paging事件
+     */
+    pagination: { type: Object, "default": null },
+    /**
+     * @description 自定义总计行数据源, 将完全采用该对象作为合计行数据渲染
+     */
+    customTotalSum: { type: Object, "default": null },
+    /**
+     * @description 最大高度,传入后将固定头部,可以是数字(将被自动格式化为px高度),也可以是任意描述高度的字符串,如 calc(100vh - 100px)
+     */
+    height: { type: [Number, String], "default": '' },
+    /**
+     * @description 禁用所有输入类控件, 无法直接影响插槽, 可使用插槽scope中的disable属性判断
+     */
+    disabled: { type: Boolean, "default": false },
+    /**
+     * @description 空行补位, 补位的空行没有键盘事件响应也无法聚焦
+     */
+    emptyLimit: { type: Number, "default": 0 },
+    /**
+     * @description 控制colspan/rowspan, 函数类型, 入参为column,rowIndex,rowData, 返回{colspan:number,rowspan:number}对象或[rowspan,colspan]数组
+     */
+    spanMethod: { type: Function, "default": null },
+    /**
+     * @description 显示添加按钮(特定需求使用,点击该按钮将抛出addNewRow事件)
+     */
+    showAddBtn: { type: String, "default": '' },
+    /**
+     * @description 开启虚拟滚动, 表格行数较小不建议开启, 会消耗一定的额外性能, 且当其与spanMethod同时使用时,性能开销较大(但仍远小于长列表渲染),渲染前预计算spanMethod 10000行*20列约300ms
+     */
+    virtualScroll: { type: Boolean, "default": false },
+    /**
+     * @description 表现为激活状态行的index列表, 该属性主要用于自定义行多选,行单选的情况,激活行默认表现为浅蓝色(可与集成单选/多选同时使用)
+     */
+    activeRows: { type: Array, "default": function () { return []; } },
+    /**
+     * @description 目标行/列隐藏控件, 无法直接影响插槽, 插槽可通过scope中的ignore属性自定义设置
+     */
+    ignoreControl: { type: Function, "default": function () { return false; } },
+    /**
+     * @description 目标行/列强制显示控件,无法直接影响插槽, 插槽可通过scope中的isControl属性自定义设置
+     */
+    forceControl: { type: Function, "default": function () { return false; } },
+    /**
+     * @description 默认样式配置,{width:默认单元格宽度,height:默认单元格高度,padding:单元格内左右padding,cache:虚拟滚动视口外缓冲行数}
+     */
+    styleSetting: { type: Object, "default": function () { return ({}); } },
+    /**
+     * @description 是否启用键盘事件,关闭后单元格将无法聚焦
+     */
+    keyboard: { type: Boolean, "default": true },
+    /**
+     * @description 拓展行,可以是插槽名或一个返回插槽名的函数,入参为column,rowData,rowIndex,如果返回值为空,那么便不渲染,该功能可针对特定的某行开启拓展行.
+     */
+    expand: { type: [String, Function], "default": '' },
+    /**
+     * @description 表格title, 聊胜于无的功能
+     */
+    title: { type: String, "default": '' },
+    /**
+     * @description 是否开启懒加载, 默认为开启
+     */
+    lazy: { type: Boolean, "default": true },
+    /**
+     * @description 是否使用宽度适配器提供的宽度,默认开启
+     */
+    widthAdaptor: { type: Boolean, "default": true },
+    /**
+     * @description 动态表头加载参数,一旦传入该属性,则表格的tableConfig属性将失效
+     */
+    dynamic: { type: Object },
+    /**
+     * @description 行样式
+     */
+    cellStyle: {
+        type: [Function, Object]
+    },
+    /**
+     * @description 表头样式
+     */
+    headCellStyle: {
+        type: [Function, Object]
+    },
+    /**
+     * @description 设置nativeCheckbox多选禁用状态
+     */
+    checkSelect: { type: Function },
+    /**
+     * @description dynamic表头模式下用于手动添加或修改表头
+     */
+    dynamicInject: { type: Function },
+    /**
+     * @description 是否缓存表格数据,传入值为缓存key值或一个返回key值的函数(返回空值则不缓存)
+     * 在不同的路由下 不 允许使用相同的key值, 这通常会导致缓存读取错误
+     */
+    cache: { type: [String, Function] },
+    /**
+     * @description 在dynamic状态下, 是否开启配置弹窗
+     */
+    configurable: { type: Boolean, "default": true },
+    /**
+     * @description 是否显示表单控件
+     */
+    showForm: { type: Boolean, "default": false },
+    /**
+     * @description 渲染表单时,是否渲染至其他容器,值为容器的选择器
+     */
+    formTeleport: { type: String },
+    /**
+     * @description 钩子
+     */
+    hooks: { type: Object },
+    /**
+     * @description 暂存列表按钮容器的选择器
+     */
+    cacheListBtn: { type: String },
+    /**
+     * @description 暂存按钮容器的选择器
+     */
+    setCacheBtn: { type: String },
+    /**
+     * @description 斑马纹
+     */
+    stripe: { type: Boolean, "default": false }
+};
+
+var script$1 = defineComponent({
+    name: 'CxTable',
+    props: CxTableProp,
+    components: { Pagination: Pagination },
+    emits: CX_TABLE_EVENT_LIST,
+    setup: function (props, _a) {
+        var _this = this;
+        var slots = _a.slots, emit = _a.emit, expose = _a.expose;
+        // 根对象
+        var $CxTable = createCxTableConfig();
+        var _b = useDynamicConfig(props, emit), columnProxy = _b.columnProxy, dynamicColumn = _b.dynamicColumn, loading = _b.loading, forceUpdate = _b.forceUpdate;
+        var searchLoading = ref(false);
+        var bus = useBus($CxTable, props, emit).bus;
+        var tid = useTableId().generateTableId();
+        var tableDataVisitor = useCxSort(props).tableDataVisitor;
+        // 集成多选
+        var _c = useSelectConfig(tableDataVisitor, emit), selectConfig = _c.selectConfig, setCheckSelect = _c.setCheckSelect, clearSelection = _c.clearSelection, toggleRowSelection = _c.toggleRowSelection, toggleAllSelection = _c.toggleAllSelection, getSelectValue = _c.getSelectValue, getSelectAllValue = _c.getSelectAllValue, setSelectDisabled = _c.setSelectDisabled, updateSelectConfig = _c.updateSelectConfig;
+        setCheckSelect(props.checkSelect);
+        bus.on('toggleAllSelection', toggleAllSelection);
+        bus.on('toggleRowSelection', toggleRowSelection);
+        // 集成单选
+        var _d = useRadioConfig(emit), radioValue = _d.radioValue, removeRadio = _d.removeRadio, setRadio = _d.setRadio, getRadio = _d.getRadio;
+        // 集成展开行
+        var _e = useExpandConfig(), expandConfig = _e.expandConfig, setExpand = _e.setExpand, clearExpand = _e.clearExpand;
+        // 表单校验
+        var validate = useValidator($CxTable, props).validate;
+        var _f = usePriorityConfig($CxTable), setConfig = _f.setConfig, removeConfig = _f.removeConfig, clearConfig = _f.clearConfig, onSetConfig = _f.onSetConfig;
+        // 缓存
+        // const { removeCache, setCache, getCache } = useCache(props);
+        var broadcast = useBroadcast().broadcast;
+        var updateWidth = debounce$1(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        useAutoWidth($CxTable);
+                        return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _a.sent();
+                        scrollUpdateShadow($CxTable);
+                        return [2 /*return*/];
+                }
+            });
+        }); }, 50);
+        broadcast.registEntireListener(function (payload) { return __awaiter(_this, void 0, void 0, function () {
+            var prop;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        prop = payload.prop;
+                        return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _a.sent();
+                        updateCxTableWidth($CxTable, props, prop);
+                        updateWidth();
+                        emit('broadcast', payload);
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        var exposeMethods = {
+            // radio
+            removeRadio: removeRadio,
+            setRadio: setRadio,
+            getRadio: getRadio,
+            // checkbox
+            clearSelection: clearSelection,
+            toggleRowSelection: toggleRowSelection,
+            toggleAllSelection: toggleAllSelection,
+            getSelectValue: getSelectValue,
+            getSelectAllValue: getSelectAllValue,
+            setSelectDisabled: setSelectDisabled,
+            updateSelectConfig: updateSelectConfig,
+            // expand
+            setExpand: setExpand,
+            clearExpand: clearExpand,
+            // config
+            setConfig: setConfig,
+            removeConfig: removeConfig,
+            clearConfig: clearConfig,
+            // validate
+            validate: validate,
+            // update
+            forceUpdate: forceUpdate,
+            // event
+            triggerBroadcast: function (prop, rowData) {
+                broadcast.trigger(prop, rowData, { prop: prop, rowData: rowData });
+            },
+            focusCell: function (_a) {
+                var prop = _a.prop, rowData = _a.rowData, rowIndex = _a.rowIndex;
+                return __awaiter(_this, void 0, void 0, function () {
+                    var rowHeight, column, cell;
+                    var _b;
+                    return __generator(this, function (_c) {
+                        switch (_c.label) {
+                            case 0:
+                                if (!prop)
+                                    return [2 /*return*/];
+                                if (!rowData && rowIndex == undefined)
+                                    return [2 /*return*/];
+                                if (!props.virtualScroll) return [3 /*break*/, 2];
+                                rowIndex = rowIndex !== null && rowIndex !== void 0 ? rowIndex : props.tableData.findIndex(function (data) { return data === rowData; });
+                                if (!isNumber(rowIndex) || !$CxTable.wrapperEle)
+                                    return [2 /*return*/];
+                                rowHeight = $CxTable.styleStore.CX_TABLE_HEIGHT;
+                                $CxTable.wrapperEle.scrollTop = rowHeight * rowIndex;
+                                return [4 /*yield*/, nextTick()];
+                            case 1:
+                                _c.sent();
+                                _c.label = 2;
+                            case 2:
+                                rowData = rowData !== null && rowData !== void 0 ? rowData : props.tableData[rowIndex];
+                                column = (_b = $CxTable.flatColumns) === null || _b === void 0 ? void 0 : _b.find(function (col) { return col.prop === prop; });
+                                if (!column)
+                                    return [2 /*return*/];
+                                cell = domShare.getCell($CxTable, column, rowData);
+                                setTimeout(function () {
+                                    cell === null || cell === void 0 ? void 0 : cell.click();
+                                });
+                                return [2 /*return*/];
+                        }
+                    });
+                });
+            },
+            // setCache,
+            // getCache,
+            // removeCache,
+            removeCacheItem: function () {
+                bus.emit('removeCacheItem');
+            },
+            search: function (payload) {
+                bus.emit('search', payload);
+            }
+        };
+        expose(exposeMethods);
+        emit('register', { registerTarget: exposeMethods, props: props });
+        provide('broadcast', broadcast);
+        provide('tableDataVisitor', tableDataVisitor);
+        provide('CxTable', $CxTable);
+        provide('rootProp', props);
+        provide('rootSlots', slots);
+        provide('bus', bus);
+        provide('loading', loading);
+        provide('selectConfig', selectConfig);
+        provide('radioValue', radioValue);
+        provide('expandConfig', expandConfig);
+        provide('tid', tid);
+        provide('dynamicColumn', dynamicColumn);
+        var tableWrapper = ref(null);
+        var tableVisible = ref(!props.lazy);
+        onMounted(function () {
+            if (!tableWrapper.value)
+                return;
+            $CxTable.wrapperEle = tableWrapper.value;
+            var _a = useWatch(props, $CxTable, columnProxy, tableWrapper, expandConfig, tableVisible), updateColumn = _a.updateColumn, updateData = _a.updateData;
+            onSetConfig.push(updateColumn);
+            onSetConfig.push(updateData);
+            props.lazy && useLazyLoad(tableWrapper.value, tableVisible);
+        });
+        useRegister($CxTable, props, tableDataVisitor, tableWrapper, bus, tid);
+        var _hoisted_1_class = 'cx-table_wrapper';
+        var _hoisted_2_class = 'cx-table_scrollWrapper';
+        var _hoisted_3_class = 'cx-table_border_line';
+        var _hoisted_directive = resolveDirective('loading');
+        var renderContent = function (fixed) {
+            return createVNode(CxTableContent, { tableData: tableDataVisitor.sortedData, fixed: fixed }, null, PATCH_FLAG.PROPS, ['tableData']);
+        };
+        var renderTables = function () {
+            var _a = $CxTable.columnStore, leftFixedColumns = _a.leftFixedColumns, rightFixedColumns = _a.rightFixedColumns;
+            var _b = $CxTable.scrollStore, rightScrollBar = _b.rightScrollBar, bottomScrollBar = _b.bottomScrollBar;
+            return [
+                renderContent(),
+                (openBlock(), createBlock(Fragment, null, [
+                    leftFixedColumns.length && bottomScrollBar ? renderContent('left') : createCommentVNode('v-if_left', true)
+                ])),
+                (openBlock(), createBlock(Fragment, null, [
+                    rightFixedColumns.length && bottomScrollBar ? renderContent('right') : createCommentVNode('v-if_right', true)
+                ])),
+                (openBlock(), createBlock(Fragment, null, [
+                    props.height && rightScrollBar ? renderContent('top') : createCommentVNode('v-if_top', true)
+                ])),
+                (openBlock(), createBlock(Fragment, null, [
+                    props.fixTotalSum && props.showTotalSum && rightScrollBar ? renderContent('bottom') : createCommentVNode('v-if_bottom', true)
+                ]))
+            ];
+        };
+        var renderBorderLine = function () {
+            return createVNode('div', { "class": _hoisted_3_class });
+        };
+        var renderEmpty = function () {
+            return (openBlock(),
+                createBlock(Fragment, null, [
+                    tableDataVisitor.sortedData.length || props.emptyLimit > 0 || props.showAddBtn
+                        ? createCommentVNode('v-if_empty', true)
+                        : createVNode(CxTableEmpty)
+                ]));
+        };
+        var renderDynamicConfigSetting = function () {
+            return (openBlock(),
+                createBlock(Fragment, null, [
+                    props.configurable && props.dynamic
+                        ? createVNode(script$2, {
+                            dynamicConfig: props.dynamic,
+                            onSubmit: function () {
+                                forceUpdate();
+                                emit('dynamicSetting');
+                            }
+                        }, null, PATCH_FLAG.PROPS | PATCH_FLAG.NEED_PATCH, ['dynamicConfig'])
+                        : createCommentVNode('v-if_dynamic_config', true)
+                ]));
+        };
+        var renderTeleBtn = function (comp) {
+            return createVNode(comp, { dynamicColumn: dynamicColumn.value, tableDataVisitor: tableDataVisitor }, null, PATCH_FLAG.PROPS, ['dynamicColumn', 'tableDataVisitor']);
+        };
+        var placeHolderAttrs = computed(function () {
+            var dataHeight = (props.tableData.length +
+                +!!props.showTotalSum +
+                invokeLayeredRow($CxTable.columns).length) *
+                $CxTable.styleStore.CX_TABLE_HEIGHT;
+            var height = formatWidth(props.height ? Math.min(dataHeight, isNaN(+props.height) ? 400 : +props.height) : dataHeight);
+            return { style: { height: height } };
+        });
+        var innerStyle = computed(function () {
+            return { maxHeight: isNumber(props.height) ? props.height + 'px' : props.height };
+        });
+        var cssVariable = useCSSVariable($CxTable).cssVariable;
+        return function (_, cache) {
+            return createVNode('div', { style: cssVariable.value, "class": 'cx-table_container' }, [
+                createVNode(CxTableTitle),
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        props.setCacheBtn
+                            ? renderTeleBtn(SetCacheBtn)
+                            : createCommentVNode('v-if_set_cache_btn', true),
+                        props.cacheListBtn
+                            ? renderTeleBtn(CacheListBtn)
+                            : createCommentVNode('v-if_cache_list_btn', true)
+                    ])),
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        props.showForm
+                            ? createVNode(TeleForm, {
+                                dynamicColumn: dynamicColumn.value,
+                                tableDataVisitor: tableDataVisitor,
+                                loading: searchLoading.value,
+                                'onUpdate:loading': function (val) { return (searchLoading.value = val); }
+                            }, null, PATCH_FLAG.PROPS, ['dynamicColumn', 'tableDataVisitor', 'loading'])
+                            : createCommentVNode('v-if_form', true)
+                    ])),
+                createVNode('div', { tid: tid, "class": _hoisted_1_class }, [
+                    withDirectives(createVNode('div', { "class": _hoisted_2_class, style: innerStyle.value, ref: tableWrapper }, [
+                        (openBlock(),
+                            createBlock(Fragment, null, tableVisible.value
+                                ? [
+                                    renderTables(),
+                                    renderEmpty(),
+                                    cache[0] || (cache[0] = renderBorderLine()),
+                                    renderDynamicConfigSetting()
+                                ]
+                                : [createVNode('div', placeHolderAttrs.value)]))
+                    ], PATCH_FLAG.STYLE | PATCH_FLAG.NEED_PATCH), [[_hoisted_directive !== null && _hoisted_directive !== void 0 ? _hoisted_directive : {}, loading.value || searchLoading.value]])
+                ], PATCH_FLAG.STYLE),
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        props.floatTotalSum
+                            ? createVNode('div', { "class": _hoisted_1_class }, [
+                                createVNode('div', { "class": _hoisted_2_class + " cx_of_hidden" }, [
+                                    createVNode(CxTableBody, {
+                                        tableData: tableDataVisitor.sortedData,
+                                        onlyTotal: true,
+                                        float: true,
+                                        "class": 'cx_mt_20',
+                                        style: {
+                                            right: $CxTable.scrollStore.scrollLeft + '' + "px",
+                                            position: 'relative'
+                                        }
+                                    }, null, PATCH_FLAG.FULL_PROPS)
+                                ])
+                            ])
+                            : createCommentVNode('v-if_float_total_sum', true)
+                    ])),
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        isObject$1(props.pagination)
+                            ? createVNode(Pagination, {
+                                pagination: props.pagination,
+                                onPaging: cache[1] || (cache[1] = function () { return emit('paging'); })
+                            }, null, PATCH_FLAG.PROPS, ['pagination'])
+                            : createCommentVNode('v-if_pagination', true)
+                    ]))
+            ], PATCH_FLAG.STYLE);
+        };
+    }
+});
+
+script$1.install = function (app) {
+    app.component(script$1.name, script$1);
+};
+var _CX_TABLE = script$1;
+
+var top = 'top';
+var bottom = 'bottom';
+var right = 'right';
+var left = 'left';
+var auto = 'auto';
+var basePlacements = [top, bottom, right, left];
+var start = 'start';
+var end = 'end';
+var clippingParents = 'clippingParents';
+var viewport = 'viewport';
+var popper = 'popper';
+var reference = 'reference';
+var variationPlacements = /*#__PURE__*/basePlacements.reduce(function (acc, placement) {
+  return acc.concat([placement + "-" + start, placement + "-" + end]);
+}, []);
+var placements = /*#__PURE__*/[].concat(basePlacements, [auto]).reduce(function (acc, placement) {
+  return acc.concat([placement, placement + "-" + start, placement + "-" + end]);
+}, []); // modifiers that need to read the DOM
+
+var beforeRead = 'beforeRead';
+var read = 'read';
+var afterRead = 'afterRead'; // pure-logic modifiers
+
+var beforeMain = 'beforeMain';
+var main = 'main';
+var afterMain = 'afterMain'; // modifier with the purpose to write to the DOM (or write into a framework state)
+
+var beforeWrite = 'beforeWrite';
+var write = 'write';
+var afterWrite = 'afterWrite';
+var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeWrite, write, afterWrite];
+
+function getNodeName(element) {
+  return element ? (element.nodeName || '').toLowerCase() : null;
+}
+
+function getWindow(node) {
+  if (node == null) {
+    return window;
+  }
+
+  if (node.toString() !== '[object Window]') {
+    var ownerDocument = node.ownerDocument;
+    return ownerDocument ? ownerDocument.defaultView || window : window;
+  }
+
+  return node;
+}
+
+function isElement(node) {
+  var OwnElement = getWindow(node).Element;
+  return node instanceof OwnElement || node instanceof Element;
+}
+
+function isHTMLElement(node) {
+  var OwnElement = getWindow(node).HTMLElement;
+  return node instanceof OwnElement || node instanceof HTMLElement;
+}
+
+function isShadowRoot(node) {
+  // IE 11 has no ShadowRoot
+  if (typeof ShadowRoot === 'undefined') {
+    return false;
+  }
+
+  var OwnElement = getWindow(node).ShadowRoot;
+  return node instanceof OwnElement || node instanceof ShadowRoot;
+}
+
+// and applies them to the HTMLElements such as popper and arrow
+
+function applyStyles(_ref) {
+  var state = _ref.state;
+  Object.keys(state.elements).forEach(function (name) {
+    var style = state.styles[name] || {};
+    var attributes = state.attributes[name] || {};
+    var element = state.elements[name]; // arrow is optional + virtual elements
+
+    if (!isHTMLElement(element) || !getNodeName(element)) {
+      return;
+    } // Flow doesn't support to extend this property, but it's the most
+    // effective way to apply styles to an HTMLElement
+    // $FlowFixMe[cannot-write]
+
+
+    Object.assign(element.style, style);
+    Object.keys(attributes).forEach(function (name) {
+      var value = attributes[name];
+
+      if (value === false) {
+        element.removeAttribute(name);
+      } else {
+        element.setAttribute(name, value === true ? '' : value);
+      }
+    });
+  });
+}
+
+function effect$2(_ref2) {
+  var state = _ref2.state;
+  var initialStyles = {
+    popper: {
+      position: state.options.strategy,
+      left: '0',
+      top: '0',
+      margin: '0'
+    },
+    arrow: {
+      position: 'absolute'
+    },
+    reference: {}
+  };
+  Object.assign(state.elements.popper.style, initialStyles.popper);
+  state.styles = initialStyles;
+
+  if (state.elements.arrow) {
+    Object.assign(state.elements.arrow.style, initialStyles.arrow);
+  }
+
+  return function () {
+    Object.keys(state.elements).forEach(function (name) {
+      var element = state.elements[name];
+      var attributes = state.attributes[name] || {};
+      var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]); // Set all values to an empty string to unset them
+
+      var style = styleProperties.reduce(function (style, property) {
+        style[property] = '';
+        return style;
+      }, {}); // arrow is optional + virtual elements
+
+      if (!isHTMLElement(element) || !getNodeName(element)) {
+        return;
+      }
+
+      Object.assign(element.style, style);
+      Object.keys(attributes).forEach(function (attribute) {
+        element.removeAttribute(attribute);
+      });
+    });
+  };
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var applyStyles$1 = {
+  name: 'applyStyles',
+  enabled: true,
+  phase: 'write',
+  fn: applyStyles,
+  effect: effect$2,
+  requires: ['computeStyles']
+};
+
+function getBasePlacement(placement) {
+  return placement.split('-')[0];
+}
+
+// import { isHTMLElement } from './instanceOf';
+function getBoundingClientRect(element, // eslint-disable-next-line unused-imports/no-unused-vars
+includeScale) {
+
+  var rect = element.getBoundingClientRect();
+  var scaleX = 1;
+  var scaleY = 1; // FIXME:
+  // `offsetWidth` returns an integer while `getBoundingClientRect`
+  // returns a float. This results in `scaleX` or `scaleY` being
+  // non-1 when it should be for elements that aren't a full pixel in
+  // width or height.
+  // if (isHTMLElement(element) && includeScale) {
+  //   const offsetHeight = element.offsetHeight;
+  //   const offsetWidth = element.offsetWidth;
+  //   // Do not attempt to divide by 0, otherwise we get `Infinity` as scale
+  //   // Fallback to 1 in case both values are `0`
+  //   if (offsetWidth > 0) {
+  //     scaleX = rect.width / offsetWidth || 1;
+  //   }
+  //   if (offsetHeight > 0) {
+  //     scaleY = rect.height / offsetHeight || 1;
+  //   }
+  // }
+
+  return {
+    width: rect.width / scaleX,
+    height: rect.height / scaleY,
+    top: rect.top / scaleY,
+    right: rect.right / scaleX,
+    bottom: rect.bottom / scaleY,
+    left: rect.left / scaleX,
+    x: rect.left / scaleX,
+    y: rect.top / scaleY
+  };
+}
+
+// means it doesn't take into account transforms.
+
+function getLayoutRect(element) {
+  var clientRect = getBoundingClientRect(element); // Use the clientRect sizes if it's not been transformed.
+  // Fixes https://github.com/popperjs/popper-core/issues/1223
+
+  var width = element.offsetWidth;
+  var height = element.offsetHeight;
+
+  if (Math.abs(clientRect.width - width) <= 1) {
+    width = clientRect.width;
+  }
+
+  if (Math.abs(clientRect.height - height) <= 1) {
+    height = clientRect.height;
+  }
+
+  return {
+    x: element.offsetLeft,
+    y: element.offsetTop,
+    width: width,
+    height: height
+  };
+}
+
+function contains(parent, child) {
+  var rootNode = child.getRootNode && child.getRootNode(); // First, attempt with faster native method
+
+  if (parent.contains(child)) {
+    return true;
+  } // then fallback to custom implementation with Shadow DOM support
+  else if (rootNode && isShadowRoot(rootNode)) {
+      var next = child;
+
+      do {
+        if (next && parent.isSameNode(next)) {
+          return true;
+        } // $FlowFixMe[prop-missing]: need a better way to handle this...
+
+
+        next = next.parentNode || next.host;
+      } while (next);
+    } // Give up, the result is false
+
+
+  return false;
+}
+
+function getComputedStyle$1(element) {
+  return getWindow(element).getComputedStyle(element);
+}
+
+function isTableElement(element) {
+  return ['table', 'td', 'th'].indexOf(getNodeName(element)) >= 0;
+}
+
+function getDocumentElement(element) {
+  // $FlowFixMe[incompatible-return]: assume body is always available
+  return ((isElement(element) ? element.ownerDocument : // $FlowFixMe[prop-missing]
+  element.document) || window.document).documentElement;
+}
+
+function getParentNode(element) {
+  if (getNodeName(element) === 'html') {
+    return element;
+  }
+
+  return (// this is a quicker (but less type safe) way to save quite some bytes from the bundle
+    // $FlowFixMe[incompatible-return]
+    // $FlowFixMe[prop-missing]
+    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
+    element.parentNode || ( // DOM Element detected
+    isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
+    // $FlowFixMe[incompatible-call]: HTMLElement is a Node
+    getDocumentElement(element) // fallback
+
+  );
+}
+
+function getTrueOffsetParent(element) {
+  if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
+  getComputedStyle$1(element).position === 'fixed') {
+    return null;
+  }
+
+  return element.offsetParent;
+} // `.offsetParent` reports `null` for fixed elements, while absolute elements
+// return the containing block
+
+
+function getContainingBlock(element) {
+  var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') !== -1;
+  var isIE = navigator.userAgent.indexOf('Trident') !== -1;
+
+  if (isIE && isHTMLElement(element)) {
+    // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport
+    var elementCss = getComputedStyle$1(element);
+
+    if (elementCss.position === 'fixed') {
+      return null;
+    }
+  }
+
+  var currentNode = getParentNode(element);
+
+  while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
+    var css = getComputedStyle$1(currentNode); // This is non-exhaustive but covers the most common CSS properties that
+    // create a containing block.
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
+
+    if (css.transform !== 'none' || css.perspective !== 'none' || css.contain === 'paint' || ['transform', 'perspective'].indexOf(css.willChange) !== -1 || isFirefox && css.willChange === 'filter' || isFirefox && css.filter && css.filter !== 'none') {
+      return currentNode;
+    } else {
+      currentNode = currentNode.parentNode;
+    }
+  }
+
+  return null;
+} // Gets the closest ancestor positioned element. Handles some edge cases,
+// such as table ancestors and cross browser bugs.
+
+
+function getOffsetParent(element) {
+  var window = getWindow(element);
+  var offsetParent = getTrueOffsetParent(element);
+
+  while (offsetParent && isTableElement(offsetParent) && getComputedStyle$1(offsetParent).position === 'static') {
+    offsetParent = getTrueOffsetParent(offsetParent);
+  }
+
+  if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && getComputedStyle$1(offsetParent).position === 'static')) {
+    return window;
+  }
+
+  return offsetParent || getContainingBlock(element) || window;
+}
+
+function getMainAxisFromPlacement(placement) {
+  return ['top', 'bottom'].indexOf(placement) >= 0 ? 'x' : 'y';
+}
+
+var max = Math.max;
+var min = Math.min;
+var round = Math.round;
+
+function within(min$1, value, max$1) {
+  return max(min$1, min(value, max$1));
+}
+
+function getFreshSideObject() {
+  return {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+  };
+}
+
+function mergePaddingObject(paddingObject) {
+  return Object.assign({}, getFreshSideObject(), paddingObject);
+}
+
+function expandToHashMap(value, keys) {
+  return keys.reduce(function (hashMap, key) {
+    hashMap[key] = value;
+    return hashMap;
+  }, {});
+}
+
+var toPaddingObject = function toPaddingObject(padding, state) {
+  padding = typeof padding === 'function' ? padding(Object.assign({}, state.rects, {
+    placement: state.placement
+  })) : padding;
+  return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
+};
+
+function arrow(_ref) {
+  var _state$modifiersData$;
+
+  var state = _ref.state,
+      name = _ref.name,
+      options = _ref.options;
+  var arrowElement = state.elements.arrow;
+  var popperOffsets = state.modifiersData.popperOffsets;
+  var basePlacement = getBasePlacement(state.placement);
+  var axis = getMainAxisFromPlacement(basePlacement);
+  var isVertical = [left, right].indexOf(basePlacement) >= 0;
+  var len = isVertical ? 'height' : 'width';
+
+  if (!arrowElement || !popperOffsets) {
+    return;
+  }
+
+  var paddingObject = toPaddingObject(options.padding, state);
+  var arrowRect = getLayoutRect(arrowElement);
+  var minProp = axis === 'y' ? top : left;
+  var maxProp = axis === 'y' ? bottom : right;
+  var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
+  var startDiff = popperOffsets[axis] - state.rects.reference[axis];
+  var arrowOffsetParent = getOffsetParent(arrowElement);
+  var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
+  var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
+  // outside of the popper bounds
+
+  var min = paddingObject[minProp];
+  var max = clientSize - arrowRect[len] - paddingObject[maxProp];
+  var center = clientSize / 2 - arrowRect[len] / 2 + centerToReference;
+  var offset = within(min, center, max); // Prevents breaking syntax highlighting...
+
+  var axisProp = axis;
+  state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
+}
+
+function effect$1(_ref2) {
+  var state = _ref2.state,
+      options = _ref2.options;
+  var _options$element = options.element,
+      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
+
+  if (arrowElement == null) {
+    return;
+  } // CSS selector
+
+
+  if (typeof arrowElement === 'string') {
+    arrowElement = state.elements.popper.querySelector(arrowElement);
+
+    if (!arrowElement) {
+      return;
+    }
+  }
+
+  if (process.env.NODE_ENV !== "production") {
+    if (!isHTMLElement(arrowElement)) {
+      console.error(['Popper: "arrow" element must be an HTMLElement (not an SVGElement).', 'To use an SVG arrow, wrap it in an HTMLElement that will be used as', 'the arrow.'].join(' '));
+    }
+  }
+
+  if (!contains(state.elements.popper, arrowElement)) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error(['Popper: "arrow" modifier\'s `element` must be a child of the popper', 'element.'].join(' '));
+    }
+
+    return;
+  }
+
+  state.elements.arrow = arrowElement;
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var arrow$1 = {
+  name: 'arrow',
+  enabled: true,
+  phase: 'main',
+  fn: arrow,
+  effect: effect$1,
+  requires: ['popperOffsets'],
+  requiresIfExists: ['preventOverflow']
+};
+
+function getVariation(placement) {
+  return placement.split('-')[1];
+}
+
+var unsetSides = {
+  top: 'auto',
+  right: 'auto',
+  bottom: 'auto',
+  left: 'auto'
+}; // Round the offsets to the nearest suitable subpixel based on the DPR.
+// Zooming can change the DPR, but it seems to report a value that will
+// cleanly divide the values into the appropriate subpixels.
+
+function roundOffsetsByDPR(_ref) {
+  var x = _ref.x,
+      y = _ref.y;
+  var win = window;
+  var dpr = win.devicePixelRatio || 1;
+  return {
+    x: round(round(x * dpr) / dpr) || 0,
+    y: round(round(y * dpr) / dpr) || 0
+  };
+}
+
+function mapToStyles(_ref2) {
+  var _Object$assign2;
+
+  var popper = _ref2.popper,
+      popperRect = _ref2.popperRect,
+      placement = _ref2.placement,
+      variation = _ref2.variation,
+      offsets = _ref2.offsets,
+      position = _ref2.position,
+      gpuAcceleration = _ref2.gpuAcceleration,
+      adaptive = _ref2.adaptive,
+      roundOffsets = _ref2.roundOffsets;
+
+  var _ref3 = roundOffsets === true ? roundOffsetsByDPR(offsets) : typeof roundOffsets === 'function' ? roundOffsets(offsets) : offsets,
+      _ref3$x = _ref3.x,
+      x = _ref3$x === void 0 ? 0 : _ref3$x,
+      _ref3$y = _ref3.y,
+      y = _ref3$y === void 0 ? 0 : _ref3$y;
+
+  var hasX = offsets.hasOwnProperty('x');
+  var hasY = offsets.hasOwnProperty('y');
+  var sideX = left;
+  var sideY = top;
+  var win = window;
+
+  if (adaptive) {
+    var offsetParent = getOffsetParent(popper);
+    var heightProp = 'clientHeight';
+    var widthProp = 'clientWidth';
+
+    if (offsetParent === getWindow(popper)) {
+      offsetParent = getDocumentElement(popper);
+
+      if (getComputedStyle$1(offsetParent).position !== 'static' && position === 'absolute') {
+        heightProp = 'scrollHeight';
+        widthProp = 'scrollWidth';
+      }
+    } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
+
+
+    offsetParent = offsetParent;
+
+    if (placement === top || (placement === left || placement === right) && variation === end) {
+      sideY = bottom; // $FlowFixMe[prop-missing]
+
+      y -= offsetParent[heightProp] - popperRect.height;
+      y *= gpuAcceleration ? 1 : -1;
+    }
+
+    if (placement === left || (placement === top || placement === bottom) && variation === end) {
+      sideX = right; // $FlowFixMe[prop-missing]
+
+      x -= offsetParent[widthProp] - popperRect.width;
+      x *= gpuAcceleration ? 1 : -1;
+    }
+  }
+
+  var commonStyles = Object.assign({
+    position: position
+  }, adaptive && unsetSides);
+
+  if (gpuAcceleration) {
+    var _Object$assign;
+
+    return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) <= 1 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
+  }
+
+  return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
+}
+
+function computeStyles(_ref4) {
+  var state = _ref4.state,
+      options = _ref4.options;
+  var _options$gpuAccelerat = options.gpuAcceleration,
+      gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
+      _options$adaptive = options.adaptive,
+      adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
+      _options$roundOffsets = options.roundOffsets,
+      roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
+
+  if (process.env.NODE_ENV !== "production") {
+    var transitionProperty = getComputedStyle$1(state.elements.popper).transitionProperty || '';
+
+    if (adaptive && ['transform', 'top', 'right', 'bottom', 'left'].some(function (property) {
+      return transitionProperty.indexOf(property) >= 0;
+    })) {
+      console.warn(['Popper: Detected CSS transitions on at least one of the following', 'CSS properties: "transform", "top", "right", "bottom", "left".', '\n\n', 'Disable the "computeStyles" modifier\'s `adaptive` option to allow', 'for smooth transitions, or remove these properties from the CSS', 'transition declaration on the popper element if only transitioning', 'opacity or background-color for example.', '\n\n', 'We recommend using the popper element as a wrapper around an inner', 'element that can have any CSS property transitioned for animations.'].join(' '));
+    }
+  }
+
+  var commonStyles = {
+    placement: getBasePlacement(state.placement),
+    variation: getVariation(state.placement),
+    popper: state.elements.popper,
+    popperRect: state.rects.popper,
+    gpuAcceleration: gpuAcceleration
+  };
+
+  if (state.modifiersData.popperOffsets != null) {
+    state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {
+      offsets: state.modifiersData.popperOffsets,
+      position: state.options.strategy,
+      adaptive: adaptive,
+      roundOffsets: roundOffsets
+    })));
+  }
+
+  if (state.modifiersData.arrow != null) {
+    state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {
+      offsets: state.modifiersData.arrow,
+      position: 'absolute',
+      adaptive: false,
+      roundOffsets: roundOffsets
+    })));
+  }
+
+  state.attributes.popper = Object.assign({}, state.attributes.popper, {
+    'data-popper-placement': state.placement
+  });
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var computeStyles$1 = {
+  name: 'computeStyles',
+  enabled: true,
+  phase: 'beforeWrite',
+  fn: computeStyles,
+  data: {}
+};
+
+var passive = {
+  passive: true
+};
+
+function effect(_ref) {
+  var state = _ref.state,
+      instance = _ref.instance,
+      options = _ref.options;
+  var _options$scroll = options.scroll,
+      scroll = _options$scroll === void 0 ? true : _options$scroll,
+      _options$resize = options.resize,
+      resize = _options$resize === void 0 ? true : _options$resize;
+  var window = getWindow(state.elements.popper);
+  var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
+
+  if (scroll) {
+    scrollParents.forEach(function (scrollParent) {
+      scrollParent.addEventListener('scroll', instance.update, passive);
+    });
+  }
+
+  if (resize) {
+    window.addEventListener('resize', instance.update, passive);
+  }
+
+  return function () {
+    if (scroll) {
+      scrollParents.forEach(function (scrollParent) {
+        scrollParent.removeEventListener('scroll', instance.update, passive);
+      });
+    }
+
+    if (resize) {
+      window.removeEventListener('resize', instance.update, passive);
+    }
+  };
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var eventListeners = {
+  name: 'eventListeners',
+  enabled: true,
+  phase: 'write',
+  fn: function fn() {},
+  effect: effect,
+  data: {}
+};
+
+var hash$1 = {
+  left: 'right',
+  right: 'left',
+  bottom: 'top',
+  top: 'bottom'
+};
+function getOppositePlacement(placement) {
+  return placement.replace(/left|right|bottom|top/g, function (matched) {
+    return hash$1[matched];
+  });
+}
+
+var hash = {
+  start: 'end',
+  end: 'start'
+};
+function getOppositeVariationPlacement(placement) {
+  return placement.replace(/start|end/g, function (matched) {
+    return hash[matched];
+  });
+}
+
+function getWindowScroll(node) {
+  var win = getWindow(node);
+  var scrollLeft = win.pageXOffset;
+  var scrollTop = win.pageYOffset;
+  return {
+    scrollLeft: scrollLeft,
+    scrollTop: scrollTop
+  };
+}
+
+function getWindowScrollBarX(element) {
+  // If <html> has a CSS width greater than the viewport, then this will be
+  // incorrect for RTL.
+  // Popper 1 is broken in this case and never had a bug report so let's assume
+  // it's not an issue. I don't think anyone ever specifies width on <html>
+  // anyway.
+  // Browsers where the left scrollbar doesn't cause an issue report `0` for
+  // this (e.g. Edge 2019, IE11, Safari)
+  return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
+}
+
+function getViewportRect(element) {
+  var win = getWindow(element);
+  var html = getDocumentElement(element);
+  var visualViewport = win.visualViewport;
+  var width = html.clientWidth;
+  var height = html.clientHeight;
+  var x = 0;
+  var y = 0; // NB: This isn't supported on iOS <= 12. If the keyboard is open, the popper
+  // can be obscured underneath it.
+  // Also, `html.clientHeight` adds the bottom bar height in Safari iOS, even
+  // if it isn't open, so if this isn't available, the popper will be detected
+  // to overflow the bottom of the screen too early.
+
+  if (visualViewport) {
+    width = visualViewport.width;
+    height = visualViewport.height; // Uses Layout Viewport (like Chrome; Safari does not currently)
+    // In Chrome, it returns a value very close to 0 (+/-) but contains rounding
+    // errors due to floating point numbers, so we need to check precision.
+    // Safari returns a number <= 0, usually < -1 when pinch-zoomed
+    // Feature detection fails in mobile emulation mode in Chrome.
+    // Math.abs(win.innerWidth / visualViewport.scale - visualViewport.width) <
+    // 0.001
+    // Fallback here: "Not Safari" userAgent
+
+    if (!/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+      x = visualViewport.offsetLeft;
+      y = visualViewport.offsetTop;
+    }
+  }
+
+  return {
+    width: width,
+    height: height,
+    x: x + getWindowScrollBarX(element),
+    y: y
+  };
+}
+
+// of the `<html>` and `<body>` rect bounds if horizontally scrollable
+
+function getDocumentRect(element) {
+  var _element$ownerDocumen;
+
+  var html = getDocumentElement(element);
+  var winScroll = getWindowScroll(element);
+  var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
+  var width = max(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
+  var height = max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
+  var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
+  var y = -winScroll.scrollTop;
+
+  if (getComputedStyle$1(body || html).direction === 'rtl') {
+    x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
+  }
+
+  return {
+    width: width,
+    height: height,
+    x: x,
+    y: y
+  };
+}
+
+function isScrollParent(element) {
+  // Firefox wants us to check `-x` and `-y` variations as well
+  var _getComputedStyle = getComputedStyle$1(element),
+      overflow = _getComputedStyle.overflow,
+      overflowX = _getComputedStyle.overflowX,
+      overflowY = _getComputedStyle.overflowY;
+
+  return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
+}
+
+function getScrollParent(node) {
+  if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
+    // $FlowFixMe[incompatible-return]: assume body is always available
+    return node.ownerDocument.body;
+  }
+
+  if (isHTMLElement(node) && isScrollParent(node)) {
+    return node;
+  }
+
+  return getScrollParent(getParentNode(node));
+}
+
+/*
+given a DOM element, return the list of all scroll parents, up the list of ancesors
+until we get to the top window object. This list is what we attach scroll listeners
+to, because if any of these parent elements scroll, we'll need to re-calculate the
+reference element's position.
+*/
+
+function listScrollParents(element, list) {
+  var _element$ownerDocumen;
+
+  if (list === void 0) {
+    list = [];
+  }
+
+  var scrollParent = getScrollParent(element);
+  var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
+  var win = getWindow(scrollParent);
+  var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
+  var updatedList = list.concat(target);
+  return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
+  updatedList.concat(listScrollParents(getParentNode(target)));
+}
+
+function rectToClientRect(rect) {
+  return Object.assign({}, rect, {
+    left: rect.x,
+    top: rect.y,
+    right: rect.x + rect.width,
+    bottom: rect.y + rect.height
+  });
+}
+
+function getInnerBoundingClientRect(element) {
+  var rect = getBoundingClientRect(element);
+  rect.top = rect.top + element.clientTop;
+  rect.left = rect.left + element.clientLeft;
+  rect.bottom = rect.top + element.clientHeight;
+  rect.right = rect.left + element.clientWidth;
+  rect.width = element.clientWidth;
+  rect.height = element.clientHeight;
+  rect.x = rect.left;
+  rect.y = rect.top;
+  return rect;
+}
+
+function getClientRectFromMixedType(element, clippingParent) {
+  return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isHTMLElement(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
+} // A "clipping parent" is an overflowable container with the characteristic of
+// clipping (or hiding) overflowing elements with a position different from
+// `initial`
+
+
+function getClippingParents(element) {
+  var clippingParents = listScrollParents(getParentNode(element));
+  var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle$1(element).position) >= 0;
+  var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
+
+  if (!isElement(clipperElement)) {
+    return [];
+  } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
+
+
+  return clippingParents.filter(function (clippingParent) {
+    return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
+  });
+} // Gets the maximum area that the element is visible in due to any number of
+// clipping parents
+
+
+function getClippingRect(element, boundary, rootBoundary) {
+  var mainClippingParents = boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);
+  var clippingParents = [].concat(mainClippingParents, [rootBoundary]);
+  var firstClippingParent = clippingParents[0];
+  var clippingRect = clippingParents.reduce(function (accRect, clippingParent) {
+    var rect = getClientRectFromMixedType(element, clippingParent);
+    accRect.top = max(rect.top, accRect.top);
+    accRect.right = min(rect.right, accRect.right);
+    accRect.bottom = min(rect.bottom, accRect.bottom);
+    accRect.left = max(rect.left, accRect.left);
+    return accRect;
+  }, getClientRectFromMixedType(element, firstClippingParent));
+  clippingRect.width = clippingRect.right - clippingRect.left;
+  clippingRect.height = clippingRect.bottom - clippingRect.top;
+  clippingRect.x = clippingRect.left;
+  clippingRect.y = clippingRect.top;
+  return clippingRect;
+}
+
+function computeOffsets(_ref) {
+  var reference = _ref.reference,
+      element = _ref.element,
+      placement = _ref.placement;
+  var basePlacement = placement ? getBasePlacement(placement) : null;
+  var variation = placement ? getVariation(placement) : null;
+  var commonX = reference.x + reference.width / 2 - element.width / 2;
+  var commonY = reference.y + reference.height / 2 - element.height / 2;
+  var offsets;
+
+  switch (basePlacement) {
+    case top:
+      offsets = {
+        x: commonX,
+        y: reference.y - element.height
+      };
+      break;
+
+    case bottom:
+      offsets = {
+        x: commonX,
+        y: reference.y + reference.height
+      };
+      break;
+
+    case right:
+      offsets = {
+        x: reference.x + reference.width,
+        y: commonY
+      };
+      break;
+
+    case left:
+      offsets = {
+        x: reference.x - element.width,
+        y: commonY
+      };
+      break;
+
+    default:
+      offsets = {
+        x: reference.x,
+        y: reference.y
+      };
+  }
+
+  var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
+
+  if (mainAxis != null) {
+    var len = mainAxis === 'y' ? 'height' : 'width';
+
+    switch (variation) {
+      case start:
+        offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);
+        break;
+
+      case end:
+        offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);
+        break;
+    }
+  }
+
+  return offsets;
+}
+
+function detectOverflow(state, options) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  var _options = options,
+      _options$placement = _options.placement,
+      placement = _options$placement === void 0 ? state.placement : _options$placement,
+      _options$boundary = _options.boundary,
+      boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
+      _options$rootBoundary = _options.rootBoundary,
+      rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
+      _options$elementConte = _options.elementContext,
+      elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
+      _options$altBoundary = _options.altBoundary,
+      altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
+      _options$padding = _options.padding,
+      padding = _options$padding === void 0 ? 0 : _options$padding;
+  var paddingObject = mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
+  var altContext = elementContext === popper ? reference : popper;
+  var popperRect = state.rects.popper;
+  var element = state.elements[altBoundary ? altContext : elementContext];
+  var clippingClientRect = getClippingRect(isElement(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary);
+  var referenceClientRect = getBoundingClientRect(state.elements.reference);
+  var popperOffsets = computeOffsets({
+    reference: referenceClientRect,
+    element: popperRect,
+    strategy: 'absolute',
+    placement: placement
+  });
+  var popperClientRect = rectToClientRect(Object.assign({}, popperRect, popperOffsets));
+  var elementClientRect = elementContext === popper ? popperClientRect : referenceClientRect; // positive = overflowing the clipping rect
+  // 0 or negative = within the clipping rect
+
+  var overflowOffsets = {
+    top: clippingClientRect.top - elementClientRect.top + paddingObject.top,
+    bottom: elementClientRect.bottom - clippingClientRect.bottom + paddingObject.bottom,
+    left: clippingClientRect.left - elementClientRect.left + paddingObject.left,
+    right: elementClientRect.right - clippingClientRect.right + paddingObject.right
+  };
+  var offsetData = state.modifiersData.offset; // Offsets can be applied only to the popper element
+
+  if (elementContext === popper && offsetData) {
+    var offset = offsetData[placement];
+    Object.keys(overflowOffsets).forEach(function (key) {
+      var multiply = [right, bottom].indexOf(key) >= 0 ? 1 : -1;
+      var axis = [top, bottom].indexOf(key) >= 0 ? 'y' : 'x';
+      overflowOffsets[key] += offset[axis] * multiply;
+    });
+  }
+
+  return overflowOffsets;
+}
+
+function computeAutoPlacement(state, options) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  var _options = options,
+      placement = _options.placement,
+      boundary = _options.boundary,
+      rootBoundary = _options.rootBoundary,
+      padding = _options.padding,
+      flipVariations = _options.flipVariations,
+      _options$allowedAutoP = _options.allowedAutoPlacements,
+      allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
+  var variation = getVariation(placement);
+  var placements$1 = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function (placement) {
+    return getVariation(placement) === variation;
+  }) : basePlacements;
+  var allowedPlacements = placements$1.filter(function (placement) {
+    return allowedAutoPlacements.indexOf(placement) >= 0;
+  });
+
+  if (allowedPlacements.length === 0) {
+    allowedPlacements = placements$1;
+
+    if (process.env.NODE_ENV !== "production") {
+      console.error(['Popper: The `allowedAutoPlacements` option did not allow any', 'placements. Ensure the `placement` option matches the variation', 'of the allowed placements.', 'For example, "auto" cannot be used to allow "bottom-start".', 'Use "auto-start" instead.'].join(' '));
+    }
+  } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
+
+
+  var overflows = allowedPlacements.reduce(function (acc, placement) {
+    acc[placement] = detectOverflow(state, {
+      placement: placement,
+      boundary: boundary,
+      rootBoundary: rootBoundary,
+      padding: padding
+    })[getBasePlacement(placement)];
+    return acc;
+  }, {});
+  return Object.keys(overflows).sort(function (a, b) {
+    return overflows[a] - overflows[b];
+  });
+}
+
+function getExpandedFallbackPlacements(placement) {
+  if (getBasePlacement(placement) === auto) {
+    return [];
+  }
+
+  var oppositePlacement = getOppositePlacement(placement);
+  return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
+}
+
+function flip(_ref) {
+  var state = _ref.state,
+      options = _ref.options,
+      name = _ref.name;
+
+  if (state.modifiersData[name]._skip) {
+    return;
+  }
+
+  var _options$mainAxis = options.mainAxis,
+      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+      _options$altAxis = options.altAxis,
+      checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
+      specifiedFallbackPlacements = options.fallbackPlacements,
+      padding = options.padding,
+      boundary = options.boundary,
+      rootBoundary = options.rootBoundary,
+      altBoundary = options.altBoundary,
+      _options$flipVariatio = options.flipVariations,
+      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
+      allowedAutoPlacements = options.allowedAutoPlacements;
+  var preferredPlacement = state.options.placement;
+  var basePlacement = getBasePlacement(preferredPlacement);
+  var isBasePlacement = basePlacement === preferredPlacement;
+  var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [getOppositePlacement(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
+  var placements = [preferredPlacement].concat(fallbackPlacements).reduce(function (acc, placement) {
+    return acc.concat(getBasePlacement(placement) === auto ? computeAutoPlacement(state, {
+      placement: placement,
+      boundary: boundary,
+      rootBoundary: rootBoundary,
+      padding: padding,
+      flipVariations: flipVariations,
+      allowedAutoPlacements: allowedAutoPlacements
+    }) : placement);
+  }, []);
+  var referenceRect = state.rects.reference;
+  var popperRect = state.rects.popper;
+  var checksMap = new Map();
+  var makeFallbackChecks = true;
+  var firstFittingPlacement = placements[0];
+
+  for (var i = 0; i < placements.length; i++) {
+    var placement = placements[i];
+
+    var _basePlacement = getBasePlacement(placement);
+
+    var isStartVariation = getVariation(placement) === start;
+    var isVertical = [top, bottom].indexOf(_basePlacement) >= 0;
+    var len = isVertical ? 'width' : 'height';
+    var overflow = detectOverflow(state, {
+      placement: placement,
+      boundary: boundary,
+      rootBoundary: rootBoundary,
+      altBoundary: altBoundary,
+      padding: padding
+    });
+    var mainVariationSide = isVertical ? isStartVariation ? right : left : isStartVariation ? bottom : top;
+
+    if (referenceRect[len] > popperRect[len]) {
+      mainVariationSide = getOppositePlacement(mainVariationSide);
+    }
+
+    var altVariationSide = getOppositePlacement(mainVariationSide);
+    var checks = [];
+
+    if (checkMainAxis) {
+      checks.push(overflow[_basePlacement] <= 0);
+    }
+
+    if (checkAltAxis) {
+      checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
+    }
+
+    if (checks.every(function (check) {
+      return check;
+    })) {
+      firstFittingPlacement = placement;
+      makeFallbackChecks = false;
+      break;
+    }
+
+    checksMap.set(placement, checks);
+  }
+
+  if (makeFallbackChecks) {
+    // `2` may be desired in some cases – research later
+    var numberOfChecks = flipVariations ? 3 : 1;
+
+    var _loop = function _loop(_i) {
+      var fittingPlacement = placements.find(function (placement) {
+        var checks = checksMap.get(placement);
+
+        if (checks) {
+          return checks.slice(0, _i).every(function (check) {
+            return check;
+          });
+        }
+      });
+
+      if (fittingPlacement) {
+        firstFittingPlacement = fittingPlacement;
+        return "break";
+      }
+    };
+
+    for (var _i = numberOfChecks; _i > 0; _i--) {
+      var _ret = _loop(_i);
+
+      if (_ret === "break") break;
+    }
+  }
+
+  if (state.placement !== firstFittingPlacement) {
+    state.modifiersData[name]._skip = true;
+    state.placement = firstFittingPlacement;
+    state.reset = true;
+  }
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var flip$1 = {
+  name: 'flip',
+  enabled: true,
+  phase: 'main',
+  fn: flip,
+  requiresIfExists: ['offset'],
+  data: {
+    _skip: false
+  }
+};
+
+function getSideOffsets(overflow, rect, preventedOffsets) {
+  if (preventedOffsets === void 0) {
+    preventedOffsets = {
+      x: 0,
+      y: 0
+    };
+  }
+
+  return {
+    top: overflow.top - rect.height - preventedOffsets.y,
+    right: overflow.right - rect.width + preventedOffsets.x,
+    bottom: overflow.bottom - rect.height + preventedOffsets.y,
+    left: overflow.left - rect.width - preventedOffsets.x
+  };
+}
+
+function isAnySideFullyClipped(overflow) {
+  return [top, right, bottom, left].some(function (side) {
+    return overflow[side] >= 0;
+  });
+}
+
+function hide(_ref) {
+  var state = _ref.state,
+      name = _ref.name;
+  var referenceRect = state.rects.reference;
+  var popperRect = state.rects.popper;
+  var preventedOffsets = state.modifiersData.preventOverflow;
+  var referenceOverflow = detectOverflow(state, {
+    elementContext: 'reference'
+  });
+  var popperAltOverflow = detectOverflow(state, {
+    altBoundary: true
+  });
+  var referenceClippingOffsets = getSideOffsets(referenceOverflow, referenceRect);
+  var popperEscapeOffsets = getSideOffsets(popperAltOverflow, popperRect, preventedOffsets);
+  var isReferenceHidden = isAnySideFullyClipped(referenceClippingOffsets);
+  var hasPopperEscaped = isAnySideFullyClipped(popperEscapeOffsets);
+  state.modifiersData[name] = {
+    referenceClippingOffsets: referenceClippingOffsets,
+    popperEscapeOffsets: popperEscapeOffsets,
+    isReferenceHidden: isReferenceHidden,
+    hasPopperEscaped: hasPopperEscaped
+  };
+  state.attributes.popper = Object.assign({}, state.attributes.popper, {
+    'data-popper-reference-hidden': isReferenceHidden,
+    'data-popper-escaped': hasPopperEscaped
+  });
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var hide$1 = {
+  name: 'hide',
+  enabled: true,
+  phase: 'main',
+  requiresIfExists: ['preventOverflow'],
+  fn: hide
+};
+
+function distanceAndSkiddingToXY(placement, rects, offset) {
+  var basePlacement = getBasePlacement(placement);
+  var invertDistance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
+
+  var _ref = typeof offset === 'function' ? offset(Object.assign({}, rects, {
+    placement: placement
+  })) : offset,
+      skidding = _ref[0],
+      distance = _ref[1];
+
+  skidding = skidding || 0;
+  distance = (distance || 0) * invertDistance;
+  return [left, right].indexOf(basePlacement) >= 0 ? {
+    x: distance,
+    y: skidding
+  } : {
+    x: skidding,
+    y: distance
+  };
+}
+
+function offset(_ref2) {
+  var state = _ref2.state,
+      options = _ref2.options,
+      name = _ref2.name;
+  var _options$offset = options.offset,
+      offset = _options$offset === void 0 ? [0, 0] : _options$offset;
+  var data = placements.reduce(function (acc, placement) {
+    acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset);
+    return acc;
+  }, {});
+  var _data$state$placement = data[state.placement],
+      x = _data$state$placement.x,
+      y = _data$state$placement.y;
+
+  if (state.modifiersData.popperOffsets != null) {
+    state.modifiersData.popperOffsets.x += x;
+    state.modifiersData.popperOffsets.y += y;
+  }
+
+  state.modifiersData[name] = data;
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var offset$1 = {
+  name: 'offset',
+  enabled: true,
+  phase: 'main',
+  requires: ['popperOffsets'],
+  fn: offset
+};
+
+function popperOffsets(_ref) {
+  var state = _ref.state,
+      name = _ref.name;
+  // Offsets are the actual position the popper needs to have to be
+  // properly positioned near its reference element
+  // This is the most basic placement, and will be adjusted by
+  // the modifiers in the next step
+  state.modifiersData[name] = computeOffsets({
+    reference: state.rects.reference,
+    element: state.rects.popper,
+    strategy: 'absolute',
+    placement: state.placement
+  });
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var popperOffsets$1 = {
+  name: 'popperOffsets',
+  enabled: true,
+  phase: 'read',
+  fn: popperOffsets,
+  data: {}
+};
+
+function getAltAxis(axis) {
+  return axis === 'x' ? 'y' : 'x';
+}
+
+function preventOverflow(_ref) {
+  var state = _ref.state,
+      options = _ref.options,
+      name = _ref.name;
+  var _options$mainAxis = options.mainAxis,
+      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+      _options$altAxis = options.altAxis,
+      checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
+      boundary = options.boundary,
+      rootBoundary = options.rootBoundary,
+      altBoundary = options.altBoundary,
+      padding = options.padding,
+      _options$tether = options.tether,
+      tether = _options$tether === void 0 ? true : _options$tether,
+      _options$tetherOffset = options.tetherOffset,
+      tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
+  var overflow = detectOverflow(state, {
+    boundary: boundary,
+    rootBoundary: rootBoundary,
+    padding: padding,
+    altBoundary: altBoundary
+  });
+  var basePlacement = getBasePlacement(state.placement);
+  var variation = getVariation(state.placement);
+  var isBasePlacement = !variation;
+  var mainAxis = getMainAxisFromPlacement(basePlacement);
+  var altAxis = getAltAxis(mainAxis);
+  var popperOffsets = state.modifiersData.popperOffsets;
+  var referenceRect = state.rects.reference;
+  var popperRect = state.rects.popper;
+  var tetherOffsetValue = typeof tetherOffset === 'function' ? tetherOffset(Object.assign({}, state.rects, {
+    placement: state.placement
+  })) : tetherOffset;
+  var data = {
+    x: 0,
+    y: 0
+  };
+
+  if (!popperOffsets) {
+    return;
+  }
+
+  if (checkMainAxis || checkAltAxis) {
+    var mainSide = mainAxis === 'y' ? top : left;
+    var altSide = mainAxis === 'y' ? bottom : right;
+    var len = mainAxis === 'y' ? 'height' : 'width';
+    var offset = popperOffsets[mainAxis];
+    var min$1 = popperOffsets[mainAxis] + overflow[mainSide];
+    var max$1 = popperOffsets[mainAxis] - overflow[altSide];
+    var additive = tether ? -popperRect[len] / 2 : 0;
+    var minLen = variation === start ? referenceRect[len] : popperRect[len];
+    var maxLen = variation === start ? -popperRect[len] : -referenceRect[len]; // We need to include the arrow in the calculation so the arrow doesn't go
+    // outside the reference bounds
+
+    var arrowElement = state.elements.arrow;
+    var arrowRect = tether && arrowElement ? getLayoutRect(arrowElement) : {
+      width: 0,
+      height: 0
+    };
+    var arrowPaddingObject = state.modifiersData['arrow#persistent'] ? state.modifiersData['arrow#persistent'].padding : getFreshSideObject();
+    var arrowPaddingMin = arrowPaddingObject[mainSide];
+    var arrowPaddingMax = arrowPaddingObject[altSide]; // If the reference length is smaller than the arrow length, we don't want
+    // to include its full size in the calculation. If the reference is small
+    // and near the edge of a boundary, the popper can overflow even if the
+    // reference is not overflowing as well (e.g. virtual elements with no
+    // width or height)
+
+    var arrowLen = within(0, referenceRect[len], arrowRect[len]);
+    var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - tetherOffsetValue : minLen - arrowLen - arrowPaddingMin - tetherOffsetValue;
+    var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + tetherOffsetValue : maxLen + arrowLen + arrowPaddingMax + tetherOffsetValue;
+    var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
+    var clientOffset = arrowOffsetParent ? mainAxis === 'y' ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;
+    var offsetModifierValue = state.modifiersData.offset ? state.modifiersData.offset[state.placement][mainAxis] : 0;
+    var tetherMin = popperOffsets[mainAxis] + minOffset - offsetModifierValue - clientOffset;
+    var tetherMax = popperOffsets[mainAxis] + maxOffset - offsetModifierValue;
+
+    if (checkMainAxis) {
+      var preventedOffset = within(tether ? min(min$1, tetherMin) : min$1, offset, tether ? max(max$1, tetherMax) : max$1);
+      popperOffsets[mainAxis] = preventedOffset;
+      data[mainAxis] = preventedOffset - offset;
+    }
+
+    if (checkAltAxis) {
+      var _mainSide = mainAxis === 'x' ? top : left;
+
+      var _altSide = mainAxis === 'x' ? bottom : right;
+
+      var _offset = popperOffsets[altAxis];
+
+      var _min = _offset + overflow[_mainSide];
+
+      var _max = _offset - overflow[_altSide];
+
+      var _preventedOffset = within(tether ? min(_min, tetherMin) : _min, _offset, tether ? max(_max, tetherMax) : _max);
+
+      popperOffsets[altAxis] = _preventedOffset;
+      data[altAxis] = _preventedOffset - _offset;
+    }
+  }
+
+  state.modifiersData[name] = data;
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var preventOverflow$1 = {
+  name: 'preventOverflow',
+  enabled: true,
+  phase: 'main',
+  fn: preventOverflow,
+  requiresIfExists: ['offset']
+};
+
+function getHTMLElementScroll(element) {
+  return {
+    scrollLeft: element.scrollLeft,
+    scrollTop: element.scrollTop
+  };
+}
+
+function getNodeScroll(node) {
+  if (node === getWindow(node) || !isHTMLElement(node)) {
+    return getWindowScroll(node);
+  } else {
+    return getHTMLElementScroll(node);
+  }
+}
+
+function isElementScaled(element) {
+  var rect = element.getBoundingClientRect();
+  var scaleX = rect.width / element.offsetWidth || 1;
+  var scaleY = rect.height / element.offsetHeight || 1;
+  return scaleX !== 1 || scaleY !== 1;
+} // Returns the composite rect of an element relative to its offsetParent.
+// Composite means it takes into account transforms as well as layout.
+
+
+function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
+  if (isFixed === void 0) {
+    isFixed = false;
+  }
+
+  var isOffsetParentAnElement = isHTMLElement(offsetParent);
+  isHTMLElement(offsetParent) && isElementScaled(offsetParent);
+  var documentElement = getDocumentElement(offsetParent);
+  var rect = getBoundingClientRect(elementOrVirtualElement);
+  var scroll = {
+    scrollLeft: 0,
+    scrollTop: 0
+  };
+  var offsets = {
+    x: 0,
+    y: 0
+  };
+
+  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
+    if (getNodeName(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
+    isScrollParent(documentElement)) {
+      scroll = getNodeScroll(offsetParent);
+    }
+
+    if (isHTMLElement(offsetParent)) {
+      offsets = getBoundingClientRect(offsetParent);
+      offsets.x += offsetParent.clientLeft;
+      offsets.y += offsetParent.clientTop;
+    } else if (documentElement) {
+      offsets.x = getWindowScrollBarX(documentElement);
+    }
+  }
+
+  return {
+    x: rect.left + scroll.scrollLeft - offsets.x,
+    y: rect.top + scroll.scrollTop - offsets.y,
+    width: rect.width,
+    height: rect.height
+  };
+}
+
+function order(modifiers) {
+  var map = new Map();
+  var visited = new Set();
+  var result = [];
+  modifiers.forEach(function (modifier) {
+    map.set(modifier.name, modifier);
+  }); // On visiting object, check for its dependencies and visit them recursively
+
+  function sort(modifier) {
+    visited.add(modifier.name);
+    var requires = [].concat(modifier.requires || [], modifier.requiresIfExists || []);
+    requires.forEach(function (dep) {
+      if (!visited.has(dep)) {
+        var depModifier = map.get(dep);
+
+        if (depModifier) {
+          sort(depModifier);
+        }
+      }
+    });
+    result.push(modifier);
+  }
+
+  modifiers.forEach(function (modifier) {
+    if (!visited.has(modifier.name)) {
+      // check for visited object
+      sort(modifier);
+    }
+  });
+  return result;
+}
+
+function orderModifiers(modifiers) {
+  // order based on dependencies
+  var orderedModifiers = order(modifiers); // order based on phase
+
+  return modifierPhases.reduce(function (acc, phase) {
+    return acc.concat(orderedModifiers.filter(function (modifier) {
+      return modifier.phase === phase;
+    }));
+  }, []);
+}
+
+function debounce(fn) {
+  var pending;
+  return function () {
+    if (!pending) {
+      pending = new Promise(function (resolve) {
+        Promise.resolve().then(function () {
+          pending = undefined;
+          resolve(fn());
+        });
+      });
+    }
+
+    return pending;
+  };
+}
+
+function format(str) {
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+
+  return [].concat(args).reduce(function (p, c) {
+    return p.replace(/%s/, c);
+  }, str);
+}
+
+var INVALID_MODIFIER_ERROR = 'Popper: modifier "%s" provided an invalid %s property, expected %s but got %s';
+var MISSING_DEPENDENCY_ERROR = 'Popper: modifier "%s" requires "%s", but "%s" modifier is not available';
+var VALID_PROPERTIES = ['name', 'enabled', 'phase', 'fn', 'effect', 'requires', 'options'];
+function validateModifiers(modifiers) {
+  modifiers.forEach(function (modifier) {
+    [].concat(Object.keys(modifier), VALID_PROPERTIES) // IE11-compatible replacement for `new Set(iterable)`
+    .filter(function (value, index, self) {
+      return self.indexOf(value) === index;
+    }).forEach(function (key) {
+      switch (key) {
+        case 'name':
+          if (typeof modifier.name !== 'string') {
+            console.error(format(INVALID_MODIFIER_ERROR, String(modifier.name), '"name"', '"string"', "\"" + String(modifier.name) + "\""));
+          }
+
+          break;
+
+        case 'enabled':
+          if (typeof modifier.enabled !== 'boolean') {
+            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"enabled"', '"boolean"', "\"" + String(modifier.enabled) + "\""));
+          }
+
+          break;
+
+        case 'phase':
+          if (modifierPhases.indexOf(modifier.phase) < 0) {
+            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"phase"', "either " + modifierPhases.join(', '), "\"" + String(modifier.phase) + "\""));
+          }
+
+          break;
+
+        case 'fn':
+          if (typeof modifier.fn !== 'function') {
+            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"fn"', '"function"', "\"" + String(modifier.fn) + "\""));
+          }
+
+          break;
+
+        case 'effect':
+          if (modifier.effect != null && typeof modifier.effect !== 'function') {
+            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"effect"', '"function"', "\"" + String(modifier.fn) + "\""));
+          }
+
+          break;
+
+        case 'requires':
+          if (modifier.requires != null && !Array.isArray(modifier.requires)) {
+            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requires"', '"array"', "\"" + String(modifier.requires) + "\""));
+          }
+
+          break;
+
+        case 'requiresIfExists':
+          if (!Array.isArray(modifier.requiresIfExists)) {
+            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requiresIfExists"', '"array"', "\"" + String(modifier.requiresIfExists) + "\""));
+          }
+
+          break;
+
+        case 'options':
+        case 'data':
+          break;
+
+        default:
+          console.error("PopperJS: an invalid property has been provided to the \"" + modifier.name + "\" modifier, valid properties are " + VALID_PROPERTIES.map(function (s) {
+            return "\"" + s + "\"";
+          }).join(', ') + "; but \"" + key + "\" was provided.");
+      }
+
+      modifier.requires && modifier.requires.forEach(function (requirement) {
+        if (modifiers.find(function (mod) {
+          return mod.name === requirement;
+        }) == null) {
+          console.error(format(MISSING_DEPENDENCY_ERROR, String(modifier.name), requirement, requirement));
+        }
+      });
+    });
+  });
+}
+
+function uniqueBy(arr, fn) {
+  var identifiers = new Set();
+  return arr.filter(function (item) {
+    var identifier = fn(item);
+
+    if (!identifiers.has(identifier)) {
+      identifiers.add(identifier);
+      return true;
+    }
+  });
+}
+
+function mergeByName(modifiers) {
+  var merged = modifiers.reduce(function (merged, current) {
+    var existing = merged[current.name];
+    merged[current.name] = existing ? Object.assign({}, existing, current, {
+      options: Object.assign({}, existing.options, current.options),
+      data: Object.assign({}, existing.data, current.data)
+    }) : current;
+    return merged;
+  }, {}); // IE11 does not support Object.values
+
+  return Object.keys(merged).map(function (key) {
+    return merged[key];
+  });
+}
+
+var INVALID_ELEMENT_ERROR = 'Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.';
+var INFINITE_LOOP_ERROR = 'Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.';
+var DEFAULT_OPTIONS = {
+  placement: 'bottom',
+  modifiers: [],
+  strategy: 'absolute'
+};
+
+function areValidElements() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  return !args.some(function (element) {
+    return !(element && typeof element.getBoundingClientRect === 'function');
+  });
+}
+
+function popperGenerator(generatorOptions) {
+  if (generatorOptions === void 0) {
+    generatorOptions = {};
+  }
+
+  var _generatorOptions = generatorOptions,
+      _generatorOptions$def = _generatorOptions.defaultModifiers,
+      defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
+      _generatorOptions$def2 = _generatorOptions.defaultOptions,
+      defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
+  return function createPopper(reference, popper, options) {
+    if (options === void 0) {
+      options = defaultOptions;
+    }
+
+    var state = {
+      placement: 'bottom',
+      orderedModifiers: [],
+      options: Object.assign({}, DEFAULT_OPTIONS, defaultOptions),
+      modifiersData: {},
+      elements: {
+        reference: reference,
+        popper: popper
+      },
+      attributes: {},
+      styles: {}
+    };
+    var effectCleanupFns = [];
+    var isDestroyed = false;
+    var instance = {
+      state: state,
+      setOptions: function setOptions(setOptionsAction) {
+        var options = typeof setOptionsAction === 'function' ? setOptionsAction(state.options) : setOptionsAction;
+        cleanupModifierEffects();
+        state.options = Object.assign({}, defaultOptions, state.options, options);
+        state.scrollParents = {
+          reference: isElement(reference) ? listScrollParents(reference) : reference.contextElement ? listScrollParents(reference.contextElement) : [],
+          popper: listScrollParents(popper)
+        }; // Orders the modifiers based on their dependencies and `phase`
+        // properties
+
+        var orderedModifiers = orderModifiers(mergeByName([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
+
+        state.orderedModifiers = orderedModifiers.filter(function (m) {
+          return m.enabled;
+        }); // Validate the provided modifiers so that the consumer will get warned
+        // if one of the modifiers is invalid for any reason
+
+        if (process.env.NODE_ENV !== "production") {
+          var modifiers = uniqueBy([].concat(orderedModifiers, state.options.modifiers), function (_ref) {
+            var name = _ref.name;
+            return name;
+          });
+          validateModifiers(modifiers);
+
+          if (getBasePlacement(state.options.placement) === auto) {
+            var flipModifier = state.orderedModifiers.find(function (_ref2) {
+              var name = _ref2.name;
+              return name === 'flip';
+            });
+
+            if (!flipModifier) {
+              console.error(['Popper: "auto" placements require the "flip" modifier be', 'present and enabled to work.'].join(' '));
+            }
+          }
+
+          var _getComputedStyle = getComputedStyle$1(popper),
+              marginTop = _getComputedStyle.marginTop,
+              marginRight = _getComputedStyle.marginRight,
+              marginBottom = _getComputedStyle.marginBottom,
+              marginLeft = _getComputedStyle.marginLeft; // We no longer take into account `margins` on the popper, and it can
+          // cause bugs with positioning, so we'll warn the consumer
+
+
+          if ([marginTop, marginRight, marginBottom, marginLeft].some(function (margin) {
+            return parseFloat(margin);
+          })) {
+            console.warn(['Popper: CSS "margin" styles cannot be used to apply padding', 'between the popper and its reference element or boundary.', 'To replicate margin, use the `offset` modifier, as well as', 'the `padding` option in the `preventOverflow` and `flip`', 'modifiers.'].join(' '));
+          }
+        }
+
+        runModifierEffects();
+        return instance.update();
+      },
+      // Sync update – it will always be executed, even if not necessary. This
+      // is useful for low frequency updates where sync behavior simplifies the
+      // logic.
+      // For high frequency updates (e.g. `resize` and `scroll` events), always
+      // prefer the async Popper#update method
+      forceUpdate: function forceUpdate() {
+        if (isDestroyed) {
+          return;
+        }
+
+        var _state$elements = state.elements,
+            reference = _state$elements.reference,
+            popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
+        // anymore
+
+        if (!areValidElements(reference, popper)) {
+          if (process.env.NODE_ENV !== "production") {
+            console.error(INVALID_ELEMENT_ERROR);
+          }
+
+          return;
+        } // Store the reference and popper rects to be read by modifiers
+
+
+        state.rects = {
+          reference: getCompositeRect(reference, getOffsetParent(popper), state.options.strategy === 'fixed'),
+          popper: getLayoutRect(popper)
+        }; // Modifiers have the ability to reset the current update cycle. The
+        // most common use case for this is the `flip` modifier changing the
+        // placement, which then needs to re-run all the modifiers, because the
+        // logic was previously ran for the previous placement and is therefore
+        // stale/incorrect
+
+        state.reset = false;
+        state.placement = state.options.placement; // On each update cycle, the `modifiersData` property for each modifier
+        // is filled with the initial data specified by the modifier. This means
+        // it doesn't persist and is fresh on each update.
+        // To ensure persistent data, use `${name}#persistent`
+
+        state.orderedModifiers.forEach(function (modifier) {
+          return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
+        });
+        var __debug_loops__ = 0;
+
+        for (var index = 0; index < state.orderedModifiers.length; index++) {
+          if (process.env.NODE_ENV !== "production") {
+            __debug_loops__ += 1;
+
+            if (__debug_loops__ > 100) {
+              console.error(INFINITE_LOOP_ERROR);
+              break;
+            }
+          }
+
+          if (state.reset === true) {
+            state.reset = false;
+            index = -1;
+            continue;
+          }
+
+          var _state$orderedModifie = state.orderedModifiers[index],
+              fn = _state$orderedModifie.fn,
+              _state$orderedModifie2 = _state$orderedModifie.options,
+              _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
+              name = _state$orderedModifie.name;
+
+          if (typeof fn === 'function') {
+            state = fn({
+              state: state,
+              options: _options,
+              name: name,
+              instance: instance
+            }) || state;
+          }
+        }
+      },
+      // Async and optimistically optimized update – it will not be executed if
+      // not necessary (debounced to run at most once-per-tick)
+      update: debounce(function () {
+        return new Promise(function (resolve) {
+          instance.forceUpdate();
+          resolve(state);
+        });
+      }),
+      destroy: function destroy() {
+        cleanupModifierEffects();
+        isDestroyed = true;
+      }
+    };
+
+    if (!areValidElements(reference, popper)) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error(INVALID_ELEMENT_ERROR);
+      }
+
+      return instance;
+    }
+
+    instance.setOptions(options).then(function (state) {
+      if (!isDestroyed && options.onFirstUpdate) {
+        options.onFirstUpdate(state);
+      }
+    }); // Modifiers have the ability to execute arbitrary code before the first
+    // update cycle runs. They will be executed in the same order as the update
+    // cycle. This is useful when a modifier adds some persistent data that
+    // other modifiers need to use, but the modifier is run after the dependent
+    // one.
+
+    function runModifierEffects() {
+      state.orderedModifiers.forEach(function (_ref3) {
+        var name = _ref3.name,
+            _ref3$options = _ref3.options,
+            options = _ref3$options === void 0 ? {} : _ref3$options,
+            effect = _ref3.effect;
+
+        if (typeof effect === 'function') {
+          var cleanupFn = effect({
+            state: state,
+            name: name,
+            instance: instance,
+            options: options
+          });
+
+          var noopFn = function noopFn() {};
+
+          effectCleanupFns.push(cleanupFn || noopFn);
+        }
+      });
+    }
+
+    function cleanupModifierEffects() {
+      effectCleanupFns.forEach(function (fn) {
+        return fn();
+      });
+      effectCleanupFns = [];
+    }
+
+    return instance;
+  };
+}
+
+var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1, offset$1, flip$1, preventOverflow$1, arrow$1, hide$1];
+var createPopper = /*#__PURE__*/popperGenerator({
+  defaultModifiers: defaultModifiers
+}); // eslint-disable-next-line import/no-unused-modules
+
+// ------------------------------ timer ------------------------------
+var timer;
+var getTimer = function () { return timer; };
+var setTimer = function (timeout) { return (timer = timeout); };
+var removeTimerIO = IO.of(getTimer).map(clearTimer);
+var unsafeDoRemoveTimer = R.compose(unsafePerformIO(void 0), R.always(removeTimerIO));
+// ------------------------------ popperInstance ------------------------------
+var popperMap = {};
+window.popperMap = popperMap;
+var usePopper = function (key) {
+    return {
+        getPopper: function () { return popperMap[key]; },
+        setPopper: function (instance) { return (popperMap[key] = instance); }
+    };
+};
+var popperIO = IO.of(function (key) { return usePopper(key).getPopper(); });
+// unload::Instance a=>a->number
+var unload = R.compose(curryTimeout(R.__, 20), R.converge(R.bind, [R.prop('destroy'), R.identity]));
+var unloadIO = popperIO.map(R.compose(map(setTimer), map(unload), Maybe.of));
+var unsafeDoUnload = function (key) {
+    var popper = usePopper(key).getPopper();
+    popper && unload(popper);
+};
+var alienateInstance = function (popper, key) {
+    if (!popper)
+        return popper;
+    var getPopEle = usePopEle(key).getPopEle;
+    var update = popper.update, destroy = popper.destroy;
+    popper.update = function () {
+        showEle(getPopEle());
+        return update.call(popper);
+    };
+    popper.destroy = function () {
+        hideEle(getPopEle());
+        return destroy.call(popper);
+    };
+    return popper;
+};
+// ------------------------------ popElement ------------------------------
+var popEleMap = {};
+var usePopEle = function (key) {
+    return {
+        getPopEle: function () { return popEleMap[key]; },
+        setPopEle: function (ele) { return (popEleMap[key] = ele); }
+    };
+};
+var bindBaseAttr = R.compose(setClassByArr(['cx_pos_absolute', 'cx_b_radius_4', 'direction_order_popper', 'z_index_2500']));
+var createPopperEle = R.compose(bindBaseAttr, R.converge(createTag, [R.always('div')]));
+var getPopOption = R.compose(R.objOf('placement'), R.defaultTo('right-start'));
+var mountPopperEle = function (options) {
+    var hasClass = function () { return R.is(Array, R.prop('classList', options)); };
+    var isMouseType = function () { return R.equals('mouse', R.prop('controlType', options)); };
+    var _a = R.compose(usePopEle, R.prop('key'))(options), getPopEle = _a.getPopEle, setPopEle = _a.setPopEle;
+    var bindKey = function (ele) { return (ele.setAttribute('pop-key', options.key), ele); };
+    var unloadPopper = function () {
+        unsafeDoUnload(options.key);
+    };
+    var bindMouseEvent = R.compose(curryAddListener('mouseenter', unsafeDoRemoveTimer), curryAddListener('mouseleave', unloadPopper));
+    var releaseMouseEvent = R.compose(curryRemoveListener('mouseenter', unsafeDoRemoveTimer), curryRemoveListener('mouseleave', unloadPopper));
+    var initPopperEle = R.compose(bindBaseAttr, clearClassList, releaseMouseEvent);
+    return R.compose(R.when(hasClass, setClassByArr(R.prop('classList', options))), R.converge(R.ifElse(truthy, R.compose(R.when(isMouseType, bindMouseEvent), initPopperEle), R.compose(appendToBody, setPopEle, R.when(isMouseType, bindMouseEvent), bindKey, createPopperEle)), [getPopEle]))();
+};
+var getPopInstance = function (ele, key, placement, classList, controlType) {
+    var element = createPopper(ele, mountPopperEle({ classList: classList, controlType: controlType, key: key }), getPopOption(placement));
+    return alienateInstance(element, key);
+};
+// ------------------------------ patchEle ------------------------------
+var currentEle = null;
+var getCurrentEle = function () { return currentEle; };
+var setCurrentEle = function (ele) { return (currentEle = ele); };
+var currentEleIsExist = R.compose(truthy, getCurrentEle);
+var renderListItem = function (item) {
+    var hasIcon = function () { return truthy(item.icon); };
+    var hasText = function () { return truthy(item.text); };
+    var createWrapper = function () {
+        return setClassByArr([
+            'color_white',
+            'hover_bg_black_75',
+            'cx_b_radius_4',
+            'cx_plr_8',
+            'cx_fs_12',
+            'cx_h_30',
+            'cx_flex_center',
+            'cx_cursor_pointer'
+        ], createTag('div'));
+    };
+    var appendIcon = function (wrapper) {
+        return appendChild(setClassByArr(['iconfont', "icon-" + item.icon, 'cx_mr_9', 'cx_fs_12'], createTag('i')))(wrapper);
+    };
+    var appendText = function (wrapper) {
+        return appendChild(setInnerText(item.text, createTag('span')))(wrapper);
+    };
+    return R.compose(R.when(hasText, appendText), R.when(hasIcon, appendIcon), createWrapper)();
+};
+var bindClickEvent = R.curryN(2, function (ele, item) {
+    var type = item.type, callback = item.callback;
+    var isCopyType = function () { return R.equals(type, 'copy'); };
+    var isJumpType = function () { return R.equals(type, 'jump'); };
+    var cbIsFunction = function () { return R.is(Function, callback); };
+    var copyHandle = R.compose(copyInnerText, getCurrentEle);
+    var jumpHandle = R.when(cbIsFunction, function () { return (callback(item, currentEle), currentEle); });
+    return curryAddListener('click', R.when(currentEleIsExist, R.compose(R.tap(R.when(isCopyType, copyHandle)), R.tap(R.when(isJumpType, jumpHandle)))), ele);
+});
+var patchListEle = function (list, container) {
+    list.forEach(R.compose(appendChild(R.__, container), R.converge(bindClickEvent, [renderListItem, R.identity])));
+};
+var renderTextItem = R.compose(setClassByArr(['cx_p_12', 'color_white', 'cx_fs_12']), R.converge(setInnerText, [R.identity, R.converge(createTag, [R.always('div')])]));
+var patchTextEle = function (text, container) {
+    return R.compose(appendChild(R.__, container), renderTextItem)(text);
+};
+var setCancelWatcher = function (cancel) { return (cancel); };
+// updatePopInstance::Instance->Func
+var updatePopInstance = R.converge(R.bind, [R.prop('update'), R.identity]);
+var EleKeyMap = new WeakMap();
+var script = {
+    name: 'uniPopper',
+    mounted: function (el, _a) {
+        var value = _a.value;
+        var bindEle = function () { return setCurrentEle(el); };
+        var getKey = function () { return R.compose(R.defaultTo('default'), R.prop('key'))(value); };
+        EleKeyMap.set(el, getKey());
+        var getPopEle = usePopEle(getKey()).getPopEle;
+        var setPopper = usePopper(getKey()).setPopper;
+        var getList = function () { return R.prop('list')(value); };
+        var getText = function () { return R.prop('text')(value); };
+        var getPlacement = function () { return R.prop('placement')(value); };
+        var getClassList = function () { return R.prop('classList')(value); };
+        var getVisible = function () { return R.prop('visible')(value); };
+        var visibleIsExist = function () { return getVisible() != undefined; };
+        var getControlType = function () { return R.defaultTo('mouse', R.prop('controlType', value)); };
+        var listIsExist = R.compose(truthy, getList);
+        var patchListToPop = R.converge(patchListEle, [getList, getPopEle]);
+        var textIsExist = R.compose(truthy, getText);
+        var patchTextToPop = R.converge(patchTextEle, [getText, getPopEle]);
+        var show = R.compose(R.converge(R.compose(map(R.when(textIsExist, patchTextToPop)), map(R.when(listIsExist, patchListToPop)), map(setPopper), map(R.tap(R.compose(R.call, updatePopInstance))), map(R.tap(R.compose(clearInnerHTML, getPopEle))), Maybe.of), [
+            R.converge(getPopInstance, [
+                R.always(el),
+                getKey,
+                getPlacement,
+                getClassList,
+                getControlType
+            ])
+        ]), unsafeDoRemoveTimer, bindEle);
+        var hide = R.compose(unsafePerformIO(getKey()), R.always(unloadIO));
+        var isHandleType = R.equals('handle');
+        var bindHandle = R.compose(setCancelWatcher, R.converge(watch, [R.always(getVisible), R.always(R.compose(R.ifElse(truthy, show, hide)))]));
+        var isMouseType = R.equals('mouse');
+        var bindMouse = R.compose(curryAddListener('mouseleave', hide), curryAddListener('mouseenter', R.ifElse(visibleIsExist, R.when(getVisible, show), show)));
+        R.compose(R.tap(R.when(isHandleType, bindHandle)), R.tap(R.when(isMouseType, R.converge(bindMouse, [R.always(el)]))), getControlType)();
+    },
+    unmounted: function (el) {
+        var key = EleKeyMap.get(el);
+        key && unsafeDoUnload(key);
+    }
+};
+
+var _CX_UNI_POPPER = script;
+_CX_UNI_POPPER.install = function (app) {
+    app.directive(script.name, script);
+};
+
+script$5.install = function (app) {
+    app.component(script$5.name, script$5);
+};
+var _CX_OVERLAY = script$5;
+
+var components = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  CxBtn: _CX_BTN,
+  CxOverlay: _CX_OVERLAY,
+  CxTab: _CX_TAB,
+  CxForm: _CX_FORM,
+  CxDialog: _CX_DIALOG,
+  CxTable: _CX_TABLE,
+  CxUniPopper: _CX_UNI_POPPER
+});
+
+// import '@babel/polyfill'
+var CxUI = {
+    install: function (app) {
+        Object.values(components).forEach(function (component) {
+            app.use(component);
+        });
+    }
+};
+
+export default CxUI;
+export { ARROW_KEY, COLUMN_FLAG, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_FORM as CxForm, _CX_OVERLAY as CxOverlay, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_UNI_POPPER as CxUniPopper, Either, EventBus, EventBusCreator, IO, Identify, Left, Maybe, PATCH_FLAG, Right, Task, TypeOption, addResizeListener, appendChild, appendToBody, arrFlat, arrInsert, assignAttrs, awaitTimeout, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, calledBy, changeDynamicIdToText, clearClassList, clearInnerHTML, clearTimer, copyInnerText, copySort, createTag, curryAddListener, curryRemoveListener, curryTimeout, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, defaultPromise, domShare, either, eventBus, falsy, findAncestor, flatten, formatDate, formatFormDefaultValue, formatTime, formatWidth, functorWarn, getColumnSelectText, getCxDynamicHead, getDateRange, getDoNothingIO, getEvalResult, getFunctionAttrs, getMaybeValue, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getRefs, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, hideEle, invokeLayeredRow, is, isAbsolutePath, isAnyObject, isArray, isBoolean, isClient, isDate, isDeepObjectEqual, isDef, isElement$1 as isElement, isEmpty, isErrorLike, isFunction, isHTMLElement$1 as isHTMLElement, isHTMLInputElement, isImageDom, isMobile, isNameWithId, isNull, isNullAndUnDef, isNumber, isObject$1 as isObject, isPromise, isRegExp, isSame, isServer$1 as isServer, isString, isTextarea, isUnDef, isUrl, isWindow, map, nextTimeout, omit, pick, preventDefault, propCall, queryDom, removeResizeListener, setClassByArr, setDisplay, setInnerText, showEle, splat, stateEq200, staticConfigList, stopPropagation, throttle$1 as throttle, toggleArrState, trace, truthy, unsafeAssign, unsafeClearArray, unsafeClearAssign, unsafeClearObj, unsafeClearPush, unsafeDeleteProperty, unsafeGet, unsafePerformIO, unsafePush, unsafeRemoveItem, unsafeSet, unsafeWhenDevCall, unsplat, updateCxTableWidth, useAutoWidth, useBroadcast, useBus, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useComputed, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useDynamicConfig, useEnumOptions, useExpandConfig, useLazyLoad, useLoading, usePriorityConfig, useRadioConfig, useRef, useRefs, useRefsArray, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useState, useStyle, useSync, useTableClass, useTableId, useTableStyle, useValidator, useWatch, withParams };

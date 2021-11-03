@@ -12,14 +12,14 @@ import {
 } from 'vue';
 import { CxTableBaseObj, CxTablePropType, DYNAMIC_CONFIG, ParamsItem } from '../../types';
 import * as R from 'ramda';
-import { useCxTableCompose } from '../../hooks/useCxTableCompose';
+import { useCxTableCompose } from '../../hooks';
 import { CxConfigAdaptor, EventBus, getColumnSelectText } from '../../utils';
-import { PATCH_FLAG, TypeOption } from '../../constant/enum';
-import { decimalFixed } from '../../utils/configAdaptor/adaptorUtils';
+import { PATCH_FLAG, TypeOption } from '../../constant';
+import { decimalFixed } from '../../utils';
 import Empty from '../empty.vue';
 
 import Ellipsis from '../ellipsis/index.vue';
-import { CacheRule, useCxTable } from '../../hooks/useCxTable';
+import { CacheRule, useCxTable } from '../../hooks';
 import { useCxDialog } from '../../../cx-dialog/useCxDialog';
 import { useComputed, useState } from '../../../../hooks/state';
 import { useEnumOptions } from '../../../../utils';
@@ -41,7 +41,7 @@ import {
   unsafeClearPush,
   unsafePush,
   unsafeRemoveItem
-} from '../../../../utils/functor';
+} from '../../../../utils';
 import { debounce } from 'lodash-es';
 
 const DEFAULT_CAPACITY = 10;

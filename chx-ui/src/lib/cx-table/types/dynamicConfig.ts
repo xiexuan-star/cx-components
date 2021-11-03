@@ -2,9 +2,11 @@ import { CxFormItemConfig } from '../../..';
 import { CxTableItem } from './index';
 
 export interface CxTableFormConfig {
-  searchType: 'custom'|'input' | 'search' | 'date' | 'dateRange' | 'time';
+  searchType: 'custom' | 'input' | 'search' | 'date' | 'dateRange' | 'time';
+  searchSourceId: number;
+  searchColumnId: number;
   searchDefault?: string;
-  searchOptions?: (NameWithId & { disabled?: boolean })[] | AnyObject;
+  searchOptions?: (NameWithId & { disabled?: boolean })[] | AnyObject | ((payload: { form: AnyObject }) => ({ disabled?: boolean } & NameWithId)[]);
   dynamicSearchOptions?: AnyObject;
 }
 
@@ -42,7 +44,8 @@ export type CxTableDynamicColumn = {
   renderText: boolean;
   control: CxTableDynamicControl;
   searchStates: CxTableFormConfig;
-  headTip:string;
+  headTip: string;
+  jsonData: { defaultItem: boolean };
   sideEffect: {
     request?: {
       url: string;
@@ -60,7 +63,12 @@ export type CxTableDynamicControl = {
   type: string;
 } & Partial<{
   statusMap: Record<string, { content?: string; type: 'success' | 'error' | 'info' }>;
-  options: (NameWithId & { disabled?: boolean })[] | AnyObject;
+  source: number;
+  sourceColumnId: number;
+  options: (NameWithId & { disabled?: boolean })[] | AnyObject | ((params: {
+    rowData: AnyObject;
+    rowIndex: number;
+  }) => ({ disabled?: boolean } & NameWithId)[]);
   dynamicOptions: AnyObject;
   exclusion: boolean;
   maxLength: number;
@@ -75,7 +83,8 @@ export interface CxTableAdaptorPlugin {
 
 
 export type TeleFormItem = CxFormItemConfig & { register: CxTableFormRegist[] }
-export interface CxTableFormAdaptorPlugin{
+
+export interface CxTableFormAdaptorPlugin {
   onInit?: (config: CxTableDynamicColumn) => CxTableDynamicColumn;
   onOutput?: (column: TeleFormItem) => TeleFormItem;
 }

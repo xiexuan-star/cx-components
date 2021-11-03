@@ -4,11 +4,12 @@ import {
   ControlAttrs,
   CxBroadcastRegister
 } from '../../types';
-import { isNumber, isObject } from '../../../../utils';
+import { isFunction, isNumber, isObject } from '../../../../utils';
 
 export class CxControlConfig {
   type: string = '';
   attrs: ControlAttrs = {};
+
   constructor(config: CxTableDynamicColumn) {
     Reflect.set(this, 'type', config.control?.type ?? '');
 
@@ -27,6 +28,7 @@ export class CxControlConfig {
         break;
     }
   }
+
   tagConfigAdaptor(config: CxTableDynamicColumn) {
     const statusMap = Object.entries(config.control?.statusMap ?? {}).reduce((res, [key, val]) => {
       res[key] = { ...val, prop: config.prop };
@@ -34,6 +36,7 @@ export class CxControlConfig {
     }, {} as AnyObject);
     Reflect.set(this, 'statusMap', statusMap);
   }
+
   // 文本输入框配置项
   inputConfigAdaptor(config: CxTableDynamicColumn) {
     const { control, influenced, sideEffect, prop } = config;
@@ -43,15 +46,16 @@ export class CxControlConfig {
     control.showWordLimit && Reflect.set(this.attrs!, 'showWordLimit', true);
 
     influenced &&
-      (this.attrs!.broadcastRegister = register => {
-        this.influencedRegister(register, config);
-      });
+    (this.attrs!.broadcastRegister = register => {
+      this.influencedRegister(register, config);
+    });
 
     sideEffect &&
-      Reflect.set(this.attrs!, 'onChange', (val: string, rowData: AnyObject) => {
-        this.sideEffectHandle(prop, rowData, sideEffect);
-      });
+    Reflect.set(this.attrs!, 'onChange', (val: string, rowData: AnyObject) => {
+      this.sideEffectHandle(prop, rowData, sideEffect);
+    });
   }
+
   // 单选框配置项
   selectConfigAdaptor(config: CxTableDynamicColumn) {
     const { prop, control, influenced, sideEffect } = config;
@@ -66,6 +70,9 @@ export class CxControlConfig {
       Reflect.set(this, 'options', ({ rowData }: { rowData: AnyObject }) => {
         return (currentOption = calcInnerOptions(control?.options ?? [], rowData));
       });
+    } else if (isFunction(control.options)) {
+      Reflect.set(this, 'options', (params: { rowData: AnyObject; rowIndex: number; }) =>
+        (currentOption = (control.options as Function)(params)))
     }
 
     // 选项唯一
@@ -102,11 +109,12 @@ export class CxControlConfig {
       });
     } else {
       sideEffect &&
-        Reflect.set(this.attrs!, 'onChange', (val: string, rowData: AnyObject) => {
-          sideEffect && this.sideEffectHandle(prop, rowData, sideEffect);
-        });
+      Reflect.set(this.attrs!, 'onChange', (val: string, rowData: AnyObject) => {
+        sideEffect && this.sideEffectHandle(prop, rowData, sideEffect);
+      });
     }
   }
+
   // 将influenced中的项注册至广播接收器
   influencedRegister(register: CxBroadcastRegister, config: CxTableDynamicColumn) {
     if (typeof config.influenced === 'object') {
@@ -124,6 +132,7 @@ export class CxControlConfig {
       });
     }
   }
+
   // 副作用处理
   sideEffectHandle(
     prop: string,

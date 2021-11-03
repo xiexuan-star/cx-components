@@ -1,15 +1,9 @@
-import {
-  calcInnerValidator,
-  calcInvoker,
-  decimalFixed,
-  getEvalResult,
-  getTemplateResult
-} from './adaptorUtils';
+import * as R from 'ramda';
+import { isFunction, isNumber } from '../../../../utils';
 import { CxTableAdaptorPlugin, CxTableDynamicColumn, CxTableItem } from '../../types';
+import { calcInnerValidator, calcInvoker, decimalFixed, getEvalResult, getTemplateResult } from './adaptorUtils';
 import { staticConfigList } from './const';
 import { CxControlConfig } from './controlConfig';
-import { isFunction, isNumber } from '../../../../utils';
-import * as R from 'ramda';
 
 
 const onInits: Array<CxTableAdaptorPlugin['onInit']> = [];
@@ -24,11 +18,10 @@ export class CxConfigAdaptor {
   basicColumn: CxTableItem = { prop: '', label: '' };
   getColumn() {
     if (onOutputs.length === 0) return this.basicColumn;
-    const columnDuplicate = onOutputs.reduce(
+    return onOutputs.reduce(
       (res, hook) => (isFunction(hook) ? hook(res) : res),
       R.clone(this.basicColumn)
     );
-    return columnDuplicate;
   }
   static of(config: CxTableDynamicColumn) {
     return new CxConfigAdaptor(config).getColumn();

@@ -12,6 +12,14 @@ export const useCxTableCompose = () => {
     arrFlat as (a: CxTableDynamicColumn[]) => CxTableDynamicColumn[]
   );
 
+  const getDefaultFormItem = R.compose(
+    R.map(R.prop('prop')),
+    R.filter(
+      R.compose(
+        truthy,
+        R.path(['jsonData', 'defaultFormItem']))) as (a: CxTableDynamicColumn[]) => CxTableDynamicColumn[],
+    getAllSearchableColumn);
+
   // getSearchableFormConfig::CxTableDynamicColumn[]->CxFormItemConfig[]
   const getSearchableFormConfig = R.compose(R.map(FormConfigAdaptor.of), getAllSearchableColumn);
 
@@ -127,7 +135,7 @@ export const useCxTableCompose = () => {
     unsafeWhenDevCall((rules: AnyObject[], dynamic: DYNAMIC_CONFIG) => {
       if (rules.length > 1) {
         cxTableWarn(
-          `matched ${R.length(rules)} rule `,
+          `matched ${ R.length(rules) } rule `,
           rules,
           `  by config `,
           changeDynamicIdToText(dynamic),
@@ -139,7 +147,7 @@ export const useCxTableCompose = () => {
 
   const getConfigByDynamicConfig = <T extends AnyObject>(dynamic: DYNAMIC_CONFIG, rules: T[]) => {
     return Maybe.run<T>(
-      (function*(): any {
+      (function* (): any {
         const ruleList: T[] = yield Maybe.of(rules);
         const compareDynamicProp = R.compose(
           splatEq,
@@ -162,6 +170,7 @@ export const useCxTableCompose = () => {
     arrNotEmpty,
     multiRuleWarn,
     getConfigByDynamicConfig,
+    getDefaultFormItem,
     innerBracket,
     getAllSearchableColumn,
     getTargetColumnDefault,

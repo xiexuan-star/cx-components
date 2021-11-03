@@ -18,7 +18,8 @@ export const staticConfigList: (keyof CxTableDynamicColumn)[] = [
   'renderText',
   'searchStates',
   'sortable',
-  'headTip'
+  'headTip',
+  'jsonData'
 ];
 
 export const CX_ADAPTOR_LOSS_PRECISION = 2;

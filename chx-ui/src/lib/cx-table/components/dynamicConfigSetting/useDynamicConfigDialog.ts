@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { computed, reactive } from 'vue';
-import { useCxTable } from '../../hooks/useCxTable';
+import { useCxTable } from '../../hooks';
 import * as R from 'ramda';
 
 export const useDynamicConfigDialog = () => {

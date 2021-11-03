@@ -43,7 +43,7 @@ import {
   unsafeAssign,
   unsafePush,
   nextTimeout
-} from '../../../../utils/functor';
+} from '../../../../utils';
 import { useState, useSync } from '../../../../hooks/state';
 import { CxFormItemConfig } from '../../../..';
 import { debounce } from 'lodash-es';
@@ -65,6 +65,7 @@ export default defineComponent({
     const cache = useDynamicFormCache(rootProp);
     const {
       getOptionListFromColumn,
+      getDefaultFormItem,
       getCurrentFormConfig,
       isRenderInTeleport,
       isEmptyValue,
@@ -205,7 +206,7 @@ export default defineComponent({
       )(formConfig);
     };
 
-    const currentInstance = getCurrentInstance()
+    const currentInstance = getCurrentInstance();
 
     const renderDynamicFormAdd = () => {
       return [createVNode(
@@ -222,7 +223,7 @@ export default defineComponent({
     };
 
     const states = reactive(
-      cache.getVisibleCacheIO.map(R.compose(R.objOf('visible'), truthy)).unsafePerformIO()
+      cache.getVisibleCacheIO.map(R.compose(R.objOf('visible'), R.ifElse(R.isNil, R.T, R.identity))).unsafePerformIO()
     );
     const toggleVisibleStates = () => (states.visible = !states.visible);
     watch(
@@ -287,8 +288,11 @@ export default defineComponent({
       async () => {
         await nextTick();
         unsafeUpdateConfig();
+
         cache.getFormCacheIO
-          .map(R.compose(unsafeClearPush(R.__, currentFormItems), R.defaultTo([])))
+          .map(R.compose(
+            unsafeClearPush(R.__, currentFormItems),
+            R.defaultTo(getDefaultFormItem(props.dynamicColumn))))
           .unsafePerformIO();
         initForm(form);
         setSearchableOptionList(getOptionListFromColumn(props.dynamicColumn));
@@ -307,7 +311,7 @@ export default defineComponent({
       () => {
         setFormLoading(true);
         cache.getVisibleCacheIO
-          .map(R.compose(unsafeSet(states, 'visible'), truthy))
+          .map(R.compose(unsafeSet(states, 'visible'), R.ifElse(R.isNil, R.T, R.identity)))
           .unsafePerformIO();
       }
     );

@@ -29,6 +29,9 @@ declare const _CX_BTN: SFCWithInstall<import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    tipOption: {
+        type: ObjectConstructor;
+    };
 }, (_: any, cache: any[]) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
 }>, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, Record<string, any>, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<{
@@ -39,7 +42,9 @@ declare const _CX_BTN: SFCWithInstall<import("vue").DefineComponent<{
     icon: string;
     loading: boolean;
     disabled: boolean;
-} & {}>, {
+} & {
+    tipOption?: Record<string, any>;
+}>, {
     size: "large" | "medium" | "mini";
     level: string | number;
     type: "primary" | "success" | "danger";

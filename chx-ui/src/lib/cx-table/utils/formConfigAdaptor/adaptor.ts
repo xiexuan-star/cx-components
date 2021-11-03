@@ -7,7 +7,7 @@ import {
 import { calcInnerOptions, getOptionsDeps } from '../configAdaptor/adaptorUtils';
 import * as R from 'ramda';
 import { map, Maybe, unsafeDeleteProperty, unsafeSet } from '../../../../utils/functor';
-import { CxFormItemConfig } from '../../../..';
+import { CxFormItemConfig, isFunction } from '../../../..';
 import { isObject } from '../../../../utils';
 
 const onInits: Array<CxTableFormAdaptorPlugin['onInit']> = [];
@@ -28,21 +28,25 @@ export class FormConfigAdaptor {
     updateHooks(onInits, 'onInit')(plugin as Required<CxTableFormAdaptorPlugin>);
     updateHooks(onOutputs, 'onOutput')(plugin as Required<CxTableFormAdaptorPlugin>);
   }
+
   private __items: TeleFormItem = {
     label: '',
     prop: '',
     closable: true,
     register: []
   };
+
   getItems() {
     return onOutputs.reduce(
       (res, hook) => (R.is(Function, hook) ? hook!(res) : res),
       R.clone(this.__items)
     );
   }
+
   static of(config: CxTableDynamicColumn) {
     return new FormConfigAdaptor(config).getItems();
   }
+
   private constructor(config: CxTableDynamicColumn) {
     const configDuplicate = onInits.reduce(
       (res, hook) => (R.is(Function, hook) ? hook!(res) : res),
@@ -50,12 +54,11 @@ export class FormConfigAdaptor {
     );
     this.adaptor(configDuplicate);
   }
+
   private adaptor(config: CxTableDynamicColumn) {
     // 静态部分
-    (['label', 'prop'] as Extract<
-      keyof CxTableDynamicColumn,
-      keyof CxFormItemConfig & { register: CxTableFormRegist[] }
-    >[]).forEach(key => unsafeSet(this.__items, key, config[key]));
+    (['label', 'prop'] as Extract<keyof CxTableDynamicColumn,
+      keyof CxFormItemConfig & { register: CxTableFormRegist[] }>[]).forEach(key => unsafeSet(this.__items, key, config[key]));
 
     // 动态部分
     const searchStates = R.prop('searchStates', config)!;
@@ -76,6 +79,8 @@ export class FormConfigAdaptor {
       Reflect.set(controlConfig, 'options', options(searchStates.searchOptions));
     } else if (isObject(searchStates.searchOptions)) {
       Reflect.set(controlConfig, 'options', R.compose(options, R.prop<'form', AnyObject>('form')));
+    } else if (isFunction(searchStates.searchOptions)) {
+      Reflect.set(controlConfig, 'options', (payload: { form: AnyObject }) => (searchStates.searchOptions as Function)(payload));
     }
     // options依赖项发生改变时清空该列数据 TODO
     const deps = getOptionsDeps(searchStates.searchOptions ?? []);

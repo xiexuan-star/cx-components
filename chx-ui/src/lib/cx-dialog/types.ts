@@ -1,3 +1,3 @@
-export interface CxDialogActions {
-  openDialog: (visible?: boolean) => void;
+export type CxDialogActions = {
+  openDialog: (v?: boolean) => void;
 }

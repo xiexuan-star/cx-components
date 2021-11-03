@@ -1,4 +1,8 @@
-@import './variables.scss';
-@import '../lib/cx-btn/style.scss';
-@import '../lib/cx-tab/style.scss';
-@import './cx-style.scss';
+@import 'variables';
+@import 'component/btn';
+@import 'component/tab';
+@import 'component/table';
+@import 'component/overlay';
+@import 'cx-style';
+@import 'component/dialog';
+@import url('//at.alicdn.com/t/font_2898473_1ao4ge4ct4f.css');

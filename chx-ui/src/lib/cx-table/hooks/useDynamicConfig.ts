@@ -10,8 +10,8 @@ import { CxTableDynamicColumn, CxTableItem, CxTablePropType, DYNAMIC_CONFIG } fr
 import { CxConfigAdaptor, cxTableWarn } from '../utils';
 import { useCxTable } from './useCxTable';
 import { sessionStore } from '../../../utils/storage';
-import { debounce} from 'lodash-es';
-import {isFunction, isNumber, isObject } from '../../../utils'
+import { debounce } from 'lodash-es';
+import { isFunction, isNumber, isObject } from '../../../utils';
 
 const cacheMap: Record<string, Func<any>[]> = {};
 
@@ -48,7 +48,7 @@ export const getCxDynamicHead = async (dynamic: DYNAMIC_CONFIG) => {
 
       const invalidIndex = CX_TABLE_DYNAMIC_PROPS.findIndex(key => {
         if (!isNumber(Reflect.get(dynamic!, key))) {
-          cxTableWarn(`dynamic参数传递错误:${key} is not a number`);
+          cxTableWarn(`dynamic参数传递错误:${ key } is not a number`);
           return true;
         }
       });
@@ -77,18 +77,18 @@ export const useDynamicConfig = (props: CxTablePropType, emit: Func<any>) => {
       getCxDynamicHead(props.dynamic)
         .then(async ({ data }) => {
           if (Array.isArray(data)) {
-            const duplicate = R.clone(data);
-            dynamicColumn.value = duplicate;
             sessionStore.set(key, data, CX_TABLE_THROTTLE_DURATION, CX_TABLE_DYNAMIC_CACHE);
-            data = data.map(CxConfigAdaptor.of);
-            data = resolveColumns(data, props);
-            columnProxy.value = data;
             if (Array.isArray(cacheMap[key])) {
+              const duplicate = R.clone(data);
               cacheMap[key].forEach(resolve => {
                 resolve({ data: duplicate, state: 200, message: '' });
               });
               Reflect.deleteProperty(cacheMap, key);
             }
+            data = data.map(CxConfigAdaptor.of);
+            dynamicColumn.value = R.clone(data);
+            data = resolveColumns(data, props);
+            columnProxy.value = data;
           }
           await nextTick();
           isDynamicChange && emit('dynamicUpdate');

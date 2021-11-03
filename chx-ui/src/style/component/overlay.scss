@@ -1,0 +1,15 @@
+@import '../mixins/mixin.scss';
+@import '../mixins/config.scss';
+
+@include b(overlay) {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--zIndex);
+  background-color: rgba(0, 0, 0, .5);
+  @include e(disabled) {
+    background-color: transparent;
+  }
+}

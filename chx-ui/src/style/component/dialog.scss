@@ -1,0 +1,115 @@
+@import '../mixins/mixin.scss';
+@import '../mixins/config.scss';
+
+@include b(dialog) {
+  background-color: white;
+  border-radius: 4px;
+  width: var(--width);
+  margin: var(--top) auto auto;
+
+  @include when(fullscreen) {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+  }
+
+  @include e(header) {
+    height: 45px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @include e(title) {
+      font-size: 18px;
+    }
+
+    .iconfont {
+      font-size: 16px;
+      margin-left: 16px;
+      cursor: pointer;
+
+      &:hover {
+        color: #0084ff;
+      }
+    }
+  }
+
+  @include e(body) {
+    overflow: auto;
+    color: #606266
+  }
+
+  @include e(footer) {
+    padding: 8px 16px 16px;
+  }
+
+  @include e(border) {
+    border: 1px solid #d9d9d9;
+  }
+}
+
+@keyframes dialog-fade-in {
+  0% {
+    transform: translate3d(0, -20px, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-fade-out {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, -20px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes modal-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.#{$namespace}-overlay-dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+}
+
+.dialog-fade-enter-active {
+  animation: modal-fade-in 0.5s;
+
+  .#{$namespace}-overlay-dialog {
+    animation: dialog-fade-in 0.5s;
+  }
+}
+
+.dialog-fade-leave-active {
+  animation: modal-fade-out 0.5s;
+
+  .#{$namespace}-overlay-dialog {
+    animation: dialog-fade-out 0.5s;
+  }
+}

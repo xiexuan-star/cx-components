@@ -7,7 +7,7 @@ import {
   inject,
   openBlock
 } from 'vue';
-import { PATCH_FLAG } from '../constant/enum';
+import { PATCH_FLAG } from '../constant';
 import { CxTablePropType } from '../types';
 
 export default defineComponent({

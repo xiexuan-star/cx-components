@@ -3,8 +3,35 @@ import * as R from 'ramda';
 import { ref, Ref } from 'vue';
 
 export * from './is';
-export * from './functor'
+export * from './functor';
 export * from './resizeEvent';
+
+export const arrInsert = <T = any>(target: T[], position: number, ...args: Array<T | T[]>) => {
+  return target
+    .slice(0, position)
+    .concat(flatten(args) as T[])
+    .concat(target.slice(position, Infinity));
+};
+export const flatten = <T>(arr: T) => {
+  if (!Array.isArray(arr)) return [arr];
+  if (arr.length === 0) return arr;
+  const result: T[] = [];
+  const stack = [arr];
+  let currentItem;
+  while ((currentItem = stack.shift())) {
+    Array.isArray(currentItem) ? stack.push(...currentItem) : result.push(currentItem);
+  }
+  return result;
+};
+export const copyInnerText = (ele: HTMLElement) => {
+  const range = document.createRange();
+  range.selectNodeContents(ele);
+  const selection = window.getSelection();
+  selection?.removeAllRanges();
+  selection?.addRange(range);
+  document.execCommand('copy');
+  return ele;
+};
 
 export function omit<T extends AnyObject, K extends keyof T>(target: T, keys: K[]) {
   if (!isObject(target)) return target;
@@ -107,8 +134,9 @@ export const isDeepObjectEqual = (obj1: AnyObject, obj2: AnyObject): boolean => 
   if (obj1 === obj2) return true;
 
   //2.如果比较的是两个方法，转成字符串比较
-  if (typeof obj1 === 'function' && typeof obj2 === 'function')
+  if (typeof obj1 === 'function' && typeof obj2 === 'function') {
     return obj1.toString() === obj2.toString();
+  }
 
   //3如果obj1和obj2都是Date实例，获取毫秒值比较
   if (obj1 instanceof Date && obj2 instanceof Date) return obj1.getTime() === obj2.getTime();
@@ -117,8 +145,9 @@ export const isDeepObjectEqual = (obj1: AnyObject, obj2: AnyObject): boolean => 
   if (
     Object.prototype.toString.call(obj1) !== Object.prototype.toString.call(obj2) ||
     typeof obj1 !== 'object'
-  )
+  ) {
     return false;
+  }
 
   //5.获取对象所有自身属性的属性名（包括不可枚举属性但不包括Symbol值作为名称的属性
   const obj1Props = Object.getOwnPropertyNames(obj1);

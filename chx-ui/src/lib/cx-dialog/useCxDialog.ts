@@ -1,14 +1,13 @@
-import { onUnmounted, ref, unref } from 'vue';
 import { CxDialogActions } from './types';
+import { ref, unref, onUnmounted } from 'vue';
 
 export function useCxDialog(): [(instance: CxDialogActions) => void, CxDialogActions] {
-  const dialogRef = ref<CxDialogActions|null>(null);
+  const dialogRef = ref<CxDialogActions | null>(null);
 
   function register(instance: CxDialogActions) {
     onUnmounted(() => {
       dialogRef.value = null;
     });
-
     dialogRef.value = instance;
   }
 
@@ -16,7 +15,7 @@ export function useCxDialog(): [(instance: CxDialogActions) => void, CxDialogAct
     const dialog = unref(dialogRef);
 
     if (!dialog) {
-      throw new Error('dialog is undefined!');
+      throw new Error(`can't get dialog's instance before register`);
     }
 
     return dialog;

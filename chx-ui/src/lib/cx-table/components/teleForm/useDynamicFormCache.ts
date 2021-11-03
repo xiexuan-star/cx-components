@@ -1,9 +1,9 @@
 import { CxTablePropType, DYNAMIC_CONFIG } from '../../types';
 import { cxTableWarn } from '../../utils';
 import { DynamicFormCacheModule, DynamicFormVisibleCacheModule } from './constant';
-import { useCxTable } from '../../hooks/useCxTable';
+import { useCxTable } from '../../hooks';
 import { localStore } from '../../../../utils/storage';
-import { IO } from '../../../../utils/functor';
+import { IO } from '../../../../utils';
 
 export const useDynamicFormCache = (rootProps: CxTablePropType) => {
   const getCacheKey = (dynamic?: DYNAMIC_CONFIG) => {

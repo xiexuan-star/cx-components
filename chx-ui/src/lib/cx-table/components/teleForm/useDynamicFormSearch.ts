@@ -8,8 +8,7 @@ import {
   TableDataVisitor
 } from '../../types';
 import { changeDynamicIdToText, cxTableWarn } from '../../utils';
-import { useCxTableCompose } from '../../hooks/useCxTableCompose';
-import { Rule, useCxTable } from '../../hooks/useCxTable';
+import { Rule, useCxTable,useCxTableCompose } from '../../hooks';
 import * as R from 'ramda';
 import {
   defaultPromise,
@@ -24,9 +23,9 @@ import {
   unsafeClearPush,
   unsafeSet,
   unsafeWhenDevCall,
-  withParams
-} from '../../../../utils/functor';
-import { isNumber } from '../../../../utils';
+  withParams,
+  isNumber
+} from '../../../../utils';
 
 export const useDynamicFormSearch = () => {
   const { getParamsItems, getConfigByDynamicConfig, arrNotEmpty } = useCxTableCompose();

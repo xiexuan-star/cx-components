@@ -1,5 +1,5 @@
 import { createVNode, defineComponent, resolveComponent } from 'vue';
-import { PATCH_FLAG } from '../constant/enum';
+import { PATCH_FLAG } from '../constant';
 
 export default defineComponent({
   name: 'CxTablePagination',

@@ -10,6 +10,7 @@ export * from './lib/cx-dialog/useCxDialog';
 export * from './lib/cx-form/types';
 export * from './lib/cx-table/types';
 export * from './lib/cx-dialog/types';
+export * from './lib/cx-uni-popper/types';
 export * from './lib/cx-form/render';
 export * from './utils';
 export * from './lib/cx-table/utils';

@@ -3,10 +3,10 @@ import { CxTableDynamicColumn, CxTablePropType, TableDataVisitor } from '../../t
 import cacheListDialog from './cacheListDialog';
 import TeleportBtn from './teleportBtn';
 import * as R from 'ramda';
-import { PATCH_FLAG } from '../../constant/enum';
+import { PATCH_FLAG } from '../../constant';
 import { useState } from '../../../../hooks/state';
 import { CxDialogActions } from '../../../cx-dialog/types';
-import { IO, map, Maybe } from '../../../../utils/functor';
+import { IO, map, Maybe } from '../../../../utils';
 
 export default defineComponent({
   name: 'CacheListBtn',

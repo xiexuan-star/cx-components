@@ -97,6 +97,7 @@ export const useCxTable = () => {
     instance.value = payload.registerTarget;
     instanceProps.value = payload.props;
     copyHandler.value = useCopy(payload.props);
+    return cxTableManager;
   };
 
   const registCxRenderer = (params: { type: string; payload?: CxRendererRegister }) => {
@@ -108,26 +109,32 @@ export const useCxTable = () => {
       params.payload.active && CxTableActiveControl.add(params.type);
     }
     render && CxTableRendererMap.set(params.type, render);
+    return cxTableManager;
   };
 
   const setCxTableScopeId = (id: number | string) => {
     context.contextScopeId = id;
+    return cxTableManager;
   };
 
   const setMessageInstance = (instance: messageInstance) => {
     context.messageInstance = instance;
+    return cxTableManager;
   };
 
   const setDynamicFormSearchApi = (moduleType: any, rules: Rule[]) => {
     context.dynamicFormContext.requestApiMap[moduleType] = rules;
+    return cxTableManager;
   };
 
   const setDynamicCacheContext = <T extends keyof CacheContext>(key: T, val: CacheContext[T]) => {
     context.dynamicCacheContext[key] = val;
+    return cxTableManager;
   };
 
   const setDynamicRequestInstance = (instance: any) => {
     context.dynamicRequestInstance = instance;
+    return cxTableManager;
   };
 
   const setDynamicType = (types: Record<string, Record<string, number | string>>) => {
@@ -136,19 +143,22 @@ export const useCxTable = () => {
         context.dynamicType[dynamicKey] = types[dynamicKey];
       }
     });
+    return cxTableManager;
   };
 
   const setPrecision = (precision: Record<string, number>) => {
     Object.assign(context.precision, precision);
+    return cxTableManager;
   };
 
   const use = (plugin: CxTablePlugins) => {
     if (isFunction(plugin.dynamicInject)) {
       context.dynamicInject.add(plugin.dynamicInject);
     }
+    return cxTableManager;
   };
 
-  return {
+  const cxTableManager = {
     registCxTable,
     setPrecision,
     setCxTableScopeId,
@@ -163,4 +173,6 @@ export const useCxTable = () => {
     registCxRenderer,
     copyHandler: copyHandler
   };
+
+  return cxTableManager;
 };

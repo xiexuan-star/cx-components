@@ -13,11 +13,10 @@ import {
   watchEffect,
   withDirectives
 } from 'vue';
-import { CX_TABLE_COLUMN_KEY } from '../../constant';
-import { COLUMN_FLAG, CX_SPAN_METHOD_TYPE, PATCH_FLAG } from '../../constant/enum';
+import { CX_TABLE_COLUMN_KEY, COLUMN_FLAG, CX_SPAN_METHOD_TYPE, PATCH_FLAG } from '../../constant';
 import { registCellEvent } from '../../helper/eventHelper';
 import { renderCellContent } from '../../helper/renderHelper';
-import { CxBroadcast } from '../../hooks/useBroadcast';
+import { CxBroadcast } from '../../hooks';
 import { CxTableBaseObj, CxTableColumnObj, CxTablePropType, SelectConfig } from '../../types';
 import {
   EventBus,
@@ -55,11 +54,11 @@ export default defineComponent({
       props.rowData[props.column.prop];
       let result: any = isFunction(props.column.validator)
         ? props.column.validator({
-            column: props.column,
-            value: props.rowData[props.column.prop],
-            rowIndex: props.rowIndex,
-            rowData: props.rowData
-          })
+          column: props.column,
+          value: props.rowData[props.column.prop],
+          rowIndex: props.rowIndex,
+          rowData: props.rowData
+        })
         : null;
       if (!result && props.column.required) {
         result = isEmpty(props.rowData[props.column.prop]) ? props.column.label + '为必填' : null;

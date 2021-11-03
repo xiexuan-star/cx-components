@@ -1,7 +1,7 @@
 
 import { CSSProperties } from 'vue';
 import { Nullable, PaginationModel } from '.';
-import { TypeOption } from '../constant/enum';
+import { TypeOption } from '../constant';
 import {
   CxCellStyleFun,
   CxCheckSelectFun,

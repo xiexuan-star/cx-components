@@ -2,6 +2,9 @@ import { Ref } from 'vue';
 export * from './is';
 export * from './functor';
 export * from './resizeEvent';
+export declare const arrInsert: <T = any>(target: T[], position: number, ...args: (T | T[])[]) => T[];
+export declare const flatten: <T>(arr: T) => T[] | (T & any[]);
+export declare const copyInnerText: (ele: HTMLElement) => HTMLElement;
 export declare function omit<T extends AnyObject, K extends keyof T>(target: T, keys: K[]): Omit<T, K>;
 export declare function useEnumOptions<T>(obj: AnyObject, name?: string, id?: string): T[];
 export declare function throttle<T extends Func<any>>(func: T, wait?: number, options?: {
