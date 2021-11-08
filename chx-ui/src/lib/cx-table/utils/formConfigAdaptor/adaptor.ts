@@ -1,14 +1,8 @@
-import {
-  CxTableFormAdaptorPlugin,
-  CxTableDynamicColumn,
-  CxTableFormRegist,
-  TeleFormItem
-} from '../../types';
-import { calcInnerOptions, getOptionsDeps } from '../configAdaptor/adaptorUtils';
+import { isFunction, isObject, map, Maybe, unsafeDeleteProperty, unsafeSet } from 'chx-utils';
 import * as R from 'ramda';
-import { map, Maybe, unsafeDeleteProperty, unsafeSet } from '../../../../utils/functor';
-import { CxFormItemConfig, isFunction } from '../../../..';
-import { isObject } from '../../../../utils';
+import { CxFormItemConfig } from '../../../..';
+import { CxTableDynamicColumn, CxTableFormAdaptorPlugin, CxTableFormRegist, TeleFormItem } from '../../types';
+import { calcInnerOptions, getOptionsDeps } from '../configAdaptor';
 
 const onInits: Array<CxTableFormAdaptorPlugin['onInit']> = [];
 const onOutputs: Array<CxTableFormAdaptorPlugin['onOutput']> = [];

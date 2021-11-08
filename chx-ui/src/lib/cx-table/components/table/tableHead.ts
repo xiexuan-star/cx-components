@@ -9,8 +9,8 @@ import {
   inject,
   openBlock
 } from 'vue';
-import { PATCH_FLAG } from '../../constant/enum';
-import { useTableStyle } from '../../hooks/useTableStyle';
+import { PATCH_FLAG } from '../../constant';
+import { useTableStyle } from '../../hooks';
 import { CxTableBaseObj } from '../../types';
 import { invokeLayeredRow, pick } from '../../utils';
 import HeadCell from './headCell';

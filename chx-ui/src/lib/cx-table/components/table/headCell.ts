@@ -12,7 +12,7 @@ import {
   resolveComponent,
   watchEffect
 } from 'vue';
-import { COLUMN_FLAG, CX_SORT_STATUS, PATCH_FLAG } from '../../constant/enum';
+import { COLUMN_FLAG, CX_SORT_STATUS, PATCH_FLAG } from '../../constant';
 import { CxTableBaseObj, CxTableColumnObj, SelectConfig, TableDataVisitor } from '../../types';
 import { EventBus, formatWidth, getSums } from '../../utils';
 

@@ -1,8 +1,8 @@
-import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, ref, onMounted, onBeforeUnmount, watch, nextTick, openBlock, createBlock, Fragment, resolveComponent, reactive, onUnmounted, inject, watchEffect, createTextVNode, resolveDirective, setBlockTracking, unref, onBeforeUpdate, withCtx, getCurrentInstance, render as render$6, pushScopeId, popScopeId, toDisplayString, withScopeId, renderSlot, Teleport, Transition, mergeProps, withModifiers, vShow, renderList, provide } from 'vue';
+import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, ref, onMounted, onBeforeUnmount, watch, nextTick, openBlock, createBlock, Fragment, resolveComponent, reactive, onUnmounted, inject, watchEffect, createTextVNode, resolveDirective, setBlockTracking, withCtx, getCurrentInstance, render as render$6, renderSlot, Teleport, Transition, mergeProps, withModifiers, toDisplayString, vShow, unref, pushScopeId, popScopeId, withScopeId, renderList, provide } from 'vue';
+import { isObject as isObject$1, isFunction, omit, isNumber, isString, isArray, isEmpty, unsafeSet, Maybe, unsafeDeleteProperty, map, unsafeGet, truthy, splat, unsafePush, unsafeWhenDevCall, sessionStore, getDateRange, isDeepObjectEqual, useComputed, useState, IO, localStore, unsafeClearPush, unsafeClearAssign, getMaybeValue, Left, Right, either, withParams, defaultPromise, useSync, nextTimeout, unsafeAssign, queryDom, unsafeClearArray, unsafeRemoveItem, getDoNothingIO, unsafeClearObj, addResizeListener, removeResizeListener, enum2Options, stateEq200, falsy, stopPropagation, preventDefault, loadingDecorator, clearTimer, unsafePerformIO, curryTimeout, setClassByArr, createTag, copyInnerText, curryAddListener, setInnerText, clearInnerHTML, appendToBody, appendChild, showEle, hideEle, curryRemoveListener, clearClassList } from 'chx-utils';
+import dayjs from 'dayjs';
 import * as R from 'ramda';
 import { clone, omit as omit$1 } from 'ramda';
-import dayjs from 'dayjs';
-import CxLocalStore, { storeFilter } from 'cx-store';
 import PinyinMatch from 'pinyin-match';
 import Draggable from 'vuedraggable';
 
@@ -157,18 +157,6 @@ function __generator(thisArg, body) {
     }
 }
 
-function __values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-}
-
 function __read(o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
@@ -194,105 +182,6 @@ function __spreadArray(to, from, pack) {
         }
     }
     return to.concat(ar || Array.prototype.slice.call(from));
-}
-
-var toString = Object.prototype.toString;
-function is(val, type) {
-    return toString.call(val) === "[object " + type + "]";
-}
-function isEmpty(value) {
-    return (value === undefined ||
-        value === null ||
-        (typeof value === 'string' && value.trim() === '') ||
-        (typeof value === 'object' && Object.keys(value).length === 0));
-}
-function isAbsolutePath(path) {
-    return /^(https?|tel|mailto)/.test(path);
-}
-var isDef = function (val) {
-    return typeof val !== 'undefined';
-};
-var isUnDef = function (val) {
-    return !isDef(val);
-};
-var isObject$1 = function (val) {
-    return val !== null && is(val, 'Object');
-};
-function isDate(val) {
-    return is(val, 'Date');
-}
-function isNull(val) {
-    return val === null;
-}
-function isNullAndUnDef(val) {
-    return isUnDef(val) && isNull(val);
-}
-function isNumber(val) {
-    return is(val, 'Number');
-}
-function isPromise(val) {
-    return is(val, 'Promise') && isObject$1(val) && isFunction(val.then) && isFunction(val["catch"]);
-}
-function isString(val) {
-    return is(val, 'String');
-}
-// eslint-disable-next-line @typescript-eslint/ban-types
-var isFunction = function (val) { return typeof val === 'function'; };
-function isBoolean(val) {
-    return is(val, 'Boolean');
-}
-function isRegExp(val) {
-    return is(val, 'RegExp');
-}
-function isArray(val) {
-    return val && Array.isArray(val);
-}
-var isWindow = function (val) {
-    return typeof window !== 'undefined' && is(val, 'Window');
-};
-var isElement$1 = function (val) {
-    return isObject$1(val) && !!val.tagName;
-};
-var isServer$1 = typeof window === 'undefined';
-var isClient = typeof window !== 'undefined';
-function isImageDom(o) {
-    return o && ['IMAGE', 'IMG'].includes(o.tagName);
-}
-var isTextarea = function (element) {
-    return element !== null && element.tagName.toLowerCase() === 'textarea';
-};
-var isMobile = function () {
-    return !!navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
-};
-var isUrl = function (path) {
-    // eslint-disable-next-line
-    var reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
-    return reg.test(path);
-};
-function isHTMLElement$1(node) {
-    return !!node && Reflect.get(node, 'nodeType') === Node.ELEMENT_NODE;
-}
-function isHTMLInputElement(el) {
-    return isHTMLElement$1(el) && el.tagName === 'INPUT';
-}
-function isAnyObject(data) {
-    return Object.prototype.toString.call(data) === '[object Object]';
-}
-function isErrorLike(err) {
-    return typeof err === 'object' && !!err && Reflect.has(err, 'message');
-}
-function isNameWithId(obj) {
-    return Reflect.has(obj, 'id') && Reflect.has(obj, 'name');
-}
-function isSame(reg, str) {
-    if (str.indexOf('.') === -1) {
-        return false;
-    }
-    var res = str.match(reg);
-    if (Array.isArray(res) && res[0] === str) {
-        return true;
-    }
-    return false;
 }
 
 var script$9 = defineComponent({
@@ -454,1417 +343,6 @@ script$9.install = function (app) {
     app.component(script$9.name, script$9);
 };
 var _CX_TAB = script$9;
-
-// getDoNothingIO::void->IO<NOOP>
-var getDoNothingIO = function () { return IO.of(R.identity); };
-var functorWarn = function () {
-    var msg = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        msg[_i] = arguments[_i];
-    }
-    console.warn.apply(console, __spreadArray(["[Functor warn]:"], __read(msg)));
-};
-var trace = R.tap(console.log);
-var withParams = function (func, params) { return function () {
-    return func.apply(void 0, __spreadArray([], __read(params)));
-}; };
-var map = R.curry(function (cb, f) { return f.map(cb); });
-var unsafePerformIO = R.curryN(2, function (arg, io) { return io.unsafePerformIO(arg); });
-var queryDom = function (selector) { return document.querySelector(selector); };
-var calledBy = function (func, params) { return function () { return func.apply(void 0, __spreadArray([], __read(params.map(function (f) { return f(); })))); }; };
-var getMaybeValue = function (maybe) {
-    return maybe.getWithDefault();
-};
-//  either :: (a -> c) -> (b -> c) -> Either a b -> c
-var either = R.curryN(3, function (f, g, e) {
-    switch (e.constructor) {
-        case Left:
-            return f(e.__value);
-        case Right:
-            return g(e.__value);
-    }
-});
-var unsafePush = R.curryN(2, function (item, arr) {
-    arr.push.apply(arr, __spreadArray([], __read(item)));
-    return arr;
-});
-var unsafeClearPush = R.curryN(2, function (items, arr) { return (arr.splice(0), arr.push.apply(arr, __spreadArray([], __read(items))), arr); });
-var unsafeClearArray = function (arr) { return (arr.splice(0), arr); };
-var unsafeSet = R.curryN(3, Reflect.set);
-var unsafeGet = R.curryN(2, Reflect.get);
-var unsafeDeleteProperty = R.curryN(2, Reflect.deleteProperty);
-var unsafeRemoveItem = R.curryN(2, function (index, arr) {
-    arr.splice(index, 1);
-    return arr;
-});
-var unsafeClearObj = function (target) {
-    R.forEach(unsafeDeleteProperty(target), R.keys(target));
-    return target;
-};
-var unsafeAssign = R.curryN(2, function (obj, target) {
-    Object.assign(target, obj);
-    return target;
-});
-var unsafeClearAssign = R.curryN(2, function (obj, target) {
-    Object.assign(unsafeClearObj(target), obj);
-    return target;
-});
-var unsafeWhenDevCall = function (func) { return function () {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-    return process.env.NODE_ENV === 'development'
-        ? Maybe.of(func.apply(void 0, __spreadArray([], __read(args))))
-        : Maybe.none();
-}; };
-var splat = function (fun) { return function (args) { return fun.apply(void 0, __spreadArray([], __read(args))); }; };
-var unsplat = function (fun) { return function () {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-    return fun(args);
-}; };
-// truthy::any->boolean
-var truthy = function (val) { return !!val; };
-// falsy::any->boolean
-var falsy = function (val) { return !val; };
-var propCall = function (prop) {
-    return R.tap(R.when(R.compose(R.is(Function), R.prop(prop)), R.compose(R.call, R.converge(R.bind, [R.prop(prop), R.identity]))));
-};
-var preventDefault = propCall('preventDefault');
-var stopPropagation = propCall('stopPropagation');
-// stateEq200::object->boolean
-var stateEq200 = R.propEq('state', 200);
-var curryTimeout = R.curryN(2, setTimeout);
-var nextTimeout = function (cb) { return function (payload) {
-    return setTimeout(function () { return cb(payload); }, 0);
-}; };
-var awaitTimeout = function () {
-    return new Promise(R.nAry(1, setTimeout));
-};
-// clearTimer::a->a
-var clearTimer = function (timer) { return (clearTimeout(timer), clearInterval(timer), timer); };
-// successMessage::string->void->IMessageHandle
-// export const successMessage = (msg: string) => () => ElMessage.success(msg);
-// export const errorMessage = (msg: string) => () => ElMessage.error(msg);
-var defaultPromise = function (val) { return function () { return Promise.resolve(val); }; };
-// ------------------------------ dom ------------------------------
-var appendToBody = function (ele) { return (document.body.appendChild(ele), ele); };
-// createTag::string->HTMLElement
-var createTag = function (tagName) { return document.createElement(tagName); };
-var clearInnerHTML = function (ele) { return ((ele.innerHTML = ''), ele); };
-var setInnerText = R.curryN(2, function (text, ele) { return ((ele.innerText = text), ele); });
-var setClassByArr = R.curryN(2, function (classList, ele) {
-    var _a;
-    return ((_a = ele.classList).add.apply(_a, __spreadArray([], __read(classList))), ele);
-});
-// setDisplay::string->(a:HTMLElement->a:HTMLElement)
-var setDisplay = function (val) {
-    return R.when(truthy, function (ele) { return (ele.style.display = val); });
-};
-var hideEle = setDisplay('none');
-var showEle = setDisplay('block');
-var appendChild = R.curryN(2, function (child, parent) { return (parent.appendChild(child), parent); });
-var curryAddListener = R.curryN(3, function (eventName, listener, ele) {
-    return ele.addEventListener(eventName, listener), ele;
-});
-var curryRemoveListener = R.curryN(3, function (eventName, listener, ele) {
-    return ele.removeEventListener(eventName, listener), ele;
-});
-var clearClassList = function (ele) {
-    ele.className = '';
-    return ele;
-};
-
-var Identify = /** @class */ (function () {
-    function Identify(__value) {
-        this.__value = __value;
-    }
-    Identify.of = function (value) {
-        if (value == undefined) {
-            functorWarn('Provided Identify value must not be empty');
-        }
-        return new Identify(value);
-    };
-    Identify.prototype.map = function (f) {
-        return Identify.of(f(this.__value));
-    };
-    Identify.prototype.ap = function (functor) {
-        return (R.is(Function, this.__value) ? functor.map(this.__value) : this);
-    };
-    return Identify;
-}());
-var Maybe = /** @class */ (function () {
-    function Maybe(__value) {
-        this.__value = __value;
-    }
-    Maybe.of = function (value) {
-        return value == undefined ? Maybe.none() : new Maybe(value);
-    };
-    Maybe.none = function () {
-        return new Maybe(null);
-    };
-    Maybe.run = function (gen) {
-        function step(value) {
-            var result = gen.next(value);
-            if (result.done) {
-                return Maybe.of(result.value);
-            }
-            return result.value.chain(step);
-        }
-        return step();
-    };
-    Maybe.prototype.map = function (f) {
-        if (this.__value == undefined) {
-            return Maybe.none();
-        }
-        else {
-            return Maybe.of(f(this.__value));
-        }
-    };
-    Maybe.prototype.isNegative = function () {
-        return this.__value == undefined;
-    };
-    Maybe.prototype.join = function () {
-        return this.isNegative() ? Maybe.none() : this.__value;
-    };
-    Maybe.prototype.chain = function (f) {
-        return this.map(f).join();
-    };
-    Maybe.prototype.getWithDefault = function (defaultValue) {
-        return this.isNegative() ? defaultValue : this.__value;
-    };
-    Maybe.prototype.ap = function (functor) {
-        return (R.is(Function, this.__value) ? functor.map(this.__value) : this);
-    };
-    return Maybe;
-}());
-var IO = /** @class */ (function () {
-    function IO(__value) {
-        this.__value = __value;
-    }
-    IO.of = function (value) {
-        return new IO(value);
-    };
-    IO.prototype.map = function (f) {
-        return new IO(R.compose(f, this.__value));
-    };
-    IO.prototype.join = function () {
-        return this.unsafePerformIO();
-    };
-    IO.prototype.chain = function (f) {
-        return this.map(f).join();
-    };
-    IO.prototype.unsafePerformIO = function (arg) {
-        return this.__value(arg);
-    };
-    IO.prototype.ap = function (functor) {
-        var res = this.unsafePerformIO(functor.unsafePerformIO());
-        return (R.is(Function, res) ? IO.of(res) : IO.of(function () { return res; }));
-    };
-    return IO;
-}());
-var Task = /** @class */ (function () {
-    function Task(fork, cleanup) {
-        if (cleanup === void 0) { cleanup = function () { return void 0; }; }
-        this.fork = fork;
-        this.cleanup = cleanup;
-    }
-    Task.of = function (b) {
-        return new Task(function (_, resolve) {
-            return resolve(b);
-        });
-    };
-    Task.prototype.map = function (f) {
-        var fork = this.fork;
-        var cleanup = this.cleanup;
-        return new Task(function (reject, resolve) {
-            return fork(reject, R.compose(resolve, f));
-        }, cleanup);
-    };
-    return Task;
-}());
-var Left = /** @class */ (function () {
-    function Left(__value) {
-        this.__value = __value;
-    }
-    Left.of = function (value) {
-        if (value == undefined) {
-            functorWarn('Provided value must not be empty');
-        }
-        return new Left(value);
-    };
-    Left.prototype.map = function (f) {
-        return this;
-    };
-    Left.prototype.ap = function (functor) {
-        return this;
-    };
-    return Left;
-}());
-var Right = /** @class */ (function () {
-    function Right(__value) {
-        this.__value = __value;
-    }
-    Right.of = function (value) {
-        if (value == undefined) {
-            functorWarn('Provided Right value must not be empty');
-        }
-        return new Right(value);
-    };
-    Right.prototype.map = function (f) {
-        return Right.of(f(this.__value));
-    };
-    Right.prototype.ap = function (functor) {
-        return (R.is(Function, this.__value) ? functor.map(this.__value) : this);
-    };
-    return Right;
-}());
-var Either = /** @class */ (function () {
-    function Either(left, right) {
-        this.left = left;
-        this.right = right;
-    }
-    return Either;
-}());
-
-/**
- * A collection of shims that provide minimal functionality of the ES6 collections.
- *
- * These implementations are not meant to be used outside of the ResizeObserver
- * modules as they cover only a limited range of use cases.
- */
-/* eslint-disable require-jsdoc, valid-jsdoc */
-var MapShim = (function () {
-    if (typeof Map !== 'undefined') {
-        return Map;
-    }
-    /**
-     * Returns index in provided array that matches the specified key.
-     *
-     * @param {Array<Array>} arr
-     * @param {*} key
-     * @returns {number}
-     */
-    function getIndex(arr, key) {
-        var result = -1;
-        arr.some(function (entry, index) {
-            if (entry[0] === key) {
-                result = index;
-                return true;
-            }
-            return false;
-        });
-        return result;
-    }
-    return /** @class */ (function () {
-        function class_1() {
-            this.__entries__ = [];
-        }
-        Object.defineProperty(class_1.prototype, "size", {
-            /**
-             * @returns {boolean}
-             */
-            get: function () {
-                return this.__entries__.length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @param {*} key
-         * @returns {*}
-         */
-        class_1.prototype.get = function (key) {
-            var index = getIndex(this.__entries__, key);
-            var entry = this.__entries__[index];
-            return entry && entry[1];
-        };
-        /**
-         * @param {*} key
-         * @param {*} value
-         * @returns {void}
-         */
-        class_1.prototype.set = function (key, value) {
-            var index = getIndex(this.__entries__, key);
-            if (~index) {
-                this.__entries__[index][1] = value;
-            }
-            else {
-                this.__entries__.push([key, value]);
-            }
-        };
-        /**
-         * @param {*} key
-         * @returns {void}
-         */
-        class_1.prototype.delete = function (key) {
-            var entries = this.__entries__;
-            var index = getIndex(entries, key);
-            if (~index) {
-                entries.splice(index, 1);
-            }
-        };
-        /**
-         * @param {*} key
-         * @returns {void}
-         */
-        class_1.prototype.has = function (key) {
-            return !!~getIndex(this.__entries__, key);
-        };
-        /**
-         * @returns {void}
-         */
-        class_1.prototype.clear = function () {
-            this.__entries__.splice(0);
-        };
-        /**
-         * @param {Function} callback
-         * @param {*} [ctx=null]
-         * @returns {void}
-         */
-        class_1.prototype.forEach = function (callback, ctx) {
-            if (ctx === void 0) { ctx = null; }
-            for (var _i = 0, _a = this.__entries__; _i < _a.length; _i++) {
-                var entry = _a[_i];
-                callback.call(ctx, entry[1], entry[0]);
-            }
-        };
-        return class_1;
-    }());
-})();
-
-/**
- * Detects whether window and document objects are available in current environment.
- */
-var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined' && window.document === document;
-
-// Returns global object of a current environment.
-var global$1 = (function () {
-    if (typeof global !== 'undefined' && global.Math === Math) {
-        return global;
-    }
-    if (typeof self !== 'undefined' && self.Math === Math) {
-        return self;
-    }
-    if (typeof window !== 'undefined' && window.Math === Math) {
-        return window;
-    }
-    // eslint-disable-next-line no-new-func
-    return Function('return this')();
-})();
-
-/**
- * A shim for the requestAnimationFrame which falls back to the setTimeout if
- * first one is not supported.
- *
- * @returns {number} Requests' identifier.
- */
-var requestAnimationFrame$1 = (function () {
-    if (typeof requestAnimationFrame === 'function') {
-        // It's required to use a bounded function because IE sometimes throws
-        // an "Invalid calling object" error if rAF is invoked without the global
-        // object on the left hand side.
-        return requestAnimationFrame.bind(global$1);
-    }
-    return function (callback) { return setTimeout(function () { return callback(Date.now()); }, 1000 / 60); };
-})();
-
-// Defines minimum timeout before adding a trailing call.
-var trailingTimeout = 2;
-/**
- * Creates a wrapper function which ensures that provided callback will be
- * invoked only once during the specified delay period.
- *
- * @param {Function} callback - Function to be invoked after the delay period.
- * @param {number} delay - Delay after which to invoke callback.
- * @returns {Function}
- */
-function throttle$2 (callback, delay) {
-    var leadingCall = false, trailingCall = false, lastCallTime = 0;
-    /**
-     * Invokes the original callback function and schedules new invocation if
-     * the "proxy" was called during current request.
-     *
-     * @returns {void}
-     */
-    function resolvePending() {
-        if (leadingCall) {
-            leadingCall = false;
-            callback();
-        }
-        if (trailingCall) {
-            proxy();
-        }
-    }
-    /**
-     * Callback invoked after the specified delay. It will further postpone
-     * invocation of the original function delegating it to the
-     * requestAnimationFrame.
-     *
-     * @returns {void}
-     */
-    function timeoutCallback() {
-        requestAnimationFrame$1(resolvePending);
-    }
-    /**
-     * Schedules invocation of the original function.
-     *
-     * @returns {void}
-     */
-    function proxy() {
-        var timeStamp = Date.now();
-        if (leadingCall) {
-            // Reject immediately following calls.
-            if (timeStamp - lastCallTime < trailingTimeout) {
-                return;
-            }
-            // Schedule new call to be in invoked when the pending one is resolved.
-            // This is important for "transitions" which never actually start
-            // immediately so there is a chance that we might miss one if change
-            // happens amids the pending invocation.
-            trailingCall = true;
-        }
-        else {
-            leadingCall = true;
-            trailingCall = false;
-            setTimeout(timeoutCallback, delay);
-        }
-        lastCallTime = timeStamp;
-    }
-    return proxy;
-}
-
-// Minimum delay before invoking the update of observers.
-var REFRESH_DELAY = 20;
-// A list of substrings of CSS properties used to find transition events that
-// might affect dimensions of observed elements.
-var transitionKeys = ['top', 'right', 'bottom', 'left', 'width', 'height', 'size', 'weight'];
-// Check if MutationObserver is available.
-var mutationObserverSupported = typeof MutationObserver !== 'undefined';
-/**
- * Singleton controller class which handles updates of ResizeObserver instances.
- */
-var ResizeObserverController = /** @class */ (function () {
-    /**
-     * Creates a new instance of ResizeObserverController.
-     *
-     * @private
-     */
-    function ResizeObserverController() {
-        /**
-         * Indicates whether DOM listeners have been added.
-         *
-         * @private {boolean}
-         */
-        this.connected_ = false;
-        /**
-         * Tells that controller has subscribed for Mutation Events.
-         *
-         * @private {boolean}
-         */
-        this.mutationEventsAdded_ = false;
-        /**
-         * Keeps reference to the instance of MutationObserver.
-         *
-         * @private {MutationObserver}
-         */
-        this.mutationsObserver_ = null;
-        /**
-         * A list of connected observers.
-         *
-         * @private {Array<ResizeObserverSPI>}
-         */
-        this.observers_ = [];
-        this.onTransitionEnd_ = this.onTransitionEnd_.bind(this);
-        this.refresh = throttle$2(this.refresh.bind(this), REFRESH_DELAY);
-    }
-    /**
-     * Adds observer to observers list.
-     *
-     * @param {ResizeObserverSPI} observer - Observer to be added.
-     * @returns {void}
-     */
-    ResizeObserverController.prototype.addObserver = function (observer) {
-        if (!~this.observers_.indexOf(observer)) {
-            this.observers_.push(observer);
-        }
-        // Add listeners if they haven't been added yet.
-        if (!this.connected_) {
-            this.connect_();
-        }
-    };
-    /**
-     * Removes observer from observers list.
-     *
-     * @param {ResizeObserverSPI} observer - Observer to be removed.
-     * @returns {void}
-     */
-    ResizeObserverController.prototype.removeObserver = function (observer) {
-        var observers = this.observers_;
-        var index = observers.indexOf(observer);
-        // Remove observer if it's present in registry.
-        if (~index) {
-            observers.splice(index, 1);
-        }
-        // Remove listeners if controller has no connected observers.
-        if (!observers.length && this.connected_) {
-            this.disconnect_();
-        }
-    };
-    /**
-     * Invokes the update of observers. It will continue running updates insofar
-     * it detects changes.
-     *
-     * @returns {void}
-     */
-    ResizeObserverController.prototype.refresh = function () {
-        var changesDetected = this.updateObservers_();
-        // Continue running updates if changes have been detected as there might
-        // be future ones caused by CSS transitions.
-        if (changesDetected) {
-            this.refresh();
-        }
-    };
-    /**
-     * Updates every observer from observers list and notifies them of queued
-     * entries.
-     *
-     * @private
-     * @returns {boolean} Returns "true" if any observer has detected changes in
-     *      dimensions of it's elements.
-     */
-    ResizeObserverController.prototype.updateObservers_ = function () {
-        // Collect observers that have active observations.
-        var activeObservers = this.observers_.filter(function (observer) {
-            return observer.gatherActive(), observer.hasActive();
-        });
-        // Deliver notifications in a separate cycle in order to avoid any
-        // collisions between observers, e.g. when multiple instances of
-        // ResizeObserver are tracking the same element and the callback of one
-        // of them changes content dimensions of the observed target. Sometimes
-        // this may result in notifications being blocked for the rest of observers.
-        activeObservers.forEach(function (observer) { return observer.broadcastActive(); });
-        return activeObservers.length > 0;
-    };
-    /**
-     * Initializes DOM listeners.
-     *
-     * @private
-     * @returns {void}
-     */
-    ResizeObserverController.prototype.connect_ = function () {
-        // Do nothing if running in a non-browser environment or if listeners
-        // have been already added.
-        if (!isBrowser || this.connected_) {
-            return;
-        }
-        // Subscription to the "Transitionend" event is used as a workaround for
-        // delayed transitions. This way it's possible to capture at least the
-        // final state of an element.
-        document.addEventListener('transitionend', this.onTransitionEnd_);
-        window.addEventListener('resize', this.refresh);
-        if (mutationObserverSupported) {
-            this.mutationsObserver_ = new MutationObserver(this.refresh);
-            this.mutationsObserver_.observe(document, {
-                attributes: true,
-                childList: true,
-                characterData: true,
-                subtree: true
-            });
-        }
-        else {
-            document.addEventListener('DOMSubtreeModified', this.refresh);
-            this.mutationEventsAdded_ = true;
-        }
-        this.connected_ = true;
-    };
-    /**
-     * Removes DOM listeners.
-     *
-     * @private
-     * @returns {void}
-     */
-    ResizeObserverController.prototype.disconnect_ = function () {
-        // Do nothing if running in a non-browser environment or if listeners
-        // have been already removed.
-        if (!isBrowser || !this.connected_) {
-            return;
-        }
-        document.removeEventListener('transitionend', this.onTransitionEnd_);
-        window.removeEventListener('resize', this.refresh);
-        if (this.mutationsObserver_) {
-            this.mutationsObserver_.disconnect();
-        }
-        if (this.mutationEventsAdded_) {
-            document.removeEventListener('DOMSubtreeModified', this.refresh);
-        }
-        this.mutationsObserver_ = null;
-        this.mutationEventsAdded_ = false;
-        this.connected_ = false;
-    };
-    /**
-     * "Transitionend" event handler.
-     *
-     * @private
-     * @param {TransitionEvent} event
-     * @returns {void}
-     */
-    ResizeObserverController.prototype.onTransitionEnd_ = function (_a) {
-        var _b = _a.propertyName, propertyName = _b === void 0 ? '' : _b;
-        // Detect whether transition may affect dimensions of an element.
-        var isReflowProperty = transitionKeys.some(function (key) {
-            return !!~propertyName.indexOf(key);
-        });
-        if (isReflowProperty) {
-            this.refresh();
-        }
-    };
-    /**
-     * Returns instance of the ResizeObserverController.
-     *
-     * @returns {ResizeObserverController}
-     */
-    ResizeObserverController.getInstance = function () {
-        if (!this.instance_) {
-            this.instance_ = new ResizeObserverController();
-        }
-        return this.instance_;
-    };
-    /**
-     * Holds reference to the controller's instance.
-     *
-     * @private {ResizeObserverController}
-     */
-    ResizeObserverController.instance_ = null;
-    return ResizeObserverController;
-}());
-
-/**
- * Defines non-writable/enumerable properties of the provided target object.
- *
- * @param {Object} target - Object for which to define properties.
- * @param {Object} props - Properties to be defined.
- * @returns {Object} Target object.
- */
-var defineConfigurable = (function (target, props) {
-    for (var _i = 0, _a = Object.keys(props); _i < _a.length; _i++) {
-        var key = _a[_i];
-        Object.defineProperty(target, key, {
-            value: props[key],
-            enumerable: false,
-            writable: false,
-            configurable: true
-        });
-    }
-    return target;
-});
-
-/**
- * Returns the global object associated with provided element.
- *
- * @param {Object} target
- * @returns {Object}
- */
-var getWindowOf = (function (target) {
-    // Assume that the element is an instance of Node, which means that it
-    // has the "ownerDocument" property from which we can retrieve a
-    // corresponding global object.
-    var ownerGlobal = target && target.ownerDocument && target.ownerDocument.defaultView;
-    // Return the local global object if it's not possible extract one from
-    // provided element.
-    return ownerGlobal || global$1;
-});
-
-// Placeholder of an empty content rectangle.
-var emptyRect = createRectInit(0, 0, 0, 0);
-/**
- * Converts provided string to a number.
- *
- * @param {number|string} value
- * @returns {number}
- */
-function toFloat(value) {
-    return parseFloat(value) || 0;
-}
-/**
- * Extracts borders size from provided styles.
- *
- * @param {CSSStyleDeclaration} styles
- * @param {...string} positions - Borders positions (top, right, ...)
- * @returns {number}
- */
-function getBordersSize(styles) {
-    var positions = [];
-    for (var _i = 1; _i < arguments.length; _i++) {
-        positions[_i - 1] = arguments[_i];
-    }
-    return positions.reduce(function (size, position) {
-        var value = styles['border-' + position + '-width'];
-        return size + toFloat(value);
-    }, 0);
-}
-/**
- * Extracts paddings sizes from provided styles.
- *
- * @param {CSSStyleDeclaration} styles
- * @returns {Object} Paddings box.
- */
-function getPaddings(styles) {
-    var positions = ['top', 'right', 'bottom', 'left'];
-    var paddings = {};
-    for (var _i = 0, positions_1 = positions; _i < positions_1.length; _i++) {
-        var position = positions_1[_i];
-        var value = styles['padding-' + position];
-        paddings[position] = toFloat(value);
-    }
-    return paddings;
-}
-/**
- * Calculates content rectangle of provided SVG element.
- *
- * @param {SVGGraphicsElement} target - Element content rectangle of which needs
- *      to be calculated.
- * @returns {DOMRectInit}
- */
-function getSVGContentRect(target) {
-    var bbox = target.getBBox();
-    return createRectInit(0, 0, bbox.width, bbox.height);
-}
-/**
- * Calculates content rectangle of provided HTMLElement.
- *
- * @param {HTMLElement} target - Element for which to calculate the content rectangle.
- * @returns {DOMRectInit}
- */
-function getHTMLElementContentRect(target) {
-    // Client width & height properties can't be
-    // used exclusively as they provide rounded values.
-    var clientWidth = target.clientWidth, clientHeight = target.clientHeight;
-    // By this condition we can catch all non-replaced inline, hidden and
-    // detached elements. Though elements with width & height properties less
-    // than 0.5 will be discarded as well.
-    //
-    // Without it we would need to implement separate methods for each of
-    // those cases and it's not possible to perform a precise and performance
-    // effective test for hidden elements. E.g. even jQuery's ':visible' filter
-    // gives wrong results for elements with width & height less than 0.5.
-    if (!clientWidth && !clientHeight) {
-        return emptyRect;
-    }
-    var styles = getWindowOf(target).getComputedStyle(target);
-    var paddings = getPaddings(styles);
-    var horizPad = paddings.left + paddings.right;
-    var vertPad = paddings.top + paddings.bottom;
-    // Computed styles of width & height are being used because they are the
-    // only dimensions available to JS that contain non-rounded values. It could
-    // be possible to utilize the getBoundingClientRect if only it's data wasn't
-    // affected by CSS transformations let alone paddings, borders and scroll bars.
-    var width = toFloat(styles.width), height = toFloat(styles.height);
-    // Width & height include paddings and borders when the 'border-box' box
-    // model is applied (except for IE).
-    if (styles.boxSizing === 'border-box') {
-        // Following conditions are required to handle Internet Explorer which
-        // doesn't include paddings and borders to computed CSS dimensions.
-        //
-        // We can say that if CSS dimensions + paddings are equal to the "client"
-        // properties then it's either IE, and thus we don't need to subtract
-        // anything, or an element merely doesn't have paddings/borders styles.
-        if (Math.round(width + horizPad) !== clientWidth) {
-            width -= getBordersSize(styles, 'left', 'right') + horizPad;
-        }
-        if (Math.round(height + vertPad) !== clientHeight) {
-            height -= getBordersSize(styles, 'top', 'bottom') + vertPad;
-        }
-    }
-    // Following steps can't be applied to the document's root element as its
-    // client[Width/Height] properties represent viewport area of the window.
-    // Besides, it's as well not necessary as the <html> itself neither has
-    // rendered scroll bars nor it can be clipped.
-    if (!isDocumentElement(target)) {
-        // In some browsers (only in Firefox, actually) CSS width & height
-        // include scroll bars size which can be removed at this step as scroll
-        // bars are the only difference between rounded dimensions + paddings
-        // and "client" properties, though that is not always true in Chrome.
-        var vertScrollbar = Math.round(width + horizPad) - clientWidth;
-        var horizScrollbar = Math.round(height + vertPad) - clientHeight;
-        // Chrome has a rather weird rounding of "client" properties.
-        // E.g. for an element with content width of 314.2px it sometimes gives
-        // the client width of 315px and for the width of 314.7px it may give
-        // 314px. And it doesn't happen all the time. So just ignore this delta
-        // as a non-relevant.
-        if (Math.abs(vertScrollbar) !== 1) {
-            width -= vertScrollbar;
-        }
-        if (Math.abs(horizScrollbar) !== 1) {
-            height -= horizScrollbar;
-        }
-    }
-    return createRectInit(paddings.left, paddings.top, width, height);
-}
-/**
- * Checks whether provided element is an instance of the SVGGraphicsElement.
- *
- * @param {Element} target - Element to be checked.
- * @returns {boolean}
- */
-var isSVGGraphicsElement = (function () {
-    // Some browsers, namely IE and Edge, don't have the SVGGraphicsElement
-    // interface.
-    if (typeof SVGGraphicsElement !== 'undefined') {
-        return function (target) { return target instanceof getWindowOf(target).SVGGraphicsElement; };
-    }
-    // If it's so, then check that element is at least an instance of the
-    // SVGElement and that it has the "getBBox" method.
-    // eslint-disable-next-line no-extra-parens
-    return function (target) { return (target instanceof getWindowOf(target).SVGElement &&
-        typeof target.getBBox === 'function'); };
-})();
-/**
- * Checks whether provided element is a document element (<html>).
- *
- * @param {Element} target - Element to be checked.
- * @returns {boolean}
- */
-function isDocumentElement(target) {
-    return target === getWindowOf(target).document.documentElement;
-}
-/**
- * Calculates an appropriate content rectangle for provided html or svg element.
- *
- * @param {Element} target - Element content rectangle of which needs to be calculated.
- * @returns {DOMRectInit}
- */
-function getContentRect(target) {
-    if (!isBrowser) {
-        return emptyRect;
-    }
-    if (isSVGGraphicsElement(target)) {
-        return getSVGContentRect(target);
-    }
-    return getHTMLElementContentRect(target);
-}
-/**
- * Creates rectangle with an interface of the DOMRectReadOnly.
- * Spec: https://drafts.fxtf.org/geometry/#domrectreadonly
- *
- * @param {DOMRectInit} rectInit - Object with rectangle's x/y coordinates and dimensions.
- * @returns {DOMRectReadOnly}
- */
-function createReadOnlyRect(_a) {
-    var x = _a.x, y = _a.y, width = _a.width, height = _a.height;
-    // If DOMRectReadOnly is available use it as a prototype for the rectangle.
-    var Constr = typeof DOMRectReadOnly !== 'undefined' ? DOMRectReadOnly : Object;
-    var rect = Object.create(Constr.prototype);
-    // Rectangle's properties are not writable and non-enumerable.
-    defineConfigurable(rect, {
-        x: x, y: y, width: width, height: height,
-        top: y,
-        right: x + width,
-        bottom: height + y,
-        left: x
-    });
-    return rect;
-}
-/**
- * Creates DOMRectInit object based on the provided dimensions and the x/y coordinates.
- * Spec: https://drafts.fxtf.org/geometry/#dictdef-domrectinit
- *
- * @param {number} x - X coordinate.
- * @param {number} y - Y coordinate.
- * @param {number} width - Rectangle's width.
- * @param {number} height - Rectangle's height.
- * @returns {DOMRectInit}
- */
-function createRectInit(x, y, width, height) {
-    return { x: x, y: y, width: width, height: height };
-}
-
-/**
- * Class that is responsible for computations of the content rectangle of
- * provided DOM element and for keeping track of it's changes.
- */
-var ResizeObservation = /** @class */ (function () {
-    /**
-     * Creates an instance of ResizeObservation.
-     *
-     * @param {Element} target - Element to be observed.
-     */
-    function ResizeObservation(target) {
-        /**
-         * Broadcasted width of content rectangle.
-         *
-         * @type {number}
-         */
-        this.broadcastWidth = 0;
-        /**
-         * Broadcasted height of content rectangle.
-         *
-         * @type {number}
-         */
-        this.broadcastHeight = 0;
-        /**
-         * Reference to the last observed content rectangle.
-         *
-         * @private {DOMRectInit}
-         */
-        this.contentRect_ = createRectInit(0, 0, 0, 0);
-        this.target = target;
-    }
-    /**
-     * Updates content rectangle and tells whether it's width or height properties
-     * have changed since the last broadcast.
-     *
-     * @returns {boolean}
-     */
-    ResizeObservation.prototype.isActive = function () {
-        var rect = getContentRect(this.target);
-        this.contentRect_ = rect;
-        return (rect.width !== this.broadcastWidth ||
-            rect.height !== this.broadcastHeight);
-    };
-    /**
-     * Updates 'broadcastWidth' and 'broadcastHeight' properties with a data
-     * from the corresponding properties of the last observed content rectangle.
-     *
-     * @returns {DOMRectInit} Last observed content rectangle.
-     */
-    ResizeObservation.prototype.broadcastRect = function () {
-        var rect = this.contentRect_;
-        this.broadcastWidth = rect.width;
-        this.broadcastHeight = rect.height;
-        return rect;
-    };
-    return ResizeObservation;
-}());
-
-var ResizeObserverEntry = /** @class */ (function () {
-    /**
-     * Creates an instance of ResizeObserverEntry.
-     *
-     * @param {Element} target - Element that is being observed.
-     * @param {DOMRectInit} rectInit - Data of the element's content rectangle.
-     */
-    function ResizeObserverEntry(target, rectInit) {
-        var contentRect = createReadOnlyRect(rectInit);
-        // According to the specification following properties are not writable
-        // and are also not enumerable in the native implementation.
-        //
-        // Property accessors are not being used as they'd require to define a
-        // private WeakMap storage which may cause memory leaks in browsers that
-        // don't support this type of collections.
-        defineConfigurable(this, { target: target, contentRect: contentRect });
-    }
-    return ResizeObserverEntry;
-}());
-
-var ResizeObserverSPI = /** @class */ (function () {
-    /**
-     * Creates a new instance of ResizeObserver.
-     *
-     * @param {ResizeObserverCallback} callback - Callback function that is invoked
-     *      when one of the observed elements changes it's content dimensions.
-     * @param {ResizeObserverController} controller - Controller instance which
-     *      is responsible for the updates of observer.
-     * @param {ResizeObserver} callbackCtx - Reference to the public
-     *      ResizeObserver instance which will be passed to callback function.
-     */
-    function ResizeObserverSPI(callback, controller, callbackCtx) {
-        /**
-         * Collection of resize observations that have detected changes in dimensions
-         * of elements.
-         *
-         * @private {Array<ResizeObservation>}
-         */
-        this.activeObservations_ = [];
-        /**
-         * Registry of the ResizeObservation instances.
-         *
-         * @private {Map<Element, ResizeObservation>}
-         */
-        this.observations_ = new MapShim();
-        if (typeof callback !== 'function') {
-            throw new TypeError('The callback provided as parameter 1 is not a function.');
-        }
-        this.callback_ = callback;
-        this.controller_ = controller;
-        this.callbackCtx_ = callbackCtx;
-    }
-    /**
-     * Starts observing provided element.
-     *
-     * @param {Element} target - Element to be observed.
-     * @returns {void}
-     */
-    ResizeObserverSPI.prototype.observe = function (target) {
-        if (!arguments.length) {
-            throw new TypeError('1 argument required, but only 0 present.');
-        }
-        // Do nothing if current environment doesn't have the Element interface.
-        if (typeof Element === 'undefined' || !(Element instanceof Object)) {
-            return;
-        }
-        if (!(target instanceof getWindowOf(target).Element)) {
-            throw new TypeError('parameter 1 is not of type "Element".');
-        }
-        var observations = this.observations_;
-        // Do nothing if element is already being observed.
-        if (observations.has(target)) {
-            return;
-        }
-        observations.set(target, new ResizeObservation(target));
-        this.controller_.addObserver(this);
-        // Force the update of observations.
-        this.controller_.refresh();
-    };
-    /**
-     * Stops observing provided element.
-     *
-     * @param {Element} target - Element to stop observing.
-     * @returns {void}
-     */
-    ResizeObserverSPI.prototype.unobserve = function (target) {
-        if (!arguments.length) {
-            throw new TypeError('1 argument required, but only 0 present.');
-        }
-        // Do nothing if current environment doesn't have the Element interface.
-        if (typeof Element === 'undefined' || !(Element instanceof Object)) {
-            return;
-        }
-        if (!(target instanceof getWindowOf(target).Element)) {
-            throw new TypeError('parameter 1 is not of type "Element".');
-        }
-        var observations = this.observations_;
-        // Do nothing if element is not being observed.
-        if (!observations.has(target)) {
-            return;
-        }
-        observations.delete(target);
-        if (!observations.size) {
-            this.controller_.removeObserver(this);
-        }
-    };
-    /**
-     * Stops observing all elements.
-     *
-     * @returns {void}
-     */
-    ResizeObserverSPI.prototype.disconnect = function () {
-        this.clearActive();
-        this.observations_.clear();
-        this.controller_.removeObserver(this);
-    };
-    /**
-     * Collects observation instances the associated element of which has changed
-     * it's content rectangle.
-     *
-     * @returns {void}
-     */
-    ResizeObserverSPI.prototype.gatherActive = function () {
-        var _this = this;
-        this.clearActive();
-        this.observations_.forEach(function (observation) {
-            if (observation.isActive()) {
-                _this.activeObservations_.push(observation);
-            }
-        });
-    };
-    /**
-     * Invokes initial callback function with a list of ResizeObserverEntry
-     * instances collected from active resize observations.
-     *
-     * @returns {void}
-     */
-    ResizeObserverSPI.prototype.broadcastActive = function () {
-        // Do nothing if observer doesn't have active observations.
-        if (!this.hasActive()) {
-            return;
-        }
-        var ctx = this.callbackCtx_;
-        // Create ResizeObserverEntry instance for every active observation.
-        var entries = this.activeObservations_.map(function (observation) {
-            return new ResizeObserverEntry(observation.target, observation.broadcastRect());
-        });
-        this.callback_.call(ctx, entries, ctx);
-        this.clearActive();
-    };
-    /**
-     * Clears the collection of active observations.
-     *
-     * @returns {void}
-     */
-    ResizeObserverSPI.prototype.clearActive = function () {
-        this.activeObservations_.splice(0);
-    };
-    /**
-     * Tells whether observer has active observations.
-     *
-     * @returns {boolean}
-     */
-    ResizeObserverSPI.prototype.hasActive = function () {
-        return this.activeObservations_.length > 0;
-    };
-    return ResizeObserverSPI;
-}());
-
-// Registry of internal observers. If WeakMap is not available use current shim
-// for the Map collection as it has all required methods and because WeakMap
-// can't be fully polyfilled anyway.
-var observers = typeof WeakMap !== 'undefined' ? new WeakMap() : new MapShim();
-/**
- * ResizeObserver API. Encapsulates the ResizeObserver SPI implementation
- * exposing only those methods and properties that are defined in the spec.
- */
-var ResizeObserver = /** @class */ (function () {
-    /**
-     * Creates a new instance of ResizeObserver.
-     *
-     * @param {ResizeObserverCallback} callback - Callback that is invoked when
-     *      dimensions of the observed elements change.
-     */
-    function ResizeObserver(callback) {
-        if (!(this instanceof ResizeObserver)) {
-            throw new TypeError('Cannot call a class as a function.');
-        }
-        if (!arguments.length) {
-            throw new TypeError('1 argument required, but only 0 present.');
-        }
-        var controller = ResizeObserverController.getInstance();
-        var observer = new ResizeObserverSPI(callback, controller, this);
-        observers.set(this, observer);
-    }
-    return ResizeObserver;
-}());
-// Expose public methods of ResizeObserver.
-[
-    'observe',
-    'unobserve',
-    'disconnect'
-].forEach(function (method) {
-    ResizeObserver.prototype[method] = function () {
-        var _a;
-        return (_a = observers.get(this))[method].apply(_a, arguments);
-    };
-});
-
-var index = (function () {
-    // Export existing implementation if available.
-    if (typeof global$1.ResizeObserver !== 'undefined') {
-        return global$1.ResizeObserver;
-    }
-    return ResizeObserver;
-})();
-
-var isServer = typeof window === 'undefined';
-var resizeHandler = function (entries) {
-    var e_1, _a;
-    try {
-        for (var entries_1 = __values(entries), entries_1_1 = entries_1.next(); !entries_1_1.done; entries_1_1 = entries_1.next()) {
-            var entry = entries_1_1.value;
-            var listeners = entry.target.__resizeListeners__ || [];
-            if (listeners.length) {
-                listeners.forEach(function (fn) {
-                    fn();
-                });
-            }
-        }
-    }
-    catch (e_1_1) { e_1 = { error: e_1_1 }; }
-    finally {
-        try {
-            if (entries_1_1 && !entries_1_1.done && (_a = entries_1["return"])) _a.call(entries_1);
-        }
-        finally { if (e_1) throw e_1.error; }
-    }
-};
-var addResizeListener = function (element, fn) {
-    if (isServer || !element)
-        return;
-    if (!element.__resizeListeners__) {
-        element.__resizeListeners__ = [];
-        element.__ro__ = new index(resizeHandler);
-        element.__ro__.observe(element);
-    }
-    element.__resizeListeners__.push(fn);
-};
-var removeResizeListener = function (element, fn) {
-    if (!element || !element.__resizeListeners__)
-        return;
-    element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
-    if (!element.__resizeListeners__.length) {
-        element.__ro__.disconnect();
-    }
-};
-
-var arrInsert = function (target, position) {
-    var args = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-        args[_i - 2] = arguments[_i];
-    }
-    return target
-        .slice(0, position)
-        .concat(flatten(args))
-        .concat(target.slice(position, Infinity));
-};
-var flatten = function (arr) {
-    if (!Array.isArray(arr))
-        return [arr];
-    if (arr.length === 0)
-        return arr;
-    var result = [];
-    var stack = [arr];
-    var currentItem;
-    while ((currentItem = stack.shift())) {
-        Array.isArray(currentItem) ? stack.push.apply(stack, __spreadArray([], __read(currentItem))) : result.push(currentItem);
-    }
-    return result;
-};
-var copyInnerText = function (ele) {
-    var range = document.createRange();
-    range.selectNodeContents(ele);
-    var selection = window.getSelection();
-    selection === null || selection === void 0 ? void 0 : selection.removeAllRanges();
-    selection === null || selection === void 0 ? void 0 : selection.addRange(range);
-    document.execCommand('copy');
-    return ele;
-};
-function omit(target, keys) {
-    if (!isObject$1(target))
-        return target;
-    return Object.keys(target).reduce(function (res, key) {
-        if (!keys.includes(key)) {
-            Reflect.set(res, key, target[key]);
-        }
-        return res;
-    }, {});
-}
-function useEnumOptions(obj, name, id) {
-    if (name === void 0) { name = 'name'; }
-    if (id === void 0) { id = 'id'; }
-    var result = [];
-    Object.entries(obj).forEach(function (_a) {
-        var _b;
-        var _c = __read(_a, 2), key = _c[0], val = _c[1];
-        if (R.is(Number, val)) {
-            result.push((_b = {}, _b[name] = key, _b[id] = val, _b));
-        }
-    });
-    return result;
-}
-function throttle$1(func, wait, options) {
-    if (wait === void 0) { wait = 100; }
-    var timeout, context, args, result;
-    var previous = 0;
-    if (!options)
-        options = {};
-    function later() {
-        previous = (options === null || options === void 0 ? void 0 : options.leading) === false ? 0 : Date.now();
-        timeout = null;
-        result = func.apply(context, args);
-        if (!timeout)
-            context = args = null; // 显式地释放内存，防止内存泄漏
-    }
-    function throttled() {
-        var innerArgs = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            innerArgs[_i] = arguments[_i];
-        }
-        var now = Date.now();
-        if (!previous && (options === null || options === void 0 ? void 0 : options.leading) === false)
-            previous = now;
-        var remaining = wait - (now - previous);
-        context = this;
-        args = innerArgs;
-        if (remaining <= 0 || remaining > wait) {
-            if (timeout) {
-                clearTimeout(timeout);
-                timeout = null;
-            }
-            previous = now;
-            result = func.apply(context, innerArgs);
-            if (!timeout)
-                context = args = null;
-        }
-        else if (!timeout && (options === null || options === void 0 ? void 0 : options.trailing) !== false) {
-            timeout = setTimeout(later, remaining);
-        }
-        return result;
-    }
-    return throttled;
-}
-/**
- * 为函数添加状态改变
- */
-function useLoading(fn, argLoading) {
-    var loading = ref(false);
-    if (argLoading)
-        argLoading.value = false;
-    function call() {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        return __awaiter(this, void 0, void 0, function () {
-            var result, e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (loading.value) {
-                            return [2 /*return*/, Promise.reject('loading...')];
-                        }
-                        loading.value = true;
-                        if (argLoading)
-                            argLoading.value = true;
-                        result = null;
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, fn.apply(void 0, __spreadArray([], __read(args)))];
-                    case 2:
-                        result = _a.sent();
-                        return [3 /*break*/, 4];
-                    case 3:
-                        e_1 = _a.sent();
-                        result = Promise.reject(e_1);
-                        return [3 /*break*/, 4];
-                    case 4:
-                        if (argLoading)
-                            argLoading.value = false;
-                        loading.value = false;
-                        return [2 /*return*/, result];
-                }
-            });
-        });
-    }
-    return [call, loading];
-}
-var isDeepObjectEqual = function (obj1, obj2) {
-    //1.如果是比较对象===，返回true
-    if (obj1 === obj2)
-        return true;
-    //2.如果比较的是两个方法，转成字符串比较
-    if (typeof obj1 === 'function' && typeof obj2 === 'function') {
-        return obj1.toString() === obj2.toString();
-    }
-    //3如果obj1和obj2都是Date实例，获取毫秒值比较
-    if (obj1 instanceof Date && obj2 instanceof Date)
-        return obj1.getTime() === obj2.getTime();
-    //4如果比较是两个类型不一致,无须比较直接返回false
-    if (Object.prototype.toString.call(obj1) !== Object.prototype.toString.call(obj2) ||
-        typeof obj1 !== 'object') {
-        return false;
-    }
-    //5.获取对象所有自身属性的属性名（包括不可枚举属性但不包括Symbol值作为名称的属性
-    var obj1Props = Object.getOwnPropertyNames(obj1);
-    var obj2Props = Object.getOwnPropertyNames(obj2);
-    //自身属性长度相等,
-    if (obj1Props.length !== obj2Props.length)
-        return false;
-    //递归调用判断每一个属性值是否相等
-    return obj1Props.every(function (prop) { return isDeepObjectEqual(obj1[prop], obj2[prop]); });
-};
 
 var renderComp = function (attrs, slots, Comp) {
     return (openBlock(),
@@ -2412,265 +890,6 @@ var createCxTableConfig = function () {
     });
 };
 
-var clipboard = ref(null);
-var useCopy = function (props) {
-    var copy = function () {
-        clipboard.value = clone(props.tableData);
-        return clipboard.value;
-    };
-    var paste = function (payload) {
-        var _a;
-        if (!Array.isArray(clipboard.value)) {
-            return;
-        }
-        var omitProps = payload.omitProps, onPaste = payload.onPaste;
-        var rows = clone(clipboard.value).map(function (item) {
-            if (Array.isArray(omitProps)) {
-                return omit$1(omitProps, item);
-            }
-            return item;
-        });
-        (_a = props.tableData).push.apply(_a, __spreadArray([], __read((isFunction(onPaste) ? onPaste(rows) : rows))));
-    };
-    return { copy: copy, paste: paste };
-};
-
-var CxTableRendererMap = new Map();
-var CxTableActiveControl = new Set();
-var createCxTableContext = function () {
-    return {
-        contextScopeId: 'defaultScope',
-        messageInstance: {
-            success: function () { return undefined; },
-            warning: function () { return undefined; },
-            info: function () { return undefined; },
-            error: function () { return undefined; }
-        },
-        dynamicRequestInstance: null,
-        dynamicInject: new Set(),
-        dynamicFormContext: { requestApiMap: {} },
-        dynamicCacheContext: {
-            requestApiMap: {},
-            removeApiMap: {},
-            cacheTypeTab: function () { return false; },
-            requestInstance: {},
-            cacheLabelConfig: []
-        },
-        dynamicType: {
-            DYNAMIC_MODULE_TYPE: {},
-            DYNAMIC_BUSINESS_TYPE: {},
-            DYNAMIC_MODEL_TYPE: {},
-            DYNAMIC_PRICE_TYPE: {}
-        },
-        precision: {}
-    };
-};
-var context = createCxTableContext();
-var readOnlyContext = new Proxy(context, {
-    get: function (target, key) {
-        return target[key];
-    },
-    set: function () {
-        return false;
-    }
-});
-var useCxTable = function () {
-    var getContext = function () { return readOnlyContext; };
-    var instance = ref({});
-    var instanceProps = ref({});
-    var copyHandler = ref({});
-    var registCxTable = function (payload) {
-        instance.value = payload.registerTarget;
-        instanceProps.value = payload.props;
-        copyHandler.value = useCopy(payload.props);
-        return cxTableManager;
-    };
-    var registCxRenderer = function (params) {
-        var render = null;
-        if (isFunction(params.payload)) {
-            render = params.payload;
-        }
-        else if (params.payload) {
-            render = params.payload.render;
-            params.payload.active && CxTableActiveControl.add(params.type);
-        }
-        render && CxTableRendererMap.set(params.type, render);
-        return cxTableManager;
-    };
-    var setCxTableScopeId = function (id) {
-        context.contextScopeId = id;
-        return cxTableManager;
-    };
-    var setMessageInstance = function (instance) {
-        context.messageInstance = instance;
-        return cxTableManager;
-    };
-    var setDynamicFormSearchApi = function (moduleType, rules) {
-        context.dynamicFormContext.requestApiMap[moduleType] = rules;
-        return cxTableManager;
-    };
-    var setDynamicCacheContext = function (key, val) {
-        context.dynamicCacheContext[key] = val;
-        return cxTableManager;
-    };
-    var setDynamicRequestInstance = function (instance) {
-        context.dynamicRequestInstance = instance;
-        return cxTableManager;
-    };
-    var setDynamicType = function (types) {
-        Object.keys(context.dynamicType).forEach(function (dynamicKey) {
-            if (isObject$1(types[dynamicKey])) {
-                context.dynamicType[dynamicKey] = types[dynamicKey];
-            }
-        });
-        return cxTableManager;
-    };
-    var setPrecision = function (precision) {
-        Object.assign(context.precision, precision);
-        return cxTableManager;
-    };
-    var use = function (plugin) {
-        if (isFunction(plugin.dynamicInject)) {
-            context.dynamicInject.add(plugin.dynamicInject);
-        }
-        return cxTableManager;
-    };
-    var cxTableManager = {
-        registCxTable: registCxTable,
-        setPrecision: setPrecision,
-        setCxTableScopeId: setCxTableScopeId,
-        setMessageInstance: setMessageInstance,
-        setDynamicType: setDynamicType,
-        setDynamicFormSearchApi: setDynamicFormSearchApi,
-        setDynamicRequestInstance: setDynamicRequestInstance,
-        setDynamicCacheContext: setDynamicCacheContext,
-        getContext: getContext,
-        use: use,
-        instance: instance,
-        registCxRenderer: registCxRenderer,
-        copyHandler: copyHandler
-    };
-    return cxTableManager;
-};
-
-var EventBus = /** @class */ (function () {
-    function EventBus() {
-        this.eventDep = {};
-    }
-    EventBus.prototype.on = function (eventName, func) {
-        var _a;
-        if (this.eventDep[eventName]) {
-            (_a = this.eventDep[eventName]) === null || _a === void 0 ? void 0 : _a.push(func);
-        }
-        else {
-            this.eventDep[eventName] = [func];
-        }
-    };
-    EventBus.prototype.emit = function (eventName) {
-        var _a;
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        if (this.eventDep[eventName]) {
-            (_a = this.eventDep[eventName]) === null || _a === void 0 ? void 0 : _a.forEach(function (func) { return func.apply(void 0, __spreadArray([], __read(args))); });
-        }
-    };
-    EventBus.prototype.off = function (eventName) {
-        this.eventDep[eventName] = null;
-    };
-    EventBus.prototype.clear = function () {
-        this.eventDep = {};
-    };
-    return EventBus;
-}());
-function EventBusCreator() {
-    return new EventBus();
-}
-var eventBus = EventBusCreator();
-
-var colid = 0, rowid = 0, tid = 0;
-var rowIdMap = new WeakMap();
-var colIdMap = new Map();
-var useTableId = function () {
-    var generateColId = function (col) {
-        var key = col.label + col.prop;
-        var result = colIdMap.get(key);
-        if (!result) {
-            result = CX_TABLE_COLUMN_ID_PREPEND + colid++;
-            colIdMap.set(key, result);
-        }
-        return result;
-    };
-    var generateRowId = function () {
-        return CX_TABLE_COLUMN_ID_PREPEND + rowid++;
-    };
-    var generateTableId = function () {
-        return CX_TABLE_ID_PREPEND + tid++;
-    };
-    var getRowIdFromMap = function (key) {
-        var result = rowIdMap.get(key);
-        if (!result) {
-            result = generateRowId();
-            setRowIdToMap(key, result);
-        }
-        return result;
-    };
-    var setRowIdToMap = function (key, value) {
-        rowIdMap.set(key, value);
-        return value;
-    };
-    return { generateColId: generateColId, generateRowId: generateRowId, generateTableId: generateTableId, getRowIdFromMap: getRowIdFromMap, setRowIdToMap: setRowIdToMap };
-};
-
-var domShare = {
-    getEle: function (container, selector) {
-        return container.querySelector(selector);
-    },
-    getCell: function ($CxTable, column, rowData) {
-        var wrapperEle = $CxTable.wrapperEle;
-        return wrapperEle.querySelector(".cx-table_wrapper tr[rowid=" + useTableId().getRowIdFromMap(rowData) + "] td[colid=" + column._colid + "]");
-    },
-    getAncestor: function (ele, nodeName, limited) {
-        if (nodeName === void 0) { nodeName = 'TD'; }
-        if (limited === void 0) { limited = 5; }
-        var result = ele;
-        while (result && limited > 0) {
-            if (result.nodeName === nodeName)
-                break;
-            result = result.parentElement;
-            limited--;
-        }
-        return result;
-    },
-    scrollTo: function ($CxTable, targetPosition) {
-        var _a;
-        (_a = $CxTable.wrapperEle) === null || _a === void 0 ? void 0 : _a.scrollTo({ top: targetPosition });
-    },
-    scrollToTd: function (td, container, fixLeft, fixRight, fixTop) {
-        if (!td || !container)
-            return;
-        var tdLeft = td.offsetLeft, tdTop = td.offsetTop, tdWidth = td.clientWidth, tdHeight = td.clientHeight;
-        var containerLeft = container.scrollLeft, containerTop = container.scrollTop, containerWidth = container.clientWidth, containerHeight = container.clientHeight;
-        if (tdLeft < containerLeft + fixLeft) {
-            // 说明td被卷入了左侧
-            container.scrollLeft = tdLeft - fixLeft;
-        }
-        if (tdLeft + tdWidth > containerLeft + containerWidth - fixRight) {
-            // 说明td被卷入了右侧
-            container.scrollLeft = tdLeft + tdWidth - containerWidth + fixRight;
-        }
-        if (tdTop < containerTop) {
-            // 说明td被卷入了上侧
-            container.scrollTop = tdTop;
-        }
-        if (tdTop + tdHeight > containerTop + containerHeight - fixTop) {
-            // 说明td被卷入了下侧
-            container.scrollTop = tdTop - containerHeight + tdHeight + fixTop;
-        }
-    }
-};
-
 var useColumnValidity = function ($CxTable) {
     var flatColumns = $CxTable.flatColumns;
     var keys = new Map();
@@ -3165,6 +1384,40 @@ function useStyle(col, props) {
     };
 }
 
+var colid = 0, rowid = 0, tid = 0;
+var rowIdMap = new WeakMap();
+var colIdMap = new Map();
+var useTableId = function () {
+    var generateColId = function (col) {
+        var key = col.label + col.prop;
+        var result = colIdMap.get(key);
+        if (!result) {
+            result = CX_TABLE_COLUMN_ID_PREPEND + colid++;
+            colIdMap.set(key, result);
+        }
+        return result;
+    };
+    var generateRowId = function () {
+        return CX_TABLE_COLUMN_ID_PREPEND + rowid++;
+    };
+    var generateTableId = function () {
+        return CX_TABLE_ID_PREPEND + tid++;
+    };
+    var getRowIdFromMap = function (key) {
+        var result = rowIdMap.get(key);
+        if (!result) {
+            result = generateRowId();
+            setRowIdToMap(key, result);
+        }
+        return result;
+    };
+    var setRowIdToMap = function (key, value) {
+        rowIdMap.set(key, value);
+        return value;
+    };
+    return { generateColId: generateColId, generateRowId: generateRowId, generateTableId: generateTableId, getRowIdFromMap: getRowIdFromMap, setRowIdToMap: setRowIdToMap };
+};
+
 function getColumnFlag(col) {
     var _a;
     var result = 0;
@@ -3260,6 +1513,29 @@ function classifyColumn($CxTable, columns) {
     $CxTable.columnStore.noWidthColumns = noWidthColumns;
 }
 
+var clipboard = ref(null);
+var useCopy = function (props) {
+    var copy = function () {
+        clipboard.value = clone(props.tableData);
+        return clipboard.value;
+    };
+    var paste = function (payload) {
+        var _a;
+        if (!Array.isArray(clipboard.value)) {
+            return;
+        }
+        var omitProps = payload.omitProps, onPaste = payload.onPaste;
+        var rows = clone(clipboard.value).map(function (item) {
+            if (Array.isArray(omitProps)) {
+                return omit$1(omitProps, item);
+            }
+            return item;
+        });
+        (_a = props.tableData).push.apply(_a, __spreadArray([], __read((isFunction(onPaste) ? onPaste(rows) : rows))));
+    };
+    return { copy: copy, paste: paste };
+};
+
 function useCxPagination() {
     return reactive({
         currentPage: 1,
@@ -3323,8 +1599,543 @@ var useCxSort = function (props) {
     };
 };
 
+var CxTableRendererMap = new Map();
+var CxTableActiveControl = new Set();
+var createCxTableContext = function () {
+    return {
+        contextScopeId: 'defaultScope',
+        messageInstance: {
+            success: function () { return undefined; },
+            warning: function () { return undefined; },
+            info: function () { return undefined; },
+            error: function () { return undefined; }
+        },
+        dynamicRequestInstance: null,
+        dynamicInject: new Set(),
+        dynamicFormContext: { requestApiMap: {} },
+        dynamicCacheContext: {
+            requestApiMap: {},
+            removeApiMap: {},
+            cacheTypeTab: function () { return false; },
+            requestInstance: {},
+            cacheLabelConfig: []
+        },
+        dynamicType: {
+            DYNAMIC_MODULE_TYPE: {},
+            DYNAMIC_BUSINESS_TYPE: {},
+            DYNAMIC_MODEL_TYPE: {},
+            DYNAMIC_PRICE_TYPE: {}
+        },
+        precision: {}
+    };
+};
+var context = createCxTableContext();
+var readOnlyContext = new Proxy(context, {
+    get: function (target, key) {
+        return target[key];
+    },
+    set: function () {
+        return false;
+    }
+});
+var useCxTable = function () {
+    var getContext = function () { return readOnlyContext; };
+    var instance = ref({});
+    var instanceProps = ref({});
+    var copyHandler = ref({});
+    var registCxTable = function (payload) {
+        instance.value = payload.registerTarget;
+        instanceProps.value = payload.props;
+        copyHandler.value = useCopy(payload.props);
+        return cxTableManager;
+    };
+    var registCxRenderer = function (params) {
+        var render = null;
+        if (isFunction(params.payload)) {
+            render = params.payload;
+        }
+        else if (params.payload) {
+            render = params.payload.render;
+            params.payload.active && CxTableActiveControl.add(params.type);
+        }
+        render && CxTableRendererMap.set(params.type, render);
+        return cxTableManager;
+    };
+    var setCxTableScopeId = function (id) {
+        context.contextScopeId = id;
+        return cxTableManager;
+    };
+    var setMessageInstance = function (instance) {
+        context.messageInstance = instance;
+        return cxTableManager;
+    };
+    var setDynamicFormSearchApi = function (moduleType, rules) {
+        context.dynamicFormContext.requestApiMap[moduleType] = rules;
+        return cxTableManager;
+    };
+    var setDynamicCacheContext = function (key, val) {
+        context.dynamicCacheContext[key] = val;
+        return cxTableManager;
+    };
+    var setDynamicRequestInstance = function (instance) {
+        context.dynamicRequestInstance = instance;
+        return cxTableManager;
+    };
+    var setDynamicType = function (types) {
+        Object.keys(context.dynamicType).forEach(function (dynamicKey) {
+            if (isObject$1(types[dynamicKey])) {
+                context.dynamicType[dynamicKey] = types[dynamicKey];
+            }
+        });
+        return cxTableManager;
+    };
+    var setPrecision = function (precision) {
+        Object.assign(context.precision, precision);
+        return cxTableManager;
+    };
+    var use = function (plugin) {
+        if (isFunction(plugin.dynamicInject)) {
+            context.dynamicInject.add(plugin.dynamicInject);
+        }
+        return cxTableManager;
+    };
+    var cxTableManager = {
+        registCxTable: registCxTable,
+        setPrecision: setPrecision,
+        setCxTableScopeId: setCxTableScopeId,
+        setMessageInstance: setMessageInstance,
+        setDynamicType: setDynamicType,
+        setDynamicFormSearchApi: setDynamicFormSearchApi,
+        setDynamicRequestInstance: setDynamicRequestInstance,
+        setDynamicCacheContext: setDynamicCacheContext,
+        getContext: getContext,
+        use: use,
+        instance: instance,
+        registCxRenderer: registCxRenderer,
+        copyHandler: copyHandler
+    };
+    return cxTableManager;
+};
+
+var staticConfigList = [
+    'label',
+    'prop',
+    'slot',
+    'icon',
+    'required',
+    'number',
+    'defaultValue',
+    'accuracy',
+    'fixed',
+    'align',
+    'importantWidth',
+    'autoWidth',
+    'sortable',
+    'slotType',
+    'renderText',
+    'searchStates',
+    'sortable',
+    'headTip',
+    'jsonData'
+];
+var CX_ADAPTOR_LOSS_PRECISION = 2;
+var CX_ADAPTOR_INT_PRECISION = 0;
+
+/**
+ * 保留几位小数
+ * @param {String | Number} num
+ * @param {Number} fixed
+ * @return {Number | "-"}
+ */
+function decimals(num, fixed) {
+    if (fixed === void 0) { fixed = 3; }
+    num = parseFloat(num + '');
+    if (!isNaN(num)) {
+        num = Math.round(num * Math.pow(10, 6)) / Math.pow(10, 6 - fixed);
+        return Math.round(num) / Math.pow(10, fixed);
+    }
+    return 0;
+}
+/**
+ * 数字补位
+ * @param precision 精度
+ * @param force 是否强制修正
+ */
+function decimalFixed(value, precision, force) {
+    var _a;
+    if (force === void 0) { force = false; }
+    if (value === '' || isNaN(+value) || precision === undefined) {
+        return value;
+    }
+    if (precision < 0 || precision !== parseInt(precision + '', 10)) {
+        cxTableWarn("\u7CBE\u5EA6\u9519\u8BEF => " + precision);
+        return value;
+    }
+    var num = +(+value).toPrecision(12);
+    if (force) {
+        return (+decimals(+num, precision)).toFixed(precision);
+    }
+    var len = ((_a = num.toString().split('.')[1]) === null || _a === void 0 ? void 0 : _a.length) || 0;
+    return (+decimals(+num, Math.max(precision, len))).toFixed(Math.max(precision, len));
+}
+var getPrecision = function (state) {
+    var _a = useCxTable().getContext().precision, goldAccuracy = _a.goldAccuracy, stoneAccuracy = _a.stoneAccuracy, priceAccuracy = _a.priceAccuracy;
+    switch (state) {
+        case CX_ADAPTOR_PRECISION_TYPE.GOLD:
+            return goldAccuracy;
+        case CX_ADAPTOR_PRECISION_TYPE.STONE:
+            return stoneAccuracy;
+        case CX_ADAPTOR_PRECISION_TYPE.PRICE:
+            return priceAccuracy;
+        case CX_ADAPTOR_PRECISION_TYPE.INT:
+            return CX_ADAPTOR_INT_PRECISION;
+        case CX_ADAPTOR_PRECISION_TYPE.LOSS:
+            return CX_ADAPTOR_LOSS_PRECISION;
+        default:
+            return;
+    }
+};
+var calcInvoker = function (calc, column) {
+    return function (rowData) {
+        var result = calcInnerFormula(calc, rowData);
+        result = decimalFixed(result, column.accuracy, true);
+        Reflect.set(rowData, column.prop, result);
+        return result;
+    };
+};
+var getTemplateResult = function (str, data) {
+    var _a;
+    return ((_a = str === null || str === void 0 ? void 0 : str.replace(/\{\{.+\}\}/g, function (p) {
+        return data[p.replace(/\{\{(.+)\}\}/, '$1')];
+    })) !== null && _a !== void 0 ? _a : str);
+};
+Reflect.set(window, 'getTemplateResult', getTemplateResult);
+var getInFactVal = function (val) {
+    if (isString(val))
+        return val.match(/[^\d^.]+/) ? "'" + val + "'" : val;
+    if (!isNumber(val))
+        return 'null';
+    return val + '';
+};
+// 获取字符公式结果
+var getEvalResult = function (formula, data, withCalc) {
+    if (withCalc === void 0) { withCalc = false; }
+    var getToken = function () {
+        return formula.replace(/[a-zA-Z]+/g, function (prop) {
+            if (prop === 'undefined')
+                return prop;
+            return withCalc ? (+data[prop] || 0) + '' : getInFactVal(data[prop]);
+        });
+    };
+    try {
+        var token = getToken();
+        var res = eval(token);
+        if (isNaN(res)) {
+            withCalc = true;
+            res = eval(token);
+        }
+        return res;
+    }
+    catch (err) {
+        if (!withCalc) {
+            withCalc = true;
+            try {
+                return eval(getToken());
+            }
+            catch (innerErr) {
+                cxTableWarn("\u5339\u914D\u516C\u5F0F\u65F6\u53D1\u751F\u9519\u8BEF==>" + formula);
+            }
+        }
+        cxTableWarn("\u5339\u914D\u516C\u5F0F\u65F6\u53D1\u751F\u9519\u8BEF==>" + formula);
+        return null;
+    }
+};
+// 获取options依赖的props
+var getOptionsDeps = function (options) {
+    if (Array.isArray(options)) {
+        return [];
+    }
+    var result = [];
+    function search(obj) {
+        Object.entries(obj).forEach(function (_a) {
+            var _b = __read(_a, 2), key = _b[0], val = _b[1];
+            result.push(key);
+            if (typeof val === 'object') {
+                search(val);
+            }
+        });
+    }
+    if (typeof options === 'object') {
+        search(options);
+    }
+    return result;
+};
+// 获取计算后的options
+var calcInnerOptions = function (options, data) {
+    return calcInnerItem(options, data, Array.isArray, [], function (result) { return result; });
+};
+// 获取计算后的校验规则
+var calcInnerValidator = function (validator, data) {
+    return calcInnerItem(validator, data, Array.isArray, {}, function (result) { return result; });
+};
+// 获取计算后的公式值
+var calcInnerFormula = function (formula, data) {
+    return calcInnerItem(formula, data, isString, 0, getEvalResult);
+};
+// 获取嵌套对象中的值
+var calcInnerItem = function (formula, data, finder, defaultValue, getResult) {
+    if (finder(formula)) {
+        return getResult(formula, data);
+    }
+    else if (typeof formula === 'object') {
+        var result_1 = defaultValue;
+        Object.entries(formula).some(function (_a) {
+            var _b = __read(_a, 2), key = _b[0], val = _b[1];
+            if (typeof val === 'object') {
+                Object.entries(val).some(function (_a) {
+                    var _b = __read(_a, 2), innerKey = _b[0], innerVal = _b[1];
+                    if (+data[key] === +innerKey) {
+                        if (finder(innerVal)) {
+                            result_1 = getResult(innerVal, data);
+                        }
+                        else if (typeof innerVal === 'object') {
+                            result_1 = calcInnerItem(innerVal, data, finder, defaultValue, getResult);
+                        }
+                        return true;
+                    }
+                });
+            }
+        });
+        return result_1;
+    }
+    return defaultValue;
+};
+var getStringDepends = function (formula) {
+    if (!isString(formula))
+        return [];
+    return formula.match(/[a-zA-Z]+/g);
+};
+
+var CxControlConfig = /** @class */ (function () {
+    function CxControlConfig(config) {
+        var _a, _b;
+        this.type = '';
+        this.attrs = {};
+        Reflect.set(this, 'type', (_b = (_a = config.control) === null || _a === void 0 ? void 0 : _a.type) !== null && _b !== void 0 ? _b : '');
+        switch (this.type) {
+            case 'input':
+                this.inputConfigAdaptor(config);
+                break;
+            case 'inscription':
+            case 'search':
+            case 'select':
+                this.selectConfigAdaptor(config);
+                break;
+            case 'status':
+            case 'tag':
+                this.tagConfigAdaptor(config);
+                break;
+        }
+    }
+    CxControlConfig.prototype.tagConfigAdaptor = function (config) {
+        var _a, _b;
+        var statusMap = Object.entries((_b = (_a = config.control) === null || _a === void 0 ? void 0 : _a.statusMap) !== null && _b !== void 0 ? _b : {}).reduce(function (res, _a) {
+            var _b = __read(_a, 2), key = _b[0], val = _b[1];
+            res[key] = __assign(__assign({}, val), { prop: config.prop });
+            return res;
+        }, {});
+        Reflect.set(this, 'statusMap', statusMap);
+    };
+    // 文本输入框配置项
+    CxControlConfig.prototype.inputConfigAdaptor = function (config) {
+        var _this = this;
+        var control = config.control, influenced = config.influenced, sideEffect = config.sideEffect, prop = config.prop;
+        if (!control)
+            return;
+        isNumber(control.maxLength) && Reflect.set(this.attrs, 'maxlength', control.maxLength);
+        isNumber(control.minLength) && Reflect.set(this.attrs, 'minlength', control.minLength);
+        control.showWordLimit && Reflect.set(this.attrs, 'showWordLimit', true);
+        influenced &&
+            (this.attrs.broadcastRegister = function (register) {
+                _this.influencedRegister(register, config);
+            });
+        sideEffect &&
+            Reflect.set(this.attrs, 'onChange', function (val, rowData) {
+                _this.sideEffectHandle(prop, rowData, sideEffect);
+            });
+    };
+    // 单选框配置项
+    CxControlConfig.prototype.selectConfigAdaptor = function (config) {
+        var _this = this;
+        var prop = config.prop, control = config.control, influenced = config.influenced, sideEffect = config.sideEffect;
+        if (!control)
+            return;
+        var currentOption = [];
+        if (Array.isArray(control.options)) {
+            Reflect.set(this, 'options', (currentOption = control.options));
+        }
+        else if (isObject$1(control.options)) {
+            Reflect.set(this, 'options', function (_a) {
+                var _b;
+                var rowData = _a.rowData;
+                return (currentOption = calcInnerOptions((_b = control === null || control === void 0 ? void 0 : control.options) !== null && _b !== void 0 ? _b : [], rowData));
+            });
+        }
+        else if (isFunction(control.options)) {
+            Reflect.set(this, 'options', function (params) {
+                return (currentOption = control.options(params));
+            });
+        }
+        // 选项唯一
+        if (control.exclusion) {
+            var oldValMap_1 = new WeakMap();
+            // 将特定逻辑注册至广播接收器
+            this.attrs.broadcastRegister = function (register) {
+                var _a;
+                // 删除事件的广播
+                register('nativeDelete', function (params) {
+                    var option = currentOption.find(function (item) { return item.id === params.rowData[prop]; });
+                    option && Reflect.set(option, 'disabled', false);
+                });
+                // options依赖项发生改变时清空该列数据
+                var deps = getOptionsDeps((_a = control === null || control === void 0 ? void 0 : control.options) !== null && _a !== void 0 ? _a : []);
+                var cb = function (params) {
+                    Reflect.set(params.rowData, prop, '');
+                    Reflect.set(params.rowData, prop + 'Text', '');
+                };
+                deps.forEach(function (dep) { return register(dep, cb); });
+                // 注册influenced
+                influenced && _this.influencedRegister(register, config);
+            };
+            Reflect.set(this.attrs, 'onChange', function (val, rowData) {
+                var oldVal = oldValMap_1.get(rowData);
+                var oldItem = currentOption.find(function (item) { return item.id === oldVal; });
+                oldItem && Reflect.set(oldItem, 'disabled', false);
+                oldValMap_1.set(rowData, val);
+                var currentItem = currentOption.find(function (item) { return item.id === val; });
+                currentItem && Reflect.set(currentItem, 'disabled', true);
+                sideEffect && _this.sideEffectHandle(prop, rowData, sideEffect);
+            });
+        }
+        else {
+            sideEffect &&
+                Reflect.set(this.attrs, 'onChange', function (val, rowData) {
+                    sideEffect && _this.sideEffectHandle(prop, rowData, sideEffect);
+                });
+        }
+    };
+    // 将influenced中的项注册至广播接收器
+    CxControlConfig.prototype.influencedRegister = function (register, config) {
+        if (typeof config.influenced === 'object') {
+            var _a = config.influenced, rule_1 = _a.rule, type_1 = _a.type;
+            if (!rule_1 || !type_1)
+                return;
+            var depends = getStringDepends(rule_1);
+            depends.forEach(function (prop) {
+                if (type_1 === 'equal') {
+                    register(prop, function (params) {
+                        Reflect.set(params.rowData, config.prop, getEvalResult(rule_1, params.rowData, true));
+                    });
+                }
+            });
+        }
+    };
+    // 副作用处理
+    CxControlConfig.prototype.sideEffectHandle = function (prop, rowData, sideEffect) {
+        if (typeof sideEffect !== 'object')
+            return;
+        Object.entries(sideEffect).forEach(function (_a) {
+            var _b = __read(_a, 2); _b[0]; _b[1];
+        });
+    };
+    return CxControlConfig;
+}());
+
 var onInits$1 = [];
 var onOutputs$1 = [];
+var CxConfigAdaptor = /** @class */ (function () {
+    function CxConfigAdaptor(config) {
+        this.basicColumn = { prop: '', label: '' };
+        var configDuplicate = onInits$1.reduce(function (res, hook) { return (isFunction(hook) ? hook(res) : res); }, R.clone(config));
+        this.staticConfigAdaptor(configDuplicate)
+            .dynamicConfigAdaptor(configDuplicate)
+            .controlAdaptor(configDuplicate)
+            .childrenAdaptor(configDuplicate);
+    }
+    CxConfigAdaptor.use = function (plugin) {
+        var onInit = plugin.onInit, onOutput = plugin.onOutput;
+        isFunction(onInit) && onInits$1.push(onInit);
+        isFunction(onOutput) && onOutputs$1.push(onOutput);
+        return this;
+    };
+    CxConfigAdaptor.prototype.getColumn = function () {
+        if (onOutputs$1.length === 0)
+            return this.basicColumn;
+        return onOutputs$1.reduce(function (res, hook) { return (isFunction(hook) ? hook(res) : res); }, R.clone(this.basicColumn));
+    };
+    CxConfigAdaptor.of = function (config) {
+        return new CxConfigAdaptor(config).getColumn();
+    };
+    // children处理
+    CxConfigAdaptor.prototype.childrenAdaptor = function (config) {
+        var _a;
+        if ((_a = config.children) === null || _a === void 0 ? void 0 : _a.length) {
+            this.basicColumn.children = config.children.map(CxConfigAdaptor.of);
+        }
+        return this;
+    };
+    // 静态部分
+    CxConfigAdaptor.prototype.staticConfigAdaptor = function (config) {
+        var _this = this;
+        staticConfigList.forEach(function (key) { return Reflect.set(_this.basicColumn, key, config[key]); });
+        return this;
+    };
+    // 动态部分
+    CxConfigAdaptor.prototype.dynamicConfigAdaptor = function (config) {
+        var _this = this;
+        var _a;
+        if (config.calculate) {
+            this.basicColumn.calculate = function (rowData) {
+                var result = calcInvoker(config.calculate, _this.basicColumn)(rowData);
+                return isNumber(config.accuracy) ? decimalFixed(result, config.accuracy, true) : result;
+            };
+        }
+        if (config.sum) {
+            var sumMap = { 1: 'add' };
+            Reflect.set(this.basicColumn, 'sum', (_a = sumMap[config.sum]) !== null && _a !== void 0 ? _a : config.sum);
+        }
+        if (Array.isArray(config.validator)) {
+            this.basicColumn.validator = function (params) {
+                var _a;
+                var result;
+                (_a = config.validator) === null || _a === void 0 ? void 0 : _a.some(function (validator) {
+                    var validates = validator.rule && validator.msg
+                        ? [validator]
+                        : calcInnerValidator(validator, params.rowData);
+                    if (!(validates === null || validates === void 0 ? void 0 : validates.length))
+                        return;
+                    validates.some(function (valid) {
+                        var _a;
+                        if (!getEvalResult(valid.rule, params.rowData)) {
+                            return (result = getTemplateResult((_a = valid === null || valid === void 0 ? void 0 : valid.msg) !== null && _a !== void 0 ? _a : '', params.rowData));
+                        }
+                    });
+                });
+                return result;
+            };
+        }
+        return this;
+    };
+    // 控件部分
+    CxConfigAdaptor.prototype.controlAdaptor = function (config) {
+        config.control && Reflect.set(this.basicColumn, 'control', new CxControlConfig(config));
+        return this;
+    };
+    return CxConfigAdaptor;
+}());
+
+var onInits = [];
+var onOutputs = [];
 var FormConfigAdaptor$1 = /** @class */ (function () {
     function FormConfigAdaptor(config) {
         this.__items = {
@@ -3333,7 +2144,7 @@ var FormConfigAdaptor$1 = /** @class */ (function () {
             closable: true,
             register: []
         };
-        var configDuplicate = onInits$1.reduce(function (res, hook) { return (R.is(Function, hook) ? hook(res) : res); }, R.clone(config));
+        var configDuplicate = onInits.reduce(function (res, hook) { return (R.is(Function, hook) ? hook(res) : res); }, R.clone(config));
         this.adaptor(configDuplicate);
     }
     FormConfigAdaptor.use = function (plugin) {
@@ -3345,11 +2156,11 @@ var FormConfigAdaptor$1 = /** @class */ (function () {
             var MaybeMap = map(R.ifElse(R.is(Function), push(source), R.identity));
             return R.compose(MaybeMap, Maybe.of, R.prop(key));
         };
-        updateHooks(onInits$1, 'onInit')(plugin);
-        updateHooks(onOutputs$1, 'onOutput')(plugin);
+        updateHooks(onInits, 'onInit')(plugin);
+        updateHooks(onOutputs, 'onOutput')(plugin);
     };
     FormConfigAdaptor.prototype.getItems = function () {
-        return onOutputs$1.reduce(function (res, hook) { return (R.is(Function, hook) ? hook(res) : res); }, R.clone(this.__items));
+        return onOutputs.reduce(function (res, hook) { return (R.is(Function, hook) ? hook(res) : res); }, R.clone(this.__items));
     };
     FormConfigAdaptor.of = function (config) {
         return new FormConfigAdaptor(config).getItems();
@@ -3512,13 +2323,6 @@ var useCxTableCompose = function () {
         getParamsItems: getParamsItems
     };
 };
-
-var session = new CxLocalStore('session');
-session.use(storeFilter);
-var sessionStore = session;
-var local = new CxLocalStore('local');
-local.use(storeFilter);
-var localStore = local;
 
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -5090,457 +3894,90 @@ var useWatch = function (props, $CxTable, columnProxy, tableWrapper, expandConfi
     };
 };
 
-var staticConfigList = [
-    'label',
-    'prop',
-    'slot',
-    'icon',
-    'required',
-    'number',
-    'defaultValue',
-    'accuracy',
-    'fixed',
-    'align',
-    'importantWidth',
-    'autoWidth',
-    'sortable',
-    'slotType',
-    'renderText',
-    'searchStates',
-    'sortable',
-    'headTip',
-    'jsonData'
-];
-var CX_ADAPTOR_LOSS_PRECISION = 2;
-var CX_ADAPTOR_INT_PRECISION = 0;
-
-/**
- * 保留几位小数
- * @param {String | Number} num
- * @param {Number} fixed
- * @return {Number | "-"}
- */
-function decimals(num, fixed) {
-    if (fixed === void 0) { fixed = 3; }
-    num = parseFloat(num + '');
-    if (!isNaN(num)) {
-        num = Math.round(num * Math.pow(10, 6)) / Math.pow(10, 6 - fixed);
-        return Math.round(num) / Math.pow(10, fixed);
+var EventBus = /** @class */ (function () {
+    function EventBus() {
+        this.eventDep = {};
     }
-    return 0;
-}
-/**
- * 数字补位
- * @param precision 精度
- * @param force 是否强制修正
- */
-function decimalFixed(value, precision, force) {
-    var _a;
-    if (force === void 0) { force = false; }
-    if (value === '' || isNaN(+value) || precision === undefined) {
-        return value;
-    }
-    if (precision < 0 || precision !== parseInt(precision + '', 10)) {
-        cxTableWarn("\u7CBE\u5EA6\u9519\u8BEF => " + precision);
-        return value;
-    }
-    var num = +(+value).toPrecision(12);
-    if (force) {
-        return (+decimals(+num, precision)).toFixed(precision);
-    }
-    var len = ((_a = num.toString().split('.')[1]) === null || _a === void 0 ? void 0 : _a.length) || 0;
-    return (+decimals(+num, Math.max(precision, len))).toFixed(Math.max(precision, len));
-}
-var getPrecision = function (state) {
-    var _a = useCxTable().getContext().precision, goldAccuracy = _a.goldAccuracy, stoneAccuracy = _a.stoneAccuracy, priceAccuracy = _a.priceAccuracy;
-    switch (state) {
-        case CX_ADAPTOR_PRECISION_TYPE.GOLD:
-            return goldAccuracy;
-        case CX_ADAPTOR_PRECISION_TYPE.STONE:
-            return stoneAccuracy;
-        case CX_ADAPTOR_PRECISION_TYPE.PRICE:
-            return priceAccuracy;
-        case CX_ADAPTOR_PRECISION_TYPE.INT:
-            return CX_ADAPTOR_INT_PRECISION;
-        case CX_ADAPTOR_PRECISION_TYPE.LOSS:
-            return CX_ADAPTOR_LOSS_PRECISION;
-        default:
-            return;
-    }
-};
-var calcInvoker = function (calc, column) {
-    return function (rowData) {
-        var result = calcInnerFormula(calc, rowData);
-        result = decimalFixed(result, column.accuracy, true);
-        Reflect.set(rowData, column.prop, result);
-        return result;
-    };
-};
-var getTemplateResult = function (str, data) {
-    var _a;
-    return ((_a = str === null || str === void 0 ? void 0 : str.replace(/\{\{.+\}\}/g, function (p) {
-        return data[p.replace(/\{\{(.+)\}\}/, '$1')];
-    })) !== null && _a !== void 0 ? _a : str);
-};
-Reflect.set(window, 'getTemplateResult', getTemplateResult);
-var getInFactVal = function (val) {
-    if (isString(val))
-        return val.match(/[^\d^.]+/) ? "'" + val + "'" : val;
-    if (!isNumber(val))
-        return 'null';
-    return val + '';
-};
-// 获取字符公式结果
-var getEvalResult = function (formula, data, withCalc) {
-    if (withCalc === void 0) { withCalc = false; }
-    var getToken = function () {
-        return formula.replace(/[a-zA-Z]+/g, function (prop) {
-            if (prop === 'undefined')
-                return prop;
-            return withCalc ? (+data[prop] || 0) + '' : getInFactVal(data[prop]);
-        });
-    };
-    try {
-        var token = getToken();
-        var res = eval(token);
-        if (isNaN(res)) {
-            withCalc = true;
-            res = eval(token);
-        }
-        return res;
-    }
-    catch (err) {
-        if (!withCalc) {
-            withCalc = true;
-            try {
-                return eval(getToken());
-            }
-            catch (innerErr) {
-                cxTableWarn("\u5339\u914D\u516C\u5F0F\u65F6\u53D1\u751F\u9519\u8BEF==>" + formula);
-            }
-        }
-        cxTableWarn("\u5339\u914D\u516C\u5F0F\u65F6\u53D1\u751F\u9519\u8BEF==>" + formula);
-        return null;
-    }
-};
-// 获取options依赖的props
-var getOptionsDeps = function (options) {
-    if (Array.isArray(options)) {
-        return [];
-    }
-    var result = [];
-    function search(obj) {
-        Object.entries(obj).forEach(function (_a) {
-            var _b = __read(_a, 2), key = _b[0], val = _b[1];
-            result.push(key);
-            if (typeof val === 'object') {
-                search(val);
-            }
-        });
-    }
-    if (typeof options === 'object') {
-        search(options);
-    }
-    return result;
-};
-// 获取计算后的options
-var calcInnerOptions = function (options, data) {
-    return calcInnerItem(options, data, Array.isArray, [], function (result) { return result; });
-};
-// 获取计算后的校验规则
-var calcInnerValidator = function (validator, data) {
-    return calcInnerItem(validator, data, Array.isArray, {}, function (result) { return result; });
-};
-// 获取计算后的公式值
-var calcInnerFormula = function (formula, data) {
-    return calcInnerItem(formula, data, isString, 0, getEvalResult);
-};
-// 获取嵌套对象中的值
-var calcInnerItem = function (formula, data, finder, defaultValue, getResult) {
-    if (finder(formula)) {
-        return getResult(formula, data);
-    }
-    else if (typeof formula === 'object') {
-        var result_1 = defaultValue;
-        Object.entries(formula).some(function (_a) {
-            var _b = __read(_a, 2), key = _b[0], val = _b[1];
-            if (typeof val === 'object') {
-                Object.entries(val).some(function (_a) {
-                    var _b = __read(_a, 2), innerKey = _b[0], innerVal = _b[1];
-                    if (+data[key] === +innerKey) {
-                        if (finder(innerVal)) {
-                            result_1 = getResult(innerVal, data);
-                        }
-                        else if (typeof innerVal === 'object') {
-                            result_1 = calcInnerItem(innerVal, data, finder, defaultValue, getResult);
-                        }
-                        return true;
-                    }
-                });
-            }
-        });
-        return result_1;
-    }
-    return defaultValue;
-};
-var getStringDepends = function (formula) {
-    if (!isString(formula))
-        return [];
-    return formula.match(/[a-zA-Z]+/g);
-};
-
-var CxControlConfig = /** @class */ (function () {
-    function CxControlConfig(config) {
-        var _a, _b;
-        this.type = '';
-        this.attrs = {};
-        Reflect.set(this, 'type', (_b = (_a = config.control) === null || _a === void 0 ? void 0 : _a.type) !== null && _b !== void 0 ? _b : '');
-        switch (this.type) {
-            case 'input':
-                this.inputConfigAdaptor(config);
-                break;
-            case 'inscription':
-            case 'search':
-            case 'select':
-                this.selectConfigAdaptor(config);
-                break;
-            case 'status':
-            case 'tag':
-                this.tagConfigAdaptor(config);
-                break;
-        }
-    }
-    CxControlConfig.prototype.tagConfigAdaptor = function (config) {
-        var _a, _b;
-        var statusMap = Object.entries((_b = (_a = config.control) === null || _a === void 0 ? void 0 : _a.statusMap) !== null && _b !== void 0 ? _b : {}).reduce(function (res, _a) {
-            var _b = __read(_a, 2), key = _b[0], val = _b[1];
-            res[key] = __assign(__assign({}, val), { prop: config.prop });
-            return res;
-        }, {});
-        Reflect.set(this, 'statusMap', statusMap);
-    };
-    // 文本输入框配置项
-    CxControlConfig.prototype.inputConfigAdaptor = function (config) {
-        var _this = this;
-        var control = config.control, influenced = config.influenced, sideEffect = config.sideEffect, prop = config.prop;
-        if (!control)
-            return;
-        isNumber(control.maxLength) && Reflect.set(this.attrs, 'maxlength', control.maxLength);
-        isNumber(control.minLength) && Reflect.set(this.attrs, 'minlength', control.minLength);
-        control.showWordLimit && Reflect.set(this.attrs, 'showWordLimit', true);
-        influenced &&
-            (this.attrs.broadcastRegister = function (register) {
-                _this.influencedRegister(register, config);
-            });
-        sideEffect &&
-            Reflect.set(this.attrs, 'onChange', function (val, rowData) {
-                _this.sideEffectHandle(prop, rowData, sideEffect);
-            });
-    };
-    // 单选框配置项
-    CxControlConfig.prototype.selectConfigAdaptor = function (config) {
-        var _this = this;
-        var prop = config.prop, control = config.control, influenced = config.influenced, sideEffect = config.sideEffect;
-        if (!control)
-            return;
-        var currentOption = [];
-        if (Array.isArray(control.options)) {
-            Reflect.set(this, 'options', (currentOption = control.options));
-        }
-        else if (isObject$1(control.options)) {
-            Reflect.set(this, 'options', function (_a) {
-                var _b;
-                var rowData = _a.rowData;
-                return (currentOption = calcInnerOptions((_b = control === null || control === void 0 ? void 0 : control.options) !== null && _b !== void 0 ? _b : [], rowData));
-            });
-        }
-        else if (isFunction(control.options)) {
-            Reflect.set(this, 'options', function (params) {
-                return (currentOption = control.options(params));
-            });
-        }
-        // 选项唯一
-        if (control.exclusion) {
-            var oldValMap_1 = new WeakMap();
-            // 将特定逻辑注册至广播接收器
-            this.attrs.broadcastRegister = function (register) {
-                var _a;
-                // 删除事件的广播
-                register('nativeDelete', function (params) {
-                    var option = currentOption.find(function (item) { return item.id === params.rowData[prop]; });
-                    option && Reflect.set(option, 'disabled', false);
-                });
-                // options依赖项发生改变时清空该列数据
-                var deps = getOptionsDeps((_a = control === null || control === void 0 ? void 0 : control.options) !== null && _a !== void 0 ? _a : []);
-                var cb = function (params) {
-                    Reflect.set(params.rowData, prop, '');
-                    Reflect.set(params.rowData, prop + 'Text', '');
-                };
-                deps.forEach(function (dep) { return register(dep, cb); });
-                // 注册influenced
-                influenced && _this.influencedRegister(register, config);
-            };
-            Reflect.set(this.attrs, 'onChange', function (val, rowData) {
-                var oldVal = oldValMap_1.get(rowData);
-                var oldItem = currentOption.find(function (item) { return item.id === oldVal; });
-                oldItem && Reflect.set(oldItem, 'disabled', false);
-                oldValMap_1.set(rowData, val);
-                var currentItem = currentOption.find(function (item) { return item.id === val; });
-                currentItem && Reflect.set(currentItem, 'disabled', true);
-                sideEffect && _this.sideEffectHandle(prop, rowData, sideEffect);
-            });
+    EventBus.prototype.on = function (eventName, func) {
+        var _a;
+        if (this.eventDep[eventName]) {
+            (_a = this.eventDep[eventName]) === null || _a === void 0 ? void 0 : _a.push(func);
         }
         else {
-            sideEffect &&
-                Reflect.set(this.attrs, 'onChange', function (val, rowData) {
-                    sideEffect && _this.sideEffectHandle(prop, rowData, sideEffect);
-                });
+            this.eventDep[eventName] = [func];
         }
     };
-    // 将influenced中的项注册至广播接收器
-    CxControlConfig.prototype.influencedRegister = function (register, config) {
-        if (typeof config.influenced === 'object') {
-            var _a = config.influenced, rule_1 = _a.rule, type_1 = _a.type;
-            if (!rule_1 || !type_1)
-                return;
-            var depends = getStringDepends(rule_1);
-            depends.forEach(function (prop) {
-                if (type_1 === 'equal') {
-                    register(prop, function (params) {
-                        Reflect.set(params.rowData, config.prop, getEvalResult(rule_1, params.rowData, true));
-                    });
-                }
-            });
-        }
-    };
-    // 副作用处理
-    CxControlConfig.prototype.sideEffectHandle = function (prop, rowData, sideEffect) {
-        if (typeof sideEffect !== 'object')
-            return;
-        Object.entries(sideEffect).forEach(function (_a) {
-            var _b = __read(_a, 2); _b[0]; _b[1];
-        });
-    };
-    return CxControlConfig;
-}());
-
-var onInits = [];
-var onOutputs = [];
-var CxConfigAdaptor = /** @class */ (function () {
-    function CxConfigAdaptor(config) {
-        this.basicColumn = { prop: '', label: '' };
-        var configDuplicate = onInits.reduce(function (res, hook) { return (isFunction(hook) ? hook(res) : res); }, R.clone(config));
-        this.staticConfigAdaptor(configDuplicate)
-            .dynamicConfigAdaptor(configDuplicate)
-            .controlAdaptor(configDuplicate)
-            .childrenAdaptor(configDuplicate);
-    }
-    CxConfigAdaptor.use = function (plugin) {
-        var onInit = plugin.onInit, onOutput = plugin.onOutput;
-        isFunction(onInit) && onInits.push(onInit);
-        isFunction(onOutput) && onOutputs.push(onOutput);
-        return this;
-    };
-    CxConfigAdaptor.prototype.getColumn = function () {
-        if (onOutputs.length === 0)
-            return this.basicColumn;
-        return onOutputs.reduce(function (res, hook) { return (isFunction(hook) ? hook(res) : res); }, R.clone(this.basicColumn));
-    };
-    CxConfigAdaptor.of = function (config) {
-        return new CxConfigAdaptor(config).getColumn();
-    };
-    // children处理
-    CxConfigAdaptor.prototype.childrenAdaptor = function (config) {
+    EventBus.prototype.emit = function (eventName) {
         var _a;
-        if ((_a = config.children) === null || _a === void 0 ? void 0 : _a.length) {
-            this.basicColumn.children = config.children.map(CxConfigAdaptor.of);
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
         }
-        return this;
-    };
-    // 静态部分
-    CxConfigAdaptor.prototype.staticConfigAdaptor = function (config) {
-        var _this = this;
-        staticConfigList.forEach(function (key) { return Reflect.set(_this.basicColumn, key, config[key]); });
-        return this;
-    };
-    // 动态部分
-    CxConfigAdaptor.prototype.dynamicConfigAdaptor = function (config) {
-        var _this = this;
-        var _a;
-        if (config.calculate) {
-            this.basicColumn.calculate = function (rowData) {
-                var result = calcInvoker(config.calculate, _this.basicColumn)(rowData);
-                return isNumber(config.accuracy) ? decimalFixed(result, config.accuracy, true) : result;
-            };
+        if (this.eventDep[eventName]) {
+            (_a = this.eventDep[eventName]) === null || _a === void 0 ? void 0 : _a.forEach(function (func) { return func.apply(void 0, __spreadArray([], __read(args))); });
         }
-        if (config.sum) {
-            var sumMap = { 1: 'add' };
-            Reflect.set(this.basicColumn, 'sum', (_a = sumMap[config.sum]) !== null && _a !== void 0 ? _a : config.sum);
-        }
-        if (Array.isArray(config.validator)) {
-            this.basicColumn.validator = function (params) {
-                var _a;
-                var result;
-                (_a = config.validator) === null || _a === void 0 ? void 0 : _a.some(function (validator) {
-                    var validates = validator.rule && validator.msg
-                        ? [validator]
-                        : calcInnerValidator(validator, params.rowData);
-                    if (!(validates === null || validates === void 0 ? void 0 : validates.length))
-                        return;
-                    validates.some(function (valid) {
-                        var _a;
-                        if (!getEvalResult(valid.rule, params.rowData)) {
-                            return (result = getTemplateResult((_a = valid === null || valid === void 0 ? void 0 : valid.msg) !== null && _a !== void 0 ? _a : '', params.rowData));
-                        }
-                    });
-                });
-                return result;
-            };
-        }
-        return this;
     };
-    // 控件部分
-    CxConfigAdaptor.prototype.controlAdaptor = function (config) {
-        config.control && Reflect.set(this.basicColumn, 'control', new CxControlConfig(config));
-        return this;
+    EventBus.prototype.off = function (eventName) {
+        this.eventDep[eventName] = null;
     };
-    return CxConfigAdaptor;
+    EventBus.prototype.clear = function () {
+        this.eventDep = {};
+    };
+    return EventBus;
 }());
-
-function getDateRange(num, type, _a) {
-    if (num === void 0) { num = 1; }
-    var _b = _a === void 0 ? {} : _a, _c = _b.isInt, isInt = _c === void 0 ? false : _c, _d = _b.isDate, isDate = _d === void 0 ? false : _d;
-    var currentDate = new Date();
-    var start = new Date();
-    switch (type) {
-        case 'year':
-            start = new Date(start.setFullYear(currentDate.getFullYear() - num));
-            break;
-        case 'month':
-            start = new Date(start.setMonth(currentDate.getMonth() - num));
-            break;
-        case 'day':
-            start = new Date(start.setDate(currentDate.getDate() - num));
-            break;
-        case 'hour':
-            start = new Date(start.setHours(currentDate.getHours() - num));
-            break;
-        case 'minute':
-            start = new Date(start.setMinutes(currentDate.getMinutes() - num));
-            break;
-        case 'second':
-            start = new Date(start.setSeconds(currentDate.getSeconds() - num));
-    }
-    var end = new Date();
-    if (isInt) {
-        start = new Date(start.setDate(1));
-        if (num)
-            end = new Date(new Date().setDate(0));
-    }
-    if (isDate)
-        return start;
-    return [start, end];
+function EventBusCreator() {
+    return new EventBus();
 }
+var eventBus = EventBusCreator();
+
+var domShare = {
+    getEle: function (container, selector) {
+        return container.querySelector(selector);
+    },
+    getCell: function ($CxTable, column, rowData) {
+        var wrapperEle = $CxTable.wrapperEle;
+        return wrapperEle.querySelector(".cx-table_wrapper tr[rowid=" + useTableId().getRowIdFromMap(rowData) + "] td[colid=" + column._colid + "]");
+    },
+    getAncestor: function (ele, nodeName, limited) {
+        if (nodeName === void 0) { nodeName = 'TD'; }
+        if (limited === void 0) { limited = 5; }
+        var result = ele;
+        while (result && limited > 0) {
+            if (result.nodeName === nodeName)
+                break;
+            result = result.parentElement;
+            limited--;
+        }
+        return result;
+    },
+    scrollTo: function ($CxTable, targetPosition) {
+        var _a;
+        (_a = $CxTable.wrapperEle) === null || _a === void 0 ? void 0 : _a.scrollTo({ top: targetPosition });
+    },
+    scrollToTd: function (td, container, fixLeft, fixRight, fixTop) {
+        if (!td || !container)
+            return;
+        var tdLeft = td.offsetLeft, tdTop = td.offsetTop, tdWidth = td.clientWidth, tdHeight = td.clientHeight;
+        var containerLeft = container.scrollLeft, containerTop = container.scrollTop, containerWidth = container.clientWidth, containerHeight = container.clientHeight;
+        if (tdLeft < containerLeft + fixLeft) {
+            // 说明td被卷入了左侧
+            container.scrollLeft = tdLeft - fixLeft;
+        }
+        if (tdLeft + tdWidth > containerLeft + containerWidth - fixRight) {
+            // 说明td被卷入了右侧
+            container.scrollLeft = tdLeft + tdWidth - containerWidth + fixRight;
+        }
+        if (tdTop < containerTop) {
+            // 说明td被卷入了上侧
+            container.scrollTop = tdTop;
+        }
+        if (tdTop + tdHeight > containerTop + containerHeight - fixTop) {
+            // 说明td被卷入了下侧
+            container.scrollTop = tdTop - containerHeight + tdHeight + fixTop;
+        }
+    }
+};
+
 var getFunctionAttrs = function (rowData, attrs) {
     if (isFunction(attrs)) {
         var result = attrs({ rowData: rowData });
@@ -5606,14 +4043,14 @@ function formatFormDefaultValue(defaultEnum, searchType) {
         case 'all':
             return -1;
         case 'week':
-            return formatDate(getDateRange(7, 'day'));
+            return formatDate(getDateRange(7, 'date'));
         case 'today':
             return searchType === 'dateRange'
-                ? formatDate(getDateRange(1, 'day'))
+                ? formatDate(getDateRange(1, 'date'))
                 : formatDate(Date.now());
         case 'mouth':
             return searchType === 'dateRange'
-                ? formatDate(getDateRange(0, 'month', { isInt: true }))
+                ? formatDate(getDateRange(0, 'month', true))
                 : formatDate(Date.now());
         case 'now':
             return formatTime(Date.now());
@@ -5652,7 +4089,6 @@ function cxTableWarn() {
     }
     console.warn.apply(console, __spreadArray(["[cxTable warn]:"], __read(msgs)));
 }
-Reflect.set(window, 'getStringWidth', getStringWidth);
 function getStringWidth(str) {
     if (!str)
         return 0;
@@ -6260,46 +4696,71 @@ var Cell = defineComponent({
     }
 });
 
-var TableRow = defineComponent({
-    name: 'CxTableRow',
+var Expand = defineComponent({
+    name: 'CxTableExpand',
     props: {
+        fixed: { type: String, "default": '' },
         rowData: { type: Object, "default": function () { return ({}); } },
-        rowIndex: { type: Number, "default": -1 },
-        activedRow: { type: Array, "default": function () { return []; } },
-        sum: { type: Boolean, "default": false },
-        rowid: { type: [String, Number], "default": '' }
+        rowIndex: { type: Number, "default": -1 }
     },
-    setup: function (props, _a) {
-        var slots = _a.slots;
-        var selectConfig = inject('selectConfig', { selectItem: [] });
-        var radioValue = inject('radioValue', ref(-1));
+    setup: function (props) {
         var CxTable = inject('CxTable');
-        var isHover = ref(false);
-        watchEffect(function () {
-            isHover.value = props.rowid === CxTable.hoveringRowid;
+        var rootProp = inject('rootProp');
+        var expandConfig = inject('expandConfig', []);
+        var rootSlots = inject('rootSlots', {});
+        var classList = computed(function () {
+            var result = [];
+            props.fixed && result.push('cx_opacity_0');
+            return result;
         });
-        var isActive = ref(false);
-        watchEffect(function () {
-            var _a, _b;
-            isActive.value =
-                ((_a = selectConfig.selectItem) === null || _a === void 0 ? void 0 : _a[props.rowIndex]) ||
-                    radioValue.value === props.rowIndex ||
-                    ((_b = props.activedRow) === null || _b === void 0 ? void 0 : _b.includes(props.rowIndex));
+        var colspan = computed(function () {
+            var _a, _b, _c;
+            return props.fixed === 'left'
+                ? (_a = CxTable.columnStore.leftFixedColumns) === null || _a === void 0 ? void 0 : _a.length
+                : props.fixed === 'right'
+                    ? (_b = CxTable.columnStore.rightFixedColumns) === null || _b === void 0 ? void 0 : _b.length
+                    : (_c = CxTable.flatColumns) === null || _c === void 0 ? void 0 : _c.length;
         });
-        var trAttrs = computed(function () {
-            var result = { rowid: props.rowid, "class": [] };
-            if (isActive.value) {
-                result["class"].push('active');
+        var slotName = computed(function () {
+            var result = '';
+            if (isString(rootProp.expand) && rootProp.expand) {
+                result = rootProp.expand;
             }
-            if (isHover.value) {
-                result["class"].push('cx-table_row_hover');
+            else if (isFunction(rootProp.expand)) {
+                var expandSlot = rootProp.expand(props.rowData, props.rowIndex);
+                expandSlot && (result = expandSlot);
             }
             return result;
         });
+        var hoisted_1 = 'cx-table_expand';
         return function () {
-            return createVNode('tr', trAttrs.value, slots, PATCH_FLAG.PROPS | PATCH_FLAG.CLASS, [
-                'rowid'
-            ]);
+            return (openBlock(),
+                createBlock(Fragment, null, [
+                    slotName.value && expandConfig[props.rowIndex] && rootSlots[slotName.value]
+                        ? createVNode('tr', { "class": classList.value }, [
+                            createVNode('td', { colspan: colspan.value }, [
+                                createVNode('div', {
+                                    "class": "" + hoisted_1,
+                                    style: (function () {
+                                        var result = {};
+                                        if (props.fixed) {
+                                            var width = useTableStyle(props, CxTable, 'table').value.width;
+                                            if (width) {
+                                                Reflect.set(result, 'width', width);
+                                                Reflect.set(result, 'overflow', 'hidden');
+                                            }
+                                        }
+                                        return result;
+                                    })()
+                                }, [
+                                    createVNode('div', { style: { width: CxTable.scrollStore.renderTotalWidth + 'px' } }, [
+                                        createVNode(rootSlots[slotName.value], { rowIndex: props.rowIndex, rowData: props.rowData }, null, PATCH_FLAG.FULL_PROPS)
+                                    ], PATCH_FLAG.STYLE)
+                                ], PATCH_FLAG.STYLE)
+                            ], PATCH_FLAG.PROPS, ['colspan'])
+                        ], PATCH_FLAG.CLASS)
+                        : createCommentVNode('v-if_expand', true)
+                ]));
         };
     }
 });
@@ -6391,71 +4852,46 @@ var TableAddBtn = defineComponent({
     }
 });
 
-var Expand = defineComponent({
-    name: 'CxTableExpand',
+var TableRow = defineComponent({
+    name: 'CxTableRow',
     props: {
-        fixed: { type: String, "default": '' },
         rowData: { type: Object, "default": function () { return ({}); } },
-        rowIndex: { type: Number, "default": -1 }
+        rowIndex: { type: Number, "default": -1 },
+        activedRow: { type: Array, "default": function () { return []; } },
+        sum: { type: Boolean, "default": false },
+        rowid: { type: [String, Number], "default": '' }
     },
-    setup: function (props) {
+    setup: function (props, _a) {
+        var slots = _a.slots;
+        var selectConfig = inject('selectConfig', { selectItem: [] });
+        var radioValue = inject('radioValue', ref(-1));
         var CxTable = inject('CxTable');
-        var rootProp = inject('rootProp');
-        var expandConfig = inject('expandConfig', []);
-        var rootSlots = inject('rootSlots', {});
-        var classList = computed(function () {
-            var result = [];
-            props.fixed && result.push('cx_opacity_0');
-            return result;
+        var isHover = ref(false);
+        watchEffect(function () {
+            isHover.value = props.rowid === CxTable.hoveringRowid;
         });
-        var colspan = computed(function () {
-            var _a, _b, _c;
-            return props.fixed === 'left'
-                ? (_a = CxTable.columnStore.leftFixedColumns) === null || _a === void 0 ? void 0 : _a.length
-                : props.fixed === 'right'
-                    ? (_b = CxTable.columnStore.rightFixedColumns) === null || _b === void 0 ? void 0 : _b.length
-                    : (_c = CxTable.flatColumns) === null || _c === void 0 ? void 0 : _c.length;
+        var isActive = ref(false);
+        watchEffect(function () {
+            var _a, _b;
+            isActive.value =
+                ((_a = selectConfig.selectItem) === null || _a === void 0 ? void 0 : _a[props.rowIndex]) ||
+                    radioValue.value === props.rowIndex ||
+                    ((_b = props.activedRow) === null || _b === void 0 ? void 0 : _b.includes(props.rowIndex));
         });
-        var slotName = computed(function () {
-            var result = '';
-            if (isString(rootProp.expand) && rootProp.expand) {
-                result = rootProp.expand;
+        var trAttrs = computed(function () {
+            var result = { rowid: props.rowid, "class": [] };
+            if (isActive.value) {
+                result["class"].push('active');
             }
-            else if (isFunction(rootProp.expand)) {
-                var expandSlot = rootProp.expand(props.rowData, props.rowIndex);
-                expandSlot && (result = expandSlot);
+            if (isHover.value) {
+                result["class"].push('cx-table_row_hover');
             }
             return result;
         });
-        var hoisted_1 = 'cx-table_expand';
         return function () {
-            return (openBlock(),
-                createBlock(Fragment, null, [
-                    slotName.value && expandConfig[props.rowIndex] && rootSlots[slotName.value]
-                        ? createVNode('tr', { "class": classList.value }, [
-                            createVNode('td', { colspan: colspan.value }, [
-                                createVNode('div', {
-                                    "class": "" + hoisted_1,
-                                    style: (function () {
-                                        var result = {};
-                                        if (props.fixed) {
-                                            var width = useTableStyle(props, CxTable, 'table').value.width;
-                                            if (width) {
-                                                Reflect.set(result, 'width', width);
-                                                Reflect.set(result, 'overflow', 'hidden');
-                                            }
-                                        }
-                                        return result;
-                                    })()
-                                }, [
-                                    createVNode('div', { style: { width: CxTable.scrollStore.renderTotalWidth + 'px' } }, [
-                                        createVNode(rootSlots[slotName.value], { rowIndex: props.rowIndex, rowData: props.rowData }, null, PATCH_FLAG.FULL_PROPS)
-                                    ], PATCH_FLAG.STYLE)
-                                ], PATCH_FLAG.STYLE)
-                            ], PATCH_FLAG.PROPS, ['colspan'])
-                        ], PATCH_FLAG.CLASS)
-                        : createCommentVNode('v-if_expand', true)
-                ]));
+            return createVNode('tr', trAttrs.value, slots, PATCH_FLAG.PROPS | PATCH_FLAG.CLASS, [
+                'rowid'
+            ]);
         };
     }
 });
@@ -6834,6 +5270,162 @@ var Pagination = defineComponent({
     }
 });
 
+var DynamicFilterBtn = defineComponent({
+    name: 'DynamicFilterBtn',
+    props: { states: { type: Object, required: true } },
+    emits: ['click'],
+    setup: function (props, _a) {
+        var emit = _a.emit;
+        var color = computed(function () {
+            var _a;
+            return ((_a = props.states) === null || _a === void 0 ? void 0 : _a.visible) ? '#0084ff' : 'rgba(0,0,0,.85)';
+        });
+        return function (_, cache) {
+            return createVNode(_CX_BTN, {
+                onClick: cache[0] || (cache[0] = function () { return emit('click'); }),
+                icon: 'filtershaixuan',
+                content: '筛选',
+                style: { color: color.value, borderColor: color.value }
+            }, null, PATCH_FLAG.STYLE | PATCH_FLAG.FULL_PROPS);
+        };
+    }
+});
+
+var DynamicFormAdd = defineComponent({
+    name: 'DynamicFormAdd',
+    props: {
+        options: { type: Array, "default": function () { return []; } },
+        modelValue: { type: Array, required: true },
+        currentInstance: { type: Object }
+    },
+    emits: ['update:modelValue', 'change'],
+    setup: function (props, _a) {
+        var emit = _a.emit;
+        var _b = __read(useComputed({
+            get: function () {
+                var _a;
+                return (_a = props.modelValue) !== null && _a !== void 0 ? _a : [];
+            },
+            set: function (val) {
+                emit('update:modelValue', val);
+                setVisible(false);
+            }
+        }), 2), modelProxy = _b[0], setModelProxy = _b[1];
+        var _c = __read(useState(false), 2), visible = _c[0], setVisible = _c[1];
+        var toggleVisible = R.compose(setVisible, R.not, visible);
+        var addItem = function (id) {
+            R.compose(setModelProxy, R.uniq, R.append(id), modelProxy)();
+        };
+        var matchPinyinSearch = function (str) {
+            return R.ifElse(R.isEmpty, R.T, R.curryN(2, PinyinMatch.match)(str))(searchContent());
+        };
+        var currentOptions = useComputed(function () {
+            return R.filter(R.allPass([
+                R.compose(R.not, R.includes(R.__, modelProxy()), R.prop('id')),
+                R.compose(matchPinyinSearch, R.prop('name'))
+            ]))(props.options);
+        });
+        var _d = __read(useState(''), 2), searchContent = _d[0], setSearchContent = _d[1];
+        var _hoisted_class_1 = 'cx_mb_5';
+        var _hoisted_class_2 = 'hover-highlight cx_ptb_8 cx_plr_12';
+        var _hoisted_class_3 = 'cx_plr_7';
+        var _hoisted_class_4 = 'cx_flex_center cx_justify_center cx_mt_8';
+        var _hoisted_attrs_1 = {
+            style: {
+                maxHeight: '245px',
+                overflowY: 'auto',
+                margin: '0 -12px -10px'
+            }
+        };
+        return withCtx(function (_, cache) {
+            var _hoisted_component_1 = resolveComponent('ElPopover');
+            var _hoisted_component_2 = resolveComponent('CxBtn');
+            var _hoisted_component_3 = resolveComponent('ElInput');
+            return [
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        createVNode(_hoisted_component_1, {
+                            visible: visible(),
+                            'onUpdate:visible': setVisible,
+                            placement: 'right-start',
+                            width: 240,
+                            showArrow: false
+                        }, {
+                            reference: function () {
+                                return createVNode(_hoisted_component_2, {
+                                    onClick: toggleVisible,
+                                    icon: 'tianjia',
+                                    "class": _hoisted_class_3,
+                                    style: {
+                                        marginTop: props.modelValue.length ? '32px' : 0,
+                                        backgroundColor: '#f0f5ff'
+                                    }
+                                }, null, PATCH_FLAG.STYLE);
+                            },
+                            "default": function () {
+                                return (openBlock(),
+                                    createBlock(Fragment, null, [
+                                        createVNode(_hoisted_component_3, {
+                                            size: 'mini',
+                                            "class": _hoisted_class_1,
+                                            suffixIcon: 'iconfont icon-sousuo',
+                                            modelValue: searchContent(),
+                                            'onUpdate:modelValue': setSearchContent,
+                                            placeholder: '搜索过滤条件'
+                                        }, null, PATCH_FLAG.PROPS, ['modelValue']),
+                                        [
+                                            (openBlock(),
+                                                createBlock(Fragment, null, [
+                                                    currentOptions().length
+                                                        ? createVNode('div', _hoisted_attrs_1, [
+                                                            (openBlock(),
+                                                                createBlock(Fragment, null, currentOptions().map(function (option) {
+                                                                    return createVNode('div', {
+                                                                        key: option.id,
+                                                                        "class": _hoisted_class_2,
+                                                                        onClick: R.useWith(addItem, [R.always(option.id)])
+                                                                    }, option.name, PATCH_FLAG.PROPS, ['key']);
+                                                                }), PATCH_FLAG.KEYED_FRAGMENT))
+                                                        ])
+                                                        : cache[0] ||
+                                                            (cache[0] = createVNode('div', { "class": _hoisted_class_4 }, '暂无数据'))
+                                                ]))
+                                        ]
+                                    ]));
+                            }
+                        }, PATCH_FLAG.PROPS, ['visible'])
+                    ]))
+            ];
+        }, props.currentInstance);
+    }
+});
+
+var TeleFormInstance = defineComponent({
+    name: 'TeleFormInstance',
+    emits: ['change', 'close'],
+    props: {
+        form: { type: Object, required: true },
+        items: { type: Array, required: true },
+        states: { type: Object, required: true }
+    },
+    setup: function (props, _a) {
+        var emit = _a.emit, slots = _a.slots;
+        var curryEmit = R.curryN(2, emit);
+        return function (_, cache) {
+            var _a, _b;
+            return createVNode('div', { style: { display: ((_b = (_a = props.states) === null || _a === void 0 ? void 0 : _a.visible) !== null && _b !== void 0 ? _b : true) ? 'block' : 'none' } }, [
+                createVNode(_CX_FORM, {
+                    form: props.form,
+                    items: props.items,
+                    formAttrs: { labelPosition: 'top', labelSuffix: '' },
+                    onChange: cache[0] || (cache[0] = curryEmit('change')),
+                    onClose: cache[1] || (cache[1] = curryEmit('close'))
+                }, { add: function () { var _a, _b; return [(_b = (_a = slots.add) === null || _a === void 0 ? void 0 : _a.call(slots)) !== null && _b !== void 0 ? _b : '']; } }, PATCH_FLAG.PROPS, ['form', 'items'])
+            ], PATCH_FLAG.STYLE);
+        };
+    }
+});
+
 var DynamicFormCacheModule = 'dynamicForm';
 var DynamicFormVisibleCacheModule = 'dynamicFormVisible';
 
@@ -6968,231 +5560,6 @@ var useDynamicFormSearch = function () {
     }); };
     return { initRequestParams: initRequestParams, updateTableData: updateTableData, search: search, searchTotal: searchTotal };
 };
-
-var TeleFormInstance = defineComponent({
-    name: 'TeleFormInstance',
-    emits: ['change', 'close'],
-    props: {
-        form: { type: Object, required: true },
-        items: { type: Array, required: true },
-        states: { type: Object, required: true }
-    },
-    setup: function (props, _a) {
-        var emit = _a.emit, slots = _a.slots;
-        var curryEmit = R.curryN(2, emit);
-        return function (_, cache) {
-            var _a, _b;
-            return createVNode('div', { style: { display: ((_b = (_a = props.states) === null || _a === void 0 ? void 0 : _a.visible) !== null && _b !== void 0 ? _b : true) ? 'block' : 'none' } }, [
-                createVNode(_CX_FORM, {
-                    form: props.form,
-                    items: props.items,
-                    formAttrs: { labelPosition: 'top', labelSuffix: '' },
-                    onChange: cache[0] || (cache[0] = curryEmit('change')),
-                    onClose: cache[1] || (cache[1] = curryEmit('close'))
-                }, { add: function () { var _a, _b; return [(_b = (_a = slots.add) === null || _a === void 0 ? void 0 : _a.call(slots)) !== null && _b !== void 0 ? _b : '']; } }, PATCH_FLAG.PROPS, ['form', 'items'])
-            ], PATCH_FLAG.STYLE);
-        };
-    }
-});
-
-function useState(initValue) {
-    var state = ref(initValue);
-    var getState = (function (isRef) { return (isRef ? state : unref(state)); });
-    return [getState, function (val) { return (state.value = val); }];
-}
-function useRef() {
-    return useState(null)[0];
-}
-/**
- * v-for的ref引用
- */
-function useRefs() {
-    var itemRefs = new Set();
-    var setItemRef = function (el) { return el && itemRefs.add(el); };
-    onBeforeUpdate(function () { return itemRefs.clear(); });
-    return [itemRefs, setItemRef];
-}
-/**
- * v-for的ref引用
- * @return 数组
- */
-function useRefsArray() {
-    var itemRefs = [];
-    var setItemRef = function (el) {
-        itemRefs.push(el);
-    };
-    onBeforeUpdate(function () {
-        itemRefs = [];
-    });
-    return [itemRefs, setItemRef];
-}
-function isWritableComputedOptions(arg) {
-    return typeof arg === 'object' && Reflect.has(arg || {}, 'set');
-}
-function useComputed(arg) {
-    var data = isWritableComputedOptions(arg) ? computed(arg) : computed(arg);
-    var getData = function (isRef) { return (isRef ? data : data.value); };
-    if (!isWritableComputedOptions(arg)) {
-        return getData;
-    }
-    return [getData, function (val) { return (data.value = val); }];
-}
-// ===================================================================================================
-/**
- * 返回{ [key]: Ref }
- * @params obj { [变量名]: useState或useComputed返回的getter函数 }
- */
-function getRefs(obj) {
-    var result = {};
-    Object.entries(obj).forEach(function (_a) {
-        var _b = __read(_a, 2), k = _b[0], fn = _b[1];
-        return (result[k] = fn(true));
-    });
-    return result;
-}
-function useSync(props, emit, arr) {
-    if (arr === void 0) { arr = []; }
-    if (!arr.length)
-        return [];
-    return arr.reduce(function (p, c) {
-        var option = computed({
-            get: function () { return props[c]; },
-            set: function (value) { return emit("update:" + c, value); }
-        });
-        p.push(option);
-        return p;
-    }, []);
-}
-
-var DynamicFormAdd = defineComponent({
-    name: 'DynamicFormAdd',
-    props: {
-        options: { type: Array, "default": function () { return []; } },
-        modelValue: { type: Array, required: true },
-        currentInstance: { type: Object }
-    },
-    emits: ['update:modelValue', 'change'],
-    setup: function (props, _a) {
-        var emit = _a.emit;
-        var _b = __read(useComputed({
-            get: function () {
-                var _a;
-                return (_a = props.modelValue) !== null && _a !== void 0 ? _a : [];
-            },
-            set: function (val) {
-                emit('update:modelValue', val);
-                setVisible(false);
-            }
-        }), 2), modelProxy = _b[0], setModelProxy = _b[1];
-        var _c = __read(useState(false), 2), visible = _c[0], setVisible = _c[1];
-        var toggleVisible = R.compose(setVisible, R.not, visible);
-        var addItem = function (id) {
-            R.compose(setModelProxy, R.uniq, R.append(id), modelProxy)();
-        };
-        var matchPinyinSearch = function (str) {
-            return R.ifElse(R.isEmpty, R.T, R.curryN(2, PinyinMatch.match)(str))(searchContent());
-        };
-        var currentOptions = useComputed(function () {
-            return R.filter(R.allPass([
-                R.compose(R.not, R.includes(R.__, modelProxy()), R.prop('id')),
-                R.compose(matchPinyinSearch, R.prop('name'))
-            ]))(props.options);
-        });
-        var _d = __read(useState(''), 2), searchContent = _d[0], setSearchContent = _d[1];
-        var _hoisted_class_1 = 'cx_mb_5';
-        var _hoisted_class_2 = 'hover-highlight cx_ptb_8 cx_plr_12';
-        var _hoisted_class_3 = 'cx_plr_7';
-        var _hoisted_class_4 = 'cx_flex_center cx_justify_center cx_mt_8';
-        var _hoisted_attrs_1 = {
-            style: {
-                maxHeight: '245px',
-                overflowY: 'auto',
-                margin: '0 -12px -10px'
-            }
-        };
-        return withCtx(function (_, cache) {
-            var _hoisted_component_1 = resolveComponent('ElPopover');
-            var _hoisted_component_2 = resolveComponent('CxBtn');
-            var _hoisted_component_3 = resolveComponent('ElInput');
-            return [
-                (openBlock(),
-                    createBlock(Fragment, null, [
-                        createVNode(_hoisted_component_1, {
-                            visible: visible(),
-                            'onUpdate:visible': setVisible,
-                            placement: 'right-start',
-                            width: 240,
-                            showArrow: false
-                        }, {
-                            reference: function () {
-                                return createVNode(_hoisted_component_2, {
-                                    onClick: toggleVisible,
-                                    icon: 'tianjia',
-                                    "class": _hoisted_class_3,
-                                    style: {
-                                        marginTop: props.modelValue.length ? '32px' : 0,
-                                        backgroundColor: '#f0f5ff'
-                                    }
-                                }, null, PATCH_FLAG.STYLE);
-                            },
-                            "default": function () {
-                                return (openBlock(),
-                                    createBlock(Fragment, null, [
-                                        createVNode(_hoisted_component_3, {
-                                            size: 'mini',
-                                            "class": _hoisted_class_1,
-                                            suffixIcon: 'iconfont icon-sousuo',
-                                            modelValue: searchContent(),
-                                            'onUpdate:modelValue': setSearchContent,
-                                            placeholder: '搜索过滤条件'
-                                        }, null, PATCH_FLAG.PROPS, ['modelValue']),
-                                        [
-                                            (openBlock(),
-                                                createBlock(Fragment, null, [
-                                                    currentOptions().length
-                                                        ? createVNode('div', _hoisted_attrs_1, [
-                                                            (openBlock(),
-                                                                createBlock(Fragment, null, currentOptions().map(function (option) {
-                                                                    return createVNode('div', {
-                                                                        key: option.id,
-                                                                        "class": _hoisted_class_2,
-                                                                        onClick: R.useWith(addItem, [R.always(option.id)])
-                                                                    }, option.name, PATCH_FLAG.PROPS, ['key']);
-                                                                }), PATCH_FLAG.KEYED_FRAGMENT))
-                                                        ])
-                                                        : cache[0] ||
-                                                            (cache[0] = createVNode('div', { "class": _hoisted_class_4 }, '暂无数据'))
-                                                ]))
-                                        ]
-                                    ]));
-                            }
-                        }, PATCH_FLAG.PROPS, ['visible'])
-                    ]))
-            ];
-        }, props.currentInstance);
-    }
-});
-
-var DynamicFilterBtn = defineComponent({
-    name: 'DynamicFilterBtn',
-    props: { states: { type: Object, required: true } },
-    emits: ['click'],
-    setup: function (props, _a) {
-        var emit = _a.emit;
-        var color = computed(function () {
-            var _a;
-            return ((_a = props.states) === null || _a === void 0 ? void 0 : _a.visible) ? '#0084ff' : 'rgba(0,0,0,.85)';
-        });
-        return function (_, cache) {
-            return createVNode(_CX_BTN, {
-                onClick: cache[0] || (cache[0] = function () { return emit('click'); }),
-                icon: 'filtershaixuan',
-                content: '筛选',
-                style: { color: color.value, borderColor: color.value }
-            }, null, PATCH_FLAG.STYLE | PATCH_FLAG.FULL_PROPS);
-        };
-    }
-});
 
 var TeleForm = defineComponent({
     name: 'TeleForm',
@@ -7362,130 +5729,8 @@ var TeleForm = defineComponent({
 });
 
 //
-var script$6 = defineComponent({
-    name: 'Ellipsis',
-    props: {
-        content: { type: [String, Number], "default": '' },
-        activeBgColor: { type: String, "default": '#fff' },
-        placement: {
-            type: String,
-            "default": 'left'
-        }
-    },
-    setup: function (props, _a) {
-        var expose = _a.expose;
-        var refOneEllipsis = ref();
-        var refContent = ref();
-        var tipVisible = ref(false);
-        var paddingRight = ref('0');
-        function calcContentWidth() {
-            var _a;
-            return __awaiter(this, void 0, void 0, function () {
-                var el, pW, wrapW, pdLeft, pdRight, realWidth;
-                return __generator(this, function (_b) {
-                    el = refContent.value;
-                    if (!el || !refOneEllipsis.value)
-                        return [2 /*return*/];
-                    pW = el === null || el === void 0 ? void 0 : el.clientWidth;
-                    wrapW = ((_a = refOneEllipsis.value) === null || _a === void 0 ? void 0 : _a.clientWidth) || 80;
-                    pdLeft = parseFloat(getComputedStyle(refOneEllipsis.value).paddingLeft);
-                    pdRight = parseFloat(getComputedStyle(refOneEllipsis.value).paddingRight);
-                    paddingRight.value = pdRight + 'px';
-                    realWidth = wrapW - pdLeft - pdRight;
-                    tipVisible.value = pW > realWidth;
-                    return [2 /*return*/];
-                });
-            });
-        }
-        var resizeFn = function () { return calcContentWidth(); };
-        onMounted(function () {
-            calcContentWidth();
-            addResizeListener(refContent.value, resizeFn);
-        });
-        onUnmounted(function () {
-            removeResizeListener(refContent.value, resizeFn);
-        });
-        expose({
-            calcContentWidth: calcContentWidth
-        });
-        var popperConfig = reactive({
-            text: props.content,
-            visible: tipVisible.value,
-            controlType: 'mouse',
-            placement: props.placement
-        });
-        watch([function () { return props.content; }, function () { return props.placement; }, tipVisible], function (_a) {
-            var _b = __read(_a, 3), content = _b[0], placement = _b[1], tipVisible = _b[2];
-            popperConfig.text = content;
-            popperConfig.placement = placement;
-            popperConfig.visible = tipVisible;
-        });
-        return {
-            popperConfig: popperConfig,
-            refOneEllipsis: refOneEllipsis,
-            tipVisible: tipVisible,
-            paddingRight: paddingRight,
-            refContent: refContent
-        };
-    }
-});
-
-const _withId$2 = /*#__PURE__*/withScopeId("data-v-4e1a77b7");
-
-pushScopeId("data-v-4e1a77b7");
-const _hoisted_1$3 = { style: {"overflow":"hidden"} };
-popScopeId();
-
-const render$4 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
-  const _directive_uni_popper = resolveDirective("uni-popper");
-
-  return withDirectives((openBlock(), createBlock("div", {
-    ref: "refOneEllipsis",
-    class: ["one-ellipsis", { ellipsis: _ctx.tipVisible }],
-    style: { '--paddingRight': _ctx.paddingRight, '--bgColor': _ctx.activeBgColor }
-  }, [
-    createVNode("div", _hoisted_1$3, [
-      createVNode("p", {
-        ref: "refContent",
-        class: "note-tooltip"
-      }, toDisplayString(_ctx.content), 513 /* TEXT, NEED_PATCH */)
-    ])
-  ], 6 /* CLASS, STYLE */)), [
-    [_directive_uni_popper, _ctx.popperConfig]
-  ])
-});
-
-script$6.render = render$4;
-script$6.__scopeId = "data-v-4e1a77b7";
-script$6.__file = "src/lib/cx-table/components/ellipsis/index.vue";
-
-function useCxDialog() {
-    var dialogRef = ref(null);
-    function register(instance) {
-        onUnmounted(function () {
-            dialogRef.value = null;
-        });
-        dialogRef.value = instance;
-    }
-    function getDialogInstance() {
-        var dialog = unref(dialogRef);
-        if (!dialog) {
-            throw new Error("can't get dialog's instance before register");
-        }
-        return dialog;
-    }
-    var methods = {
-        openDialog: function (visible) {
-            if (visible === void 0) { visible = true; }
-            getDialogInstance().openDialog(visible);
-        }
-    };
-    return [register, methods];
-}
-
-//
 var zIndex = 2000;
-var script$5 = defineComponent({
+var script$6 = defineComponent({
     name: 'CxOverlay',
     props: { disabled: { type: Boolean, "default": false }, lockScroll: { type: Boolean, "default": false } },
     setup: function () {
@@ -7493,7 +5738,7 @@ var script$5 = defineComponent({
     }
 });
 
-function render$3(_ctx, _cache) {
+function render$4(_ctx, _cache) {
   return (openBlock(), createBlock("div", {
     onClick: _cache[1] || (_cache[1] = $event => (_ctx.$emit('click'))),
     style: {'--zIndex':_ctx.zIndex},
@@ -7503,13 +5748,13 @@ function render$3(_ctx, _cache) {
   ], 6 /* CLASS, STYLE */))
 }
 
-script$5.render = render$3;
-script$5.__file = "src/lib/cx-overlay/cx-overlay.vue";
+script$6.render = render$4;
+script$6.__file = "src/lib/cx-overlay/cx-overlay.vue";
 
 //
-var script$4 = defineComponent({
+var script$5 = defineComponent({
     name: 'CxDialog',
-    components: { CxOverlay: script$5 },
+    components: { CxOverlay: script$6 },
     emits: ['register', 'close', 'closed', 'open', 'opened', 'ok', 'cancel'],
     props: {
         cancelText: { type: String, "default": '取消', },
@@ -7580,7 +5825,7 @@ var script$4 = defineComponent({
     }
 });
 
-const _hoisted_1$2 = { class: "cx-overlay-dialog" };
+const _hoisted_1$3 = { class: "cx-overlay-dialog" };
 const _hoisted_2$1 = { class: "cx-dialog__header" };
 const _hoisted_3$1 = { class: "cx-dialog__title" };
 const _hoisted_4$1 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_mlr_0 cx_w_100p" }, null, -1 /* HOISTED */);
@@ -7588,7 +5833,7 @@ const _hoisted_5$1 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_mlr_0 
 const _hoisted_6$1 = { class: "cx-dialog__footer" };
 const _hoisted_7$1 = { class: "cx_flex_center cx_justify_end" };
 
-function render$2(_ctx, _cache) {
+function render$3(_ctx, _cache) {
   const _component_cx_btn = resolveComponent("cx-btn");
   const _component_cx_overlay = resolveComponent("cx-overlay");
 
@@ -7609,7 +5854,7 @@ function render$2(_ctx, _cache) {
           onClick: _cache[6] || (_cache[6] = $event => (_ctx.closeOnClickModal && _ctx.openDialog(false)))
         }, {
           default: withCtx(() => [
-            createVNode("div", _hoisted_1$2, [
+            createVNode("div", _hoisted_1$3, [
               createVNode("div", mergeProps({
                 class: ["cx-dialog", {'is-fullscreen':_ctx.isFullscreen,'cx-dialog__border':!_ctx.modal}],
                 style: {'--width':_ctx.width,'--top':_ctx.top}
@@ -7691,13 +5936,135 @@ function render$2(_ctx, _cache) {
   ], 8 /* PROPS */, ["disabled"]))
 }
 
-script$4.render = render$2;
-script$4.__file = "src/lib/cx-dialog/cx-dialog.vue";
+script$5.render = render$3;
+script$5.__file = "src/lib/cx-dialog/cx-dialog.vue";
 
-script$4.install = function (app) {
-    app.component(script$4.name, script$4);
+script$5.install = function (app) {
+    app.component(script$5.name, script$5);
 };
-var _CX_DIALOG = script$4;
+var _CX_DIALOG = script$5;
+
+function useCxDialog() {
+    var dialogRef = ref(null);
+    function register(instance) {
+        onUnmounted(function () {
+            dialogRef.value = null;
+        });
+        dialogRef.value = instance;
+    }
+    function getDialogInstance() {
+        var dialog = unref(dialogRef);
+        if (!dialog) {
+            throw new Error("can't get dialog's instance before register");
+        }
+        return dialog;
+    }
+    var methods = {
+        openDialog: function (visible) {
+            if (visible === void 0) { visible = true; }
+            getDialogInstance().openDialog(visible);
+        }
+    };
+    return [register, methods];
+}
+
+//
+var script$4 = defineComponent({
+    name: 'Ellipsis',
+    props: {
+        content: { type: [String, Number], "default": '' },
+        activeBgColor: { type: String, "default": '#fff' },
+        placement: {
+            type: String,
+            "default": 'left'
+        }
+    },
+    setup: function (props, _a) {
+        var expose = _a.expose;
+        var refOneEllipsis = ref();
+        var refContent = ref();
+        var tipVisible = ref(false);
+        var paddingRight = ref('0');
+        function calcContentWidth() {
+            var _a;
+            return __awaiter(this, void 0, void 0, function () {
+                var el, pW, wrapW, pdLeft, pdRight, realWidth;
+                return __generator(this, function (_b) {
+                    el = refContent.value;
+                    if (!el || !refOneEllipsis.value)
+                        return [2 /*return*/];
+                    pW = el === null || el === void 0 ? void 0 : el.clientWidth;
+                    wrapW = ((_a = refOneEllipsis.value) === null || _a === void 0 ? void 0 : _a.clientWidth) || 80;
+                    pdLeft = parseFloat(getComputedStyle(refOneEllipsis.value).paddingLeft);
+                    pdRight = parseFloat(getComputedStyle(refOneEllipsis.value).paddingRight);
+                    paddingRight.value = pdRight + 'px';
+                    realWidth = wrapW - pdLeft - pdRight;
+                    tipVisible.value = pW > realWidth;
+                    return [2 /*return*/];
+                });
+            });
+        }
+        var resizeFn = function () { return calcContentWidth(); };
+        onMounted(function () {
+            calcContentWidth();
+            addResizeListener(refContent.value, resizeFn);
+        });
+        onUnmounted(function () {
+            removeResizeListener(refContent.value, resizeFn);
+        });
+        expose({
+            calcContentWidth: calcContentWidth
+        });
+        var popperConfig = reactive({
+            text: props.content,
+            visible: tipVisible.value,
+            controlType: 'mouse',
+            placement: props.placement
+        });
+        watch([function () { return props.content; }, function () { return props.placement; }, tipVisible], function (_a) {
+            var _b = __read(_a, 3), content = _b[0], placement = _b[1], tipVisible = _b[2];
+            popperConfig.text = content;
+            popperConfig.placement = placement;
+            popperConfig.visible = tipVisible;
+        });
+        return {
+            popperConfig: popperConfig,
+            refOneEllipsis: refOneEllipsis,
+            tipVisible: tipVisible,
+            paddingRight: paddingRight,
+            refContent: refContent
+        };
+    }
+});
+
+const _withId$2 = /*#__PURE__*/withScopeId("data-v-4e1a77b7");
+
+pushScopeId("data-v-4e1a77b7");
+const _hoisted_1$2 = { style: {"overflow":"hidden"} };
+popScopeId();
+
+const render$2 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
+  const _directive_uni_popper = resolveDirective("uni-popper");
+
+  return withDirectives((openBlock(), createBlock("div", {
+    ref: "refOneEllipsis",
+    class: ["one-ellipsis", { ellipsis: _ctx.tipVisible }],
+    style: { '--paddingRight': _ctx.paddingRight, '--bgColor': _ctx.activeBgColor }
+  }, [
+    createVNode("div", _hoisted_1$2, [
+      createVNode("p", {
+        ref: "refContent",
+        class: "note-tooltip"
+      }, toDisplayString(_ctx.content), 513 /* TEXT, NEED_PATCH */)
+    ])
+  ], 6 /* CLASS, STYLE */)), [
+    [_directive_uni_popper, _ctx.popperConfig]
+  ])
+});
+
+script$4.render = render$2;
+script$4.__scopeId = "data-v-4e1a77b7";
+script$4.__file = "src/lib/cx-table/components/ellipsis/index.vue";
 
 var DEFAULT_CAPACITY = 10;
 var cacheListDialog = defineComponent({
@@ -7739,7 +6106,7 @@ var cacheListDialog = defineComponent({
             openDialog: openDialog
         });
         var _e = __read(useState(TypeOption.未提交), 2), currentType = _e[0], setCurrentType = _e[1];
-        var typeOptionList = useEnumOptions(TypeOption);
+        var typeOptionList = enum2Options(TypeOption);
         var resetPage = function () {
             setActiveItem(null);
             unsafeClearArray(orderList());
@@ -8029,9 +6396,9 @@ var cacheListDialog = defineComponent({
                 R.identity
             ])));
         };
-        var labelContainer = function (label) {
+        var labelContainer = (function (label) {
             return R.compose(truthy, R.find(R.includes(R.__, label)))(['操作', '选择', '多选']);
-        };
+        });
         var noRequired = invokerWithChildren(R.omit(['required']));
         var setImgsType = R.compose(R.when(R.compose(R.equals('款型图'), R.prop('label')), R.compose(R.set(R.lensProp('control'), R.objOf('type', 'imgs')), R.omit(['slot']))));
         var setDefaultSlot = R.compose(R.when(R.compose(R.all(falsy), R.props(['slot', 'calculate', 'dynamicCalculate'])), R.assoc('slot', 'renderWithText')));
@@ -8050,7 +6417,7 @@ var cacheListDialog = defineComponent({
                     if (R.is(Number, column.accuracy)) {
                         content = decimalFixed(content, column.accuracy, true);
                     }
-                    return [createVNode(script$6, { content: content }, null, PATCH_FLAG.PROPS, ['content'])];
+                    return [createVNode(script$4, { content: content }, null, PATCH_FLAG.PROPS, ['content'])];
                 } }), PATCH_FLAG.PROPS, R.pair('dynamic', 'tableData'));
         };
         return function (_, cache) {
@@ -8448,7 +6815,7 @@ var script$3 = defineComponent({
                 };
             });
         });
-        var _d = __read(useLoading(function () { return __awaiter(_this, void 0, void 0, function () {
+        var _d = __read(loadingDecorator(function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -8476,7 +6843,7 @@ var script$3 = defineComponent({
         }); };
         watch(activeTab, fetchList);
         expose({ open: open });
-        var _e = __read(useLoading(function () { return __awaiter(_this, void 0, void 0, function () {
+        var _e = __read(loadingDecorator(function () { return __awaiter(_this, void 0, void 0, function () {
             var _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -8663,7 +7030,7 @@ var script$2 = defineComponent({
         var _this = this;
         var emit = _a.emit;
         var dialogRef = ref(null);
-        var _b = __read(useLoading(function () { return __awaiter(_this, void 0, void 0, function () {
+        var _b = __read(loadingDecorator(function () { return __awaiter(_this, void 0, void 0, function () {
             var _a, _b;
             return __generator(this, function (_c) {
                 switch (_c.label) {
@@ -11251,10 +9618,10 @@ _CX_UNI_POPPER.install = function (app) {
     app.directive(script.name, script);
 };
 
-script$5.install = function (app) {
-    app.component(script$5.name, script$5);
+script$6.install = function (app) {
+    app.component(script$6.name, script$6);
 };
-var _CX_OVERLAY = script$5;
+var _CX_OVERLAY = script$6;
 
 var components = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -11277,4 +9644,4 @@ var CxUI = {
 };
 
 export default CxUI;
-export { ARROW_KEY, COLUMN_FLAG, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_FORM as CxForm, _CX_OVERLAY as CxOverlay, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_UNI_POPPER as CxUniPopper, Either, EventBus, EventBusCreator, IO, Identify, Left, Maybe, PATCH_FLAG, Right, Task, TypeOption, addResizeListener, appendChild, appendToBody, arrFlat, arrInsert, assignAttrs, awaitTimeout, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, calledBy, changeDynamicIdToText, clearClassList, clearInnerHTML, clearTimer, copyInnerText, copySort, createTag, curryAddListener, curryRemoveListener, curryTimeout, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, defaultPromise, domShare, either, eventBus, falsy, findAncestor, flatten, formatDate, formatFormDefaultValue, formatTime, formatWidth, functorWarn, getColumnSelectText, getCxDynamicHead, getDateRange, getDoNothingIO, getEvalResult, getFunctionAttrs, getMaybeValue, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getRefs, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, hideEle, invokeLayeredRow, is, isAbsolutePath, isAnyObject, isArray, isBoolean, isClient, isDate, isDeepObjectEqual, isDef, isElement$1 as isElement, isEmpty, isErrorLike, isFunction, isHTMLElement$1 as isHTMLElement, isHTMLInputElement, isImageDom, isMobile, isNameWithId, isNull, isNullAndUnDef, isNumber, isObject$1 as isObject, isPromise, isRegExp, isSame, isServer$1 as isServer, isString, isTextarea, isUnDef, isUrl, isWindow, map, nextTimeout, omit, pick, preventDefault, propCall, queryDom, removeResizeListener, setClassByArr, setDisplay, setInnerText, showEle, splat, stateEq200, staticConfigList, stopPropagation, throttle$1 as throttle, toggleArrState, trace, truthy, unsafeAssign, unsafeClearArray, unsafeClearAssign, unsafeClearObj, unsafeClearPush, unsafeDeleteProperty, unsafeGet, unsafePerformIO, unsafePush, unsafeRemoveItem, unsafeSet, unsafeWhenDevCall, unsplat, updateCxTableWidth, useAutoWidth, useBroadcast, useBus, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useComputed, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useDynamicConfig, useEnumOptions, useExpandConfig, useLazyLoad, useLoading, usePriorityConfig, useRadioConfig, useRef, useRefs, useRefsArray, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useState, useStyle, useSync, useTableClass, useTableId, useTableStyle, useValidator, useWatch, withParams };
+export { ARROW_KEY, COLUMN_FLAG, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_FORM as CxForm, _CX_OVERLAY as CxOverlay, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_UNI_POPPER as CxUniPopper, EventBus, EventBusCreator, PATCH_FLAG, TypeOption, arrFlat, assignAttrs, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, changeDynamicIdToText, copySort, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, domShare, eventBus, findAncestor, formatDate, formatFormDefaultValue, formatTime, formatWidth, getColumnSelectText, getCxDynamicHead, getEvalResult, getFunctionAttrs, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, invokeLayeredRow, pick, staticConfigList, toggleArrState, updateCxTableWidth, useAutoWidth, useBroadcast, useBus, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useDynamicConfig, useExpandConfig, useLazyLoad, usePriorityConfig, useRadioConfig, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useStyle, useTableClass, useTableId, useTableStyle, useValidator, useWatch };

@@ -8,7 +8,7 @@ import { updateCxTableWidth, useAutoWidth } from './useAutoWidth';
 import { useCalcSpanMethod } from './useCalcSpanMethod';
 import { useColumn } from './useColumn';
 import { useScrollState } from './useScrollState';
-import { isNumber } from '../../../utils';
+import { isNumber } from 'chx-utils';
 
 export const useWatch = (
   props: CxTablePropType,

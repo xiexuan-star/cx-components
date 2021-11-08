@@ -1,7 +1,7 @@
 import { CSSProperties } from 'vue';
 import { CxTableItem, CxTablePropType } from '../types';
 import { formatWidth } from '../utils';
-import { isFunction, isNumber } from '../../../utils';
+import { isFunction, isNumber } from 'chx-utils';
 
 function assignStyle(
   current: CSSProperties,

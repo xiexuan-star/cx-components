@@ -1,6 +1,6 @@
 import { FormConfigAdaptor as adaptor } from './adaptor';
 
-import { dataInitPlugin } from './plugins/index';
+import { dataInitPlugin } from './plugins';
 
 adaptor.use(dataInitPlugin);
 

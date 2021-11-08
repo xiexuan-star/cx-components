@@ -8,12 +8,11 @@ import {
   render,
   watch
 } from 'vue';
-import { map, IO, Maybe, queryDom, unsafeDeleteProperty, unsafeSet } from '../../../../utils';
+import { map, IO, Maybe, queryDom, unsafeDeleteProperty, unsafeSet,useState } from 'chx-utils';
 import { CxTableDynamicColumn } from '../../types';
 import { PATCH_FLAG } from '../../constant';
 import { cxTableWarn } from '../../utils';
 import * as R from 'ramda';
-import { useState } from '../../../../hooks/state';
 import { CxBtn } from '../../../..';
 
 const renderInnerBtn = ({ $attrs, $slots }: ComponentPublicInstance) => {

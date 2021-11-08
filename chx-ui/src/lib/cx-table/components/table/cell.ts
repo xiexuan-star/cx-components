@@ -23,7 +23,7 @@ import {
   getColumnSelectText,
   getFunctionAttrs,
 } from '../../utils';
-import { isArray, isDeepObjectEqual, isEmpty, isFunction } from '../../../../utils';
+import { isArray, isDeepObjectEqual, isEmpty, isFunction } from 'chx-utils';
 
 export default defineComponent({
   name: 'CxTableCell',

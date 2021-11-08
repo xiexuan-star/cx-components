@@ -1,4 +1,4 @@
-import { isObject } from '../../../utils';
+import { isObject } from 'chx-utils';
 import { CxTableBaseObj, CxTableItem } from '../types';
 import { deepMerge } from '../utils';
 

@@ -19,8 +19,8 @@ import {
   showEle,
   truthy,
   unsafePerformIO
-} from '../../utils';
-import { WatchStopHandle, App, watch } from 'vue';
+} from 'chx-utils';
+import { WatchStopHandle, watch } from 'vue';
 import { PopperContentListItem, PopperHandleType, PopperInstance, PopperOption, UniPopperOption } from './types';
 
 // ------------------------------ timer ------------------------------

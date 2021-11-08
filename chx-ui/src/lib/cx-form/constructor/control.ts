@@ -4,7 +4,7 @@ import { CxFormConfig, CxFormItemConfig } from '../types';
 import { useCxForm } from '../hooks';
 
 import { CxFormTemplate } from '.';
-import { isFunction, isObject } from '../../../utils';
+import { isFunction, isObject } from 'chx-utils';
 export class CxFormControl extends CxFormTemplate {
   name = 'CxFormControl';
   parse: Func<any> | null = null;

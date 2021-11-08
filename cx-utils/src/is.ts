@@ -1,7 +1,9 @@
+import { AnyObject,Func,NameWithId } from './types';
+
 const toString = Object.prototype.toString;
 
 export function is(val: unknown, type: string) {
-  return toString.call(val) === `[object ${type}]`;
+  return toString.call(val) === `[object ${ type }]`;
 }
 
 export function isEmpty(value: any) {

@@ -1,48 +1,23 @@
 import {
-  createBlock,
-  createVNode,
-  defineComponent,
-  Fragment,
-  inject,
-  openBlock,
-  reactive,
-  resolveDirective,
-  watch,
+  enum2Options, falsy, getMaybeValue, IO, map, Maybe, nextTimeout, preventDefault, stateEq200, stopPropagation, truthy,
+  unsafeClearArray, unsafeClearObj, unsafeClearPush, unsafePush, unsafeRemoveItem, useComputed, useState
+} from 'chx-utils';
+import { debounce } from 'lodash-es';
+import * as R from 'ramda';
+import {
+  createBlock, createVNode, defineComponent, Fragment, inject, openBlock, reactive, resolveDirective, watch,
   withDirectives
 } from 'vue';
-import { CxTableBaseObj, CxTablePropType, DYNAMIC_CONFIG, ParamsItem } from '../../types';
-import * as R from 'ramda';
-import { useCxTableCompose } from '../../hooks';
-import { CxConfigAdaptor, EventBus, getColumnSelectText } from '../../utils';
-import { PATCH_FLAG, TypeOption } from '../../constant';
-import { decimalFixed } from '../../utils';
-import Empty from '../empty.vue';
-
-import Ellipsis from '../ellipsis/index.vue';
-import { CacheRule, useCxTable } from '../../hooks';
-import { useCxDialog } from '../../../cx-dialog/useCxDialog';
-import { useComputed, useState } from '../../../../hooks/state';
-import { useEnumOptions } from '../../../../utils';
 import { CxForm, CxFormItemConfig, CxTab, CxTable } from '../../../..';
 import _CX_DIALOG from '../../../cx-dialog';
-import {
-  falsy,
-  getMaybeValue,
-  IO,
-  map,
-  Maybe,
-  nextTimeout,
-  preventDefault,
-  stateEq200,
-  stopPropagation,
-  truthy,
-  unsafeClearArray,
-  unsafeClearObj,
-  unsafeClearPush,
-  unsafePush,
-  unsafeRemoveItem
-} from '../../../../utils';
-import { debounce } from 'lodash-es';
+import { useCxDialog } from '../../../cx-dialog/useCxDialog';
+import { PATCH_FLAG, TypeOption } from '../../constant';
+import { CacheRule, useCxTable, useCxTableCompose } from '../../hooks';
+import { CxTableBaseObj, CxTablePropType, DYNAMIC_CONFIG, ParamsItem } from '../../types';
+import { CxConfigAdaptor, decimalFixed, EventBus, getColumnSelectText } from '../../utils';
+
+import Ellipsis from '../ellipsis/index.vue';
+import Empty from '../empty.vue';
 
 const DEFAULT_CAPACITY = 10;
 
@@ -84,7 +59,7 @@ export default defineComponent({
     });
 
     const [currentType, setCurrentType] = useState(TypeOption.未提交);
-    const typeOptionList = useEnumOptions(TypeOption);
+    const typeOptionList = enum2Options(TypeOption);
 
     const resetPage = () => {
       setActiveItem(null);
@@ -517,9 +492,9 @@ export default defineComponent({
         )
       );
     };
-    const labelContainer = (label: string) => {
+    const labelContainer = ((label: string) => {
       return R.compose(truthy, R.find(R.includes(R.__, label)))(['操作', '选择', '多选']);
-    };
+    }) as (a:string)=>boolean;
     const noRequired = invokerWithChildren(R.omit(['required']));
     const setImgsType = R.compose(
       R.when(

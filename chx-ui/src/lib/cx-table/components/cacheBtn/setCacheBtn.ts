@@ -1,13 +1,12 @@
 import { createVNode, defineComponent, inject, PropType, reactive, watch } from 'vue';
 import { CxTableDynamicColumn, CxTablePropType, TableDataVisitor } from '../../types';
-import { IO, map, Maybe, stateEq200, truthy, unsafeSet } from '../../../../utils/functor';
+import { IO, map, Maybe, stateEq200, truthy, unsafeSet, useComputed, useState } from 'chx-utils';
 import TeleportBtn from './teleportBtn';
 import * as R from 'ramda';
-import { PATCH_FLAG } from '../../constant/enum';
-import { useCxTableCompose } from '../../hooks/useCxTableCompose';
+import { PATCH_FLAG } from '../../constant';
+import { useCxTableCompose } from '../../hooks';
 import { EventBus } from '../../utils';
-import { useCxTable } from '../../hooks/useCxTable';
-import { useComputed, useState } from '../../../../hooks/state';
+import { useCxTable } from '../../hooks';
 
 export default defineComponent({
   name: 'SetCacheBtn',
@@ -19,9 +18,9 @@ export default defineComponent({
     const rootProp = inject<CxTablePropType>('rootProp')!;
     const bus = inject<EventBus>('bus')!;
 
-    const context = useCxTable().getContext()
+    const context = useCxTable().getContext();
     const getDefaultRequestInstance = (() =>
-      R.path(['dynamicCacheContext', 'requestInstance', 'default'], context)) as () => any
+      R.path(['dynamicCacheContext', 'requestInstance', 'default'], context)) as () => any;
     const getMessageInstance = (() => R.path(['messageInstance'], context)) as () => any;
 
 

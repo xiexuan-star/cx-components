@@ -1,30 +1,18 @@
+import { isNumber, isObject, isString } from 'chx-utils';
+import * as R from 'ramda';
 import {
-  computed,
-  createBlock,
-  createCommentVNode,
-  createVNode,
-  CSSProperties,
-  defineComponent,
-  Fragment,
-  inject,
-  openBlock,
-  PropType,
-  ref,
-  watchEffect
+  computed, createBlock, createCommentVNode, createVNode, CSSProperties, defineComponent, Fragment, inject, openBlock,
+  PropType, ref, watchEffect
 } from 'vue';
-import { useTableStyle } from '../../hooks/useTableStyle';
+import { CX_TABLE_EMPTY_INDEX, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, PATCH_FLAG } from '../../constant';
+import { useTableId, useTableStyle } from '../../hooks';
 import { CxTableBaseObj, CxTableColumnObj, CxTablePropType } from '../../types';
 import { getTotalSumData, pick } from '../../utils';
 import Cell from './cell';
-import TableRow from './tableRow';
+import Expand from './expand';
 import FixedBottom from './fixedBottom';
 import TableAddBtn from './tableAddBtn';
-import Expand from './expand';
-import { CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_EMPTY_INDEX } from '../../constant';
-import { useTableId } from '../../hooks/useTableId';
-import { PATCH_FLAG } from '../../constant/enum';
-import * as R from 'ramda';
-import { isNumber, isObject, isString } from '../../../../utils';
+import TableRow from './tableRow';
 
 export default defineComponent({
   name: 'CxTableBody',

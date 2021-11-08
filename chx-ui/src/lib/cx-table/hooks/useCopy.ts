@@ -1,6 +1,6 @@
 import { clone, omit } from 'ramda';
 import { ref } from 'vue';
-import { isFunction } from '../../../utils';
+import { isFunction } from 'chx-utils';
 import { CopyOptions, CxTablePropType } from '../types';
 
 const clipboard = ref<null | AnyObject[]>(null);

@@ -8,7 +8,7 @@ import {
   ref,
   watchEffect
 } from 'vue';
-import { PATCH_FLAG } from '../../constant/enum';
+import { PATCH_FLAG } from '../../constant';
 import { CxTableBaseObj } from '../../types';
 
 export default defineComponent({

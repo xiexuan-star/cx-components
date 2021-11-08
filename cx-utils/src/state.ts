@@ -9,9 +9,11 @@ import {
   ComputedRef,
   onBeforeUpdate
 } from 'vue';
+import { Func } from './types';
 
 interface GetState<T> {
   (isRef: true): Ref<UnwrapRef<T>>;
+
   (isRef?: false): UnwrapRef<T>;
 }
 
@@ -56,7 +58,9 @@ export function useRefsArray<T>(): [T[], (el: T) => void] {
 
 interface GetComputed<T, R> {
   (isRef: true): R;
+
   (isRef: false): T;
+
   (): T;
 }
 
@@ -82,7 +86,7 @@ export function useComputed<T>(arg: UseComputedArg<T>) {
     return getData;
   }
 
-  return [getData, (val: T) => (data.value = val)];
+  return [getData, (val: T) => ((data as WritableComputedRef<T>).value = val)];
 }
 
 // ===================================================================================================
@@ -102,7 +106,7 @@ export function useSync<T, K extends Func<any>>(props: T, emit: K, arr: Array<ke
   return arr.reduce((p, c) => {
     const option = computed({
       get: () => props[c],
-      set: value => emit(`update:${c}`, value)
+      set: value => emit(`update:${ c }`, value)
     });
     p.push(option);
     return p;

@@ -1,5 +1,5 @@
 import { createBlock, createCommentVNode, createVNode, Fragment, openBlock } from 'vue'
-import { isFunction, omit } from '../../../utils'
+import { isFunction, omit } from 'chx-utils'
 import { PatchFlags } from '../../../constant/enum'
 
 const renderComp = (attrs: AnyObject, slots: AnyObject, Comp?: any) => {

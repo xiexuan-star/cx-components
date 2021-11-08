@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { CX_SORT_STATUS } from '../constant/enum';
+import { CX_SORT_STATUS } from '../constant';
 import { CxTablePropType, CxTableSortFun, TableDataVisitor } from '../types';
 
 export const useCxSort = (props: CxTablePropType) => {

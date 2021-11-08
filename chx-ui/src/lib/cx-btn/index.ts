@@ -1,5 +1,5 @@
 import {
-  App, computed, createCommentVNode, createVNode, defineComponent, PropType, resolveDirective, withDirectives
+  App, computed, createCommentVNode, createVNode, defineComponent, PropType, withDirectives
 } from 'vue';
 import { PatchFlags } from '../../constant/enum';
 import { SFCWithInstall } from '../../types/interface';

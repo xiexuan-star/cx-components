@@ -1,10 +1,18 @@
 import { isObject } from './is';
-import * as R from 'ramda';
 import { ref, Ref } from 'vue';
+import * as R from 'ramda';
+import { AnyObject, Func, FunctionParams } from './types';
 
 export * from './is';
 export * from './functor';
 export * from './resizeEvent';
+export * from './date';
+export * from './state';
+export * from './store'
+
+export const headUppercase = (s: string) => {
+  return s[0].toUpperCase() + s.slice(1);
+};
 
 export const arrInsert = <T = any>(target: T[], position: number, ...args: Array<T | T[]>) => {
   return target
@@ -12,6 +20,7 @@ export const arrInsert = <T = any>(target: T[], position: number, ...args: Array
     .concat(flatten(args) as T[])
     .concat(target.slice(position, Infinity));
 };
+
 export const flatten = <T>(arr: T) => {
   if (!Array.isArray(arr)) return [arr];
   if (arr.length === 0) return arr;
@@ -23,6 +32,7 @@ export const flatten = <T>(arr: T) => {
   }
   return result;
 };
+
 export const copyInnerText = (ele: HTMLElement) => {
   const range = document.createRange();
   range.selectNodeContents(ele);
@@ -43,7 +53,7 @@ export function omit<T extends AnyObject, K extends keyof T>(target: T, keys: K[
   }, {} as Omit<T, K>);
 }
 
-export function useEnumOptions<T>(obj: AnyObject, name = 'name', id = 'id'): T[] {
+export function enum2Options<T>(obj: AnyObject, name = 'name', id = 'id'): T[] {
   const result: T[] = [];
 
   Object.entries(obj).forEach(([key, val]) => {
@@ -97,8 +107,7 @@ export function throttle<T extends Func<any>>(
 /**
  * 为函数添加状态改变
  */
-
-export function useLoading<T extends (...args: any[]) => Promise<any>>(
+export function loadingDecorator<T extends (...args: any[]) => Promise<any>>(
   fn: T,
   argLoading?: Ref<boolean>
 ) {

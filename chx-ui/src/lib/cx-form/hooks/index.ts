@@ -1,5 +1,5 @@
 import { Component, Ref } from 'vue'
-import { isObject } from '../../../utils'
+import { isObject } from 'chx-utils'
 import { CxFormError } from '../constructor/error'
 import { CxFormAdaptor, CxFormConfig, ElFormExpose } from '../types'
 

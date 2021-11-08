@@ -1,8 +1,8 @@
 import { nextTick, onBeforeUnmount, onMounted, onUnmounted, Ref } from 'vue';
 import { debounce, throttle } from 'lodash-es';
 import { CX_TABLE_NOT_HOVER_ID } from '../constant';
-import { ARROW_KEY, CX_SPAN_METHOD_TYPE } from '../constant/enum';
-import { CxTableActiveControl } from '../hooks/useCxTable';
+import { ARROW_KEY, CX_SPAN_METHOD_TYPE } from '../constant';
+import { CxTableActiveControl } from '../hooks';
 import { CxCellProp, CxTableBaseObj, CxTablePropType, Nullable, SelectConfig, TableDataVisitor } from '../types';
 import {  EventBus, getColumnSelectText, getPreOrNextItem } from '../utils';
 import { domShare } from '../utils';
@@ -28,7 +28,7 @@ export const registResponsive = (wrapper: Ref<Nullable<HTMLElement>>, callbacks:
       window.removeEventListener('resize', updateWidth);
     }
   });
-  
+
   let recordOldWidth = '0';
 
   const updateWidth = debounce(async () => {

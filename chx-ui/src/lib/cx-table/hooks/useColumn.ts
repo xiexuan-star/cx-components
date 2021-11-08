@@ -1,9 +1,9 @@
 import { Ref } from 'vue';
-import { COLUMN_FLAG } from '../constant/enum';
+import { COLUMN_FLAG } from '../constant';
 import { getColumnWidth } from '../helper/widthHelper';
 import { CxTableBaseObj, CxTableColumnObj, CxTableItem, CxTablePropType } from '../types';
 import { arrFlat, deepMerge } from '../utils';
-import { isEmpty, isFunction, isNumber, isString } from '../../../utils';
+import { isEmpty, isFunction, isNumber, isString } from 'chx-utils';
 import { useStyle } from './useStyle';
 import { useTableId } from './useTableId';
 

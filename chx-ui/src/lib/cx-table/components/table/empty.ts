@@ -6,7 +6,7 @@ import {
   openBlock,
   setBlockTracking
 } from 'vue';
-import { PATCH_FLAG } from '../../constant/enum';
+import { PATCH_FLAG } from '../../constant';
 import { CxTableBaseObj } from '../../types';
 import Empty from './../empty.vue'
 

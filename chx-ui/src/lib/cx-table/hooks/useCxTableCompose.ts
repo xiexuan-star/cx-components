@@ -3,7 +3,7 @@ import { FormConfigAdaptor } from '../utils/formConfigAdaptor';
 import * as R from 'ramda';
 import { arrFlat, changeDynamicIdToText, cxTableWarn, formatFormDefaultValue } from '../utils';
 import { CxFormItemConfig } from '../../..';
-import { unsafeGet, splat, truthy, Maybe, unsafePush, unsafeWhenDevCall } from '../../../utils/functor';
+import { unsafeGet, splat, truthy, Maybe, unsafePush, unsafeWhenDevCall } from 'chx-utils';
 
 export const useCxTableCompose = () => {
   // getAllSearchableColumn::CxTableDynamicColumn a=>a[]->a[]

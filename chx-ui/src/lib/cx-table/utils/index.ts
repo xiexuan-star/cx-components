@@ -1,49 +1,13 @@
 import dayjs from 'dayjs';
-import { COLUMN_FLAG } from '../constant/enum';
+import { COLUMN_FLAG } from '../constant';
 import { ControlAttrs, CxTableColumnObj, CxTableItem, DYNAMIC_CONFIG, Nullable } from '../types';
 import * as R from 'ramda';
-import { useCxTable } from '../hooks/useCxTable';
-import { isFunction, isNumber, isObject } from '../../../utils';
+import { useCxTable } from '../hooks';
+import { isFunction, isNumber, isObject,getDateRange } from 'chx-utils';
 
 export * from './eventBus';
 export * from './dom';
 export * from './configAdaptor';
-
-export function getDateRange(
-  num = 1,
-  type: 'day' | 'year' | 'month' | 'hour' | 'minute' | 'second',
-  { isInt = false, isDate = false } = {}
-) {
-  const currentDate = new Date();
-  let start = new Date();
-  switch (type) {
-    case 'year':
-      start = new Date(start.setFullYear(currentDate.getFullYear() - num));
-      break;
-    case 'month':
-      start = new Date(start.setMonth(currentDate.getMonth() - num));
-      break;
-    case 'day':
-      start = new Date(start.setDate(currentDate.getDate() - num));
-      break;
-    case 'hour':
-      start = new Date(start.setHours(currentDate.getHours() - num));
-      break;
-    case 'minute':
-      start = new Date(start.setMinutes(currentDate.getMinutes() - num));
-      break;
-    case 'second':
-      start = new Date(start.setSeconds(currentDate.getSeconds() - num));
-  }
-
-  let end = new Date();
-  if (isInt) {
-    start = new Date(start.setDate(1));
-    if (num) end = new Date(new Date().setDate(0));
-  }
-  if (isDate) return start;
-  return [start, end];
-}
 
 export const getFunctionAttrs = (
   rowData: AnyObject,
@@ -129,14 +93,14 @@ export function formatFormDefaultValue(defaultEnum: string, searchType: string) 
     case 'all':
       return -1;
     case 'week':
-      return formatDate(getDateRange(7, 'day'));
+      return formatDate(getDateRange(7, 'date'));
     case 'today':
       return searchType === 'dateRange'
-        ? formatDate(getDateRange(1, 'day'))
+        ? formatDate(getDateRange(1, 'date'))
         : formatDate(Date.now());
     case 'mouth':
       return searchType === 'dateRange'
-        ? formatDate(getDateRange(0, 'month', { isInt: true }))
+        ? formatDate(getDateRange(0, 'month', true))
         : formatDate(Date.now());
     case 'now':
       return formatTime(Date.now());
@@ -178,8 +142,6 @@ export const getColumnSelectText = (
 export function cxTableWarn(...msgs: any[]) {
   console.warn(`[cxTable warn]:`, ...msgs);
 }
-
-Reflect.set(window, 'getStringWidth', getStringWidth);
 
 export function getStringWidth(str: any) {
   if (!str) return 0;

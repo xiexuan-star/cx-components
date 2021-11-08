@@ -1,4 +1,4 @@
-import { isFunction } from '../../../utils';
+import { isFunction } from 'chx-utils';
 import { CxBroadcastPayload } from '../types/index';
 
 export class CxBroadcast {

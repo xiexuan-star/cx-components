@@ -1,5 +1,4 @@
-
-import { useTableId } from '../hooks/useTableId';
+import { useTableId } from '../hooks';
 import { CxTableBaseObj, CxTableColumnObj, Nullable } from '../types';
 
 export const domShare = {

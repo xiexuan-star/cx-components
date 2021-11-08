@@ -1,12 +1,11 @@
+import { IO, map, Maybe, useState } from 'chx-utils';
+import * as R from 'ramda';
 import { createVNode, defineComponent, inject, PropType } from 'vue';
+import { CxDialogActions } from '../../../cx-dialog/types';
+import { PATCH_FLAG } from '../../constant';
 import { CxTableDynamicColumn, CxTablePropType, TableDataVisitor } from '../../types';
 import cacheListDialog from './cacheListDialog';
 import TeleportBtn from './teleportBtn';
-import * as R from 'ramda';
-import { PATCH_FLAG } from '../../constant';
-import { useState } from '../../../../hooks/state';
-import { CxDialogActions } from '../../../cx-dialog/types';
-import { IO, map, Maybe } from '../../../../utils';
 
 export default defineComponent({
   name: 'CacheListBtn',

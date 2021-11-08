@@ -13,7 +13,7 @@ import {
 } from 'vue'
 import { PatchFlags } from '../../constant/enum'
 import { SFCWithInstall } from '../../types/interface'
-import { isObject } from '../../utils/is'
+import { isObject } from 'chx-utils'
 import { CxTabOption } from './type'
 
 const script = defineComponent({

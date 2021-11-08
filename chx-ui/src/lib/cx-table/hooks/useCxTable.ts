@@ -9,7 +9,7 @@ import {
 } from '../types';
 import { useCopy } from './useCopy';
 import { ref } from 'vue';
-import { isFunction, isObject } from '../../../utils';
+import { isFunction, isObject } from 'chx-utils';
 
 export const CxTableRendererMap = new Map<string, CxControlRenderer>();
 export const CxTableActiveControl = new Set<string>();

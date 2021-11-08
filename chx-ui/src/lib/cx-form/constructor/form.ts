@@ -4,7 +4,7 @@ import { cxFormDefaultConfig } from '../const';
 import { CxFormConfig, ElFormExpose } from '../types';
 
 import { CxFormTemplate } from '.';
-import { omit } from '../../../utils';
+import { omit } from 'chx-utils';
 import { useCxForm } from '../hooks';
 
 export class CxForm extends CxFormTemplate {

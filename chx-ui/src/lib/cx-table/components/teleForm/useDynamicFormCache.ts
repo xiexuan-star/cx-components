@@ -2,16 +2,15 @@ import { CxTablePropType, DYNAMIC_CONFIG } from '../../types';
 import { cxTableWarn } from '../../utils';
 import { DynamicFormCacheModule, DynamicFormVisibleCacheModule } from './constant';
 import { useCxTable } from '../../hooks';
-import { localStore } from '../../../../utils/storage';
-import { IO } from '../../../../utils';
+import { IO, localStore } from 'chx-utils';
 
 export const useDynamicFormCache = (rootProps: CxTablePropType) => {
   const getCacheKey = (dynamic?: DYNAMIC_CONFIG) => {
     return !dynamic
       ? ''
-      : `u_${useCxTable().getContext().contextScopeId}_m1_${dynamic.moduleType}_b_${
-          dynamic.businessType
-        }_m2_${dynamic.modelType}_p_${dynamic.priceType}`;
+      : `u_${ useCxTable().getContext().contextScopeId }_m1_${ dynamic.moduleType }_b_${
+        dynamic.businessType
+      }_m2_${ dynamic.modelType }_p_${ dynamic.priceType }`;
   };
 
   const getCache = (module: string = DynamicFormCacheModule) => {

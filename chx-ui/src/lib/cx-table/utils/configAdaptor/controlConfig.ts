@@ -4,7 +4,7 @@ import {
   ControlAttrs,
   CxBroadcastRegister
 } from '../../types';
-import { isFunction, isNumber, isObject } from '../../../../utils';
+import { isFunction, isNumber, isObject } from 'chx-utils';
 
 export class CxControlConfig {
   type: string = '';

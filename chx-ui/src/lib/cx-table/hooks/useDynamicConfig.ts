@@ -1,17 +1,13 @@
-import { nextTick, ref, watch } from 'vue';
+import { isFunction, isNumber, isObject, sessionStore } from 'chx-utils';
+import { debounce } from 'lodash-es';
 import * as R from 'ramda';
+import { nextTick, ref, watch } from 'vue';
 import {
-  CX_TABLE_CACHE_PENDING,
-  CX_TABLE_DYNAMIC_CACHE,
-  CX_TABLE_DYNAMIC_PROPS,
-  CX_TABLE_THROTTLE_DURATION
+  CX_TABLE_CACHE_PENDING, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_THROTTLE_DURATION
 } from '../constant';
 import { CxTableDynamicColumn, CxTableItem, CxTablePropType, DYNAMIC_CONFIG } from '../types';
 import { CxConfigAdaptor, cxTableWarn } from '../utils';
 import { useCxTable } from './useCxTable';
-import { sessionStore } from '../../../utils/storage';
-import { debounce } from 'lodash-es';
-import { isFunction, isNumber, isObject } from '../../../utils';
 
 const cacheMap: Record<string, Func<any>[]> = {};
 

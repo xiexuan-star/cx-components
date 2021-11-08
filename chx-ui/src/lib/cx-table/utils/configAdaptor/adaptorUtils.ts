@@ -2,7 +2,7 @@ import { cxTableWarn } from '..';
 import { CX_ADAPTOR_PRECISION_TYPE } from '../../constant';
 import { useCxTable } from '../../hooks';
 import { CalculateFun, CxTableItem } from '../../types';
-import { isString, isNumber } from '../../../../utils';
+import { isString, isNumber } from 'chx-utils';
 
 import { CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION } from './const';
 

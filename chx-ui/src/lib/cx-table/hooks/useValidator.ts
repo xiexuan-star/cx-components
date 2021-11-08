@@ -1,4 +1,4 @@
-import {  isArray, isEmpty, isFunction, isNumber, isString } from '../../../utils';
+import {  isArray, isEmpty, isFunction, isNumber, isString } from 'chx-utils';
 import { CxTableBaseObj, CxTableColumnObj, CxTablePropType } from '../types';
 import { domShare } from '../utils';
 

@@ -16,7 +16,7 @@
 <script lang="ts">
 import { AnyObject } from 'cx-store/dist/statistic/types';
 import { computed, defineComponent, inject, ref } from 'vue';
-import { useLoading } from '../../../../utils';
+import { loadingDecorator } from 'chx-utils';
 import { CxTableBaseObj } from '../../types';
 import ColumnSettingDialog from './dialog.vue';
 
@@ -27,7 +27,7 @@ export default defineComponent({
   emits: ['submit'],
   setup(_, { emit }) {
     const dialogRef = ref<null | AnyObject>(null);
-    const [open, openLoading] = useLoading(async () => {
+    const [open, openLoading] = loadingDecorator(async () => {
       await dialogRef.value?.open?.();
     });
     const CxTable = inject<CxTableBaseObj>('CxTable');

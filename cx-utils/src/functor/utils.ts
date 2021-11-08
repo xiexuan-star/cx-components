@@ -1,5 +1,6 @@
 import { Identify, IO, Left, Maybe, Right, Task } from '.';
 import * as R from 'ramda';
+import { AnyObject, Func } from '../types';
 
 // getDoNothingIO::void->IO<NOOP>
 export const getDoNothingIO = () => IO.of(R.identity);
@@ -30,7 +31,7 @@ export const getMaybeValue = <T>(maybe: Maybe<T>) => {
 };
 
 //  either :: (a -> c) -> (b -> c) -> Either a b -> c
-export const either = R.curryN(3, function(f, g, e: Left<any> | Right<any> | any) {
+export const either = R.curryN(3, function (f, g, e: Left<any> | Right<any> | any) {
   switch (e.constructor) {
     case Left:
       return f(e.__value);

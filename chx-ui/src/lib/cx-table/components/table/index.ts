@@ -11,9 +11,9 @@ import {
 import CxTableHead from './tableHead';
 import CxTableBody from './tableBody';
 import { CxTableBaseObj } from '../../types';
-import { useTableStyle } from '../../hooks/useTableStyle';
-import { useTableClass } from '../../hooks/useTableClass';
-import { PATCH_FLAG } from '../../constant/enum';
+import { useTableStyle } from '../../hooks';
+import { useTableClass } from '../../hooks';
+import { PATCH_FLAG } from '../../constant';
 export default defineComponent({
   name: 'CxTableContent',
   props: {

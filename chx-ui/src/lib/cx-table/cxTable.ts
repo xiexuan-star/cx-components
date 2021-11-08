@@ -53,7 +53,7 @@ import {
 import { scrollUpdateShadow } from './helper/eventHelper';
 import { PATCH_FLAG } from './constant';
 import { debounce } from 'lodash-es';
-import { isNumber, isObject } from '../../utils';
+import { isNumber, isObject } from 'chx-utils';
 
 export default defineComponent({
   name: 'CxTable',

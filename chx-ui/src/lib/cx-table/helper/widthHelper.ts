@@ -1,13 +1,8 @@
-import { isObject, isString } from '../../../utils';
+import { isObject, isString } from 'chx-utils';
 import { CxTableWidthMap } from '../constant/width';
 import { CxTableBaseObj, CxTableColumnObj, CxTableItem, CxTablePropType } from '../types';
-import {
-  cxTableWarn,
-  getColumnSelectText,
-  getStatusAttrs,
-  getStringWidth,
-} from '../utils';
-import { decimalFixed } from '../utils/configAdaptor/adaptorUtils';
+import { cxTableWarn, getColumnSelectText, getStatusAttrs, getStringWidth, } from '../utils';
+import { decimalFixed } from '../utils';
 
 // 旧方法,专用于适配vxe,vxe完全弃用后可删除
 export const widthTypeAdaptor = (

@@ -15,7 +15,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { Nullable } from '../..';
-import { addResizeListener, removeResizeListener } from '../../../../utils';
+import { addResizeListener, removeResizeListener } from 'chx-utils';
 
 export default defineComponent({
   name: 'Ellipsis',

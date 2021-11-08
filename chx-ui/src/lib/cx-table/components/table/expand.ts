@@ -10,10 +10,10 @@ import {
   openBlock,
   PropType
 } from 'vue';
-import { PATCH_FLAG } from '../../constant/enum';
-import { useTableStyle } from '../../hooks/useTableStyle';
+import { PATCH_FLAG } from '../../constant';
+import { useTableStyle } from '../../hooks';
 import { CxTableBaseObj, CxTablePropType } from '../../types';
-import { isFunction, isString } from '../../../../utils';
+import { isFunction, isString } from 'chx-utils';
 
 export default defineComponent({
   name: 'CxTableExpand',

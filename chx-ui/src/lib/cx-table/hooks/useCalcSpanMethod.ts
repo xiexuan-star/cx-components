@@ -1,5 +1,5 @@
-import { isArray } from '../../../utils';
-import { CX_SPAN_METHOD_TYPE } from '../constant/enum';
+import { isArray } from 'chx-utils';
+import { CX_SPAN_METHOD_TYPE } from '../constant';
 import { CxTableBaseObj, CxTablePropType } from '../types';
 
 export const useCalcSpanMethod = ($CxTable: CxTableBaseObj, props: CxTablePropType) => {

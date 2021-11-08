@@ -68,9 +68,9 @@ import { useDynamicConfigDialog } from './useDynamicConfigDialog';
 import { App, computed, defineComponent, PropType, ref, watch } from 'vue';
 import Draggable from 'vuedraggable';
 import CxDialog from '../../../cx-dialog/index';
-import { useLoading } from '../../../../utils';
+import { loadingDecorator } from 'chx-utils';
 import { useCxDialog } from '../../../cx-dialog/useCxDialog';
-import { useCxTable } from '../../hooks/useCxTable';
+import { useCxTable } from '../../hooks';
 import { AnyObject } from 'cx-store/dist/statistic/types';
 
 export default defineComponent({
@@ -109,7 +109,7 @@ export default defineComponent({
       });
     });
 
-    const [open, openLoading] = useLoading(async () => {
+    const [open, openLoading] = loadingDecorator(async () => {
       activeTab.value = 0;
       await fetchList();
     });
@@ -124,7 +124,7 @@ export default defineComponent({
 
     expose({ open });
 
-    const [submitData, submitLoading] = useLoading(async () => {
+    const [submitData, submitLoading] = loadingDecorator(async () => {
       if (!activeDynamicConfig.value) return;
       await submit(activeDynamicConfig.value);
       if (props.dynamicList?.length < 2) {

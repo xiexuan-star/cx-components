@@ -35,5 +35,5 @@ export default {
         }),
         // terser()
     ],
-    external: ['vue','dayjs','ramda','pinyin-match','vuedraggable','cx-store']
+    external: ['vue','dayjs','ramda','pinyin-match','vuedraggable','cx-store','chx-utils']
 }

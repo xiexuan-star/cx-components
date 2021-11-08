@@ -25,7 +25,7 @@ import {
   unsafeWhenDevCall,
   withParams,
   isNumber
-} from '../../../../utils';
+} from 'chx-utils';
 
 export const useDynamicFormSearch = () => {
   const { getParamsItems, getConfigByDynamicConfig, arrNotEmpty } = useCxTableCompose();

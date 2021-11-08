@@ -11,7 +11,7 @@ import {
 import { PATCH_FLAG } from '../../constant';
 import PinyinMatch from 'pinyin-match';
 import * as R from 'ramda';
-import { useComputed, useState } from '../../../../hooks/state';
+import { useComputed, useState } from 'chx-utils';
 
 export default defineComponent({
   name: 'DynamicFormAdd',

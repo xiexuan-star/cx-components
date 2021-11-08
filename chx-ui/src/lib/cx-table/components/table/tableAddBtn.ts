@@ -9,7 +9,7 @@ import {
   openBlock,
   PropType
 } from 'vue';
-import { PATCH_FLAG } from '../../constant/enum';
+import { PATCH_FLAG } from '../../constant';
 import { CxTableBaseObj, CxTablePropType } from '../../types';
 import { EventBus } from '../../utils';
 

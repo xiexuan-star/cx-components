@@ -1,5 +1,5 @@
+import { isFunction, isNumber } from 'chx-utils';
 import * as R from 'ramda';
-import { isFunction, isNumber } from '../../../../utils';
 import { CxTableAdaptorPlugin, CxTableDynamicColumn, CxTableItem } from '../../types';
 import { calcInnerValidator, calcInvoker, decimalFixed, getEvalResult, getTemplateResult } from './adaptorUtils';
 import { staticConfigList } from './const';

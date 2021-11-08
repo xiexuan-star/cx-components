@@ -1,52 +1,23 @@
 import {
-  createVNode,
-  defineComponent,
-  inject,
-  render,
-  reactive,
-  watch,
-  nextTick,
-  PropType,
-  resolveDirective,
-  withDirectives, withCtx, getCurrentInstance
-} from 'vue';
-import {
-  CxTableBaseObj,
-  CxTableDynamicColumn,
-  CxTablePropType,
-  Nullable,
-  TableDataVisitor
-} from '../../types';
-import { cxTableWarn, EventBus, getTargetColumn } from '../../utils';
-import { PATCH_FLAG } from '../../constant';
-import { useDynamicFormCache } from './useDynamicFormCache';
-import { useCxTableCompose } from '../../hooks';
-import { useDynamicFormSearch } from './useDynamicFormSearch';
-import TeleFormInstance from './formInstance';
-import * as R from 'ramda';
-import DynamicFormAdd from './dynamicFormAdd';
-import DynamicFilterBtn from './dynamicFilterBtn';
-import {
-  IO,
-  map,
-  Maybe,
-  queryDom,
-  unsafeSet,
-  withParams,
-  getDoNothingIO,
-  unsafeClearObj,
-  unsafeClearPush,
-  unsafeRemoveItem,
-  unsafeClearArray,
-  unsafeDeleteProperty,
-  truthy,
-  unsafeAssign,
-  unsafePush,
-  nextTimeout
-} from '../../../../utils';
-import { useState, useSync } from '../../../../hooks/state';
-import { CxFormItemConfig } from '../../../..';
+  getDoNothingIO, IO, map, Maybe, nextTimeout, queryDom, unsafeAssign, unsafeClearArray, unsafeClearObj,
+  unsafeClearPush, unsafeDeleteProperty, unsafePush, unsafeRemoveItem, unsafeSet, useState, useSync, withParams
+} from 'chx-utils';
 import { debounce } from 'lodash-es';
+import * as R from 'ramda';
+import {
+  createVNode, defineComponent, getCurrentInstance, inject, nextTick, PropType, reactive, render, resolveDirective,
+  watch, withDirectives
+} from 'vue';
+import { CxFormItemConfig } from '../../../..';
+import { PATCH_FLAG } from '../../constant';
+import { useCxTableCompose } from '../../hooks';
+import { CxTableBaseObj, CxTableDynamicColumn, CxTablePropType, Nullable, TableDataVisitor } from '../../types';
+import { cxTableWarn, EventBus, getTargetColumn } from '../../utils';
+import DynamicFilterBtn from './dynamicFilterBtn';
+import DynamicFormAdd from './dynamicFormAdd';
+import TeleFormInstance from './formInstance';
+import { useDynamicFormCache } from './useDynamicFormCache';
+import { useDynamicFormSearch } from './useDynamicFormSearch';
 
 export default defineComponent({
   name: 'TeleForm',
