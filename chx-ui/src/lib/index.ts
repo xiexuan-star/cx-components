@@ -3,7 +3,9 @@ import CxTab from './cx-tab';
 import CxForm from './cx-form';
 import CxTable from './cx-table';
 import CxUniPopper from './cx-uni-popper';
+import CxNumberInput from './cx-number-input';
 import CxOverlay from './cx-overlay';
 import CxDialog from './cx-dialog';
+import CxEllipsis from './cx-ellipsis';
 
-export { CxBtn, CxOverlay, CxTab, CxForm, CxDialog, CxTable, CxUniPopper };
+export { CxNumberInput, CxEllipsis, CxBtn, CxOverlay, CxTab, CxForm, CxDialog, CxTable, CxUniPopper };

@@ -1,12 +1,12 @@
 import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, ref, onMounted, onBeforeUnmount, watch, nextTick, openBlock, createBlock, Fragment, resolveComponent, reactive, onUnmounted, inject, watchEffect, createTextVNode, resolveDirective, setBlockTracking, withCtx, getCurrentInstance, render as render$6, renderSlot, Teleport, Transition, mergeProps, withModifiers, toDisplayString, vShow, unref, pushScopeId, popScopeId, withScopeId, renderList, provide } from 'vue';
-import { isObject as isObject$1, isFunction, omit, isNumber, isString, isArray, isEmpty, unsafeSet, Maybe, unsafeDeleteProperty, map, unsafeGet, truthy, splat, unsafePush, unsafeWhenDevCall, sessionStore, getDateRange, isDeepObjectEqual, useComputed, useState, IO, localStore, unsafeClearPush, unsafeClearAssign, getMaybeValue, Left, Right, either, withParams, defaultPromise, useSync, nextTimeout, unsafeAssign, queryDom, unsafeClearArray, unsafeRemoveItem, getDoNothingIO, unsafeClearObj, addResizeListener, removeResizeListener, enum2Options, stateEq200, falsy, stopPropagation, preventDefault, loadingDecorator, clearTimer, unsafePerformIO, curryTimeout, setClassByArr, createTag, copyInnerText, curryAddListener, setInnerText, clearInnerHTML, appendToBody, appendChild, showEle, hideEle, curryRemoveListener, clearClassList } from 'chx-utils';
+import { isObject as isObject$1, isFunction, omit, isNumber, isString, isArray, isEmpty, unsafeSet, Maybe, unsafeDeleteProperty, map, unsafeGet, truthy, splat, unsafePush, unsafeWhenDevCall, sessionStore, getDateRange, isDeepObjectEqual, useComputed, useState, IO, localStore, unsafeClearPush, unsafeClearAssign, getMaybeValue, Left, Right, either, withParams, defaultPromise, useSync, nextTimeout, unsafeAssign, queryDom, unsafeClearArray, unsafeRemoveItem, getDoNothingIO, unsafeClearObj, addResizeListener, removeResizeListener, enum2Options, stateEq200, falsy, stopPropagation, preventDefault, loadingDecorator, clearTimer, unsafePerformIO, curryTimeout, setClassByArr, createTag, copyInnerText, curryAddListener, setInnerText, clearInnerHTML, appendToBody, appendChild, showEle, hideEle, curryRemoveListener, clearClassList, isHTMLInputElement, amount } from 'chx-utils';
 import dayjs from 'dayjs';
 import * as R from 'ramda';
 import { clone, omit as omit$1 } from 'ramda';
 import PinyinMatch from 'pinyin-match';
 import Draggable from 'vuedraggable';
 
-var script$a = defineComponent({
+var script$b = defineComponent({
     name: 'CxBtn',
     props: {
         size: {
@@ -72,10 +72,10 @@ var script$a = defineComponent({
         };
     },
 });
-script$a.install = function (app) {
-    app.component(script$a.name, script$a);
+script$b.install = function (app) {
+    app.component(script$b.name, script$b);
 };
-var _CX_BTN = script$a;
+var _CX_BTN = script$b;
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -184,7 +184,7 @@ function __spreadArray(to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 }
 
-var script$9 = defineComponent({
+var script$a = defineComponent({
     name: 'CxTab',
     props: {
         /**
@@ -339,10 +339,10 @@ var script$9 = defineComponent({
         };
     },
 });
-script$9.install = function (app) {
-    app.component(script$9.name, script$9);
+script$a.install = function (app) {
+    app.component(script$a.name, script$a);
 };
-var _CX_TAB = script$9;
+var _CX_TAB = script$a;
 
 var renderComp = function (attrs, slots, Comp) {
     return (openBlock(),
@@ -719,11 +719,11 @@ var CxForm = defineComponent({
     },
 });
 
-var script$8 = CxForm;
-script$8.install = function (app) {
-    app.component(script$8.name, script$8);
+var script$9 = CxForm;
+script$9.install = function (app) {
+    app.component(script$9.name, script$9);
 };
-var _CX_FORM = script$8;
+var _CX_FORM = script$9;
 
 var ARROW_KEY;
 (function (ARROW_KEY) {
@@ -5133,7 +5133,7 @@ var CxTableContent = defineComponent({
 //
 //
 //
-var script$7 = {
+var script$8 = {
     name: 'Empty',
 };
 
@@ -5204,8 +5204,8 @@ function render$5(_ctx, _cache) {
   ]))
 }
 
-script$7.render = render$5;
-script$7.__file = "src/lib/cx-table/components/empty.vue";
+script$8.render = render$5;
+script$8.__file = "src/lib/cx-table/components/empty.vue";
 
 var CxTableEmpty = defineComponent({
     name: 'CxTableEmpty',
@@ -5223,7 +5223,7 @@ var CxTableEmpty = defineComponent({
                                 createVNode('td', { rowspan: rowspan }, [
                                     (function () {
                                         setBlockTracking(-1);
-                                        var node = createVNode(script$7);
+                                        var node = createVNode(script$8);
                                         setBlockTracking(1);
                                         return node;
                                     })()
@@ -5730,7 +5730,7 @@ var TeleForm = defineComponent({
 
 //
 var zIndex = 2000;
-var script$6 = defineComponent({
+var script$7 = defineComponent({
     name: 'CxOverlay',
     props: { disabled: { type: Boolean, "default": false }, lockScroll: { type: Boolean, "default": false } },
     setup: function () {
@@ -5748,13 +5748,13 @@ function render$4(_ctx, _cache) {
   ], 6 /* CLASS, STYLE */))
 }
 
-script$6.render = render$4;
-script$6.__file = "src/lib/cx-overlay/cx-overlay.vue";
+script$7.render = render$4;
+script$7.__file = "src/lib/cx-overlay/cx-overlay.vue";
 
 //
-var script$5 = defineComponent({
+var script$6 = defineComponent({
     name: 'CxDialog',
-    components: { CxOverlay: script$6 },
+    components: { CxOverlay: script$7 },
     emits: ['register', 'close', 'closed', 'open', 'opened', 'ok', 'cancel'],
     props: {
         cancelText: { type: String, "default": '取消', },
@@ -5936,13 +5936,13 @@ function render$3(_ctx, _cache) {
   ], 8 /* PROPS */, ["disabled"]))
 }
 
-script$5.render = render$3;
-script$5.__file = "src/lib/cx-dialog/cx-dialog.vue";
+script$6.render = render$3;
+script$6.__file = "src/lib/cx-dialog/cx-dialog.vue";
 
-script$5.install = function (app) {
-    app.component(script$5.name, script$5);
+script$6.install = function (app) {
+    app.component(script$6.name, script$6);
 };
-var _CX_DIALOG = script$5;
+var _CX_DIALOG = script$6;
 
 function useCxDialog() {
     var dialogRef = ref(null);
@@ -5969,8 +5969,8 @@ function useCxDialog() {
 }
 
 //
-var script$4 = defineComponent({
-    name: 'Ellipsis',
+var script$5 = defineComponent({
+    name: 'CxEllipsis',
     props: {
         content: { type: [String, Number], "default": '' },
         activeBgColor: { type: String, "default": '#fff' },
@@ -5981,8 +5981,8 @@ var script$4 = defineComponent({
     },
     setup: function (props, _a) {
         var expose = _a.expose;
-        var refOneEllipsis = ref();
-        var refContent = ref();
+        var containerRef = ref(null);
+        var contentRef = ref(null);
         var tipVisible = ref(false);
         var paddingRight = ref('0');
         function calcContentWidth() {
@@ -5990,13 +5990,13 @@ var script$4 = defineComponent({
             return __awaiter(this, void 0, void 0, function () {
                 var el, pW, wrapW, pdLeft, pdRight, realWidth;
                 return __generator(this, function (_b) {
-                    el = refContent.value;
-                    if (!el || !refOneEllipsis.value)
+                    el = contentRef.value;
+                    if (!el || !containerRef.value)
                         return [2 /*return*/];
                     pW = el === null || el === void 0 ? void 0 : el.clientWidth;
-                    wrapW = ((_a = refOneEllipsis.value) === null || _a === void 0 ? void 0 : _a.clientWidth) || 80;
-                    pdLeft = parseFloat(getComputedStyle(refOneEllipsis.value).paddingLeft);
-                    pdRight = parseFloat(getComputedStyle(refOneEllipsis.value).paddingRight);
+                    wrapW = ((_a = containerRef.value) === null || _a === void 0 ? void 0 : _a.clientWidth) || 80;
+                    pdLeft = parseFloat(getComputedStyle(containerRef.value).paddingLeft);
+                    pdRight = parseFloat(getComputedStyle(containerRef.value).paddingRight);
                     paddingRight.value = pdRight + 'px';
                     realWidth = wrapW - pdLeft - pdRight;
                     tipVisible.value = pW > realWidth;
@@ -6007,10 +6007,10 @@ var script$4 = defineComponent({
         var resizeFn = function () { return calcContentWidth(); };
         onMounted(function () {
             calcContentWidth();
-            addResizeListener(refContent.value, resizeFn);
+            addResizeListener(contentRef.value, resizeFn);
         });
         onUnmounted(function () {
-            removeResizeListener(refContent.value, resizeFn);
+            removeResizeListener(contentRef.value, resizeFn);
         });
         expose({
             calcContentWidth: calcContentWidth
@@ -6029,17 +6029,17 @@ var script$4 = defineComponent({
         });
         return {
             popperConfig: popperConfig,
-            refOneEllipsis: refOneEllipsis,
+            containerRef: containerRef,
             tipVisible: tipVisible,
             paddingRight: paddingRight,
-            refContent: refContent
+            contentRef: contentRef
         };
     }
 });
 
-const _withId$2 = /*#__PURE__*/withScopeId("data-v-4e1a77b7");
+const _withId$2 = /*#__PURE__*/withScopeId("data-v-506ab1f0");
 
-pushScopeId("data-v-4e1a77b7");
+pushScopeId("data-v-506ab1f0");
 const _hoisted_1$2 = { style: {"overflow":"hidden"} };
 popScopeId();
 
@@ -6047,14 +6047,14 @@ const render$2 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
   const _directive_uni_popper = resolveDirective("uni-popper");
 
   return withDirectives((openBlock(), createBlock("div", {
-    ref: "refOneEllipsis",
-    class: ["one-ellipsis", { ellipsis: _ctx.tipVisible }],
+    ref: "containerRef",
+    class: ["cx-ellipsis", { ellipsis: _ctx.tipVisible }],
     style: { '--paddingRight': _ctx.paddingRight, '--bgColor': _ctx.activeBgColor }
   }, [
     createVNode("div", _hoisted_1$2, [
       createVNode("p", {
-        ref: "refContent",
-        class: "note-tooltip"
+        ref: "contentRef",
+        class: "tips"
       }, toDisplayString(_ctx.content), 513 /* TEXT, NEED_PATCH */)
     ])
   ], 6 /* CLASS, STYLE */)), [
@@ -6062,9 +6062,14 @@ const render$2 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
   ])
 });
 
-script$4.render = render$2;
-script$4.__scopeId = "data-v-4e1a77b7";
-script$4.__file = "src/lib/cx-table/components/ellipsis/index.vue";
+script$5.render = render$2;
+script$5.__scopeId = "data-v-506ab1f0";
+script$5.__file = "src/lib/cx-ellipsis/cx-ellipsis.vue";
+
+script$5.install = function (app) {
+    app.component(script$5.name, script$5);
+};
+var _CX_ELLIPSIS = script$5;
 
 var DEFAULT_CAPACITY = 10;
 var cacheListDialog = defineComponent({
@@ -6417,7 +6422,7 @@ var cacheListDialog = defineComponent({
                     if (R.is(Number, column.accuracy)) {
                         content = decimalFixed(content, column.accuracy, true);
                     }
-                    return [createVNode(script$4, { content: content }, null, PATCH_FLAG.PROPS, ['content'])];
+                    return [createVNode(_CX_ELLIPSIS, { content: content }, null, PATCH_FLAG.PROPS, ['content'])];
                 } }), PATCH_FLAG.PROPS, R.pair('dynamic', 'tableData'));
         };
         return function (_, cache) {
@@ -6469,7 +6474,7 @@ var cacheListDialog = defineComponent({
                                                     renderOrderInfo(activeItem()),
                                                     renderOrderTable(tableConfig, tableData())
                                                 ])
-                                                : createVNode('div', _hoisted_attrs_5, [createVNode(script$7)])
+                                                : createVNode('div', _hoisted_attrs_5, [createVNode(script$8)])
                                         ]))
                                 ])
                             ];
@@ -6787,7 +6792,7 @@ var useDynamicConfigDialog = function () {
 };
 
 //
-var script$3 = defineComponent({
+var script$4 = defineComponent({
     name: 'ColumnSettingDialog',
     components: { Draggable: Draggable, CxDialog: _CX_DIALOG },
     props: { dynamicList: { type: Array, required: true } },
@@ -7016,14 +7021,14 @@ const render$1 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
   }, 8 /* PROPS */, ["okLoading", "onRegister", "title", "onOk"]))
 });
 
-script$3.render = render$1;
-script$3.__scopeId = "data-v-0b829fd6";
-script$3.__file = "src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";
+script$4.render = render$1;
+script$4.__scopeId = "data-v-0b829fd6";
+script$4.__file = "src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";
 
 //
-var script$2 = defineComponent({
+var script$3 = defineComponent({
     name: 'DynamicConfigSettings',
-    components: { ColumnSettingDialog: script$3 },
+    components: { ColumnSettingDialog: script$4 },
     props: { dynamicConfig: { type: Object, requred: true } },
     emits: ['submit'],
     setup: function (_, _a) {
@@ -7098,9 +7103,9 @@ const render = /*#__PURE__*/_withId((_ctx, _cache) => {
   ], 4 /* STYLE */))
 });
 
-script$2.render = render;
-script$2.__scopeId = "data-v-df9138d6";
-script$2.__file = "src/lib/cx-table/components/dynamicConfigSetting/index.vue";
+script$3.render = render;
+script$3.__scopeId = "data-v-df9138d6";
+script$3.__file = "src/lib/cx-table/components/dynamicConfigSetting/index.vue";
 
 var CxTableProp = {
     tableConfig: { type: Object, "default": function () { return ({ items: [] }); } },
@@ -7244,7 +7249,7 @@ var CxTableProp = {
     stripe: { type: Boolean, "default": false }
 };
 
-var script$1 = defineComponent({
+var script$2 = defineComponent({
     name: 'CxTable',
     props: CxTableProp,
     components: { Pagination: Pagination },
@@ -7444,7 +7449,7 @@ var script$1 = defineComponent({
             return (openBlock(),
                 createBlock(Fragment, null, [
                     props.configurable && props.dynamic
-                        ? createVNode(script$2, {
+                        ? createVNode(script$3, {
                             dynamicConfig: props.dynamic,
                             onSubmit: function () {
                                 forceUpdate();
@@ -7538,10 +7543,10 @@ var script$1 = defineComponent({
     }
 });
 
-script$1.install = function (app) {
-    app.component(script$1.name, script$1);
+script$2.install = function (app) {
+    app.component(script$2.name, script$2);
 };
-var _CX_TABLE = script$1;
+var _CX_TABLE = script$2;
 
 var top = 'top';
 var bottom = 'bottom';
@@ -9571,7 +9576,7 @@ var setCancelWatcher = function (cancel) { return (cancel); };
 // updatePopInstance::Instance->Func
 var updatePopInstance = R.converge(R.bind, [R.prop('update'), R.identity]);
 var EleKeyMap = new WeakMap();
-var script = {
+var script$1 = {
     name: 'uniPopper',
     mounted: function (el, _a) {
         var value = _a.value;
@@ -9613,18 +9618,72 @@ var script = {
     }
 };
 
-var _CX_UNI_POPPER = script;
+var _CX_UNI_POPPER = script$1;
 _CX_UNI_POPPER.install = function (app) {
+    app.directive(script$1.name, script$1);
+};
+
+// 正数
+function integer(value) {
+    return Number(value.replace(/[^\d]/g, ''));
+}
+function onInput(el, ele, binding, vnode) {
+    function handle() {
+        var _a;
+        var oldValue = ele.value;
+        var val = ele.value.trim();
+        if (val !== '' && typeof binding.value === 'object') {
+            var close_2 = binding.value.close;
+            if (close_2)
+                return;
+            val = amount(__assign({ val: val }, binding.value)) + '';
+        }
+        else if (val !== '' && typeof binding.value === 'undefined') {
+            val = integer(val) + '';
+        }
+        ele.value = val;
+        if (val !== oldValue) {
+            var el_1 = vnode.el;
+            if (isHTMLInputElement(el_1)) {
+                el_1.value = val;
+            }
+            (_a = vnode.component) === null || _a === void 0 ? void 0 : _a.emit('input', ele.value);
+        }
+    }
+    return handle;
+}
+var script = {
+    name: 'numberInput',
+    beforeMount: function (el, binding, vnode) {
+        var ele = isHTMLInputElement(el) ? el : el.querySelector('input');
+        ele && (ele.numberInput = onInput(el, ele, binding, vnode));
+        ele === null || ele === void 0 ? void 0 : ele.addEventListener('input', ele.numberInput, true);
+    },
+    updated: function (el, binding, vnode) {
+        var oldValue = binding.oldValue, value = binding.value;
+        var ele = isHTMLInputElement(el) ? el : el.querySelector('input');
+        if (!isDeepObjectEqual(oldValue, value)) {
+            ele === null || ele === void 0 ? void 0 : ele.removeEventListener('input', ele.numberInput, true);
+            ele && (ele.numberInput = onInput(el, ele, binding, vnode));
+            ele === null || ele === void 0 ? void 0 : ele.addEventListener('input', ele.numberInput, true);
+        }
+    }
+};
+
+var _CX_NUMBER_INPUT = script;
+_CX_NUMBER_INPUT.install = function (app) {
     app.directive(script.name, script);
 };
 
-script$6.install = function (app) {
-    app.component(script$6.name, script$6);
+script$7.install = function (app) {
+    app.component(script$7.name, script$7);
 };
-var _CX_OVERLAY = script$6;
+var _CX_OVERLAY = script$7;
 
 var components = /*#__PURE__*/Object.freeze({
   __proto__: null,
+  CxNumberInput: _CX_NUMBER_INPUT,
+  CxEllipsis: _CX_ELLIPSIS,
   CxBtn: _CX_BTN,
   CxOverlay: _CX_OVERLAY,
   CxTab: _CX_TAB,
@@ -9644,4 +9703,4 @@ var CxUI = {
 };
 
 export default CxUI;
-export { ARROW_KEY, COLUMN_FLAG, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_FORM as CxForm, _CX_OVERLAY as CxOverlay, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_UNI_POPPER as CxUniPopper, EventBus, EventBusCreator, PATCH_FLAG, TypeOption, arrFlat, assignAttrs, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, changeDynamicIdToText, copySort, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, domShare, eventBus, findAncestor, formatDate, formatFormDefaultValue, formatTime, formatWidth, getColumnSelectText, getCxDynamicHead, getEvalResult, getFunctionAttrs, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, invokeLayeredRow, pick, staticConfigList, toggleArrState, updateCxTableWidth, useAutoWidth, useBroadcast, useBus, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useDynamicConfig, useExpandConfig, useLazyLoad, usePriorityConfig, useRadioConfig, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useStyle, useTableClass, useTableId, useTableStyle, useValidator, useWatch };
+export { ARROW_KEY, COLUMN_FLAG, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_ELLIPSIS as CxEllipsis, _CX_FORM as CxForm, _CX_NUMBER_INPUT as CxNumberInput, _CX_OVERLAY as CxOverlay, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_UNI_POPPER as CxUniPopper, EventBus, EventBusCreator, PATCH_FLAG, TypeOption, arrFlat, assignAttrs, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, changeDynamicIdToText, copySort, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, domShare, eventBus, findAncestor, formatDate, formatFormDefaultValue, formatTime, formatWidth, getColumnSelectText, getCxDynamicHead, getEvalResult, getFunctionAttrs, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, invokeLayeredRow, pick, staticConfigList, toggleArrState, updateCxTableWidth, useAutoWidth, useBroadcast, useBus, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useDynamicConfig, useExpandConfig, useLazyLoad, usePriorityConfig, useRadioConfig, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useStyle, useTableClass, useTableId, useTableStyle, useValidator, useWatch };

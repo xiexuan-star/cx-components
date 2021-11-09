@@ -1,24 +1,23 @@
 <template>
   <div
-    ref="refOneEllipsis"
-    class="one-ellipsis"
+    ref="containerRef"
+    class="cx-ellipsis"
     :class="{ ellipsis: tipVisible }"
     :style="{ '--paddingRight': paddingRight, '--bgColor': activeBgColor }"
     v-uni-popper="popperConfig"
   >
     <div style="overflow: hidden">
-      <p ref="refContent" class="note-tooltip">{{ content }}</p>
+      <p ref="contentRef" class="tips">{{ content }}</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
-import { Nullable } from '../..';
 import { addResizeListener, removeResizeListener } from 'chx-utils';
 
 export default defineComponent({
-  name: 'Ellipsis',
+  name: 'CxEllipsis',
   props: {
     content: { type: [String, Number], default: '' },
     activeBgColor: { type: String, default: '#fff' },
@@ -28,19 +27,19 @@ export default defineComponent({
     }
   },
   setup(props, { expose }) {
-    const refOneEllipsis = ref<Nullable<HTMLElement>>();
-    const refContent = ref<Nullable<HTMLElement>>();
+    const containerRef = ref<HTMLElement | null>(null);
+    const contentRef = ref<HTMLElement | null>(null);
 
     const tipVisible = ref(false);
     const paddingRight = ref('0');
 
     async function calcContentWidth() {
-      const el = refContent.value;
-      if (!el || !refOneEllipsis.value) return;
+      const el = contentRef.value;
+      if (!el || !containerRef.value) return;
       const pW = el?.clientWidth;
-      const wrapW = refOneEllipsis.value?.clientWidth || 80;
-      const pdLeft = parseFloat(getComputedStyle(refOneEllipsis.value!).paddingLeft);
-      const pdRight = parseFloat(getComputedStyle(refOneEllipsis.value!).paddingRight);
+      const wrapW = containerRef.value?.clientWidth || 80;
+      const pdLeft = parseFloat(getComputedStyle(containerRef.value!).paddingLeft);
+      const pdRight = parseFloat(getComputedStyle(containerRef.value!).paddingRight);
       paddingRight.value = pdRight + 'px';
       const realWidth = wrapW - pdLeft - pdRight;
       tipVisible.value = pW > realWidth;
@@ -49,10 +48,10 @@ export default defineComponent({
     const resizeFn = () => calcContentWidth();
     onMounted(() => {
       calcContentWidth();
-      addResizeListener(refContent.value, resizeFn);
+      addResizeListener(contentRef.value, resizeFn);
     });
     onUnmounted(() => {
-      removeResizeListener(refContent.value, resizeFn);
+      removeResizeListener(contentRef.value, resizeFn);
     });
 
     expose({
@@ -77,20 +76,21 @@ export default defineComponent({
 
     return {
       popperConfig,
-      refOneEllipsis,
+      containerRef,
       tipVisible,
       paddingRight,
-      refContent
+      contentRef
     };
   }
 });
 </script>
 
 <style lang="scss" scoped>
-.one-ellipsis {
+.cx-ellipsis {
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
+
   &.ellipsis::before {
     position: absolute;
     display: block;
@@ -99,7 +99,8 @@ export default defineComponent({
     content: '...';
     background-color: var(--bgColor);
   }
-  .note-tooltip {
+
+  .tips {
     min-width: max-content;
   }
 }

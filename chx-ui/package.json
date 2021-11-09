@@ -1,6 +1,6 @@
 {
   "name": "chx-ui",
-  "version": "1.5.0",
+  "version": "1.6.1",
   "description": "",
   "author": "xiexuan",
   "types": "dist/index.d.ts",
@@ -39,7 +39,7 @@
   "dependencies": {
     "@popperjs/core": "^2.10.2",
     "@types/lodash-es": "^4.17.5",
-    "chx-utils": "^1.0.3",
+    "chx-utils": "^1.0.7",
     "cx-store": "^1.0.3",
     "d": "^1.0.1",
     "dayjs": "^1.10.7",

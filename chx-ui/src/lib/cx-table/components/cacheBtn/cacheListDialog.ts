@@ -11,12 +11,12 @@ import {
 import { CxForm, CxFormItemConfig, CxTab, CxTable } from '../../../..';
 import _CX_DIALOG from '../../../cx-dialog';
 import { useCxDialog } from '../../../cx-dialog/useCxDialog';
+import _CX_ELLIPSIS from '../../../cx-ellipsis';
 import { PATCH_FLAG, TypeOption } from '../../constant';
 import { CacheRule, useCxTable, useCxTableCompose } from '../../hooks';
 import { CxTableBaseObj, CxTablePropType, DYNAMIC_CONFIG, ParamsItem } from '../../types';
 import { CxConfigAdaptor, decimalFixed, EventBus, getColumnSelectText } from '../../utils';
 
-import Ellipsis from '../ellipsis/index.vue';
 import Empty from '../empty.vue';
 
 const DEFAULT_CAPACITY = 10;
@@ -546,7 +546,7 @@ export default defineComponent({
             if (R.is(Number, column.accuracy)) {
               content = decimalFixed(content, column.accuracy, true);
             }
-            return [createVNode(Ellipsis, { content }, null, PATCH_FLAG.PROPS, ['content'])];
+            return [createVNode(_CX_ELLIPSIS, { content }, null, PATCH_FLAG.PROPS, ['content'])];
           }
         },
         PATCH_FLAG.PROPS,

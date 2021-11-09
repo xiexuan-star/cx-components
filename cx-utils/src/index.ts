@@ -1,5 +1,5 @@
 import { isObject } from './is';
-import { ref, Ref } from 'vue';
+import { computed, ref, Ref, WritableComputedRef } from 'vue';
 import * as R from 'ramda';
 import { AnyObject, Func, FunctionParams } from './types';
 
@@ -8,7 +8,7 @@ export * from './functor';
 export * from './resizeEvent';
 export * from './date';
 export * from './state';
-export * from './store'
+export * from './store';
 
 export const headUppercase = (s: string) => {
   return s[0].toUpperCase() + s.slice(1);
@@ -168,3 +168,71 @@ export const isDeepObjectEqual = (obj1: AnyObject, obj2: AnyObject): boolean => 
   //递归调用判断每一个属性值是否相等
   return obj1Props.every(prop => isDeepObjectEqual(obj1[prop], obj2[prop]));
 };
+
+export function propDecorator<T, K extends Func<any>>(props: T, emit: K, arr: Array<keyof T> = []) {
+  if (!arr.length) return [];
+  return arr.reduce((p, c) => {
+    const option = computed({
+      get: () => props[c],
+      set: value => emit(`update:${ c }`, value)
+    });
+    p.push(option);
+    return p;
+  }, [] as WritableComputedRef<T[keyof T]>[]);
+}
+
+/**
+ *{
+ *    min: number,  最小值
+ *    max: number,  最大值
+ *    maxLen: number, 最大长度
+ *    decimal: number 保留最大小数点位数
+ * }
+ * @param {Object}
+ */
+export function amount({
+                         val,
+                         min,
+                         max,
+                         maxLen,
+                         decimal
+                       }: Record<string,number|string>) {
+  val = (val + '').trim();
+  if (val === '') return '';
+  if (min >= 0) val = val.replace(/-/g, '');
+  const regStrs = [
+    [/[^\-\d.]/g, ''], // 去掉除负号小数点数字以外的字符
+    [/\.{2,}/g, '.'], // 去掉两个以上小数点
+    [/-{2,}/g, '-'], // 去掉两个以上负号
+    [/(?!(\B-))-/g, ''], // 去掉两个以上负号
+    [/^\./g, '0.'], // 直接输入小数点默认为0.
+    [/(\d+\.\d+)\./, '$1'] // 屏蔽如1.1.1类似的情况
+  ] as [RegExp,string][];
+  regStrs.forEach(reg => (val = (val as string).replace(reg[0], reg[1])));
+
+  const arr = val.split('.');
+  decimal = parseInt(decimal+'') || 0;
+  if (arr.length > 1 && arr[1] && decimal && arr[1].length > decimal) {
+    arr[1] = arr[1].slice(0, decimal);
+  }
+
+  let sign = '';
+  maxLen = parseInt(maxLen+"") || 0;
+  if (/^-/.test(arr[0])) {
+    arr[0] = arr[0].replace(/-/g, '');
+    sign = '-';
+    maxLen++;
+  }
+  if (maxLen && arr[0].length > maxLen) arr[0] = arr[0].slice(0, maxLen);
+  if (arr[0]) arr[0] = Number(arr[0].toString()) as any;
+  if (sign) arr[0] = sign + arr[0];
+  val = arr.join('.');
+  if (!decimal && val !== '-') val = Number(val);
+
+  max = parseFloat(max as string);
+  min = parseFloat(min as string);
+  if (!isNaN(min) && parseFloat(val as string) < min) val = min;
+  if (!isNaN(max) && parseFloat(val as string) > max) val = max;
+
+  return val;
+}

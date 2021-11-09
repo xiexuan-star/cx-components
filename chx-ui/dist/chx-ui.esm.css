@@ -3560,6 +3560,20 @@
   .dialog-fade-leave-active .cx-overlay-dialog {
     animation: dialog-fade-out 0.5s; }
 
+.cx-ellipsis[data-v-506ab1f0] {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden; }
+  .cx-ellipsis[data-v-506ab1f0].ellipsis::before {
+    position: absolute;
+    display: block;
+    padding-right: var(--paddingRight);
+    right: 0;
+    content: '...';
+    background-color: var(--bgColor); }
+  .cx-ellipsis[data-v-506ab1f0] .tips {
+    min-width: max-content; }
+
 .setting_btn[data-v-df9138d6] {
   background-color: #f5f5f5;
   height: 40px;
@@ -3574,20 +3588,6 @@
   .setting_btn[data-v-df9138d6] :deep(.iconfont) {
     margin: 0 !important;
     font-size: 20px !important; }
-
-.one-ellipsis[data-v-4e1a77b7] {
-  position: relative;
-  box-sizing: border-box;
-  overflow: hidden; }
-  .one-ellipsis[data-v-4e1a77b7].ellipsis::before {
-    position: absolute;
-    display: block;
-    padding-right: var(--paddingRight);
-    right: 0;
-    content: '...';
-    background-color: var(--bgColor); }
-  .one-ellipsis[data-v-4e1a77b7] .note-tooltip {
-    min-width: max-content; }
 
 .hover_active[data-v-0b829fd6]:hover {
   background-color: #f0f5ff; }

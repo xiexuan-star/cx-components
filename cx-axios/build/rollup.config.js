@@ -13,7 +13,7 @@ const overrides = {
 
 export { name, file }
 export default {
-  input: 'src/index.ts',
+  input: 'src/number-input.ts',
   output: {
     name,
     file: file('esm'),

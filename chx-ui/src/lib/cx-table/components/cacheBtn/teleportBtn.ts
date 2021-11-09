@@ -1,19 +1,12 @@
-import {
-  ComponentPublicInstance,
-  createVNode,
-  defineComponent,
-  nextTick,
-  PropType,
-  reactive,
-  render,
-  watch
-} from 'vue';
-import { map, IO, Maybe, queryDom, unsafeDeleteProperty, unsafeSet,useState } from 'chx-utils';
-import { CxTableDynamicColumn } from '../../types';
-import { PATCH_FLAG } from '../../constant';
-import { cxTableWarn } from '../../utils';
+import { IO, map, Maybe, queryDom, unsafeDeleteProperty, unsafeSet, useState } from 'chx-utils';
 import * as R from 'ramda';
+import {
+  ComponentPublicInstance, createVNode, defineComponent, nextTick, PropType, reactive, render, watch
+} from 'vue';
 import { CxBtn } from '../../../..';
+import { PATCH_FLAG } from '../../constant';
+import { CxTableDynamicColumn } from '../../types';
+import { cxTableWarn } from '../../utils';
 
 const renderInnerBtn = ({ $attrs, $slots }: ComponentPublicInstance) => {
   return createVNode(
