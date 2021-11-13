@@ -1,9 +1,10 @@
 import { isFunction, isString } from 'chx-utils';
 import { createBlock, createCommentVNode, createTextVNode, createVNode, Fragment, openBlock, Ref } from 'vue';
+import { EventBus } from 'chx-utils';
 import { COLUMN_FLAG, PATCH_FLAG } from '../constant';
 import { CxBroadcast, CxTableRendererMap } from '../hooks';
 import { CxCellProp, CxIgnoreControl, PaginationModel, SelectConfig } from '../types';
-import { EventBus, pick } from '../utils';
+import { pick } from '../utils';
 
 interface Params extends CxCellProp {
   rowIndex: number

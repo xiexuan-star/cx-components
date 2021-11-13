@@ -7,5 +7,7 @@ import CxNumberInput from './cx-number-input';
 import CxOverlay from './cx-overlay';
 import CxDialog from './cx-dialog';
 import CxEllipsis from './cx-ellipsis';
+import CxTag from './cx-tag';
+import CXPagination from './cx-pagination'
 
-export { CxNumberInput, CxEllipsis, CxBtn, CxOverlay, CxTab, CxForm, CxDialog, CxTable, CxUniPopper };
+export { CxNumberInput,CXPagination, CxEllipsis, CxBtn, CxOverlay, CxTab, CxForm, CxDialog, CxTable, CxUniPopper,CxTag };

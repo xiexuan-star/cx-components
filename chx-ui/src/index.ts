@@ -1,4 +1,3 @@
-// import '@babel/polyfill'
 import * as components from './lib';
 import { Plugin } from 'vue';
 

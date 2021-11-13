@@ -78,7 +78,7 @@ const usePopEle = (key: string) => {
   };
 };
 const bindBaseAttr = R.compose(
-  setClassByArr(['cx_pos_absolute', 'cx_b_radius_4', 'direction_order_popper', 'z_index_2500']) as (
+  setClassByArr(['cx_b_radius_4', 'cx_uni_popper']) as (
     a: HTMLElement
   ) => HTMLElement
 );
@@ -157,7 +157,7 @@ const renderListItem = (item: PopperContentListItem) => {
   const createWrapper = () =>
     setClassByArr(
       [
-        'color_white',
+        'cx_fs_white',
         'hover_bg_black_75',
         'cx_b_radius_4',
         'cx_plr_8',
@@ -206,7 +206,7 @@ const patchListEle = (list: PopperContentListItem[], container: HTMLElement) => 
 };
 
 const renderTextItem = R.compose(
-  setClassByArr(['cx_p_12', 'color_white', 'cx_fs_12']),
+  setClassByArr(['cx_p_12', 'cx_fs_white', 'cx_fs_12']),
   R.converge(setInnerText, [R.identity, R.converge(createTag, [R.always('div')])])
 ) as (a: string) => HTMLElement;
 

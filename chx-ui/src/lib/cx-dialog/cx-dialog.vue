@@ -21,7 +21,7 @@
             @click.stop
           >
             <header class="cx-dialog__header">
-              <h2 class="cx-dialog__title">
+              <h2 class="cx-dialog__title cx_fs_18">
                 <slot name="title">{{ title }}</slot>
               </h2>
               <div>
@@ -101,9 +101,7 @@ export default defineComponent({
         bodyExist.value = true;
         emit('open');
       } else {
-        props.beforeClose ? props.beforeClose(() => {
-          visible.value = v;
-        }) : (visible.value = v);
+        visible.value = v;
       }
     };
 
@@ -124,7 +122,16 @@ export default defineComponent({
       emit('close');
     }
 
-    const actions = { openDialog };
+    const actions = {
+      openDialog: (v = true) => {
+        if (!v) {
+          props.beforeClose ? props.beforeClose(() => {
+            openDialog(v);
+          }) : openDialog(v);
+        }
+        openDialog(v);
+      }
+    };
 
     const keydownEvent = (e: KeyboardEvent) => {
       (e.key === 'Escape' && visible.value && props.closeOnPressEscape) && openDialog(false);

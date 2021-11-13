@@ -11,7 +11,7 @@ import {
 } from 'vue';
 import { PATCH_FLAG } from '../../constant';
 import { CxTableBaseObj, CxTablePropType } from '../../types';
-import { EventBus } from '../../utils';
+import { EventBus } from 'chx-utils';
 
 export default defineComponent({
   name: 'CxTableAddBtn',
@@ -42,13 +42,13 @@ export default defineComponent({
     return (_: AnyObject, cache: AnyObject) => {
       return (
         openBlock(),
-        createBlock(
-          Fragment,
-          null,
-          [
-            realShow.value
-              ? createCommentVNode('v-if_add_btn', true)
-              : createVNode('tr', null, [
+          createBlock(
+            Fragment,
+            null,
+            [
+              realShow.value
+                ? createCommentVNode('v-if_add_btn', true)
+                : createVNode('tr', null, [
                   createVNode(
                     'td',
                     { class: props.fixed ? hoisted_1 : null, colspan: CxTable.flatColumns.length },
@@ -68,9 +68,9 @@ export default defineComponent({
                     ['colspan']
                   )
                 ])
-          ],
-          PATCH_FLAG.STABLE_FRAGMENT
-        )
+            ],
+            PATCH_FLAG.STABLE_FRAGMENT
+          )
       );
     };
   }

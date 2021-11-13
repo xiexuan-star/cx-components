@@ -7,7 +7,7 @@ import {
   wrapperScrollEventHandle
 } from '../helper/eventHelper';
 import { CxTableBaseObj, CxTablePropType, TableDataVisitor } from '../types';
-import { EventBus } from '../utils';
+import { EventBus } from 'chx-utils';
 import { useAutoWidth } from './useAutoWidth';
 import { useScrollState } from './useScrollState';
 

@@ -1,12 +1,12 @@
-import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, ref, onMounted, onBeforeUnmount, watch, nextTick, openBlock, createBlock, Fragment, resolveComponent, reactive, onUnmounted, inject, watchEffect, createTextVNode, resolveDirective, setBlockTracking, withCtx, getCurrentInstance, render as render$6, renderSlot, Teleport, Transition, mergeProps, withModifiers, toDisplayString, vShow, unref, pushScopeId, popScopeId, withScopeId, renderList, provide } from 'vue';
-import { isObject as isObject$1, isFunction, omit, isNumber, isString, isArray, isEmpty, unsafeSet, Maybe, unsafeDeleteProperty, map, unsafeGet, truthy, splat, unsafePush, unsafeWhenDevCall, sessionStore, getDateRange, isDeepObjectEqual, useComputed, useState, IO, localStore, unsafeClearPush, unsafeClearAssign, getMaybeValue, Left, Right, either, withParams, defaultPromise, useSync, nextTimeout, unsafeAssign, queryDom, unsafeClearArray, unsafeRemoveItem, getDoNothingIO, unsafeClearObj, addResizeListener, removeResizeListener, enum2Options, stateEq200, falsy, stopPropagation, preventDefault, loadingDecorator, clearTimer, unsafePerformIO, curryTimeout, setClassByArr, createTag, copyInnerText, curryAddListener, setInnerText, clearInnerHTML, appendToBody, appendChild, showEle, hideEle, curryRemoveListener, clearClassList, isHTMLInputElement, amount } from 'chx-utils';
-import dayjs from 'dayjs';
+import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, ref, onMounted, onBeforeUnmount, watch, nextTick, openBlock, createBlock, Fragment, resolveComponent, reactive, onUnmounted, inject, watchEffect, createTextVNode, resolveDirective, setBlockTracking, withCtx, getCurrentInstance, render as render$7, renderSlot, Teleport, Transition, mergeProps, withModifiers, toDisplayString, vShow, unref, pushScopeId, popScopeId, withScopeId, renderList, provide } from 'vue';
+import { isObject as isObject$1, isFunction, omit, isNumber, isString, EventBus, isArray, isEmpty, unsafeSet, Maybe, unsafeDeleteProperty, map, unsafeGet, truthy, splat, unsafePush, unsafeWhenDevCall, sessionStore, getDateRange, isDeepObjectEqual, useComputed, useState, IO, localStore, unsafeClearPush, unsafeClearAssign, getMaybeValue, Left, Right, either, withParams, defaultPromise, useSync, nextTimeout, unsafeAssign, queryDom, unsafeClearArray, unsafeRemoveItem, getDoNothingIO, unsafeClearObj, addResizeListener, removeResizeListener, enum2Options, stateEq200, falsy, stopPropagation, preventDefault, loadingDecorator, clearTimer, unsafePerformIO, curryTimeout, setClassByArr, createTag, copyInnerText, curryAddListener, setInnerText, clearInnerHTML, appendToBody, appendChild, showEle, hideEle, curryRemoveListener, clearClassList, isHTMLInputElement, amount } from 'chx-utils';
 import * as R from 'ramda';
 import { clone, omit as omit$1 } from 'ramda';
+import dayjs from 'dayjs';
 import PinyinMatch from 'pinyin-match';
 import Draggable from 'vuedraggable';
 
-var script$b = defineComponent({
+var script$e = defineComponent({
     name: 'CxBtn',
     props: {
         size: {
@@ -72,10 +72,10 @@ var script$b = defineComponent({
         };
     },
 });
-script$b.install = function (app) {
-    app.component(script$b.name, script$b);
+script$e.install = function (app) {
+    app.component(script$e.name, script$e);
 };
-var _CX_BTN = script$b;
+var _CX_BTN = script$e;
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -184,7 +184,7 @@ function __spreadArray(to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 }
 
-var script$a = defineComponent({
+var script$d = defineComponent({
     name: 'CxTab',
     props: {
         /**
@@ -339,10 +339,10 @@ var script$a = defineComponent({
         };
     },
 });
-script$a.install = function (app) {
-    app.component(script$a.name, script$a);
+script$d.install = function (app) {
+    app.component(script$d.name, script$d);
 };
-var _CX_TAB = script$a;
+var _CX_TAB = script$d;
 
 var renderComp = function (attrs, slots, Comp) {
     return (openBlock(),
@@ -719,11 +719,11 @@ var CxForm = defineComponent({
     },
 });
 
-var script$9 = CxForm;
-script$9.install = function (app) {
-    app.component(script$9.name, script$9);
+var script$c = CxForm;
+script$c.install = function (app) {
+    app.component(script$c.name, script$c);
 };
-var _CX_FORM = script$9;
+var _CX_FORM = script$c;
 
 var ARROW_KEY;
 (function (ARROW_KEY) {
@@ -1306,7 +1306,7 @@ var useBroadcast = function () {
     };
 };
 
-var useBus = function ($CxTable, props, emit) {
+var useCxTableEvent = function ($CxTable, props, emit) {
     var bus = new EventBus();
     bus.on('addNewRow', function (content) {
         if (props.disabled)
@@ -2870,187 +2870,6 @@ function throttle(func, wait, options) {
   });
 }
 
-var cacheMap = {};
-var resolveColumns = function (cols, props) {
-    var context = useCxTable().getContext();
-    return __spreadArray(__spreadArray([], __read(context.dynamicInject)), [props.dynamicInject]).reduce(function (res, inject) {
-        return isFunction(inject) ? inject(res) : res;
-    }, cols);
-};
-var getCxDynamicHead = function (dynamic) { return __awaiter(void 0, void 0, void 0, function () {
-    var url;
-    return __generator(this, function (_a) {
-        url = '/header/dynamic';
-        return [2 /*return*/, new Promise(function (resolve, reject) {
-                var _a, _b;
-                var key = JSON.stringify(dynamic);
-                var data = sessionStore.get(key, CX_TABLE_DYNAMIC_CACHE);
-                if (data === CX_TABLE_CACHE_PENDING) {
-                    new Promise(function (innerResolve) {
-                        !cacheMap[key] && Reflect.set(cacheMap, key, []);
-                        cacheMap[key].push(innerResolve);
-                    })
-                        .then(resolve)["catch"](reject);
-                }
-                else if (data) {
-                    resolve({ data: data, state: 200, message: '' });
-                }
-                else {
-                    sessionStore.set(key, CX_TABLE_CACHE_PENDING, CX_TABLE_THROTTLE_DURATION, CX_TABLE_DYNAMIC_CACHE);
-                    var invalidIndex = CX_TABLE_DYNAMIC_PROPS.findIndex(function (key) {
-                        if (!isNumber(Reflect.get(dynamic, key))) {
-                            cxTableWarn("dynamic\u53C2\u6570\u4F20\u9012\u9519\u8BEF:" + key + " is not a number");
-                            return true;
-                        }
-                    });
-                    if (invalidIndex >= 0) {
-                        return reject();
-                    }
-                    (_b = (_a = useCxTable()) === null || _a === void 0 ? void 0 : _a.getContext()) === null || _b === void 0 ? void 0 : _b.dynamicRequestInstance.get(url, __assign(__assign({}, dynamic), { random: Math.random() })).then(resolve)["catch"](reject);
-                }
-            })];
-    });
-}); };
-var useDynamicConfig = function (props, emit) {
-    var columnProxy = ref([]);
-    var dynamicColumn = ref([]);
-    var loading = ref(false);
-    var forceUpdate = debounce$1(function (isDynamicChange) {
-        if (isDynamicChange === void 0) { isDynamicChange = false; }
-        if (isObject$1(props.dynamic)) {
-            loading.value = true;
-            var key_1 = JSON.stringify(props.dynamic);
-            getCxDynamicHead(props.dynamic)
-                .then(function (_a) {
-                var data = _a.data;
-                return __awaiter(void 0, void 0, void 0, function () {
-                    var duplicate_1;
-                    return __generator(this, function (_b) {
-                        switch (_b.label) {
-                            case 0:
-                                if (Array.isArray(data)) {
-                                    sessionStore.set(key_1, data, CX_TABLE_THROTTLE_DURATION, CX_TABLE_DYNAMIC_CACHE);
-                                    if (Array.isArray(cacheMap[key_1])) {
-                                        duplicate_1 = R.clone(data);
-                                        cacheMap[key_1].forEach(function (resolve) {
-                                            resolve({ data: duplicate_1, state: 200, message: '' });
-                                        });
-                                        Reflect.deleteProperty(cacheMap, key_1);
-                                    }
-                                    data = data.map(CxConfigAdaptor.of);
-                                    dynamicColumn.value = R.clone(data);
-                                    data = resolveColumns(data, props);
-                                    columnProxy.value = data;
-                                }
-                                return [4 /*yield*/, nextTick()];
-                            case 1:
-                                _b.sent();
-                                isDynamicChange && emit('dynamicUpdate');
-                                return [2 /*return*/];
-                        }
-                    });
-                });
-            })["finally"](function () {
-                loading.value = false;
-                var data = sessionStore.get(key_1, CX_TABLE_DYNAMIC_CACHE);
-                if (data === CX_TABLE_CACHE_PENDING) {
-                    sessionStore.remove(key_1, CX_TABLE_DYNAMIC_CACHE);
-                }
-                if (Array.isArray(cacheMap[key_1])) {
-                    cacheMap[key_1].forEach(function (resolve) {
-                        resolve({ data: R.clone(data), state: 200, message: '' });
-                    });
-                }
-                Reflect.deleteProperty(cacheMap, key_1);
-            });
-        }
-        else {
-            columnProxy.value = resolveColumns(R.clone(props.tableConfig.items), props);
-        }
-    }, 300);
-    if (isObject$1(props.dynamic)) {
-        watch(function () { return props.dynamic; }, R.converge(forceUpdate, [R.T]), { deep: true, immediate: true });
-    }
-    else {
-        watch(function () { return props.tableConfig.items; }, R.converge(forceUpdate, [R.F]), {
-            deep: true,
-            immediate: true
-        });
-    }
-    return { columnProxy: columnProxy, loading: loading, forceUpdate: forceUpdate, dynamicColumn: dynamicColumn };
-};
-
-var useExpandConfig = function () {
-    var expandConfig = reactive([]);
-    var clearExpand = function () {
-        expandConfig.splice(0);
-    };
-    var setExpand = function (index, val) {
-        Reflect.set(expandConfig, index, val);
-    };
-    return { expandConfig: expandConfig, clearExpand: clearExpand, setExpand: setExpand };
-};
-
-var useLazyLoad = function (ele, tableVisible) {
-    if (!IntersectionObserver) {
-        tableVisible.value = true;
-    }
-    var observer = new IntersectionObserver(function (entries) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    if (tableVisible.value)
-                        return [2 /*return*/];
-                    return [4 /*yield*/, nextTick()];
-                case 1:
-                    _b.sent();
-                    tableVisible.value = Reflect.get((_a = entries === null || entries === void 0 ? void 0 : entries[0]) !== null && _a !== void 0 ? _a : { isIntersecting: true }, 'isIntersecting');
-                    return [2 /*return*/];
-            }
-        });
-    }); });
-    observer.observe(ele);
-};
-
-var usePriorityConfig = function (_a) {
-    var priorityColumnMap = _a.priorityColumnMap;
-    var onSetConfig = [];
-    var setConfig = function (prop, config) {
-        var _a;
-        if (!config || !isObject$1(config))
-            throw new TypeError('config must be a object');
-        var old = (_a = priorityColumnMap.get(prop)) !== null && _a !== void 0 ? _a : {};
-        deepMerge(old, config);
-        priorityColumnMap.set(prop, old);
-        onSetConfig.forEach(function (cb) { return cb(); });
-    };
-    var clearConfig = function () {
-        priorityColumnMap.clear();
-    };
-    var removeConfig = function (prop) {
-        priorityColumnMap["delete"](prop);
-    };
-    return { setConfig: setConfig, removeConfig: removeConfig, clearConfig: clearConfig, onSetConfig: onSetConfig };
-};
-
-var useRadioConfig = function (emit) {
-    var radioValue = ref(-1);
-    watch(function () { return radioValue.value; }, function (val) {
-        emit('radioChange', val);
-    });
-    var removeRadio = function () {
-        radioValue.value = -1;
-    };
-    var setRadio = function (val) {
-        radioValue.value = val;
-    };
-    var getRadio = function () {
-        return radioValue.value;
-    };
-    return { radioValue: radioValue, removeRadio: removeRadio, setRadio: setRadio, getRadio: getRadio };
-};
-
 var registResponsive = function (wrapper, callbacks) {
     onMounted(function () {
         if (observer) {
@@ -3526,6 +3345,224 @@ var useScrollState = function ($CxTable) {
     });
 };
 
+var useUpdateState = function (props, $CxTable) {
+    var updateState = function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (props.spanMethod && props.virtualScroll) {
+                        useCalcSpanMethod($CxTable, props);
+                    }
+                    $CxTable.flatColumns.forEach(function (column) {
+                        updateCxTableWidth($CxTable, props, column.prop);
+                    });
+                    useAutoWidth($CxTable);
+                    return [4 /*yield*/, nextTick()];
+                case 1:
+                    _a.sent();
+                    scrollUpdateShadow($CxTable);
+                    if ($CxTable.wrapperEle) {
+                        wrapperScrollEventHandle($CxTable, props);
+                        useScrollState($CxTable);
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    }); };
+    return { updateState: updateState };
+};
+
+var cacheMap = {};
+var resolveColumns = function (cols, props) {
+    var context = useCxTable().getContext();
+    return __spreadArray(__spreadArray([], __read(context.dynamicInject)), [props.dynamicInject]).reduce(function (res, inject) {
+        return isFunction(inject) ? inject(res) : res;
+    }, cols);
+};
+var getCxDynamicHead = function (dynamic) { return __awaiter(void 0, void 0, void 0, function () {
+    var url;
+    return __generator(this, function (_a) {
+        url = '/header/dynamic';
+        return [2 /*return*/, new Promise(function (resolve, reject) {
+                var _a, _b;
+                var key = JSON.stringify(dynamic);
+                var data = sessionStore.get(key, CX_TABLE_DYNAMIC_CACHE);
+                if (data === CX_TABLE_CACHE_PENDING) {
+                    new Promise(function (innerResolve) {
+                        !cacheMap[key] && Reflect.set(cacheMap, key, []);
+                        cacheMap[key].push(innerResolve);
+                    })
+                        .then(resolve)["catch"](reject);
+                }
+                else if (data) {
+                    resolve({ data: data, state: 200, message: '' });
+                }
+                else {
+                    sessionStore.set(key, CX_TABLE_CACHE_PENDING, CX_TABLE_THROTTLE_DURATION, CX_TABLE_DYNAMIC_CACHE);
+                    var invalidIndex = CX_TABLE_DYNAMIC_PROPS.findIndex(function (key) {
+                        if (!isNumber(Reflect.get(dynamic, key))) {
+                            cxTableWarn("dynamic\u53C2\u6570\u4F20\u9012\u9519\u8BEF:" + key + " is not a number");
+                            return true;
+                        }
+                    });
+                    if (invalidIndex >= 0) {
+                        return reject();
+                    }
+                    (_b = (_a = useCxTable()) === null || _a === void 0 ? void 0 : _a.getContext()) === null || _b === void 0 ? void 0 : _b.dynamicRequestInstance.get(url, __assign(__assign({}, dynamic), { random: Math.random() })).then(resolve)["catch"](reject);
+                }
+            })];
+    });
+}); };
+var useDynamicConfig = function (props, $CxTable, emit) {
+    var columnProxy = ref([]);
+    var dynamicColumn = ref([]);
+    var loading = ref(false);
+    var updateState = useUpdateState(props, $CxTable).updateState;
+    var forceUpdate = debounce$1(function (isDynamicChange) {
+        if (isDynamicChange === void 0) { isDynamicChange = false; }
+        if (isObject$1(props.dynamic)) {
+            loading.value = true;
+            var key_1 = JSON.stringify(props.dynamic);
+            getCxDynamicHead(props.dynamic)
+                .then(function (_a) {
+                var data = _a.data;
+                return __awaiter(void 0, void 0, void 0, function () {
+                    var duplicate_1;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0:
+                                if (Array.isArray(data)) {
+                                    sessionStore.set(key_1, data, CX_TABLE_THROTTLE_DURATION, CX_TABLE_DYNAMIC_CACHE);
+                                    if (Array.isArray(cacheMap[key_1])) {
+                                        duplicate_1 = R.clone(data);
+                                        cacheMap[key_1].forEach(function (resolve) {
+                                            resolve({ data: duplicate_1, state: 200, message: '' });
+                                        });
+                                        Reflect.deleteProperty(cacheMap, key_1);
+                                    }
+                                    data = data.map(CxConfigAdaptor.of);
+                                    dynamicColumn.value = R.clone(data);
+                                    data = resolveColumns(data, props);
+                                    columnProxy.value = data;
+                                    useColumn($CxTable, columnProxy, props);
+                                    useColumnValidity($CxTable);
+                                    updateState();
+                                }
+                                return [4 /*yield*/, nextTick()];
+                            case 1:
+                                _b.sent();
+                                isDynamicChange && emit('dynamicUpdate');
+                                return [2 /*return*/];
+                        }
+                    });
+                });
+            })["finally"](function () {
+                loading.value = false;
+                var data = sessionStore.get(key_1, CX_TABLE_DYNAMIC_CACHE);
+                if (data === CX_TABLE_CACHE_PENDING) {
+                    sessionStore.remove(key_1, CX_TABLE_DYNAMIC_CACHE);
+                }
+                if (Array.isArray(cacheMap[key_1])) {
+                    cacheMap[key_1].forEach(function (resolve) {
+                        resolve({ data: R.clone(data), state: 200, message: '' });
+                    });
+                }
+                Reflect.deleteProperty(cacheMap, key_1);
+            });
+        }
+        else {
+            columnProxy.value = resolveColumns(R.clone(props.tableConfig.items), props);
+            useColumn($CxTable, columnProxy, props);
+            useColumnValidity($CxTable);
+            updateState();
+        }
+    }, 300);
+    if (isObject$1(props.dynamic)) {
+        watch(function () { return props.dynamic; }, R.converge(forceUpdate, [R.T]), { deep: true, immediate: true });
+    }
+    else {
+        watch(function () { return props.tableConfig.items; }, R.converge(forceUpdate, [R.F]), {
+            deep: true,
+            immediate: true
+        });
+    }
+    return { columnProxy: columnProxy, loading: loading, forceUpdate: forceUpdate, dynamicColumn: dynamicColumn };
+};
+
+var useExpandConfig = function () {
+    var expandConfig = reactive([]);
+    var clearExpand = function () {
+        expandConfig.splice(0);
+    };
+    var setExpand = function (index, val) {
+        Reflect.set(expandConfig, index, val);
+    };
+    return { expandConfig: expandConfig, clearExpand: clearExpand, setExpand: setExpand };
+};
+
+var useLazyLoad = function (ele, tableVisible) {
+    if (!IntersectionObserver) {
+        tableVisible.value = true;
+    }
+    var observer = new IntersectionObserver(function (entries) { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    if (tableVisible.value)
+                        return [2 /*return*/];
+                    return [4 /*yield*/, nextTick()];
+                case 1:
+                    _b.sent();
+                    tableVisible.value = Reflect.get((_a = entries === null || entries === void 0 ? void 0 : entries[0]) !== null && _a !== void 0 ? _a : { isIntersecting: true }, 'isIntersecting');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    observer.observe(ele);
+};
+
+var usePriorityConfig = function (_a) {
+    var priorityColumnMap = _a.priorityColumnMap;
+    var onSetConfig = [];
+    var flushDone = debounce$1(function () {
+        onSetConfig.forEach(function (cb) { return cb(); });
+    }, 0);
+    var setConfig = function (prop, config) {
+        var _a;
+        if (!config || !isObject$1(config))
+            throw new TypeError('config must be a object');
+        var old = (_a = priorityColumnMap.get(prop)) !== null && _a !== void 0 ? _a : {};
+        deepMerge(old, config);
+        priorityColumnMap.set(prop, old);
+        flushDone();
+    };
+    var clearConfig = function () {
+        priorityColumnMap.clear();
+    };
+    var removeConfig = function (prop) {
+        priorityColumnMap["delete"](prop);
+    };
+    return { setConfig: setConfig, removeConfig: removeConfig, clearConfig: clearConfig, onSetConfig: onSetConfig };
+};
+
+var useRadioConfig = function (emit) {
+    var radioValue = ref(-1);
+    watch(function () { return radioValue.value; }, function (val) {
+        emit('radioChange', val);
+    });
+    var removeRadio = function () {
+        radioValue.value = -1;
+    };
+    var setRadio = function (val) {
+        radioValue.value = val;
+    };
+    var getRadio = function () {
+        return radioValue.value;
+    };
+    return { radioValue: radioValue, removeRadio: removeRadio, setRadio: setRadio, getRadio: getRadio };
+};
+
 var useRegister = function ($CxTable, props, tableDataVisitor, tableWrapper, bus, tid) {
     registMouseEvent($CxTable);
     registScrollEvent($CxTable, props);
@@ -3824,29 +3861,8 @@ var useWatch = function (props, $CxTable, columnProxy, tableWrapper, expandConfi
         });
     }); };
     watch(function () { return tableVisible.value; }, updateVisible);
-    var updateTableState = debounce$1(function () { return __awaiter(void 0, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (props.spanMethod && props.virtualScroll) {
-                        useCalcSpanMethod($CxTable, props);
-                    }
-                    $CxTable.flatColumns.forEach(function (column) {
-                        updateCxTableWidth($CxTable, props, column.prop);
-                    });
-                    useAutoWidth($CxTable);
-                    return [4 /*yield*/, nextTick()];
-                case 1:
-                    _a.sent();
-                    scrollUpdateShadow($CxTable);
-                    if (tableWrapper.value) {
-                        wrapperScrollEventHandle($CxTable, props);
-                        useScrollState($CxTable);
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    }); }, 50);
+    var updateState = useUpdateState(props, $CxTable).updateState;
+    var updateTableState = debounce$1(updateState, 50);
     var updateColumn = function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             useColumn($CxTable, columnProxy, props);
@@ -3855,8 +3871,6 @@ var useWatch = function (props, $CxTable, columnProxy, tableWrapper, expandConfi
             return [2 /*return*/];
         });
     }); };
-    // 当表头变化时,需要更新column对象以及重新计算宽度,触发一些样式计算
-    watch(columnProxy, updateColumn, { immediate: true, deep: true });
     var updateData = function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             useRowDataValidity(props);
@@ -3893,42 +3907,6 @@ var useWatch = function (props, $CxTable, columnProxy, tableWrapper, expandConfi
         updateStyleSetting: updateStyleSetting
     };
 };
-
-var EventBus = /** @class */ (function () {
-    function EventBus() {
-        this.eventDep = {};
-    }
-    EventBus.prototype.on = function (eventName, func) {
-        var _a;
-        if (this.eventDep[eventName]) {
-            (_a = this.eventDep[eventName]) === null || _a === void 0 ? void 0 : _a.push(func);
-        }
-        else {
-            this.eventDep[eventName] = [func];
-        }
-    };
-    EventBus.prototype.emit = function (eventName) {
-        var _a;
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        if (this.eventDep[eventName]) {
-            (_a = this.eventDep[eventName]) === null || _a === void 0 ? void 0 : _a.forEach(function (func) { return func.apply(void 0, __spreadArray([], __read(args))); });
-        }
-    };
-    EventBus.prototype.off = function (eventName) {
-        this.eventDep[eventName] = null;
-    };
-    EventBus.prototype.clear = function () {
-        this.eventDep = {};
-    };
-    return EventBus;
-}());
-function EventBusCreator() {
-    return new EventBus();
-}
-var eventBus = EventBusCreator();
 
 var domShare = {
     getEle: function (container, selector) {
@@ -4595,7 +4573,7 @@ var Cell = defineComponent({
         });
         var directionOption = reactive({
             visible: false,
-            classList: ['fold-table_wrong_msg', 'cx_mtb_8'],
+            classList: ['cx-table_wrong_msg', 'cx_mtb_8'],
             text: invalidContent.value,
             controlType: 'handle',
             placement: 'top-start',
@@ -5133,7 +5111,7 @@ var CxTableContent = defineComponent({
 //
 //
 //
-var script$8 = {
+var script$b = {
     name: 'Empty',
 };
 
@@ -5197,15 +5175,15 @@ const _hoisted_2$2 = /*#__PURE__*/createVNode("div", { class: "cx_h_100" }, [
 ], -1 /* HOISTED */);
 const _hoisted_3$2 = /*#__PURE__*/createVNode("p", null, "暂无数据", -1 /* HOISTED */);
 
-function render$5(_ctx, _cache) {
+function render$6(_ctx, _cache) {
   return (openBlock(), createBlock("div", _hoisted_1$4, [
     _hoisted_2$2,
     _hoisted_3$2
   ]))
 }
 
-script$8.render = render$5;
-script$8.__file = "src/lib/cx-table/components/empty.vue";
+script$b.render = render$6;
+script$b.__file = "src/lib/cx-table/components/empty.vue";
 
 var CxTableEmpty = defineComponent({
     name: 'CxTableEmpty',
@@ -5223,7 +5201,7 @@ var CxTableEmpty = defineComponent({
                                 createVNode('td', { rowspan: rowspan }, [
                                     (function () {
                                         setBlockTracking(-1);
-                                        var node = createVNode(script$8);
+                                        var node = createVNode(script$b);
                                         setBlockTracking(1);
                                         return node;
                                     })()
@@ -5232,40 +5210,6 @@ var CxTableEmpty = defineComponent({
                         ])
                     ])
                 ]));
-        };
-    }
-});
-
-var Pagination = defineComponent({
-    name: 'CxTablePagination',
-    props: { pagination: { type: Object, "default": function () { return ({}); } } },
-    setup: function (props, _a) {
-        var emit = _a.emit;
-        var handleSizeChange = function (size) {
-            var pagination = props.pagination;
-            pagination.currentPage = 1;
-            pagination.pageCapacity = size;
-            emit('paging');
-        };
-        var handleCurrentChange = function (currentPage) {
-            var pagination = props.pagination;
-            pagination.currentPage = currentPage;
-            emit('paging');
-        };
-        var hoisted_1 = 'total, sizes, prev, pager, next, jumper';
-        var Pagination = resolveComponent('ElPagination');
-        return function () {
-            return createVNode(Pagination, {
-                "class": 'cx_align_right cx_p_20',
-                background: true,
-                currentPage: props.pagination.currentPage,
-                pageSizes: props.pagination.pageSizes,
-                pageSize: props.pagination.pageCapacity,
-                layout: hoisted_1,
-                total: props.pagination.total,
-                onSizeChange: handleSizeChange,
-                onCurrentChange: handleCurrentChange
-            }, null, PATCH_FLAG.FULL_PROPS);
         };
     }
 });
@@ -5692,7 +5636,7 @@ var TeleForm = defineComponent({
         // unsafeClearDom::void->string
         var unsafeClearEle = R.compose(map(unsafeSet(R.__, 'innerHTML', '')), Maybe.of);
         // renderVNodeToDom::HTMLElement->void
-        var renderVNodeToDom = R.compose(R.converge(render$6, [renderForm, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
+        var renderVNodeToDom = R.compose(R.converge(render$7, [renderForm, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
         var unsafeWarn = function () {
             return cxTableWarn("can't find container element by selector", rootProp.formTeleport);
         };
@@ -5730,7 +5674,7 @@ var TeleForm = defineComponent({
 
 //
 var zIndex = 2000;
-var script$7 = defineComponent({
+var script$a = defineComponent({
     name: 'CxOverlay',
     props: { disabled: { type: Boolean, "default": false }, lockScroll: { type: Boolean, "default": false } },
     setup: function () {
@@ -5738,7 +5682,7 @@ var script$7 = defineComponent({
     }
 });
 
-function render$4(_ctx, _cache) {
+function render$5(_ctx, _cache) {
   return (openBlock(), createBlock("div", {
     onClick: _cache[1] || (_cache[1] = $event => (_ctx.$emit('click'))),
     style: {'--zIndex':_ctx.zIndex},
@@ -5748,13 +5692,13 @@ function render$4(_ctx, _cache) {
   ], 6 /* CLASS, STYLE */))
 }
 
-script$7.render = render$4;
-script$7.__file = "src/lib/cx-overlay/cx-overlay.vue";
+script$a.render = render$5;
+script$a.__file = "src/lib/cx-overlay/cx-overlay.vue";
 
 //
-var script$6 = defineComponent({
+var script$9 = defineComponent({
     name: 'CxDialog',
-    components: { CxOverlay: script$7 },
+    components: { CxOverlay: script$a },
     emits: ['register', 'close', 'closed', 'open', 'opened', 'ok', 'cancel'],
     props: {
         cancelText: { type: String, "default": '取消', },
@@ -5790,9 +5734,7 @@ var script$6 = defineComponent({
                 emit('open');
             }
             else {
-                props.beforeClose ? props.beforeClose(function () {
-                    visible.value = v;
-                }) : (visible.value = v);
+                visible.value = v;
             }
         };
         var openDialog = function (v) {
@@ -5809,7 +5751,17 @@ var script$6 = defineComponent({
         function beforeLeave() {
             emit('close');
         }
-        var actions = { openDialog: openDialog };
+        var actions = {
+            openDialog: function (v) {
+                if (v === void 0) { v = true; }
+                if (!v) {
+                    props.beforeClose ? props.beforeClose(function () {
+                        openDialog(v);
+                    }) : openDialog(v);
+                }
+                openDialog(v);
+            }
+        };
         var keydownEvent = function (e) {
             (e.key === 'Escape' && visible.value && props.closeOnPressEscape) && openDialog(false);
         };
@@ -5827,13 +5779,13 @@ var script$6 = defineComponent({
 
 const _hoisted_1$3 = { class: "cx-overlay-dialog" };
 const _hoisted_2$1 = { class: "cx-dialog__header" };
-const _hoisted_3$1 = { class: "cx-dialog__title" };
+const _hoisted_3$1 = { class: "cx-dialog__title cx_fs_18" };
 const _hoisted_4$1 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_mlr_0 cx_w_100p" }, null, -1 /* HOISTED */);
 const _hoisted_5$1 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_mlr_0 cx_w_100p" }, null, -1 /* HOISTED */);
 const _hoisted_6$1 = { class: "cx-dialog__footer" };
 const _hoisted_7$1 = { class: "cx_flex_center cx_justify_end" };
 
-function render$3(_ctx, _cache) {
+function render$4(_ctx, _cache) {
   const _component_cx_btn = resolveComponent("cx-btn");
   const _component_cx_overlay = resolveComponent("cx-overlay");
 
@@ -5936,13 +5888,13 @@ function render$3(_ctx, _cache) {
   ], 8 /* PROPS */, ["disabled"]))
 }
 
-script$6.render = render$3;
-script$6.__file = "src/lib/cx-dialog/cx-dialog.vue";
+script$9.render = render$4;
+script$9.__file = "src/lib/cx-dialog/cx-dialog.vue";
 
-script$6.install = function (app) {
-    app.component(script$6.name, script$6);
+script$9.install = function (app) {
+    app.component(script$9.name, script$9);
 };
-var _CX_DIALOG = script$6;
+var _CX_DIALOG = script$9;
 
 function useCxDialog() {
     var dialogRef = ref(null);
@@ -5969,7 +5921,7 @@ function useCxDialog() {
 }
 
 //
-var script$5 = defineComponent({
+var script$8 = defineComponent({
     name: 'CxEllipsis',
     props: {
         content: { type: [String, Number], "default": '' },
@@ -6043,7 +5995,7 @@ pushScopeId("data-v-506ab1f0");
 const _hoisted_1$2 = { style: {"overflow":"hidden"} };
 popScopeId();
 
-const render$2 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
+const render$3 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
   const _directive_uni_popper = resolveDirective("uni-popper");
 
   return withDirectives((openBlock(), createBlock("div", {
@@ -6062,14 +6014,14 @@ const render$2 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
   ])
 });
 
-script$5.render = render$2;
-script$5.__scopeId = "data-v-506ab1f0";
-script$5.__file = "src/lib/cx-ellipsis/cx-ellipsis.vue";
+script$8.render = render$3;
+script$8.__scopeId = "data-v-506ab1f0";
+script$8.__file = "src/lib/cx-ellipsis/cx-ellipsis.vue";
 
-script$5.install = function (app) {
-    app.component(script$5.name, script$5);
+script$8.install = function (app) {
+    app.component(script$8.name, script$8);
 };
-var _CX_ELLIPSIS = script$5;
+var _CX_ELLIPSIS = script$8;
 
 var DEFAULT_CAPACITY = 10;
 var cacheListDialog = defineComponent({
@@ -6474,7 +6426,7 @@ var cacheListDialog = defineComponent({
                                                     renderOrderInfo(activeItem()),
                                                     renderOrderTable(tableConfig, tableData())
                                                 ])
-                                                : createVNode('div', _hoisted_attrs_5, [createVNode(script$8)])
+                                                : createVNode('div', _hoisted_attrs_5, [createVNode(script$b)])
                                         ]))
                                 ])
                             ];
@@ -6537,7 +6489,7 @@ var TeleportBtn = defineComponent({
             return createVNode(innerBtn, __assign(__assign({}, attrs), { disabledState: props.disabledState, loadingState: loadingState, onClick: onClick }), slots, PATCH_FLAG.FULL_PROPS);
         };
         // renderVNodeToDom::HTMLElement->void
-        var renderVNodeToDom = R.compose(R.converge(render$6, [renderBtn, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
+        var renderVNodeToDom = R.compose(R.converge(render$7, [renderBtn, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
         // 组件更新IO
         var updateComponentIO = IO.of(queryDom).map(R.ifElse(R.isNil, R.compose(unsafeWarn, unsafeClearEle, container), R.compose(map(renderVNodeToDom), Maybe.of, setContainer)));
         watch(function () { return props.dynamicColumn; }, function () { return __awaiter(_this, void 0, void 0, function () {
@@ -6792,7 +6744,7 @@ var useDynamicConfigDialog = function () {
 };
 
 //
-var script$4 = defineComponent({
+var script$7 = defineComponent({
     name: 'ColumnSettingDialog',
     components: { Draggable: Draggable, CxDialog: _CX_DIALOG },
     props: { dynamicList: { type: Array, required: true } },
@@ -6931,7 +6883,7 @@ const _hoisted_9 = { class: "cx_fs_14 cx_ptb_9 hover_active cx_cursor_move" };
 const _hoisted_10 = /*#__PURE__*/createVNode("i", { class: "iconfont icon-tuodong1 cx_mr_8" }, null, -1 /* HOISTED */);
 popScopeId();
 
-const render$1 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
+const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
   const _component_CxTab = resolveComponent("CxTab");
   const _component_ElCheckbox = resolveComponent("ElCheckbox");
   const _component_Draggable = resolveComponent("Draggable");
@@ -7021,14 +6973,14 @@ const render$1 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
   }, 8 /* PROPS */, ["okLoading", "onRegister", "title", "onOk"]))
 });
 
-script$4.render = render$1;
-script$4.__scopeId = "data-v-0b829fd6";
-script$4.__file = "src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";
+script$7.render = render$2;
+script$7.__scopeId = "data-v-0b829fd6";
+script$7.__file = "src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";
 
 //
-var script$3 = defineComponent({
+var script$6 = defineComponent({
     name: 'DynamicConfigSettings',
-    components: { ColumnSettingDialog: script$4 },
+    components: { ColumnSettingDialog: script$7 },
     props: { dynamicConfig: { type: Object, requred: true } },
     emits: ['submit'],
     setup: function (_, _a) {
@@ -7070,7 +7022,7 @@ pushScopeId("data-v-df9138d6");
 const _hoisted_1 = { class: "setting_btn cx_flex_center cx_justify_center" };
 popScopeId();
 
-const render = /*#__PURE__*/_withId((_ctx, _cache) => {
+const render$1 = /*#__PURE__*/_withId((_ctx, _cache) => {
   const _component_CxBtn = resolveComponent("CxBtn");
   const _component_ElTooltip = resolveComponent("ElTooltip");
   const _component_ColumnSettingDialog = resolveComponent("ColumnSettingDialog");
@@ -7103,9 +7055,9 @@ const render = /*#__PURE__*/_withId((_ctx, _cache) => {
   ], 4 /* STYLE */))
 });
 
-script$3.render = render;
-script$3.__scopeId = "data-v-df9138d6";
-script$3.__file = "src/lib/cx-table/components/dynamicConfigSetting/index.vue";
+script$6.render = render$1;
+script$6.__scopeId = "data-v-df9138d6";
+script$6.__file = "src/lib/cx-table/components/dynamicConfigSetting/index.vue";
 
 var CxTableProp = {
     tableConfig: { type: Object, "default": function () { return ({ items: [] }); } },
@@ -7249,19 +7201,18 @@ var CxTableProp = {
     stripe: { type: Boolean, "default": false }
 };
 
-var script$2 = defineComponent({
+var script$5 = defineComponent({
     name: 'CxTable',
     props: CxTableProp,
-    components: { Pagination: Pagination },
     emits: CX_TABLE_EVENT_LIST,
     setup: function (props, _a) {
         var _this = this;
         var slots = _a.slots, emit = _a.emit, expose = _a.expose;
         // 根对象
         var $CxTable = createCxTableConfig();
-        var _b = useDynamicConfig(props, emit), columnProxy = _b.columnProxy, dynamicColumn = _b.dynamicColumn, loading = _b.loading, forceUpdate = _b.forceUpdate;
+        var _b = useDynamicConfig(props, $CxTable, emit), columnProxy = _b.columnProxy, dynamicColumn = _b.dynamicColumn, loading = _b.loading, forceUpdate = _b.forceUpdate;
         var searchLoading = ref(false);
-        var bus = useBus($CxTable, props, emit).bus;
+        var bus = useCxTableEvent($CxTable, props, emit).bus;
         var tid = useTableId().generateTableId();
         var tableDataVisitor = useCxSort(props).tableDataVisitor;
         // 集成多选
@@ -7449,7 +7400,7 @@ var script$2 = defineComponent({
             return (openBlock(),
                 createBlock(Fragment, null, [
                     props.configurable && props.dynamic
-                        ? createVNode(script$3, {
+                        ? createVNode(script$6, {
                             dynamicConfig: props.dynamic,
                             onSubmit: function () {
                                 forceUpdate();
@@ -7532,7 +7483,7 @@ var script$2 = defineComponent({
                 (openBlock(),
                     createBlock(Fragment, null, [
                         isObject$1(props.pagination)
-                            ? createVNode(Pagination, {
+                            ? createVNode(_CX_PAGINATION, {
                                 pagination: props.pagination,
                                 onPaging: cache[1] || (cache[1] = function () { return emit('paging'); })
                             }, null, PATCH_FLAG.PROPS, ['pagination'])
@@ -7543,10 +7494,10 @@ var script$2 = defineComponent({
     }
 });
 
-script$2.install = function (app) {
-    app.component(script$2.name, script$2);
+script$5.install = function (app) {
+    app.component(script$5.name, script$5);
 };
-var _CX_TABLE = script$2;
+var _CX_TABLE = script$5;
 
 var top = 'top';
 var bottom = 'bottom';
@@ -9508,7 +9459,7 @@ var usePopEle = function (key) {
         setPopEle: function (ele) { return (popEleMap[key] = ele); }
     };
 };
-var bindBaseAttr = R.compose(setClassByArr(['cx_pos_absolute', 'cx_b_radius_4', 'direction_order_popper', 'z_index_2500']));
+var bindBaseAttr = R.compose(setClassByArr(['cx_b_radius_4', 'cx_uni_popper']));
 var createPopperEle = R.compose(bindBaseAttr, R.converge(createTag, [R.always('div')]));
 var getPopOption = R.compose(R.objOf('placement'), R.defaultTo('right-start'));
 var mountPopperEle = function (options) {
@@ -9538,7 +9489,7 @@ var renderListItem = function (item) {
     var hasText = function () { return truthy(item.text); };
     var createWrapper = function () {
         return setClassByArr([
-            'color_white',
+            'cx_fs_white',
             'hover_bg_black_75',
             'cx_b_radius_4',
             'cx_plr_8',
@@ -9568,7 +9519,7 @@ var bindClickEvent = R.curryN(2, function (ele, item) {
 var patchListEle = function (list, container) {
     list.forEach(R.compose(appendChild(R.__, container), R.converge(bindClickEvent, [renderListItem, R.identity])));
 };
-var renderTextItem = R.compose(setClassByArr(['cx_p_12', 'color_white', 'cx_fs_12']), R.converge(setInnerText, [R.identity, R.converge(createTag, [R.always('div')])]));
+var renderTextItem = R.compose(setClassByArr(['cx_p_12', 'cx_fs_white', 'cx_fs_12']), R.converge(setInnerText, [R.identity, R.converge(createTag, [R.always('div')])]));
 var patchTextEle = function (text, container) {
     return R.compose(appendChild(R.__, container), renderTextItem)(text);
 };
@@ -9576,7 +9527,7 @@ var setCancelWatcher = function (cancel) { return (cancel); };
 // updatePopInstance::Instance->Func
 var updatePopInstance = R.converge(R.bind, [R.prop('update'), R.identity]);
 var EleKeyMap = new WeakMap();
-var script$1 = {
+var script$4 = {
     name: 'uniPopper',
     mounted: function (el, _a) {
         var value = _a.value;
@@ -9618,9 +9569,9 @@ var script$1 = {
     }
 };
 
-var _CX_UNI_POPPER = script$1;
+var _CX_UNI_POPPER = script$4;
 _CX_UNI_POPPER.install = function (app) {
-    app.directive(script$1.name, script$1);
+    app.directive(script$4.name, script$4);
 };
 
 // 正数
@@ -9652,7 +9603,7 @@ function onInput(el, ele, binding, vnode) {
     }
     return handle;
 }
-var script = {
+var script$3 = {
     name: 'numberInput',
     beforeMount: function (el, binding, vnode) {
         var ele = isHTMLInputElement(el) ? el : el.querySelector('input');
@@ -9670,19 +9621,91 @@ var script = {
     }
 };
 
-var _CX_NUMBER_INPUT = script;
+var _CX_NUMBER_INPUT = script$3;
 _CX_NUMBER_INPUT.install = function (app) {
-    app.directive(script.name, script);
+    app.directive(script$3.name, script$3);
 };
 
-script$7.install = function (app) {
-    app.component(script$7.name, script$7);
+script$a.install = function (app) {
+    app.component(script$a.name, script$a);
 };
-var _CX_OVERLAY = script$7;
+var _CX_OVERLAY = script$a;
+
+//
+var script$2 = defineComponent({
+    name: 'CxTag',
+    props: {
+        type: {
+            type: String,
+            "default": 'parimary'
+        },
+        text: { type: String },
+        size: { type: String, "default": 'mini' }
+    }
+});
+
+function render(_ctx, _cache) {
+  return (openBlock(), createBlock("span", {
+    class: ["cx-tag", ['cx-tag--' + _ctx.type, 'cx-tag--' + _ctx.size]]
+  }, [
+    renderSlot(_ctx.$slots, "default", {}, () => [
+      createTextVNode(toDisplayString(_ctx.text), 1 /* TEXT */)
+    ])
+  ], 2 /* CLASS */))
+}
+
+script$2.render = render;
+script$2.__file = "src/lib/cx-tag/cx-tag.vue";
+
+var script$1 = script$2;
+script$1.install = function (app) {
+    app.component(script$1.name, script$1);
+};
+var _CX_TAG = script$1;
+
+var script = defineComponent({
+    name: 'CxPagination',
+    props: { pagination: { type: Object, "default": function () { return ({}); } } },
+    setup: function (props, _a) {
+        var emit = _a.emit;
+        var handleSizeChange = function (size) {
+            var pagination = props.pagination;
+            pagination.currentPage = 1;
+            pagination.pageCapacity = size;
+            emit('paging');
+        };
+        var handleCurrentChange = function (currentPage) {
+            var pagination = props.pagination;
+            pagination.currentPage = currentPage;
+            emit('paging');
+        };
+        var hoisted_1 = 'total, sizes, prev, pager, next, jumper';
+        var Pagination = resolveComponent('ElPagination');
+        return function () {
+            return createVNode(Pagination, {
+                "class": 'cx_align_right cx_p_20',
+                background: true,
+                currentPage: props.pagination.currentPage,
+                pageSizes: props.pagination.pageSizes,
+                pageSize: props.pagination.pageCapacity,
+                layout: hoisted_1,
+                total: props.pagination.total,
+                onSizeChange: handleSizeChange,
+                onCurrentChange: handleCurrentChange
+            }, null, 16 /* FULL_PROPS */);
+        };
+    }
+});
+
+script.install = function (app) {
+    app.component(script.name, script);
+};
+var _CX_PAGINATION = script;
 
 var components = /*#__PURE__*/Object.freeze({
   __proto__: null,
   CxNumberInput: _CX_NUMBER_INPUT,
+  CXPagination: _CX_PAGINATION,
   CxEllipsis: _CX_ELLIPSIS,
   CxBtn: _CX_BTN,
   CxOverlay: _CX_OVERLAY,
@@ -9690,10 +9713,10 @@ var components = /*#__PURE__*/Object.freeze({
   CxForm: _CX_FORM,
   CxDialog: _CX_DIALOG,
   CxTable: _CX_TABLE,
-  CxUniPopper: _CX_UNI_POPPER
+  CxUniPopper: _CX_UNI_POPPER,
+  CxTag: _CX_TAG
 });
 
-// import '@babel/polyfill'
 var CxUI = {
     install: function (app) {
         Object.values(components).forEach(function (component) {
@@ -9703,4 +9726,4 @@ var CxUI = {
 };
 
 export default CxUI;
-export { ARROW_KEY, COLUMN_FLAG, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_ELLIPSIS as CxEllipsis, _CX_FORM as CxForm, _CX_NUMBER_INPUT as CxNumberInput, _CX_OVERLAY as CxOverlay, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_UNI_POPPER as CxUniPopper, EventBus, EventBusCreator, PATCH_FLAG, TypeOption, arrFlat, assignAttrs, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, changeDynamicIdToText, copySort, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, domShare, eventBus, findAncestor, formatDate, formatFormDefaultValue, formatTime, formatWidth, getColumnSelectText, getCxDynamicHead, getEvalResult, getFunctionAttrs, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, invokeLayeredRow, pick, staticConfigList, toggleArrState, updateCxTableWidth, useAutoWidth, useBroadcast, useBus, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useDynamicConfig, useExpandConfig, useLazyLoad, usePriorityConfig, useRadioConfig, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useStyle, useTableClass, useTableId, useTableStyle, useValidator, useWatch };
+export { ARROW_KEY, COLUMN_FLAG, _CX_PAGINATION as CXPagination, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_ELLIPSIS as CxEllipsis, _CX_FORM as CxForm, _CX_NUMBER_INPUT as CxNumberInput, _CX_OVERLAY as CxOverlay, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_TAG as CxTag, _CX_UNI_POPPER as CxUniPopper, PATCH_FLAG, TypeOption, arrFlat, assignAttrs, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, changeDynamicIdToText, copySort, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, domShare, findAncestor, formatDate, formatFormDefaultValue, formatTime, formatWidth, getColumnSelectText, getCxDynamicHead, getEvalResult, getFunctionAttrs, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, invokeLayeredRow, pick, staticConfigList, toggleArrState, updateCxTableWidth, useAutoWidth, useBroadcast, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useCxTableEvent, useDynamicConfig, useExpandConfig, useLazyLoad, usePriorityConfig, useRadioConfig, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useStyle, useTableClass, useTableId, useTableStyle, useValidator, useWatch };

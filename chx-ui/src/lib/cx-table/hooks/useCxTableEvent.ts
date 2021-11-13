@@ -1,7 +1,7 @@
 import { CxTableBaseObj, CxTablePropType } from '../types';
-import { EventBus } from '../utils';
+import { EventBus } from 'chx-utils';
 
-export const useBus = ($CxTable: CxTableBaseObj, props: CxTablePropType,emit:Func<any>) => {
+export const useCxTableEvent = ($CxTable: CxTableBaseObj, props: CxTablePropType, emit: Func<any>) => {
   const bus = new EventBus();
   bus.on('addNewRow', (content: string) => {
     if (props.disabled) return;

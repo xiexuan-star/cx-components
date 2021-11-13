@@ -1,6 +1,6 @@
 {
   "name": "chx-utils",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "",
   "author": "xiexuan",
   "types": "dist/index.d.ts",

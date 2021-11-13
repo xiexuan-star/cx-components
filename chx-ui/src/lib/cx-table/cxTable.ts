@@ -14,6 +14,7 @@ import {
   resolveDirective,
   withDirectives
 } from 'vue';
+import { CXPagination } from '../index';
 
 import { createCxTableConfig } from './static';
 import { CxTableExpose, Nullable } from './types';
@@ -23,7 +24,6 @@ import { domShare, formatWidth, invokeLayeredRow } from './utils';
 import CxTableContent from './components/table';
 import CxTableBody from './components/table/tableBody';
 import CxTableEmpty from './components/table/empty';
-import Pagination from './components/pagination';
 import TeleForm from './components/teleForm/index';
 import { SetCacheBtn } from './components/cacheBtn';
 import { CacheListBtn } from './components/cacheBtn';
@@ -47,7 +47,7 @@ import {
   useDynamicConfig,
   updateCxTableWidth,
   useAutoWidth,
-  useBus,
+  useCxTableEvent,
   useCSSVariable
 } from './hooks';
 import { scrollUpdateShadow } from './helper/eventHelper';
@@ -58,15 +58,14 @@ import { isNumber, isObject } from 'chx-utils';
 export default defineComponent({
   name: 'CxTable',
   props: CxTableProp,
-  components: { Pagination },
   emits: CX_TABLE_EVENT_LIST,
   setup(props, { slots, emit, expose }) {
     // 根对象
     const $CxTable = createCxTableConfig();
-    const { columnProxy, dynamicColumn, loading, forceUpdate } = useDynamicConfig(props, emit);
+    const { columnProxy, dynamicColumn, loading, forceUpdate } = useDynamicConfig(props, $CxTable, emit);
     const searchLoading = ref(false);
 
-    const { bus } = useBus($CxTable, props, emit);
+    const { bus } = useCxTableEvent($CxTable, props, emit);
 
     const tid = useTableId().generateTableId();
     const { tableDataVisitor } = useCxSort(props);
@@ -412,7 +411,7 @@ export default defineComponent({
             createBlock(Fragment, null, [
               isObject(props.pagination)
                 ? createVNode(
-                  Pagination,
+                  CXPagination,
                   {
                     pagination: props.pagination,
                     onPaging: cache[1] || (cache[1] = () => emit('paging'))

@@ -1,6 +1,7 @@
 import {
-  enum2Options, falsy, getMaybeValue, IO, map, Maybe, nextTimeout, preventDefault, stateEq200, stopPropagation, truthy,
-  unsafeClearArray, unsafeClearObj, unsafeClearPush, unsafePush, unsafeRemoveItem, useComputed, useState
+  enum2Options, EventBus, falsy, getMaybeValue, IO, map, Maybe, nextTimeout, preventDefault, stateEq200,
+  stopPropagation, truthy, unsafeClearArray, unsafeClearObj, unsafeClearPush, unsafePush, unsafeRemoveItem, useComputed,
+  useState
 } from 'chx-utils';
 import { debounce } from 'lodash-es';
 import * as R from 'ramda';
@@ -15,7 +16,7 @@ import _CX_ELLIPSIS from '../../../cx-ellipsis';
 import { PATCH_FLAG, TypeOption } from '../../constant';
 import { CacheRule, useCxTable, useCxTableCompose } from '../../hooks';
 import { CxTableBaseObj, CxTablePropType, DYNAMIC_CONFIG, ParamsItem } from '../../types';
-import { CxConfigAdaptor, decimalFixed, EventBus, getColumnSelectText } from '../../utils';
+import { CxConfigAdaptor, decimalFixed, getColumnSelectText } from '../../utils';
 
 import Empty from '../empty.vue';
 
@@ -241,6 +242,7 @@ export default defineComponent({
       const instance = yield Maybe.of(getDefaultRequestInstance()?.[requestType]);
       return instance.bind(getDefaultRequestInstance())(urlWithId, query);
     }
+
     const removeItemIO = IO.of(R.compose(Maybe.run, getSendRequestWithId('delete')));
 
     const doRemove = (id: number) => {
@@ -304,6 +306,7 @@ export default defineComponent({
       // 目前暂不清楚为何在同步调用的情况下会出现弹窗无法正确关闭的问题,故使用setTimeout
       setTimeout(callHook);
     }
+
     const continueEdit = R.compose(Maybe.run, mergeCacheData);
 
     // ------------------------------ 判断是否存在 ------------------------------
@@ -428,12 +431,12 @@ export default defineComponent({
       return withDirectives(
         createVNode('ul', _hoisted_attrs_2, [
           (openBlock(),
-          createBlock(
-            Fragment,
-            null,
-            R.map(renderListItem(R.__, activeItem() as any), list),
-            PATCH_FLAG.KEYED_FRAGMENT
-          ))
+            createBlock(
+              Fragment,
+              null,
+              R.map(renderListItem(R.__, activeItem() as any), list),
+              PATCH_FLAG.KEYED_FRAGMENT
+            ))
         ]),
         [[_hoisted_direction_1 ?? {}, scrollFetch]]
       );
@@ -452,7 +455,7 @@ export default defineComponent({
     const renderOrderInfoItem = (state: Record<string, string>, item: AnyObject | null) => {
       const render = (content: string) => {
         return [
-          createVNode('label', null, `${state[`label_${currentType()}`] ?? state.label}:`),
+          createVNode('label', null, `${ state[`label_${ currentType() }`] ?? state.label }:`),
           createVNode(
             'div',
             { class: _hoisted_class_4 },
@@ -494,7 +497,7 @@ export default defineComponent({
     };
     const labelContainer = ((label: string) => {
       return R.compose(truthy, R.find(R.includes(R.__, label)))(['操作', '选择', '多选']);
-    }) as (a:string)=>boolean;
+    }) as (a: string) => boolean;
     const noRequired = invokerWithChildren(R.omit(['required']));
     const setImgsType = R.compose(
       R.when(
@@ -557,78 +560,78 @@ export default defineComponent({
     return (_: any, cache: any[]) => {
       return (
         openBlock(),
-        createBlock(Fragment, null, [
-          createVNode(
-            _CX_DIALOG,
-            {
-              title: TypeOption[currentType()],
-              appendToBody: true,
-              okText: '编辑',
-              width: '1524px',
-              top: '50px',
-              destroyOnClose: true,
-              onRegister: register,
-              onOk,
-              disabledOk: R.isNil(activeItem())
-            },
-            {
-              default() {
-                return [
-                  // 顶部
-                  createVNode('section', { class: _hoisted_class_6 }, [
-                    // tab切换
-                    (openBlock(),
-                    createBlock(Fragment, null, [
-                      R.compose(needTypeTab, getTabCondition)()
-                        ? createVNode(
-                            CxTab,
-                            {
-                              level: 3,
-                              options: typeOptionList,
-                              modelValue: currentType(),
-                              'onUpdate:modelValue': setCurrentType
-                            },
-                            null,
-                            PATCH_FLAG.PROPS,
-                            R.of('modelValue')
-                          )
-                        : cache[2] || (cache[2] = createVNode('div', null, '未提交'))
-                    ])),
-                    // 搜索项
-                    createVNode(
-                      CxForm,
-                      { form, items, onChange: conditionChangeFetch, style: 'margin-bottom:-18px' },
-                      null,
-                      PATCH_FLAG.PROPS,
-                      R.of('form')
-                    )
-                  ]),
-                  // 内容区
-                  createVNode('section', { class: _hoisted_class_7 }, [
-                    // 订单列表
-                    createVNode('div', { class: _hoisted_class_8 }, [
-                      cache[0] || (cache[0] = renderTitle('订单列表')),
-                      R.compose(renderList, orderList as () => AnyObject[])()
+          createBlock(Fragment, null, [
+            createVNode(
+              _CX_DIALOG,
+              {
+                title: TypeOption[currentType()],
+                appendToBody: true,
+                okText: '编辑',
+                width: '1524px',
+                top: '50px',
+                destroyOnClose: true,
+                onRegister: register,
+                onOk,
+                disabledOk: R.isNil(activeItem())
+              },
+              {
+                default() {
+                  return [
+                    // 顶部
+                    createVNode('section', { class: _hoisted_class_6 }, [
+                      // tab切换
+                      (openBlock(),
+                        createBlock(Fragment, null, [
+                          R.compose(needTypeTab, getTabCondition)()
+                            ? createVNode(
+                              CxTab,
+                              {
+                                level: 3,
+                                options: typeOptionList,
+                                modelValue: currentType(),
+                                'onUpdate:modelValue': setCurrentType
+                              },
+                              null,
+                              PATCH_FLAG.PROPS,
+                              R.of('modelValue')
+                            )
+                            : cache[2] || (cache[2] = createVNode('div', null, '未提交'))
+                        ])),
+                      // 搜索项
+                      createVNode(
+                        CxForm,
+                        { form, items, onChange: conditionChangeFetch, style: 'margin-bottom:-18px' },
+                        null,
+                        PATCH_FLAG.PROPS,
+                        R.of('form')
+                      )
                     ]),
-                    // 明细列表
-                    (openBlock(),
-                    createBlock(Fragment, null, [
-                      activeItem()
-                        ? createVNode('div', _hoisted_attrs_3, [
-                            cache[1] || (cache[1] = renderTitle('明细列表')),
-                            renderOrderInfo(activeItem()),
-                            renderOrderTable(tableConfig, tableData())
-                          ])
-                        : createVNode('div', _hoisted_attrs_5, [createVNode(Empty)])
-                    ]))
-                  ])
-                ];
-              }
-            },
-            PATCH_FLAG.PROPS,
-            R.pair('title', 'disabledOk')
-          )
-        ])
+                    // 内容区
+                    createVNode('section', { class: _hoisted_class_7 }, [
+                      // 订单列表
+                      createVNode('div', { class: _hoisted_class_8 }, [
+                        cache[0] || (cache[0] = renderTitle('订单列表')),
+                        R.compose(renderList, orderList as () => AnyObject[])()
+                      ]),
+                      // 明细列表
+                      (openBlock(),
+                        createBlock(Fragment, null, [
+                          activeItem()
+                            ? createVNode('div', _hoisted_attrs_3, [
+                              cache[1] || (cache[1] = renderTitle('明细列表')),
+                              renderOrderInfo(activeItem()),
+                              renderOrderTable(tableConfig, tableData())
+                            ])
+                            : createVNode('div', _hoisted_attrs_5, [createVNode(Empty)])
+                        ]))
+                    ])
+                  ];
+                }
+              },
+              PATCH_FLAG.PROPS,
+              R.pair('title', 'disabledOk')
+            )
+          ])
       );
     };
   }

@@ -1,8 +1,8 @@
 import { createVNode, defineComponent, resolveComponent } from 'vue';
-import { PATCH_FLAG } from '../constant';
+import { PatchFlags } from '../../constant/enum';
 
 export default defineComponent({
-  name: 'CxTablePagination',
+  name: 'CxPagination',
   props: { pagination: { type: Object, default: () => ({}) } },
   setup(props, { emit }) {
     const handleSizeChange = (size: number) => {
@@ -36,7 +36,7 @@ export default defineComponent({
           onCurrentChange: handleCurrentChange
         },
         null,
-        PATCH_FLAG.FULL_PROPS
+        PatchFlags.FULL_PROPS
       );
     };
   }

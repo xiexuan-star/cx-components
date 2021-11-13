@@ -1,29 +1,14 @@
+import { EventBus, isArray, isDeepObjectEqual, isEmpty, isFunction, } from 'chx-utils';
 import {
-  computed,
-  createVNode,
-  CSSProperties,
-  defineComponent,
-  inject,
-  PropType,
-  reactive,
-  ref,
-  Ref,
-  resolveDirective,
-  watch,
-  watchEffect,
-  withDirectives
+  computed, createVNode, CSSProperties, defineComponent, inject, PropType, reactive, ref, Ref, resolveDirective, watch,
+  watchEffect, withDirectives
 } from 'vue';
-import { CX_TABLE_COLUMN_KEY, COLUMN_FLAG, CX_SPAN_METHOD_TYPE, PATCH_FLAG } from '../../constant';
+import { COLUMN_FLAG, CX_SPAN_METHOD_TYPE, CX_TABLE_COLUMN_KEY, PATCH_FLAG } from '../../constant';
 import { registCellEvent } from '../../helper/eventHelper';
 import { renderCellContent } from '../../helper/renderHelper';
 import { CxBroadcast } from '../../hooks';
 import { CxTableBaseObj, CxTableColumnObj, CxTablePropType, SelectConfig } from '../../types';
-import {
-  EventBus,
-  getColumnSelectText,
-  getFunctionAttrs,
-} from '../../utils';
-import { isArray, isDeepObjectEqual, isEmpty, isFunction } from 'chx-utils';
+import { getColumnSelectText, getFunctionAttrs, } from '../../utils';
 
 export default defineComponent({
   name: 'CxTableCell',
@@ -112,7 +97,7 @@ export default defineComponent({
 
     const directionOption = reactive({
       visible: false,
-      classList: ['fold-table_wrong_msg', 'cx_mtb_8'],
+      classList: ['cx-table_wrong_msg', 'cx_mtb_8'],
       text: invalidContent.value,
       controlType: 'handle',
       placement: 'top-start',

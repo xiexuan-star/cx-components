@@ -1,12 +1,10 @@
-import { createVNode, defineComponent, inject, PropType, reactive, watch } from 'vue';
-import { CxTableDynamicColumn, CxTablePropType, TableDataVisitor } from '../../types';
-import { IO, map, Maybe, stateEq200, truthy, unsafeSet, useComputed, useState } from 'chx-utils';
-import TeleportBtn from './teleportBtn';
+import { EventBus, IO, map, Maybe, stateEq200, truthy, unsafeSet, useComputed, useState } from 'chx-utils';
 import * as R from 'ramda';
+import { createVNode, defineComponent, inject, PropType, reactive, watch } from 'vue';
 import { PATCH_FLAG } from '../../constant';
-import { useCxTableCompose } from '../../hooks';
-import { EventBus } from '../../utils';
-import { useCxTable } from '../../hooks';
+import { useCxTable, useCxTableCompose } from '../../hooks';
+import { CxTableDynamicColumn, CxTablePropType, TableDataVisitor } from '../../types';
+import TeleportBtn from './teleportBtn';
 
 export default defineComponent({
   name: 'SetCacheBtn',

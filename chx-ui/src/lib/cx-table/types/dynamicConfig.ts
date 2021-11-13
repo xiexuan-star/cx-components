@@ -1,14 +1,16 @@
 import { CxFormItemConfig } from '../../..';
 import { CxTableItem } from './index';
 
-export interface CxTableFormConfig {
+export type CxTableFormConfig = {
   searchType: 'custom' | 'input' | 'search' | 'date' | 'dateRange' | 'time';
+} & Partial<{
   searchSourceId: number;
   searchColumnId: number;
-  searchDefault?: string;
-  searchOptions?: (NameWithId & { disabled?: boolean })[] | AnyObject | ((payload: { form: AnyObject }) => ({ disabled?: boolean } & NameWithId)[]);
-  dynamicSearchOptions?: AnyObject;
-}
+  searchColumnProp: string;
+  searchDefault: string;
+  searchOptions: (NameWithId & { disabled?: boolean })[] | AnyObject | ((payload: { form: AnyObject }) => ({ disabled?: boolean } & NameWithId)[]);
+  dynamicSearchOptions: AnyObject;
+}>
 
 export interface CxTableFormRegist {
   dep: string;
@@ -65,6 +67,7 @@ export type CxTableDynamicControl = {
   statusMap: Record<string, { content?: string; type: 'success' | 'error' | 'info' }>;
   source: number;
   sourceColumnId: number;
+  sourceColumnProp: string;
   options: (NameWithId & { disabled?: boolean })[] | AnyObject | ((params: {
     rowData: AnyObject;
     rowIndex: number;

@@ -5,7 +5,6 @@ import * as R from 'ramda';
 import { useCxTable } from '../hooks';
 import { isFunction, isNumber, isObject,getDateRange } from 'chx-utils';
 
-export * from './eventBus';
 export * from './dom';
 export * from './configAdaptor';
 

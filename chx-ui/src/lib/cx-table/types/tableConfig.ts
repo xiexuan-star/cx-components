@@ -1,15 +1,11 @@
 import { CSSProperties, Ref, VNode } from 'vue';
 import { Nullable, PaginationModel, withUndefined } from '.';
-import { CxBroadcast } from '../hooks/useBroadcast';
-import { useDynamicConfig } from '../hooks/useDynamicConfig';
-import { useExpandConfig } from '../hooks/useExpandConfig';
-import { usePriorityConfig } from '../hooks/usePriorityConfig';
-import { useRadioConfig } from '../hooks/useRadioConfig';
-import { useSelectConfig } from '../hooks/useSelectConfig';
-import { useValidator } from '../hooks/useValidator';
-import { EventBus } from '../utils';
+import {
+  CxBroadcast, useDynamicConfig, useExpandConfig, usePriorityConfig, useRadioConfig, useSelectConfig, useValidator
+} from '../hooks';
 import { CxTableFormConfig } from './dynamicConfig';
 import { CxCellProp } from './tableProp';
+import { EventBus } from 'chx-utils';
 
 export type CxTableExpose = ReturnType<typeof useValidator> &
   Omit<ReturnType<typeof useExpandConfig>, 'expandConfig'> &
@@ -17,18 +13,18 @@ export type CxTableExpose = ReturnType<typeof useValidator> &
   Omit<ReturnType<typeof useSelectConfig>, 'selectConfig' | 'setCheckSelect'> &
   Omit<ReturnType<typeof usePriorityConfig>, 'onSetConfig'> &
   Pick<ReturnType<typeof useDynamicConfig>, 'forceUpdate'> & {
-    triggerBroadcast: (prop: string, rowData: AnyObject) => void;
-    /**
-     * @param params[rowData] 与rowIndex二者取其一即可
-     * @param params[rowIndex] 与rowData二者取其一即可
-     */
-    focusCell: (params: { prop: string; rowData?: AnyObject; rowIndex?: number }) => void;
-    // setCache: (dataSource?: any) => void;
-    // getCache: () => void;
-    // removeCache: () => void;
-    search: (payload?: AnyObject) => void;
-    removeCacheItem: () => void;
-  };
+  triggerBroadcast: (prop: string, rowData: AnyObject) => void;
+  /**
+   * @param params[rowData] 与rowIndex二者取其一即可
+   * @param params[rowIndex] 与rowData二者取其一即可
+   */
+  focusCell: (params: { prop: string; rowData?: AnyObject; rowIndex?: number }) => void;
+  // setCache: (dataSource?: any) => void;
+  // getCache: () => void;
+  // removeCache: () => void;
+  search: (payload?: AnyObject) => void;
+  removeCacheItem: () => void;
+};
 
 export interface rendererConfig {
   rowData: AnyObject;
@@ -46,12 +42,12 @@ export type CxTableCacheFun = () => void | string;
 
 export type CxRendererRegister =
   | {
-      render: CxControlRenderer;
-      /**
-       * 控制是否受到单元格激活状态的影响
-       */
-      active?: boolean;
-    }
+  render: CxControlRenderer;
+  /**
+   * 控制是否受到单元格激活状态的影响
+   */
+  active?: boolean;
+}
   | CxControlRenderer;
 
 export type CxControlRenderer = (
@@ -82,9 +78,11 @@ export type CxCellStyleFun = (params: {
 export type CxHeadCellStyleFun = (params: { column: CxTableItem }) => CSSProperties;
 export type CxCheckSelectFun = (rowData: AnyObject) => boolean | void;
 export type CxInjectHeadFun = (col: CxTableItem[]) => CxTableItem[];
+
 export interface CxTableConfig {
   items: CxTableItem[];
 }
+
 export type CalculateFun = (rowData: AnyObject) => any;
 type SumFun = (data: AnyObject[]) => any;
 
@@ -231,6 +229,7 @@ export type CxTableItem = {
    */
   headTip: string;
 }>;
+
 export interface CxTableBaseObj {
   wrapperEle: Nullable<HTMLElement>;
   priorityColumnMap: Map<string, Partial<CxTableItem>>;
@@ -347,9 +346,9 @@ export type CxTableControl = {
   options:
     | ({ disabled?: boolean } & NameWithId)[]
     | ((params: {
-        rowData: AnyObject;
-        rowIndex: number;
-      }) => ({ disabled?: boolean } & NameWithId)[]);
+    rowData: AnyObject;
+    rowIndex: number;
+  }) => ({ disabled?: boolean } & NameWithId)[]);
   /**
    * @description select/search控件中,展示文本的字段名,默认值为column.prop+'Text'
    */
@@ -362,9 +361,7 @@ export type CxTableControl = {
    * @description 状态值映射表, type为status,tag时生效,将rowData[column.prop]的值映射为statusValue中的值
    */
   statusMap:
-    | Record<
-        string,
-        { content?: string; prop?: string; type?: 'success' | 'danger' | 'primary' | 'info' }
-      >
+    | Record<string,
+    { content?: string; prop?: string; type?: 'success' | 'danger' | 'primary' | 'info' }>
     | string[];
 }>;

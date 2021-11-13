@@ -1,6 +1,6 @@
 import {
   getDoNothingIO, IO, map, Maybe, nextTimeout, queryDom, unsafeAssign, unsafeClearArray, unsafeClearObj,
-  unsafeClearPush, unsafeDeleteProperty, unsafePush, unsafeRemoveItem, unsafeSet, useState, useSync, withParams
+  unsafeClearPush, unsafeDeleteProperty, unsafePush, unsafeRemoveItem, unsafeSet, useState, useSync, withParams,EventBus
 } from 'chx-utils';
 import { debounce } from 'lodash-es';
 import * as R from 'ramda';
@@ -12,7 +12,7 @@ import { CxFormItemConfig } from '../../../..';
 import { PATCH_FLAG } from '../../constant';
 import { useCxTableCompose } from '../../hooks';
 import { CxTableBaseObj, CxTableDynamicColumn, CxTablePropType, Nullable, TableDataVisitor } from '../../types';
-import { cxTableWarn, EventBus, getTargetColumn } from '../../utils';
+import { cxTableWarn, getTargetColumn } from '../../utils';
 import DynamicFilterBtn from './dynamicFilterBtn';
 import DynamicFormAdd from './dynamicFormAdd';
 import TeleFormInstance from './formInstance';

@@ -4,8 +4,9 @@ import { CX_TABLE_NOT_HOVER_ID } from '../constant';
 import { ARROW_KEY, CX_SPAN_METHOD_TYPE } from '../constant';
 import { CxTableActiveControl } from '../hooks';
 import { CxCellProp, CxTableBaseObj, CxTablePropType, Nullable, SelectConfig, TableDataVisitor } from '../types';
-import {  EventBus, getColumnSelectText, getPreOrNextItem } from '../utils';
+import { getColumnSelectText, getPreOrNextItem } from '../utils';
 import { domShare } from '../utils';
+import { EventBus } from 'chx-utils';
 
 export const registResponsive = (wrapper: Ref<Nullable<HTMLElement>>, callbacks: Func<any>[]) => {
   onMounted(() => {
@@ -67,7 +68,7 @@ const scrollUpdateVisualScroll = ($CxTable: CxTableBaseObj, props: CxTablePropTy
       while (
         renderStartIndex > 0 &&
         virtualStore.rowSpanMap[renderStartIndex] & CX_SPAN_METHOD_TYPE.MISSING
-      ) {
+        ) {
         topRowSpanPrepend++;
         renderStartIndex--;
       }
@@ -82,7 +83,7 @@ const scrollUpdateVisualScroll = ($CxTable: CxTableBaseObj, props: CxTablePropTy
       while (
         renderStartIndex + renderLength < rowNum &&
         virtualStore.rowSpanMap[renderStartIndex + renderLength] & CX_SPAN_METHOD_TYPE.MISSING
-      ) {
+        ) {
         renderLength++;
       }
     }

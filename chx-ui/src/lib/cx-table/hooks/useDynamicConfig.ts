@@ -5,9 +5,12 @@ import { nextTick, ref, watch } from 'vue';
 import {
   CX_TABLE_CACHE_PENDING, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_THROTTLE_DURATION
 } from '../constant';
-import { CxTableDynamicColumn, CxTableItem, CxTablePropType, DYNAMIC_CONFIG } from '../types';
+import { CxTableBaseObj, CxTableDynamicColumn, CxTableItem, CxTablePropType, DYNAMIC_CONFIG } from '../types';
 import { CxConfigAdaptor, cxTableWarn } from '../utils';
+import { useColumnValidity } from './useAuthorization';
+import { useColumn } from './useColumn';
 import { useCxTable } from './useCxTable';
+import { useUpdateState } from './useUpdateState';
 
 const cacheMap: Record<string, Func<any>[]> = {};
 
@@ -61,10 +64,12 @@ export const getCxDynamicHead = async (dynamic: DYNAMIC_CONFIG) => {
   });
 };
 
-export const useDynamicConfig = (props: CxTablePropType, emit: Func<any>) => {
+export const useDynamicConfig = (props: CxTablePropType, $CxTable: CxTableBaseObj, emit: Func<any>) => {
   const columnProxy = ref<CxTableItem[]>([]);
   const dynamicColumn = ref<CxTableDynamicColumn[]>([]);
   const loading = ref(false);
+
+  const { updateState } = useUpdateState(props, $CxTable);
 
   const forceUpdate = debounce((isDynamicChange = false) => {
     if (isObject(props.dynamic)) {
@@ -85,6 +90,9 @@ export const useDynamicConfig = (props: CxTablePropType, emit: Func<any>) => {
             dynamicColumn.value = R.clone(data);
             data = resolveColumns(data, props);
             columnProxy.value = data;
+            useColumn($CxTable, columnProxy, props);
+            useColumnValidity($CxTable);
+            updateState();
           }
           await nextTick();
           isDynamicChange && emit('dynamicUpdate');
@@ -104,6 +112,9 @@ export const useDynamicConfig = (props: CxTablePropType, emit: Func<any>) => {
         });
     } else {
       columnProxy.value = resolveColumns(R.clone(props.tableConfig.items), props);
+      useColumn($CxTable, columnProxy, props);
+      useColumnValidity($CxTable);
+      updateState();
     }
   }, 300);
 

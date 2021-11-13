@@ -1,4 +1,4 @@
-import { CX_SORT_STATUS } from '../constant/enum';
+import { CX_SORT_STATUS } from '../constant';
 import { CxCheckSelectFun, CxTableItem, CxTableSortFun } from './tableConfig';
 
 export * from './tableConfig';

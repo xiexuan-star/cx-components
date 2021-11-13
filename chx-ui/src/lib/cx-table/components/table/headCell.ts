@@ -1,20 +1,11 @@
+import { EventBus } from 'chx-utils';
 import {
-  computed,
-  createBlock,
-  createCommentVNode,
-  createVNode,
-  defineComponent,
-  Fragment,
-  inject,
-  openBlock,
-  PropType,
-  ref,
-  resolveComponent,
-  watchEffect
+  computed, createBlock, createCommentVNode, createVNode, defineComponent, Fragment, inject, openBlock, PropType, ref,
+  resolveComponent, watchEffect
 } from 'vue';
 import { COLUMN_FLAG, CX_SORT_STATUS, PATCH_FLAG } from '../../constant';
 import { CxTableBaseObj, CxTableColumnObj, SelectConfig, TableDataVisitor } from '../../types';
-import { EventBus, formatWidth, getSums } from '../../utils';
+import { formatWidth, getSums } from '../../utils';
 
 export default defineComponent({
   name: 'CxTableHeadCell',

@@ -9,6 +9,7 @@ import { useCalcSpanMethod } from './useCalcSpanMethod';
 import { useColumn } from './useColumn';
 import { useScrollState } from './useScrollState';
 import { isNumber } from 'chx-utils';
+import { useUpdateState } from './useUpdateState';
 
 export const useWatch = (
   props: CxTablePropType,
@@ -25,29 +26,14 @@ export const useWatch = (
   };
   watch(() => tableVisible.value, updateVisible);
 
-  const updateTableState = debounce(async () => {
-    if (props.spanMethod && props.virtualScroll) {
-      useCalcSpanMethod($CxTable, props);
-    }
-    $CxTable.flatColumns.forEach(column => {
-      updateCxTableWidth($CxTable, props, column.prop);
-    });
-    useAutoWidth($CxTable);
-    await nextTick();
-    scrollUpdateShadow($CxTable);
-    if (tableWrapper.value) {
-      wrapperScrollEventHandle($CxTable, props as CxTablePropType);
-      useScrollState($CxTable);
-    }
-  }, 50);
+  const { updateState } = useUpdateState(props, $CxTable);
+  const updateTableState = debounce(updateState, 50);
 
   const updateColumn = async () => {
     useColumn($CxTable, columnProxy, props);
     useColumnValidity($CxTable);
     updateTableState();
   };
-  // 当表头变化时,需要更新column对象以及重新计算宽度,触发一些样式计算
-  watch(columnProxy, updateColumn, { immediate: true, deep: true });
 
   const updateData = async () => {
     useRowDataValidity(props);
