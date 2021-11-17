@@ -3520,6 +3520,9 @@ var useLazyLoad = function (ele, tableVisible) {
         });
     }); });
     observer.observe(ele);
+    onUnmounted(function () {
+        observer.disconnect();
+    });
 };
 
 var usePriorityConfig = function (_a) {

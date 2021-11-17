@@ -1,4 +1,4 @@
-import { Ref, nextTick } from 'vue';
+import { Ref, nextTick, onUnmounted } from 'vue';
 
 export const useLazyLoad = (ele: HTMLElement, tableVisible: Ref<boolean>) => {
   if (!IntersectionObserver) {
@@ -10,4 +10,7 @@ export const useLazyLoad = (ele: HTMLElement, tableVisible: Ref<boolean>) => {
     tableVisible.value = Reflect.get(entries?.[0] ?? { isIntersecting: true }, 'isIntersecting');
   });
   observer.observe(ele);
+  onUnmounted(() => {
+    observer.disconnect();
+  });
 };

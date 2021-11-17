@@ -41,9 +41,12 @@ export class CxControlConfig {
   inputConfigAdaptor(config: CxTableDynamicColumn) {
     const { control, influenced, sideEffect, prop } = config;
     if (!control) return;
-    isNumber(control.maxLength) && Reflect.set(this.attrs!, 'maxlength', control.maxLength);
-    isNumber(control.minLength) && Reflect.set(this.attrs!, 'minlength', control.minLength);
-    control.showWordLimit && Reflect.set(this.attrs!, 'showWordLimit', true);
+    isNumber(control.maxLength) && Reflect.set(this.attrs, 'maxlength', control.maxLength);
+    isNumber(control.minLength) && Reflect.set(this.attrs, 'minlength', control.minLength);
+    control.showWordLimit && Reflect.set(this.attrs, 'showWordLimit', true);
+    control.source && Reflect.set(this.attrs, 'source', true);
+    control.sourceColumnId && Reflect.set(this.attrs, 'sourceColumnId', true);
+    control.sourceColumnProp && Reflect.set(this.attrs, 'sourceColumnProp', true);
 
     influenced &&
     (this.attrs!.broadcastRegister = register => {

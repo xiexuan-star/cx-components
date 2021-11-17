@@ -1,31 +1,35 @@
-import { Slot, Slots, VNode } from 'vue'
-import { CxFormControl } from '../constructor'
+import { Slot, Slots, VNode } from 'vue';
+import { CxFormControl } from '../constructor';
 
 interface ValidateCallback {
-  (err?: Error): void
+  (err?: Error): void;
 }
 
 interface FormValidateCallback {
-  (isValid: boolean, invalidFields: AnyObject): void
+  (isValid: boolean, invalidFields: AnyObject): void;
 }
 
 export interface ElFormExpose {
-  validate(): Promise<boolean>
-  validate(callback: ValidateCallback): void
-  validateField(props: string | string[], callback?: FormValidateCallback): void
-  clearValidate(props?: string | string[]): void
-  resetFields(): void
+  validate(): Promise<boolean>;
+
+  validate(callback: ValidateCallback): void;
+
+  validateField(props: string | string[], callback?: FormValidateCallback): void;
+
+  clearValidate(props?: string | string[]): void;
+
+  resetFields(): void;
 }
 
 export interface CxFormTemplateType {
-  name: string
-  slots: Slots
-  attrs: AnyObject
-  init: () => this
-  propAdaptor: () => this
-  addSlots: (slots: Slots | Slot) => this
-  renderVNode: (Comp?: any) => VNode | null
-  render: () => VNode | null | void
+  name: string;
+  slots: Slots;
+  attrs: AnyObject;
+  init: () => this;
+  propAdaptor: () => this;
+  addSlots: (slots: Slots | Slot) => this;
+  renderVNode: (Comp?: any) => VNode | null;
+  render: () => VNode | null | void;
 }
 
 export type CxFormCache = {
@@ -33,18 +37,19 @@ export type CxFormCache = {
   getCache: () => void
   removeCache: () => void
 }
+
 export interface CxFormConfig {
-  inline?: boolean
-  attrs?: AnyObject
-  rules?: AnyObject
-  form: AnyObject
-  closable: boolean
-  items: CxFormItemConfig[]
-  formAttrs?:AnyObject
+  inline?: boolean;
+  attrs?: AnyObject;
+  rules?: AnyObject;
+  form: AnyObject;
+  closable: boolean;
+  items: CxFormItemConfig[];
+  formAttrs?: AnyObject;
 }
 
 export interface CxFormChangeHandle {
-  (payload: { prop: string; val: any; form: AnyObject; option?: AnyObject }): void
+  (payload: { prop: string; val: any; form: AnyObject; option?: AnyObject }): void;
 }
 
 export type option = { name: string; id: string | number; disabled?: boolean }
@@ -86,6 +91,7 @@ export type CxFormItemConfig = {
   select: { options: CxFormSelectOptions; [propName: string]: any }
   search: { options: CxFormSelectOptions; [propName: string]: any }
   textarea: { showWordLimit?: boolean; [propName: string]: any }
+  sourceSelect: { sourceId: number, relyOn?: number, relyProp?: string, withAllOption: boolean, [propName: string]: any }
   selectMultiply: AnyObject
   date: AnyObject
   dateRange: AnyObject
@@ -108,5 +114,5 @@ export type CxFormItemType =
   | 'time'
 
 export interface CxFormAdaptor {
-  (this: CxFormControl): any
+  (this: CxFormControl): any;
 }
