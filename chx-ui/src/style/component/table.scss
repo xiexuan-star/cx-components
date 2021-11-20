@@ -108,6 +108,11 @@ $color-primary: #0084ff;
           img {
             vertical-align: middle;
           }
+
+          input {
+            border:0!important;
+            background-color: transparent;
+          }
         }
       }
 

@@ -1954,7 +1954,6 @@ var CxControlConfig = /** @class */ (function () {
             return;
         isNumber(control.maxLength) && Reflect.set(this.attrs, 'maxlength', control.maxLength);
         isNumber(control.minLength) && Reflect.set(this.attrs, 'minlength', control.minLength);
-        control.showWordLimit && Reflect.set(this.attrs, 'showWordLimit', true);
         influenced &&
             (this.attrs.broadcastRegister = function (register) {
                 _this.influencedRegister(register, config);
@@ -1970,6 +1969,11 @@ var CxControlConfig = /** @class */ (function () {
         var prop = config.prop, control = config.control, influenced = config.influenced, sideEffect = config.sideEffect;
         if (!control)
             return;
+        control.showWordLimit && Reflect.set(this.attrs, 'showWordLimit', control.showWordLimit);
+        control.source && Reflect.set(this.attrs, 'source', control.source);
+        control.sourceColumnId && Reflect.set(this.attrs, 'sourceColumnId', control.sourceColumnId);
+        control.sourceColumnProp && Reflect.set(this.attrs, 'sourceColumnProp', control.sourceColumnProp);
+        control.sourceColumnListId && Reflect.set(this.attrs, 'sourceColumnListId', control.sourceColumnListId);
         var currentOption = [];
         if (Array.isArray(control.options)) {
             Reflect.set(this, 'options', (currentOption = control.options));
@@ -4519,9 +4523,10 @@ var Cell = defineComponent({
         var _hoisted_direction_1 = resolveDirective('uni-popper');
         var handles = rootProp.keyboard ? registCellEvent(CxTable, props) : {};
         // 如果设置了validate,则计算其校验结果
-        var invalidContent = computed(function () {
+        var invalidContent = ref('');
+        watchEffect(function () {
             if (!(props.column.columnFlag & COLUMN_FLAG.VALIDATE_COLUMN))
-                return;
+                return invalidContent.value = '';
             CxTable.editStore.actived;
             props.rowData[props.column.prop];
             var result = isFunction(props.column.validator)
@@ -4535,15 +4540,14 @@ var Cell = defineComponent({
             if (!result && props.column.required) {
                 result = isEmpty(props.rowData[props.column.prop]) ? props.column.label + '为必填' : null;
             }
-            return result;
+            return invalidContent.value = result;
         });
-        // 聚焦,此写法可避免render函数收集到无用依赖,此处请勿使用computed
         var isActived = ref(false);
         watchEffect(function () {
             var _a;
-            var result = props.column._colid === ((_a = CxTable.editStore.actived.column) === null || _a === void 0 ? void 0 : _a._colid) &&
-                props.rowData === CxTable.editStore.actived.rowData;
-            isActived.value = result;
+            isActived.value =
+                props.column._colid === ((_a = CxTable.editStore.actived.column) === null || _a === void 0 ? void 0 : _a._colid) &&
+                    props.rowData === CxTable.editStore.actived.rowData;
         });
         // 聚焦提交tdFocus事件
         watch(function () { return isActived.value; }, function () {
@@ -4568,11 +4572,13 @@ var Cell = defineComponent({
             return result;
         });
         // 单元格是否显示控件
-        var isControl = computed(function () {
-            return isActived.value && !!CxTable.editStore.activedControl;
+        var isControl = ref(false);
+        watchEffect(function () {
+            isControl.value = isActived.value && !!CxTable.editStore.activedControl;
         });
-        var errorVisible = computed(function () {
-            return !!(invalidContent.value && isControl.value);
+        var errorVisible = ref(false);
+        watchEffect(function () {
+            errorVisible.value = !!(invalidContent.value && isControl.value);
         });
         var directionOption = reactive({
             visible: false,
@@ -4632,13 +4638,6 @@ var Cell = defineComponent({
                 }
             }
         }, { immediate: true });
-        // 此写法可避免render函数收集到无用依赖,此处请勿使用computed
-        var cellActived = ref(false);
-        watchEffect(function () {
-            if (cellActived.value === (isActived.value && !CxTable.editStore.activedControl))
-                return;
-            cellActived.value = isActived.value && !CxTable.editStore.activedControl;
-        });
         // 当值发生改变时发送一个广播
         watch(function () { return props.rowData[props.column.prop]; }, function () {
             broadcast === null || broadcast === void 0 ? void 0 : broadcast.trigger(props.column.prop, props.rowData, {
@@ -4667,7 +4666,7 @@ var Cell = defineComponent({
             if (mergeSpan.value && (((_b = mergeSpan.value) === null || _b === void 0 ? void 0 : _b.rowspan) === 0 || ((_c = mergeSpan.value) === null || _c === void 0 ? void 0 : _c.colspan) === 0)) {
                 return;
             }
-            return createVNode('td', __assign(__assign(__assign({ key: key }, handles), mergeSpan.value), { style: tdStyle.value, colid: props.column._colid, "class": { actived: cellActived.value } }), [
+            return createVNode('td', __assign(__assign(__assign({ key: key }, handles), mergeSpan.value), { style: tdStyle.value, colid: props.column._colid, "class": { actived: isActived.value } }), [
                 createVNode('div', {
                     "class": 'cx-table_cell',
                     style: { width: props.column.renderWidth + 'px' }
@@ -5021,16 +5020,18 @@ var CxTableBody = defineComponent({
         watchEffect(function () {
             tableClass.value = rootProp.stripe || rootProp.showForm ? 'stripe' : '';
         });
-        return function () { return (openBlock(),
-            createBlock('div', { "class": hoisted_2, style: bodyWrapperStyle.value }, [
-                createVNode('table', { style: tableStyle.value, "class": tableClass.value }, [createVNode('tbody', null, [renderContent(), renderAddBtn(), renderTotalSum()])], PATCH_FLAG.STYLE),
-                (openBlock(),
-                    createBlock(Fragment, null, [
-                        props.fixed === 'bottom'
-                            ? createVNode(FixedBottom, { tableData: props.tableData }, null, PATCH_FLAG.PROPS | PATCH_FLAG.NEED_PATCH, ['tableData'])
-                            : createCommentVNode('v-if_fixed_bottom', true)
-                    ], PATCH_FLAG.STABLE_FRAGMENT))
-            ], PATCH_FLAG.CLASS | PATCH_FLAG.STYLE)); };
+        return function () {
+            return openBlock(),
+                createBlock('div', { "class": hoisted_2, style: bodyWrapperStyle.value }, [
+                    createVNode('table', { style: tableStyle.value, "class": tableClass.value }, [createVNode('tbody', null, [renderContent(), renderAddBtn(), renderTotalSum()])], PATCH_FLAG.STYLE),
+                    (openBlock(),
+                        createBlock(Fragment, null, [
+                            props.fixed === 'bottom'
+                                ? createVNode(FixedBottom, { tableData: props.tableData }, null, PATCH_FLAG.PROPS | PATCH_FLAG.NEED_PATCH, ['tableData'])
+                                : createCommentVNode('v-if_fixed_bottom', true)
+                        ], PATCH_FLAG.STABLE_FRAGMENT))
+                ], PATCH_FLAG.CLASS | PATCH_FLAG.STYLE);
+        };
     }
 });
 

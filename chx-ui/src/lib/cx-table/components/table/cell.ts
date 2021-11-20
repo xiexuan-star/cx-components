@@ -33,8 +33,9 @@ export default defineComponent({
     const handles = rootProp.keyboard ? registCellEvent(CxTable, props) : {};
 
     // 如果设置了validate,则计算其校验结果
-    const invalidContent = computed(() => {
-      if (!(props.column.columnFlag & COLUMN_FLAG.VALIDATE_COLUMN)) return;
+    const invalidContent = ref('');
+    watchEffect(() => {
+      if (!(props.column.columnFlag & COLUMN_FLAG.VALIDATE_COLUMN)) return invalidContent.value = '';
       CxTable.editStore.actived;
       props.rowData[props.column.prop];
       let result: any = isFunction(props.column.validator)
@@ -46,18 +47,16 @@ export default defineComponent({
         })
         : null;
       if (!result && props.column.required) {
-        result = isEmpty(props.rowData[props.column.prop]) ? props.column.label + '为必填' : null;
+        result = isEmpty(props.rowData[props.column.prop]) ? '请填写' + props.column.label : null;
       }
-      return result;
+      return invalidContent.value = result;
     });
 
-    // 聚焦,此写法可避免render函数收集到无用依赖,此处请勿使用computed
     const isActived = ref(false);
     watchEffect(() => {
-      const result =
+      isActived.value =
         props.column._colid === CxTable.editStore.actived.column?._colid &&
         props.rowData === CxTable.editStore.actived.rowData;
-      isActived.value = result;
     });
 
     // 聚焦提交tdFocus事件
@@ -87,12 +86,14 @@ export default defineComponent({
     });
 
     // 单元格是否显示控件
-    const isControl = computed(() => {
-      return isActived.value && !!CxTable.editStore.activedControl;
+    const isControl = ref(false);
+    watchEffect(() => {
+      isControl.value = isActived.value && !!CxTable.editStore.activedControl;
     });
 
-    const errorVisible = computed(() => {
-      return !!(invalidContent.value && isControl.value);
+    const errorVisible = ref(false);
+    watchEffect(() => {
+      errorVisible.value = !!(invalidContent.value && isControl.value);
     });
 
     const directionOption = reactive({
@@ -113,8 +114,8 @@ export default defineComponent({
     // 单元格内容
     const renderContent = () => {
       if (props.empty) return;
-      const renderInnerContent: any = () =>
-        renderCellContent(
+      const renderInnerContent: any = () => {
+        return renderCellContent(
           props,
           isControl.value,
           props.rowIndex,
@@ -130,6 +131,7 @@ export default defineComponent({
           rootProp.ignoreControl,
           rootProp.forceControl
         );
+      };
       invalidContent.value;
       if (props.column.columnFlag & COLUMN_FLAG.VALIDATE_COLUMN && !props.sum) {
         return withDirectives(createVNode('div', null, [renderInnerContent()]), [
@@ -171,13 +173,6 @@ export default defineComponent({
       },
       { immediate: true }
     );
-
-    // 此写法可避免render函数收集到无用依赖,此处请勿使用computed
-    const cellActived = ref(false);
-    watchEffect(() => {
-      if (cellActived.value === (isActived.value && !CxTable.editStore.activedControl)) return;
-      cellActived.value = isActived.value && !CxTable.editStore.activedControl;
-    });
 
     // 当值发生改变时发送一个广播
     watch(
@@ -223,7 +218,7 @@ export default defineComponent({
           ...mergeSpan.value,
           style: tdStyle.value,
           colid: props.column._colid,
-          class: { actived: cellActived.value }
+          class: { actived: isActived.value }
         },
         [
           createVNode(

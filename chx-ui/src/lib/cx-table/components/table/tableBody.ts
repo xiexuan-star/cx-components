@@ -55,28 +55,28 @@ export default defineComponent({
           default: () => {
             return (
               openBlock(true),
-              createBlock(
-                Fragment,
-                null,
-                CxTable.flatColumns.map(
-                  col => (
-                    openBlock(),
-                    createBlock(Fragment, null, [
-                      props.fixed && props.fixed !== 'bottom' && col.fixed !== props.fixed
-                        ? createCommentVNode('v-if', true)
-                        : (openBlock(),
-                          createBlock(
-                            Cell,
-                            { rowData, rowIndex, column: col, sum, empty, key: col._colid },
-                            null,
-                            PATCH_FLAG.PROPS,
-                            ['rowData', 'rowIndex', 'column', 'sum', 'empty']
-                          ))
-                    ])
-                  )
-                ),
-                PATCH_FLAG.KEYED_FRAGMENT
-              )
+                createBlock(
+                  Fragment,
+                  null,
+                  CxTable.flatColumns.map(
+                    col => (
+                      openBlock(),
+                        createBlock(Fragment, null, [
+                          props.fixed && props.fixed !== 'bottom' && col.fixed !== props.fixed
+                            ? createCommentVNode('v-if', true)
+                            : (openBlock(),
+                              createBlock(
+                                Cell,
+                                { rowData, rowIndex, column: col, sum, empty, key: col._colid },
+                                null,
+                                PATCH_FLAG.PROPS,
+                                ['rowData', 'rowIndex', 'column', 'sum', 'empty']
+                              ))
+                        ])
+                    )
+                  ),
+                  PATCH_FLAG.KEYED_FRAGMENT
+                )
             );
           }
         },
@@ -89,56 +89,56 @@ export default defineComponent({
     const renderContent = () => {
       return (
         openBlock(),
-        createBlock(Fragment, null, [
-          props.fixed === 'bottom' || props.onlyTotal
-            ? createCommentVNode('v-if', true)
-            : (openBlock(true),
-              createBlock(
-                Fragment,
-                null,
-                (function() {
-                  const result: JSX.Element[] = [];
-                  let data;
-                  let indexPrepend = 0;
-                  if (rootProp.virtualScroll) {
-                    const { virtualStore } = CxTable;
-                    data = props.tableData.slice(
-                      virtualStore.renderStartIndex,
-                      virtualStore.renderEndIndex
-                    );
-                    indexPrepend = virtualStore.renderStartIndex;
-                  } else {
-                    data = props.tableData;
-                  }
-                  data.forEach((rowData: AnyObject, rowIndex: number) => {
-                    result.push(renderRow(rowData, rowIndex + indexPrepend));
-                    if (rootProp.expand) {
-                      result.push(
-                        createVNode(
-                          Expand,
-                          { rowData, rowIndex: rowIndex + indexPrepend, fixed: props.fixed },
-                          null,
-                          PATCH_FLAG.FULL_PROPS
-                        )
+          createBlock(Fragment, null, [
+            props.fixed === 'bottom' || props.onlyTotal
+              ? createCommentVNode('v-if', true)
+              : (openBlock(true),
+                createBlock(
+                  Fragment,
+                  null,
+                  (function () {
+                    const result: JSX.Element[] = [];
+                    let data;
+                    let indexPrepend = 0;
+                    if (rootProp.virtualScroll) {
+                      const { virtualStore } = CxTable;
+                      data = props.tableData.slice(
+                        virtualStore.renderStartIndex,
+                        virtualStore.renderEndIndex
                       );
+                      indexPrepend = virtualStore.renderStartIndex;
+                    } else {
+                      data = props.tableData;
                     }
-                  });
+                    data.forEach((rowData: AnyObject, rowIndex: number) => {
+                      result.push(renderRow(rowData, rowIndex + indexPrepend));
+                      if (rootProp.expand) {
+                        result.push(
+                          createVNode(
+                            Expand,
+                            { rowData, rowIndex: rowIndex + indexPrepend, fixed: props.fixed },
+                            null,
+                            PATCH_FLAG.FULL_PROPS
+                          )
+                        );
+                      }
+                    });
 
-                  if (
-                    isNumber(rootProp.emptyLimit) &&
-                    rootProp.emptyLimit > props.tableData.length
-                  ) {
-                    Array(rootProp.emptyLimit - props.tableData.length)
-                      .fill('')
-                      .forEach(() => {
-                        result.push(renderRow({}, CX_TABLE_EMPTY_INDEX, false, true));
-                      });
-                  }
-                  return result;
-                })(),
-                PATCH_FLAG.KEYED_FRAGMENT
-              ))
-        ])
+                    if (
+                      isNumber(rootProp.emptyLimit) &&
+                      rootProp.emptyLimit > props.tableData.length
+                    ) {
+                      Array(rootProp.emptyLimit - props.tableData.length)
+                        .fill('')
+                        .forEach(() => {
+                          result.push(renderRow({}, CX_TABLE_EMPTY_INDEX, false, true));
+                        });
+                    }
+                    return result;
+                  })(),
+                  PATCH_FLAG.KEYED_FRAGMENT
+                ))
+          ])
       );
     };
 
@@ -157,12 +157,12 @@ export default defineComponent({
     watchEffect(() => {
       hideTotalSum.value =
         (rootProp.virtualScroll &&
-          props.fixed !== 'bottom' &&
-          !props.onlyTotal &&
-          CxTable.virtualStore.renderEndIndex < rootProp.tableData.length) ||
+         props.fixed !== 'bottom' &&
+         !props.onlyTotal &&
+         CxTable.virtualStore.renderEndIndex < rootProp.tableData.length) ||
         (((!rootProp.showTotalSum && !rootProp.showForm) || props.tableData?.length <= 0) &&
-          !rootProp.showAddBtn &&
-          !props.float);
+         !rootProp.showAddBtn &&
+         !props.float);
     });
     const transferOtherSum = (columns: CxTableColumnObj[]) => {
       const result: AnyObject = {};
@@ -176,23 +176,23 @@ export default defineComponent({
     const renderTotalSum = () => {
       return (
         openBlock(),
-        createBlock(Fragment, null, [
-          hideTotalSum.value
-            ? createCommentVNode('v-if', true)
-            : isObject(rootProp.customTotalSum)
-            ? renderRow(Object.assign({}, rootProp.customTotalSum), CX_TABLE_SUM_INDEX, true)
-            : isObject(CxTable.entireTotalSum)
-            ? renderRow(
-                R.mergeLeft(transferOtherSum(CxTable.flatColumns), CxTable.entireTotalSum),
-                CX_TABLE_SUM_INDEX,
-                true
-              )
-            : renderRow(
-                getTotalSumData(CxTable.flatColumns, rootProp.tableData ?? []),
-                CX_TABLE_SUM_INDEX,
-                true
-              )
-        ])
+          createBlock(Fragment, null, [
+            hideTotalSum.value
+              ? createCommentVNode('v-if', true)
+              : isObject(rootProp.customTotalSum)
+                ? renderRow(Object.assign({}, rootProp.customTotalSum), CX_TABLE_SUM_INDEX, true)
+                : isObject(CxTable.entireTotalSum)
+                  ? renderRow(
+                    R.mergeLeft(transferOtherSum(CxTable.flatColumns), CxTable.entireTotalSum),
+                    CX_TABLE_SUM_INDEX,
+                    true
+                  )
+                  : renderRow(
+                    getTotalSumData(CxTable.flatColumns, rootProp.tableData ?? []),
+                    CX_TABLE_SUM_INDEX,
+                    true
+                  )
+          ])
       );
     };
 
@@ -225,38 +225,38 @@ export default defineComponent({
       tableClass.value = rootProp.stripe || rootProp.showForm ? 'stripe' : '';
     });
 
-    return () => (
-      openBlock(),
-      createBlock(
-        'div',
-        { class: hoisted_2, style: bodyWrapperStyle.value },
-        [
-          createVNode(
-            'table',
-            { style: tableStyle.value, class: tableClass.value },
-            [createVNode('tbody', null, [renderContent(), renderAddBtn(), renderTotalSum()])],
-            PATCH_FLAG.STYLE
-          ),
-          (openBlock(),
-          createBlock(
-            Fragment,
-            null,
-            [
-              props.fixed === 'bottom'
-                ? createVNode(
-                    FixedBottom,
-                    { tableData: props.tableData },
-                    null,
-                    PATCH_FLAG.PROPS | PATCH_FLAG.NEED_PATCH,
-                    ['tableData']
-                  )
-                : createCommentVNode('v-if_fixed_bottom', true)
-            ],
-            PATCH_FLAG.STABLE_FRAGMENT
-          ))
-        ],
-        PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
-      )
-    );
+    return () => {
+      return openBlock(),
+        createBlock(
+          'div',
+          { class: hoisted_2, style: bodyWrapperStyle.value },
+          [
+            createVNode(
+              'table',
+              { style: tableStyle.value, class: tableClass.value },
+              [createVNode('tbody', null, [renderContent(), renderAddBtn(), renderTotalSum()])],
+              PATCH_FLAG.STYLE
+            ),
+            (openBlock(),
+              createBlock(
+                Fragment,
+                null,
+                [
+                  props.fixed === 'bottom'
+                    ? createVNode(
+                      FixedBottom,
+                      { tableData: props.tableData },
+                      null,
+                      PATCH_FLAG.PROPS | PATCH_FLAG.NEED_PATCH,
+                      ['tableData']
+                    )
+                    : createCommentVNode('v-if_fixed_bottom', true)
+                ],
+                PATCH_FLAG.STABLE_FRAGMENT
+              ))
+          ],
+          PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
+        );
+    };
   }
 });

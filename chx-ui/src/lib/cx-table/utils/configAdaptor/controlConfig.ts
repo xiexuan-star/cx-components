@@ -43,10 +43,6 @@ export class CxControlConfig {
     if (!control) return;
     isNumber(control.maxLength) && Reflect.set(this.attrs, 'maxlength', control.maxLength);
     isNumber(control.minLength) && Reflect.set(this.attrs, 'minlength', control.minLength);
-    control.showWordLimit && Reflect.set(this.attrs, 'showWordLimit', true);
-    control.source && Reflect.set(this.attrs, 'source', true);
-    control.sourceColumnId && Reflect.set(this.attrs, 'sourceColumnId', true);
-    control.sourceColumnProp && Reflect.set(this.attrs, 'sourceColumnProp', true);
 
     influenced &&
     (this.attrs!.broadcastRegister = register => {
@@ -64,6 +60,12 @@ export class CxControlConfig {
     const { prop, control, influenced, sideEffect } = config;
 
     if (!control) return;
+
+    control.showWordLimit && Reflect.set(this.attrs, 'showWordLimit', control.showWordLimit);
+    control.source && Reflect.set(this.attrs, 'source', control.source);
+    control.sourceColumnId && Reflect.set(this.attrs, 'sourceColumnId', control.sourceColumnId);
+    control.sourceColumnProp && Reflect.set(this.attrs, 'sourceColumnProp', control.sourceColumnProp);
+    control.sourceColumnListId && Reflect.set(this.attrs, 'sourceColumnListId', control.sourceColumnListId);
 
     let currentOption: (NameWithId & { disabled?: boolean })[] = [];
 

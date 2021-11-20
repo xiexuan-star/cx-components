@@ -36,7 +36,7 @@ export function decimalFixed<T extends unknown>(
   }
 
   if (precision < 0 || precision !== parseInt(precision + '', 10)) {
-    cxTableWarn(`精度错误 => ${precision}`);
+    cxTableWarn(`精度错误 => ${ precision }`);
     return value;
   }
 
@@ -87,17 +87,23 @@ export const getTemplateResult = (str: string, data: AnyObject) => {
 Reflect.set(window, 'getTemplateResult', getTemplateResult);
 
 const getInFactVal = (val: any) => {
-  if (isString(val)) return val.match(/[^\d^.]+/) ? `'${val}'` : val;
+  if (isString(val)) return val.match(/[^\d^.]+/) ? `'${ val }'` : val;
   if (!isNumber(val)) return 'null';
   return val + '';
 };
 // 获取字符公式结果
 export const getEvalResult = (formula: string, data: AnyObject, withCalc = false): any => {
-  const getToken = () =>
-    formula.replace(/[a-zA-Z]+/g, (prop: string) => {
-      if (prop === 'undefined') return prop;
-      return withCalc ? (+data[prop] || 0) + '' : getInFactVal(data[prop]);
+  const getToken = function () {
+    return formula.replace(/[a-zA-Z]+/g, (prop) => {
+      if (prop === 'undefined') {
+        return prop;
+      }
+      return withCalc ? (() => {
+        const res = +data[prop] || 0;
+        return res < 0 ? ` ${ res }` : res;
+      })() + '' : getInFactVal(data[prop]);
     });
+  };
   try {
     const token = getToken();
     let res = eval(token);
@@ -112,10 +118,10 @@ export const getEvalResult = (formula: string, data: AnyObject, withCalc = false
       try {
         return eval(getToken());
       } catch (innerErr) {
-        cxTableWarn(`匹配公式时发生错误==>${formula}`);
+        cxTableWarn(`匹配公式时发生错误==>${ formula }`);
       }
     }
-    cxTableWarn(`匹配公式时发生错误==>${formula}`);
+    cxTableWarn(`匹配公式时发生错误==>${ formula }`);
     return null;
   }
 };
@@ -135,6 +141,7 @@ export const getOptionsDeps = (options: AnyObject) => {
       }
     });
   }
+
   if (typeof options === 'object') {
     search(options);
   }

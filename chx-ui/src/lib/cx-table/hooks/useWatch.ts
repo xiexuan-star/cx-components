@@ -15,7 +15,7 @@ export const useWatch = (
   props: CxTablePropType,
   $CxTable: CxTableBaseObj,
   columnProxy: Ref<CxTableItem[]>,
-  tableWrapper: Ref<any>,
+  tableWrapper: Ref,
   expandConfig: boolean[],
   tableVisible: Ref<boolean>
 ) => {

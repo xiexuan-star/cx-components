@@ -68,6 +68,7 @@ export type CxTableDynamicControl = {
   source: number;
   sourceColumnId: number;
   sourceColumnProp: string;
+  sourceColumnListId: string;
   options: (NameWithId & { disabled?: boolean })[] | AnyObject | ((params: {
     rowData: AnyObject;
     rowIndex: number;
