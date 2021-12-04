@@ -8,7 +8,7 @@ import { updateCxTableWidth, useAutoWidth } from './useAutoWidth';
 import { useCalcSpanMethod } from './useCalcSpanMethod';
 import { useColumn } from './useColumn';
 import { useScrollState } from './useScrollState';
-import { isNumber } from 'chx-utils';
+import { awaitTimeout, isNumber } from 'chx-utils';
 import { useUpdateState } from './useUpdateState';
 
 export const useWatch = (
@@ -40,12 +40,10 @@ export const useWatch = (
     updateTableState();
   };
   watch([() => props.tableData.length, () => props.emptyLimit], updateData);
-  watch(() => props.tableData, updateTableState, { deep: true });
 
   const updateExpand = async () => {
-    setTimeout(() => {
-      useScrollState($CxTable);
-    });
+    await nextTick();
+    useScrollState($CxTable);
   };
   watch(() => expandConfig, updateExpand, { deep: true, immediate: true });
 

@@ -4,10 +4,11 @@ import { CxTableItem } from './index';
 export type CxTableFormConfig = {
   searchType: 'custom' | 'input' | 'search' | 'date' | 'dateRange' | 'time';
 } & Partial<{
+  searchDefault: string;
   searchSourceId: number;
   searchColumnId: number;
   searchColumnProp: string;
-  searchDefault: string;
+  searchColumnListId: number;
   searchOptions: (NameWithId & { disabled?: boolean })[] | AnyObject | ((payload: { form: AnyObject }) => ({ disabled?: boolean } & NameWithId)[]);
   dynamicSearchOptions: AnyObject;
 }>

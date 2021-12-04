@@ -96,7 +96,7 @@ export default defineComponent({
                 createBlock(
                   Fragment,
                   null,
-                  (function () {
+                  (function() {
                     const result: JSX.Element[] = [];
                     let data;
                     let indexPrepend = 0;
@@ -225,8 +225,8 @@ export default defineComponent({
       tableClass.value = rootProp.stripe || rootProp.showForm ? 'stripe' : '';
     });
 
-    return () => {
-      return openBlock(),
+    return () => (
+      openBlock(),
         createBlock(
           'div',
           { class: hoisted_2, style: bodyWrapperStyle.value },
@@ -256,7 +256,7 @@ export default defineComponent({
               ))
           ],
           PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
-        );
-    };
+        )
+    );
   }
 });

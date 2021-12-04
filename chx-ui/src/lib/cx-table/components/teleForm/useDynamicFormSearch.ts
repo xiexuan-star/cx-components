@@ -8,7 +8,7 @@ import {
   TableDataVisitor
 } from '../../types';
 import { changeDynamicIdToText, cxTableWarn } from '../../utils';
-import { Rule, useCxTable,useCxTableCompose } from '../../hooks';
+import { Rule, useCxTable, useCxTableCompose } from '../../hooks';
 import * as R from 'ramda';
 import {
   defaultPromise,
@@ -92,7 +92,8 @@ export const useDynamicFormSearch = () => {
 
   const checkDynamic = (dynamic?: DYNAMIC_CONFIG) => {
     if (!dynamic) {
-      throw cxTableWarn(`can't fetch data if dynamic `, dynamic, ` is invalid`);
+      cxTableWarn(`can't fetch data if dynamic `, dynamic, ` is invalid`)
+      throw 'invalid dynamic';
     }
   };
 
@@ -116,7 +117,7 @@ export const useDynamicFormSearch = () => {
     const { dynamic } = rootProp;
     checkDynamic(dynamic);
     const matchedRuleEither = R.compose(R.ifElse(R.isNil, Left.of, Right.of), matchedRule);
-    return await either(
+    return either(
       withParams(errorDevTip, [dynamic]),
       async (rule: Rule) => {
         devTip(dynamic!);
@@ -146,7 +147,7 @@ export const useDynamicFormSearch = () => {
     const { dynamic } = rootProp;
     checkDynamic(dynamic);
     const matchedRuleEither = R.compose(R.ifElse(R.isNil, Left.of, Right.of), matchedRule);
-    return await either(
+    return either(
       R.converge(errorDevTip, [R.always(dynamic)]),
       async (rule: Rule) => {
         const rulePropVal = R.prop(R.__, rule);

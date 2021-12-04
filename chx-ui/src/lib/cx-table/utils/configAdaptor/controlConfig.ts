@@ -77,7 +77,7 @@ export class CxControlConfig {
       });
     } else if (isFunction(control.options)) {
       Reflect.set(this, 'options', (params: { rowData: AnyObject; rowIndex: number; }) =>
-        (currentOption = (control.options as Function)(params)))
+        (currentOption = (control.options as Function)(params)));
     }
 
     // 选项唯一

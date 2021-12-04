@@ -6,10 +6,8 @@ function equal(target: string) {
   return (label: string) => label === target;
 }
 
-export const CxTableWidthMap = new Map<
-  string,
-  { width: number; rule: (label: string) => boolean; static?: boolean; important?: boolean }
->([
+export const CxTableWidthMap = new Map<string,
+  { width: number; rule: (label: string) => boolean; static?: boolean; important?: boolean }>([
   ['序号', { width: 60, rule: equal('序号'), static: true }],
   // special
   ['金', { width: 140, rule: equal('金Au (g)') }],
@@ -50,7 +48,7 @@ export const CxTableWidthMap = new Map<
       rule: label => {
         return (
           (['采购单位', '销售对象', '结算对象', '业务对象'].includes(label) ||
-            includeArr(['商户', '供应商'])(label)) &&
+           includeArr(['商户', '供应商'])(label)) &&
           !label?.includes('单号')
         );
       }

@@ -1,9 +1,13 @@
 <template>
   <div :style="{ position: 'absolute', right, top: 0, zIndex: 1500 }">
     <div class="setting_btn cx_flex_center cx_justify_center">
-      <ElTooltip effect="dark" placement="left-start" content="设置表头字段">
-        <CxBtn class="cx_p_0" icon="shezhi1" @click="open" :loading="openLoading" />
-      </ElTooltip>
+      <cx-btn
+        v-uni-popper="{placement:'left-start',text:'设置表头字段'}"
+        class="cx_p_0"
+        icon="shezhi1"
+        @click="open"
+        :loading="openLoading"
+      />
     </div>
     <ColumnSettingDialog
       ref="dialogRef"
@@ -14,9 +18,9 @@
 </template>
 
 <script lang="ts">
-import { AnyObject } from 'cx-store/dist/statistic/types';
 import { computed, defineComponent, inject, ref } from 'vue';
 import { loadingDecorator } from 'chx-utils';
+import uniPopper from '../../../cx-uni-popper/uniPopper';
 import { CxTableBaseObj } from '../../types';
 import ColumnSettingDialog from './dialog.vue';
 
@@ -24,6 +28,7 @@ export default defineComponent({
   name: 'DynamicConfigSettings',
   components: { ColumnSettingDialog },
   props: { dynamicConfig: { type: Object, requred: true } },
+  directives: { uniPopper: uniPopper },
   emits: ['submit'],
   setup(_, { emit }) {
     const dialogRef = ref<null | AnyObject>(null);
@@ -60,9 +65,11 @@ export default defineComponent({
   font-size: 14px;
   border: 1px solid #d9d9d9 !important;
   box-sizing: border-box;
+
   button {
     border: 0 !important;
   }
+
   :deep(.iconfont) {
     margin: 0 !important;
     font-size: 20px !important;

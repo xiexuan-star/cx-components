@@ -59,111 +59,111 @@ export default defineComponent({
         thAttrs.value,
         [
           (openBlock(),
-          createBlock(
-            'div',
-            { class: hoisted_1, style: { width: formatWidth(cellWidth.value) } },
-            [
-              column.headTip
-                ? createVNode(
+            createBlock(
+              'div',
+              { class: hoisted_1, style: { width: formatWidth(cellWidth.value) } },
+              [
+                column.headTip
+                  ? createVNode(
                     resolveComponent('ElTooltip'),
                     { content: column.headTip, placement: 'top-start', key: -1 },
                     {
                       default: () => {
                         return [
                           cache[5] ||
-                            (cache[5] = createVNode('i', { class: 'iconfont icon-bangzhu' }))
+                          (cache[5] = createVNode('i', { class: 'iconfont icon-bangzhu' }))
                         ];
                       }
                     },
                     PATCH_FLAG.PROPS,
                     ['content']
                   )
-                : createCommentVNode('c-if_tip', true),
-              column.headSlot && rootSlots?.[column.headSlot]
-                ? createVNode(rootSlots?.[column.headSlot], { column })
-                : column.control?.type === 'nativeCheckbox'
-                ? createVNode(
-                    resolveComponent('ElCheckbox'),
-                    {
-                      key: 0,
-                      modelValue: selectConfig.selectAll,
-                      'onUpdate:modelValue':
-                        cache[0] || (cache[0] = (val: any) => (selectConfig.selectAll = val)),
-                      indeterminate: selectConfig.indeterminate,
-                      disabled: selectConfig.disabled,
-                      onChange:
-                        cache[1] ||
-                        (cache[1] = () => bus.emit('toggleAllSelection', selectConfig.selectAll))
-                    },
-                    null,
-                    PATCH_FLAG.FULL_PROPS | PATCH_FLAG.NEED_PATCH
-                  )
-                : (openBlock(),
-                  createBlock(
-                    Fragment,
-                    null,
-                    [
-                      (openBlock(),
-                      createBlock(Fragment, null, [
-                        column.required
-                          ? cache[2] ||
-                            (cache[2] = createVNode('i', { style: hoisted_3, key: 1 }, '*'))
-                          : createCommentVNode('v-if_required', true)
-                      ])),
-                      // column.icon
-                      //   ? createVNode(
-                      //       'i',
-                      //       { class: [hoisted_2, 'icon-' + column.icon], key: 2 },
-                      //       null,
-                      //       PATCH_FLAG.CLASS
-                      //     )
-                      //   : createCommentVNode('v-if_icon', true),
-                      createVNode('span', { key: 3 }, column.label, PATCH_FLAG.TEXT),
-                      column.sortable
-                        ? cache[3] || (cache[3] = createVNode('i', { class: hoisted_4, key: 4 }))
-                        : createCommentVNode('v-if_sortable_space', true),
-                      column.sortable
-                        ? createVNode(
-                            'i',
-                            {
-                              key: 5,
-                              onClick:
-                                cache[4] ||
-                                (cache[4] = () => {
-                                  tableDataVisitor.sort = column.sortable;
-                                  tableDataVisitor.sortProp = column.prop;
-                                  switch (tableDataVisitor.sortStatus) {
-                                    case CX_SORT_STATUS.NONE:
-                                      tableDataVisitor.sortStatus = CX_SORT_STATUS.POSITIVE;
-                                      break;
-                                    case CX_SORT_STATUS.POSITIVE:
-                                      tableDataVisitor.sortStatus = CX_SORT_STATUS.REVERSE;
-                                      break;
-                                    case CX_SORT_STATUS.REVERSE:
-                                      tableDataVisitor.sortStatus = CX_SORT_STATUS.NONE;
-                                  }
-                                }),
-                              class: [
-                                hoisted_5,
-                                tableDataVisitor.sortProp === column.prop
-                                  ? tableDataVisitor.sortStatus === CX_SORT_STATUS.POSITIVE
-                                    ? hoisted_6
-                                    : tableDataVisitor.sortStatus === CX_SORT_STATUS.REVERSE
-                                    ? hoisted_7
+                  : createCommentVNode('c-if_tip', true),
+                column.headSlot && rootSlots?.[column.headSlot]
+                  ? createVNode(rootSlots?.[column.headSlot], { column })
+                  : column.control?.type === 'nativeCheckbox'
+                    ? createVNode(
+                      resolveComponent('ElCheckbox'),
+                      {
+                        key: 0,
+                        modelValue: selectConfig.selectAll,
+                        'onUpdate:modelValue':
+                          cache[0] || (cache[0] = (val: any) => (selectConfig.selectAll = val)),
+                        indeterminate: selectConfig.indeterminate,
+                        disabled: selectConfig.disabled,
+                        onChange:
+                          cache[1] ||
+                          (cache[1] = () => bus.emit('toggleAllSelection', selectConfig.selectAll))
+                      },
+                      null,
+                      PATCH_FLAG.FULL_PROPS | PATCH_FLAG.NEED_PATCH
+                    )
+                    : (openBlock(),
+                      createBlock(
+                        Fragment,
+                        null,
+                        [
+                          (openBlock(),
+                            createBlock(Fragment, null, [
+                              column.required
+                                ? cache[2] ||
+                                  (cache[2] = createVNode('i', { style: hoisted_3, key: 1 }, '*'))
+                                : createCommentVNode('v-if_required', true)
+                            ])),
+                          // column.icon
+                          //   ? createVNode(
+                          //       'i',
+                          //       { class: [hoisted_2, 'icon-' + column.icon], key: 2 },
+                          //       null,
+                          //       PATCH_FLAG.CLASS
+                          //     )
+                          //   : createCommentVNode('v-if_icon', true),
+                          createVNode('span', { key: 3 }, column.label, PATCH_FLAG.TEXT),
+                          column.sortable
+                            ? cache[3] || (cache[3] = createVNode('i', { class: hoisted_4, key: 4 }))
+                            : createCommentVNode('v-if_sortable_space', true),
+                          column.sortable
+                            ? createVNode(
+                              'i',
+                              {
+                                key: 5,
+                                onClick:
+                                  cache[4] ||
+                                  (cache[4] = () => {
+                                    tableDataVisitor.sort = column.sortable;
+                                    tableDataVisitor.sortProp = column.prop;
+                                    switch (tableDataVisitor.sortStatus) {
+                                      case CX_SORT_STATUS.NONE:
+                                        tableDataVisitor.sortStatus = CX_SORT_STATUS.POSITIVE;
+                                        break;
+                                      case CX_SORT_STATUS.POSITIVE:
+                                        tableDataVisitor.sortStatus = CX_SORT_STATUS.REVERSE;
+                                        break;
+                                      case CX_SORT_STATUS.REVERSE:
+                                        tableDataVisitor.sortStatus = CX_SORT_STATUS.NONE;
+                                    }
+                                  }),
+                                class: [
+                                  hoisted_5,
+                                  tableDataVisitor.sortProp === column.prop
+                                    ? tableDataVisitor.sortStatus === CX_SORT_STATUS.POSITIVE
+                                      ? hoisted_6
+                                      : tableDataVisitor.sortStatus === CX_SORT_STATUS.REVERSE
+                                        ? hoisted_7
+                                        : null
                                     : null
-                                  : null
-                              ]
-                            },
-                            null,
-                            PATCH_FLAG.CLASS
-                          )
-                        : createCommentVNode('v-if_sortable', true)
-                    ],
-                    PATCH_FLAG.KEYED_FRAGMENT | PATCH_FLAG.STABLE_FRAGMENT
-                  ))
-            ],
-            PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
-          ))
+                                ]
+                              },
+                              null,
+                              PATCH_FLAG.CLASS
+                            )
+                            : createCommentVNode('v-if_sortable', true)
+                        ],
+                        PATCH_FLAG.KEYED_FRAGMENT | PATCH_FLAG.STABLE_FRAGMENT
+                      ))
+              ],
+              PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
+            ))
         ],
         PATCH_FLAG.PROPS | PATCH_FLAG.STYLE,
         ['colspan', 'rowspan']

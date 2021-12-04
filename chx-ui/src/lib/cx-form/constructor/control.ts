@@ -5,6 +5,7 @@ import { useCxForm } from '../hooks';
 
 import { CxFormTemplate } from '.';
 import { isFunction, isObject } from 'chx-utils';
+
 export class CxFormControl extends CxFormTemplate {
   name = 'CxFormControl';
   parse: Func<any> | null = null;
@@ -15,6 +16,7 @@ export class CxFormControl extends CxFormTemplate {
   prop: string;
   type = '';
   emit: any;
+
   constructor(
     form: AnyObject,
     controlConfig: CxFormItemConfig,
@@ -29,20 +31,23 @@ export class CxFormControl extends CxFormTemplate {
     this.prop = controlConfig.prop;
     this.init();
   }
+
   init() {
     this.propAdaptor().bindModel();
     return this;
   }
+
   addSlots(slots: Slots | Slot) {
     if (!isObject(slots)) return this;
     isObject(this.config?.slot) &&
-      Object.entries(this.config!.slot).forEach(([key, val]) => {
-        Reflect.set(this.slots, key, Reflect.get(slots, val));
-      });
+    Object.entries(this.config!.slot).forEach(([key, val]) => {
+      Reflect.set(this.slots, key, Reflect.get(slots, val));
+    });
     const customSlot = this.config?.custom?.slot;
     customSlot && Reflect.set(this.slots, customSlot, Reflect.get(slots, customSlot));
     return this;
   }
+
   private bindModel() {
     if (this.prop) {
       Reflect.set(this.attrs, 'modelValue', this.form[this.prop]);
@@ -59,6 +64,7 @@ export class CxFormControl extends CxFormTemplate {
     }
     return this;
   }
+
   propAdaptor() {
     const { getRendererKeys, getRenderer } = useCxForm();
     [...getRendererKeys()].find(type => {
@@ -88,14 +94,15 @@ export class CxFormControl extends CxFormTemplate {
     });
     !isObject(this.attrs?.style) && Reflect.set(this.attrs, 'style', {});
     this.config.width &&
-      isObject(this.attrs?.style) &&
-      Reflect.set(this.attrs.style, 'width', `${this.config.width}px`);
+    isObject(this.attrs?.style) &&
+    Reflect.set(this.attrs.style, 'width', `${ this.config.width }px`);
     Reflect.set(this.attrs, '__closable', this.rootConfig?.closable || this.config.closable);
     Reflect.set(this.attrs, '__emit', this.emit);
     Reflect.set(this.attrs, '__prop', this.prop);
 
     return this;
   }
+
   render() {
     let Control;
     if (this.type === 'custom') {

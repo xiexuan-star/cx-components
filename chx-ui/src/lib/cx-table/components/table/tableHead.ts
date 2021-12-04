@@ -42,38 +42,38 @@ export default defineComponent({
             { style: pick(style.value, ['left']) },
             [
               (openBlock(),
-              createBlock(
-                Fragment,
-                null,
-                layeredHeadItems.value.map((headers, index) => {
-                  return (
-                    openBlock(),
-                    createBlock('tr', null, [
-                      (openBlock(true),
-                      createBlock(
-                        Fragment,
-                        null,
-                        headers.map(col => {
-                          return props.fixed && props.fixed !== 'top' && col.fixed !== props.fixed
-                            ? createCommentVNode('v-if_table_head', true)
-                            : (openBlock(),
-                              createBlock(
-                                HeadCell,
-                                {
-                                  column: col,
-                                  layeredLevel: layeredHeadItems.value.length - index
-                                },
-                                null,
-                                PATCH_FLAG.PROPS,
-                                ['column', 'layeredLevel']
-                              ));
-                        }),
-                        PATCH_FLAG.UNKEYED_FRAGMENT
-                      ))
-                    ])
-                  );
-                }, PATCH_FLAG.UNKEYED_FRAGMENT)
-              ))
+                createBlock(
+                  Fragment,
+                  null,
+                  layeredHeadItems.value.map((headers, index) => {
+                    return (
+                      openBlock(),
+                        createBlock('tr', null, [
+                          (openBlock(true),
+                            createBlock(
+                              Fragment,
+                              null,
+                              headers.map(col => {
+                                return props.fixed && props.fixed !== 'top' && col.fixed !== props.fixed
+                                  ? createCommentVNode('v-if_table_head', true)
+                                  : (openBlock(),
+                                    createBlock(
+                                      HeadCell,
+                                      {
+                                        column: col,
+                                        layeredLevel: layeredHeadItems.value.length - index
+                                      },
+                                      null,
+                                      PATCH_FLAG.PROPS,
+                                      ['column', 'layeredLevel']
+                                    ));
+                              }),
+                              PATCH_FLAG.UNKEYED_FRAGMENT
+                            ))
+                        ])
+                    );
+                  }, PATCH_FLAG.UNKEYED_FRAGMENT)
+                ))
             ],
             PATCH_FLAG.STYLE
           )

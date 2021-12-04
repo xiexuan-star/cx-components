@@ -53,8 +53,8 @@ export const useAutoWidth = ($CxTable: CxTableBaseObj) => {
   meanWidth =
     remainWidth > 0
       ? Math.floor(
-          remainWidth / (percentMinColumns.length + pxMinColumns.length + noWidthColumns.length)
-        )
+        remainWidth / (percentMinColumns.length + pxMinColumns.length + noWidthColumns.length)
+      )
       : 0;
 
   if (remainWidth > 0) {

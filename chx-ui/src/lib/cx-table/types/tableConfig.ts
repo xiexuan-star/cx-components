@@ -77,7 +77,7 @@ export type CxCellStyleFun = (params: {
 }) => CSSProperties;
 export type CxHeadCellStyleFun = (params: { column: CxTableItem }) => CSSProperties;
 export type CxCheckSelectFun = (rowData: AnyObject) => boolean | void;
-export type CxInjectHeadFun = (col: CxTableItem[]) => CxTableItem[];
+export type CxInjectHeadFun = (col: CxTableItem[]) => CxTableItem[] | Promise<CxTableItem[]>;
 
 export interface CxTableConfig {
   items: CxTableItem[];

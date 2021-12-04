@@ -1,4 +1,3 @@
-import { debounce } from 'lodash-es';
 import { nextTick } from 'vue';
 import { scrollUpdateShadow, wrapperScrollEventHandle } from '../helper/eventHelper';
 import { CxTableBaseObj, CxTablePropType } from '../types';

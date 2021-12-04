@@ -56,7 +56,6 @@ export default defineComponent({
     const [searchContent, setSearchContent] = useState('');
 
 
-
     const _hoisted_class_1 = 'cx_mb_5';
     const _hoisted_class_2 = 'hover-highlight cx_ptb_8 cx_plr_12';
     const _hoisted_class_3 = 'cx_plr_7';
@@ -113,7 +112,6 @@ export default defineComponent({
                             {
                               size: 'mini',
                               class: _hoisted_class_1,
-                              suffixIcon: 'iconfont icon-sousuo',
                               modelValue: searchContent(),
                               'onUpdate:modelValue': setSearchContent,
                               placeholder: '搜索过滤条件'

@@ -33,15 +33,15 @@ export default defineComponent({
     disabledState: { type: Object, default: () => ({ disabled: false }) }
   },
   setup(props, { attrs, slots }) {
-    const [container, setContainer] = useState<HTMLElement|null>(null);
+    const [container, setContainer] = useState<HTMLElement | null>(null);
 
     const unsafeWarn = () =>
       cxTableWarn(`can't find container element by selector`, props.selector);
 
     // unsafeClearDom::void->string
     const unsafeClearEle = R.compose(map(unsafeSet(R.__, 'innerHTML', '')), Maybe.of) as (
-      a: HTMLElement|null
-    ) => Maybe<HTMLElement|null>;
+      a: HTMLElement | null
+    ) => Maybe<HTMLElement | null>;
 
     const onClick = async () => {
       setLoadingStates(true);
@@ -73,7 +73,7 @@ export default defineComponent({
     );
 
     // 组件更新IO
-    const updateComponentIO = IO.of<HTMLElement|null, string>(queryDom).map(
+    const updateComponentIO = IO.of<HTMLElement | null, string>(queryDom).map(
       R.ifElse(
         R.isNil,
         R.compose(unsafeWarn, unsafeClearEle, container),

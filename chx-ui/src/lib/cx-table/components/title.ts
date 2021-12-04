@@ -19,16 +19,16 @@ export default defineComponent({
     return () => {
       return (
         openBlock(),
-        createBlock(
-          Fragment,
-          null,
-          [
-            rootProp.title
-              ? createVNode('h3', hoisted_1, rootProp.title, PATCH_FLAG.TEXT)
-              : createCommentVNode('v-if_title', true)
-          ],
-          PATCH_FLAG.STABLE_FRAGMENT
-        )
+          createBlock(
+            Fragment,
+            null,
+            [
+              rootProp.title
+                ? createVNode('h3', hoisted_1, rootProp.title, PATCH_FLAG.TEXT)
+                : createCommentVNode('v-if_title', true)
+            ],
+            PATCH_FLAG.STABLE_FRAGMENT
+          )
       );
     };
   }

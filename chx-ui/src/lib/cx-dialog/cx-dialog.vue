@@ -42,9 +42,10 @@
             <footer class="cx-dialog__footer">
               <slot name="footer">
                 <div class="cx_flex_center cx_justify_end">
-                  <cx-btn @click="openDialog(false),$emit('cancel')">{{ cancelText }}</cx-btn>
+                  <cx-btn v-if="cancelText" @click="openDialog(false),$emit('cancel')">{{ cancelText }}</cx-btn>
                   <cx-btn
                     level="1"
+                    v-if="okText"
                     class="cx_ml_16"
                     :loading="okLoading"
                     :disabled="disabledOk"

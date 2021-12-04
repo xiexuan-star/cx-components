@@ -14,6 +14,7 @@ import { CxTableBaseObj } from '../../types';
 import { useTableStyle } from '../../hooks';
 import { useTableClass } from '../../hooks';
 import { PATCH_FLAG } from '../../constant';
+
 export default defineComponent({
   name: 'CxTableContent',
   props: {
@@ -35,28 +36,28 @@ export default defineComponent({
         createBlock(Fragment, null, [
           [
             (openBlock(),
-            createBlock(
-              Fragment,
-              null,
-              [
-                fixed !== 'bottom'
-                  ? createVNode(
+              createBlock(
+                Fragment,
+                null,
+                [
+                  fixed !== 'bottom'
+                    ? createVNode(
                       CxTableHead,
                       { class: classList.value, style: style.value, fixed },
                       null,
                       PATCH_FLAG.FULL_PROPS | PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
                     )
-                  : createCommentVNode('v-if_table_bottom', true)
-              ],
-              PATCH_FLAG.STABLE_FRAGMENT
-            )),
+                    : createCommentVNode('v-if_table_bottom', true)
+                ],
+                PATCH_FLAG.STABLE_FRAGMENT
+              )),
             (openBlock(),
-            createBlock(
-              Fragment,
-              null,
-              [
-                fixed !== 'top'
-                  ? createVNode(
+              createBlock(
+                Fragment,
+                null,
+                [
+                  fixed !== 'top'
+                    ? createVNode(
                       CxTableBody,
                       {
                         tableData: props.tableData,
@@ -67,10 +68,10 @@ export default defineComponent({
                       null,
                       PATCH_FLAG.FULL_PROPS | PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
                     )
-                  : createCommentVNode('v-if_table_top', true)
-              ],
-              PATCH_FLAG.STABLE_FRAGMENT
-            ))
+                    : createCommentVNode('v-if_table_top', true)
+                ],
+                PATCH_FLAG.STABLE_FRAGMENT
+              ))
           ]
         ])
       ];

@@ -81,17 +81,17 @@ export const contentWidthAdaptor = (column: CxTableItem, props: CxTablePropType)
 
 // 表头字符宽度(最小宽度)
 export const headWidthAdaptor = ({
-  label,
-  required,
-  icon,
-  control,
-  slot,
-  headSlot,
-  configWidth,
-  configMinWidth,
-  slotType,
-  headTip
-}: CxTableColumnObj) => {
+                                   label,
+                                   required,
+                                   icon,
+                                   control,
+                                   slot,
+                                   headSlot,
+                                   configWidth,
+                                   configMinWidth,
+                                   slotType,
+                                   headTip
+                                 }: CxTableColumnObj) => {
   const type = control?.type;
   if (['nativeCheckbox', 'nativeRadio'].includes(type!)) {
     return 60;
@@ -116,13 +116,13 @@ export const headWidthAdaptor = ({
 
 // 表头映射宽度(最大宽度)
 export const widthMapAdaptor = ({
-  label,
-  slot,
-  headSlot,
-  slotType,
-  configWidth,
-  configMinWidth
-}: CxTableColumnObj) => {
+                                  label,
+                                  slot,
+                                  headSlot,
+                                  slotType,
+                                  configWidth,
+                                  configMinWidth
+                                }: CxTableColumnObj) => {
   const targetItem = [...CxTableWidthMap.values()].find(item => item.rule(label))!;
 
   let { width, static: isStatic } = targetItem;
@@ -168,7 +168,7 @@ export const getColumnWidth = (
   column: CxTableColumnObj,
   props: CxTablePropType
 ) => {
-  !isString(column.label) && cxTableWarn(`invalid cxTable config => ${column.label} label`);
+  !isString(column.label) && cxTableWarn(`invalid cxTable config => ${ column.label } label`);
 
   const priority = $CxTable.priorityColumnMap.get(column.prop) ?? {};
 
@@ -176,14 +176,14 @@ export const getColumnWidth = (
   if (column.importantWidth) {
     // 六级
     const width = +column.importantWidth;
-    isNaN(width) && cxTableWarn(`invalid cxTable config => ${column.prop} importantWidth`);
+    isNaN(width) && cxTableWarn(`invalid cxTable config => ${ column.prop } importantWidth`);
     result.width = width || 0;
     result.isMin = !!column.autoWidth;
     return result;
   } else if (priority.width) {
     // 五级
     const width = +priority.width;
-    isNaN(width) && cxTableWarn(`invalid cxTable config => ${column.prop} priorityWidth`);
+    isNaN(width) && cxTableWarn(`invalid cxTable config => ${ column.prop } priorityWidth`);
     result.width = width || 0;
   }
   // 二级(一级)

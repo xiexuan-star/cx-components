@@ -3,7 +3,7 @@ import { COLUMN_FLAG } from '../constant';
 import { ControlAttrs, CxTableColumnObj, CxTableItem, DYNAMIC_CONFIG, Nullable } from '../types';
 import * as R from 'ramda';
 import { useCxTable } from '../hooks';
-import { isFunction, isNumber, isObject,getDateRange } from 'chx-utils';
+import { isFunction, isNumber, isObject, getDateRange } from 'chx-utils';
 
 export * from './dom';
 export * from './configAdaptor';
@@ -26,7 +26,7 @@ export const changeDynamicIdToText = (dynamic: DYNAMIC_CONFIG) => {
     DYNAMIC_MODULE_TYPE,
     DYNAMIC_MODEL_TYPE,
     DYNAMIC_PRICE_TYPE
-  } = useCxTable().getContext().dynamicType
+  } = useCxTable().getContext().dynamicType;
   return {
     businessType: DYNAMIC_BUSINESS_TYPE[dynamic.businessType],
     moduleType: DYNAMIC_MODULE_TYPE[dynamic.moduleType],
@@ -135,7 +135,7 @@ export const getColumnSelectText = (
   column: CxTableColumnObj | CxTableItem,
   replaceProp = 'Text'
 ) => {
-  return column.control?.selectText || `${column.prop.replace(/Id$/, '')}${replaceProp}`;
+  return column.control?.selectText || `${ column.prop.replace(/Id$/, '') }${ replaceProp }`;
 };
 
 export function cxTableWarn(...msgs: any[]) {
@@ -274,7 +274,7 @@ export const formatWidth = (width: string | number | undefined) => {
   const duplicate = width + '';
 
   if (duplicate.includes('%') || duplicate.includes('px')) return duplicate;
-  return `${parseFloat(duplicate)}px`;
+  return `${ parseFloat(duplicate) }px`;
 };
 
 /**
@@ -285,7 +285,7 @@ export const formatWidth = (width: string | number | undefined) => {
 export const assignAttrs = (target: AnyObject = {}, attr: AnyObject = {}) => {
   const style = Object.assign({}, target.style, attr.style);
 
-  const classDup = `${target.class || ''} ${attr.class || ''}`;
+  const classDup = `${ target.class || '' } ${ attr.class || '' }`;
 
   return Object.assign({}, target, attr, { style, class: classDup });
 };
@@ -342,7 +342,7 @@ export const getPreOrNextItem = <T = AnyObject>(
     return prop ? arrItem[prop] === item[prop] : arrItem === item;
   });
   if (index < 0) return item;
-  return arr[index + (direction === 'pre' ? -1 : 1)] ?? item
+  return arr[index + (direction === 'pre' ? -1 : 1)] ?? item;
 };
 
 export const getStatusAttrs = (rowData: AnyObject, column: CxTableColumnObj | CxTableItem) => {

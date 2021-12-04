@@ -10,11 +10,11 @@ import {
   PropType,
   ref,
   watch,
-} from 'vue'
-import { PatchFlags } from '../../constant/enum'
-import { SFCWithInstall } from '../../types/interface'
-import { isObject } from 'chx-utils'
-import { CxTabOption } from './type'
+} from 'vue';
+import { PatchFlags } from '../../constant/enum';
+import { SFCWithInstall } from '../../types/interface';
+import { isObject } from 'chx-utils';
+import { CxTabOption } from './type';
 
 const script = defineComponent({
   name: 'CxTab',
@@ -40,30 +40,30 @@ const script = defineComponent({
   emits: ['update:modelValue', 'change'],
   setup(props, { emit, slots }) {
     const clickHandle = (id: number | string) => {
-      if (id === props.modelValue) return
-      if (props.disabled) return
-      emit('update:modelValue', id)
-      emit('change', id)
-    }
+      if (id === props.modelValue) return;
+      if (props.disabled) return;
+      emit('update:modelValue', id);
+      emit('change', id);
+    };
 
     const tabs = computed(() =>
       props.options
         .filter((item) => {
-          return isObject(item) ? !item.hide : item
+          return isObject(item) ? !item.hide : item;
         })
         .map((item) => {
-          return isObject(item) ? item : ({ id: item, name: item } as any)
+          return isObject(item) ? item : ({ id: item, name: item } as any);
         })
-    )
+    );
 
     const renderItems = () => {
       return tabs.value.map((item) => {
-        const classList = ['cx-tab_item', 'clickable', 'cx_flex_center']
-        props.modelValue === item.id && classList.push('cx-tab_item_active')
+        const classList = ['cx-tab_item', 'clickable', 'cx_flex_center'];
+        props.modelValue === item.id && classList.push('cx-tab_item_active');
 
-        let badgeValue = props.badgeObj[item.badgeKey ?? ''] ?? 0
-        const badgeUnit = item.unit ?? ''
-        if (badgeValue >= 100) badgeValue = '99+'
+        let badgeValue = props.badgeObj[item.badgeKey ?? ''] ?? 0;
+        const badgeUnit = item.unit ?? '';
+        if (badgeValue >= 100) badgeValue = '99+';
         return createVNode(
           'div',
           { onClick: () => clickHandle(item.id), class: classList },
@@ -72,90 +72,92 @@ const script = defineComponent({
             badgeValue
               ? createVNode(
                 'div',
-                { class: `cx-tab_badge_${props.level}` },
-                `${badgeValue}${badgeUnit}`,
+                { class: `cx-tab_badge_${ props.level }` },
+                `${ badgeValue }${ badgeUnit }`,
                 PatchFlags.CLASS | PatchFlags.TEXT
               )
               : createCommentVNode('v-if_badge', true),
           ],
           PatchFlags.NEED_PATCH | PatchFlags.CLASS
-        )
-      })
-    }
+        );
+      });
+    };
 
-    const wrapRef = ref<HTMLElement | null>(null)
+    const wrapRef = ref<HTMLElement | null>(null);
 
     const renderArrow = (type: 'left' | 'right') => {
       const onClick = () => {
-        if (!wrapRef.value) return
+        if (!wrapRef.value) return;
 
-        let base = 300
+        let base = 300;
 
-        let offset = base / 10
+        let offset = base / 10;
 
         const timer = setInterval(() => {
-          if (!wrapRef.value) return
+          if (!wrapRef.value) return;
 
-          const targetPosition = wrapRef.value.scrollLeft + (type === 'left' ? -offset : offset)
+          const targetPosition = wrapRef.value.scrollLeft + (type === 'left' ? -offset : offset);
 
-          wrapRef.value.scrollTo(targetPosition, 0)
+          wrapRef.value.scrollTo(targetPosition, 0);
 
           const stop =
             type === 'left'
               ? targetPosition <= 0
-              : targetPosition >= wrapRef.value.scrollWidth - wrapRef.value.clientWidth
+              : targetPosition >= wrapRef.value.scrollWidth - wrapRef.value.clientWidth;
 
-          if (base === 0 || stop) clearInterval(timer)
-          else if (base <= 3) base = 0
-          else {
-            base -= base / 10
-            offset = base / 10
+          if (base === 0 || stop) {
+            clearInterval(timer);
+          } else if (base <= 3) {
+            base = 0;
+          } else {
+            base -= base / 10;
+            offset = base / 10;
           }
-        }, 10)
-      }
+        }, 10);
+      };
 
       const classList = [
-        `cx-tab_${type}_arrow`,
+        `cx-tab_${ type }_arrow`,
         'iconfont',
         'cx_flex_center',
         type === 'left' ? 'icon-xiangzuo' : 'icon-xiangyou',
-      ]
+      ];
 
-      return createVNode('div', { onClick, class: classList }, null, PatchFlags.NEED_PATCH | PatchFlags.CLASS)
-    }
+      return createVNode('div', { onClick, class: classList }, null, PatchFlags.NEED_PATCH | PatchFlags.CLASS);
+    };
 
     const isShowArrow = () => {
-      if (!wrapRef.value) return
+      if (!wrapRef.value) return;
 
-      const tabs = wrapRef.value.querySelector('.cx-tabs')
+      const tabs = wrapRef.value.querySelector('.cx-tabs');
 
-      if (!tabs) return
-      const wrapWidth = wrapRef.value.clientWidth
+      if (!tabs) return;
+      const wrapWidth = wrapRef.value.clientWidth;
 
-      const tabsWidth = tabs.clientWidth
+      const tabsWidth = tabs.clientWidth;
 
-      return tabsWidth > wrapWidth
-    }
+      return tabsWidth > wrapWidth;
+    };
 
-    const showArrow = ref(isShowArrow())
+    const showArrow = ref(isShowArrow());
 
     // const MutationObserver = window.MutationObserver;
     // const observer = new MutationObserver(() => {
     // })
 
-    const debounce = (cb: any, delay:number) => {
-      let timer:any;
+    const debounce = (cb: any, delay: number) => {
+      let timer: any;
       return () => {
         clearTimeout(timer);
-        timer = setTimeout(cb, delay)
-      }
-    }
+        timer = setTimeout(cb, delay);
+      };
+    };
     const tabsResize = debounce(() => {
-      showArrow.value = isShowArrow()
-    },100)
+      showArrow.value = isShowArrow();
+    }, 100);
     onMounted(() => {
       window.addEventListener('resize', tabsResize);
-    })
+    });
     onBeforeUnmount(() => {
       window.removeEventListener('resize', tabsResize);
     });
@@ -163,18 +165,18 @@ const script = defineComponent({
     watch(
       () => tabs.value,
       async () => {
-        await nextTick()
-        showArrow.value = isShowArrow()
+        await nextTick();
+        showArrow.value = isShowArrow();
       },
       { deep: true, immediate: true }
-    )
+    );
 
     return (_: any, cache: any[]) => {
       const classList = [
         'cx-tab_scroll_wrapper',
         'cx_flex_center',
         'cx_justify_between',
-        `level-${props.level}_wrapper`
+        `level-${ props.level }_wrapper`
       ];
 
       showArrow.value && classList.push('cx_plr_20');
@@ -202,11 +204,11 @@ const script = defineComponent({
       );
     };
   },
-})
+});
 
 script.install = (app: App) => {
-  app.component(script.name, script)
-}
+  app.component(script.name, script);
+};
 
 const _CX_TAB = script as SFCWithInstall<typeof script>
 

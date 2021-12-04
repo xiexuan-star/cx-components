@@ -157,7 +157,7 @@ const renderListItem = (item: PopperContentListItem) => {
   const createWrapper = () =>
     setClassByArr(
       [
-        'cx_fs_white',
+        'cx_fc_white',
         'hover_bg_black_75',
         'cx_b_radius_4',
         'cx_plr_8',
@@ -206,7 +206,7 @@ const patchListEle = (list: PopperContentListItem[], container: HTMLElement) => 
 };
 
 const renderTextItem = R.compose(
-  setClassByArr(['cx_p_12', 'cx_fs_white', 'cx_fs_12']),
+  setClassByArr(['cx_p_12', 'cx_fc_white', 'cx_fs_12']),
   R.converge(setInnerText, [R.identity, R.converge(createTag, [R.always('div')])])
 ) as (a: string) => HTMLElement;
 
@@ -225,7 +225,7 @@ const updatePopInstance = R.converge(R.bind, [R.prop('update'), R.identity]);
 const EleKeyMap = new WeakMap<HTMLElement, string>();
 
 export default {
-  name:'uniPopper',
+  name: 'uniPopper',
   mounted(el: HTMLElement, { value }: { value: Required<UniPopperOption> }) {
     const bindEle = () => setCurrentEle(el);
 
@@ -299,4 +299,4 @@ export default {
     const key = EleKeyMap.get(el);
     key && unsafeDoUnload(key);
   }
-}
+};

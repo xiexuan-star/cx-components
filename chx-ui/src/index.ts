@@ -26,7 +26,7 @@ export * from './lib/cx-dialog/useCxDialog';
 export * from './lib/cx-form/types';
 export * from './lib/cx-table/types';
 export * from './lib/cx-dialog/types';
-export * from './lib/cx-uni-popper/types'
+export * from './lib/cx-uni-popper/types';
 
 // 导出各组件renderer
 export * from './lib/cx-form/render';

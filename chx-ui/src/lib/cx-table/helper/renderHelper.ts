@@ -1,28 +1,26 @@
 import { isFunction, isString } from 'chx-utils';
 import { createBlock, createCommentVNode, createTextVNode, createVNode, Fragment, openBlock, Ref } from 'vue';
 import { EventBus } from 'chx-utils';
+import { CxEllipsis } from '../../index';
 import { COLUMN_FLAG, PATCH_FLAG } from '../constant';
 import { CxBroadcast, CxTableRendererMap } from '../hooks';
 import { CxCellProp, CxIgnoreControl, PaginationModel, SelectConfig } from '../types';
 import { pick } from '../utils';
 
 interface Params extends CxCellProp {
-  rowIndex: number
-  selectConfig: SelectConfig
-  radioValue: Ref<number>
-  expandConfig: boolean[]
-  bus: EventBus
-  pagination?: PaginationModel
-  broadcast: CxBroadcast
+  rowIndex: number;
+  selectConfig: SelectConfig;
+  radioValue: Ref<number>;
+  expandConfig: boolean[];
+  bus: EventBus;
+  pagination?: PaginationModel;
+  broadcast: CxBroadcast;
 }
 
-const renderDefaultNode = (params:Params)=>{
-  const defaultRenderer = CxTableRendererMap.get('default')
 
-  return isFunction(defaultRenderer)
-    ? defaultRenderer(params as any)
-    : createVNode('div', null, params.rowData[params.column.prop])
-}
+const renderDefaultNode = (params: Params) => {
+  return createVNode(CxEllipsis, {content:params.rowData[params.column.prop]},null,PATCH_FLAG.PROPS,['content'] );
+};
 
 export const renderCellContent = (
   props: CxCellProp,
@@ -49,37 +47,37 @@ export const renderCellContent = (
     bus,
     pagination,
     broadcast,
-  }
+  };
   return (
     openBlock(),
-    createBlock(Fragment, null, [
-      sum
-        ? renderCellSum(params, rootSlots)
-        : props.column.columnFlag & COLUMN_FLAG.SLOT_COLUMN
-        ? renderCellSlot(params, isActived, disabled, rootSlots, ignoreControl, forceControl)
-        : props.column.columnFlag & COLUMN_FLAG.CONTROL_COLUMN
-        ? renderCustomCell(params, isActived, disabled, ignoreControl, forceControl)
-        : props.column.columnFlag & COLUMN_FLAG.CALC_COLUMN
-        ? renderCalcCell(params)
-        : renderDefaultNode(params),
-    ])
-  )
-}
+      createBlock(Fragment, null, [
+        sum
+          ? renderCellSum(params, rootSlots)
+          : props.column.columnFlag & COLUMN_FLAG.SLOT_COLUMN
+            ? renderCellSlot(params, isActived, disabled, rootSlots, ignoreControl, forceControl)
+            : props.column.columnFlag & COLUMN_FLAG.CONTROL_COLUMN
+              ? renderCustomCell(params, isActived, disabled, ignoreControl, forceControl)
+              : props.column.columnFlag & COLUMN_FLAG.CALC_COLUMN
+                ? renderCalcCell(params)
+                : renderDefaultNode(params),
+      ])
+  );
+};
 
 const renderCellSum = (params: Params, rootSlots?: AnyObject) => {
   return (
     openBlock(),
-    createBlock(Fragment, null, [
-      params.column.sumSlot
-        ? rootSlots?.[params.column.sumSlot!]
-          ? rootSlots?.[params.column.sumSlot!](params)
-          : null
-        : params.column.control?.type === 'index' || (isString(params.column.sum) && params.column.sum !== 'add')
-        ? createTextVNode((params.column.sum as string) ?? '总计')
-        : renderDefaultNode(params),
-    ])
-  )
-}
+      createBlock(Fragment, null, [
+        params.column.sumSlot
+          ? rootSlots?.[params.column.sumSlot!]
+            ? rootSlots?.[params.column.sumSlot!](params)
+            : null
+          : params.column.control?.type === 'index' || (isString(params.column.sum) && params.column.sum !== 'add')
+            ? createTextVNode((params.column.sum as string) ?? '总计')
+            : renderDefaultNode(params),
+      ])
+  );
+};
 
 const renderCellSlot = (
   params: Params,
@@ -97,31 +95,31 @@ const renderCellSlot = (
       prop: params.column.prop,
       ignore: ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false,
       force: forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false,
-    })
+    });
   }
   return rootSlots?.[params.column.slot!]
     ? rootSlots?.[params.column.slot!]({
-        ...params,
-        isActived,
-        disabled,
-        prop: params.column.prop,
-        ignore: ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false,
-        force: forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false,
-      })
-    : null
-}
+      ...params,
+      isActived,
+      disabled,
+      prop: params.column.prop,
+      ignore: ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false,
+      force: forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false,
+    })
+    : null;
+};
 
 const renderCalcCell = (params: Params) => {
-  const { column, rowData } = params
+  const { column, rowData } = params;
   return (
     openBlock(),
-    createBlock(Fragment, null, [
-      isFunction(column.calculate)
-        ? createVNode('span', null, column.calculate(rowData), PATCH_FLAG.TEXT)
-        : createCommentVNode('v-if', true),
-    ])
-  )
-}
+      createBlock(Fragment, null, [
+        isFunction(column.calculate)
+          ? createVNode(CxEllipsis, { content: column.calculate(rowData) }, null, PATCH_FLAG.PROPS, ['content'])
+          : createCommentVNode('v-if', true),
+      ])
+  );
+};
 
 const renderCustomCell = (
   params: Params,
@@ -130,19 +128,14 @@ const renderCustomCell = (
   ignoreControl?: CxIgnoreControl,
   forceControl?: CxIgnoreControl
 ): any => {
-  const { type } = params.column.control ?? {}
+  const { type } = params.column.control ?? {};
 
-  const renderer = CxTableRendererMap.get(type as string)
+  const renderer = CxTableRendererMap.get(type as string);
 
   if (isFunction(renderer)) {
-    const ignore = ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false
-    const force = forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false
-    return renderer({ ...params, isActived, disabled, prop: params.column.prop, ignore, force })
+    const ignore = ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false;
+    const force = forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false;
+    return renderer({ ...params, isActived, disabled, prop: params.column.prop, ignore, force });
   }
-
-  const defaultRenderer = CxTableRendererMap.get('default')
-
-  return isFunction(defaultRenderer)
-    ? defaultRenderer({ ...params, isActived, disabled, prop: params.column.prop, ignore: true, force: false })
-    : createVNode('div', null, params.rowData[params.column.prop])
-}
+  return renderDefaultNode(params)
+};

@@ -134,7 +134,7 @@ export default defineComponent({
     });
 
     const header = computed(() => {
-      return `设置${DYNAMIC_BUSINESS_TYPE[activeDynamicConfig.value?.dataType] ?? ''}显示字段`;
+      return `设置${ DYNAMIC_BUSINESS_TYPE[activeDynamicConfig.value?.dataType] ?? '' }显示字段`;
     });
 
     const onMove = (e: AnyObject) => {

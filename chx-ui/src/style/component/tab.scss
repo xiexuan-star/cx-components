@@ -6,6 +6,7 @@ $fontSize2: '14px';
   background-color: #fff;
   transition: all 0.2s linear;
   box-sizing: border-box;
+
   .cx-tab_item {
     position: relative;
     flex-wrap: nowrap;
@@ -25,10 +26,12 @@ $fontSize2: '14px';
       font-size: 12px;
       color: #fff;
       margin-left: 5px;
+
       span {
         zoom: 0.9;
       }
     }
+
     .cx-tab_badge_2,
     .cx-tab_badge_3 {
       display: inline-block;
@@ -45,6 +48,7 @@ $fontSize2: '14px';
       background-color: #f9463f;
       font-size: 12px;
       color: #fff;
+
       span {
         zoom: 0.9;
       }
@@ -171,6 +175,7 @@ $fontSize2: '14px';
     }
   }
 }
+
 .cx-tab_disabled {
   .cx-tab_item {
     cursor: not-allowed !important;

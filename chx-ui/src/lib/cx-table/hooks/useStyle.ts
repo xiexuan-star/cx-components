@@ -10,6 +10,7 @@ function assignStyle(
 ) {
   Object.assign(current, isFunction(assign) ? assign(payload) : assign);
 }
+
 export function useStyle(
   col: CxTableItem,
   props: CxTablePropType

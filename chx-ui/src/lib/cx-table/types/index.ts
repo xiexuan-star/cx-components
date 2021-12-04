@@ -23,6 +23,7 @@ export type TableDataVisitor = {
 };
 
 export type withUndefined<T> = T | undefined;
+
 export interface SelectConfig {
   selectAll: boolean;
   actualAll: boolean;
@@ -32,6 +33,7 @@ export interface SelectConfig {
   disabledItem: boolean[];
   checkSelect?: CxCheckSelectFun;
 }
+
 export type PaginationModel = {
   currentPage: number;
   pageCapacity: number;
@@ -71,5 +73,5 @@ export interface DYNAMIC_FORM_REQUEST_PARAMS extends DYNAMIC_CONFIG {
 }
 
 export interface CxTablePlugins {
-  dynamicInject(cols: CxTableItem[]): CxTableItem[];
+  dynamicInject(cols: CxTableItem[]): CxTableItem[] | Promise<CxTableItem[]>;
 }

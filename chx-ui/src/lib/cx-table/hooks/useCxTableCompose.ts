@@ -29,6 +29,12 @@ export const useCxTableCompose = () => {
     R.props<string, any>(['prop', 'label'])
   );
 
+  // search2sourceSelect
+  const search2sourceSelect = R.compose(
+    R.dissoc('search'),
+    R.converge(R.assoc('sourceSelect'), [R.prop('search'), R.identity]),
+  );
+
   // getOptionListFromColumn::CxTableDynamicColumn[]->Option[]
   const getOptionListFromColumn = R.compose(R.map(column2NameWithId), getAllSearchableColumn);
 
@@ -40,7 +46,8 @@ export const useCxTableCompose = () => {
       R.append({ label: '', prop: 'add', custom: { slot: 'add' } }),
       R.reduce((res, prop) => {
         return R.compose(
-          R.ifElse(R.isNil, R.always(res), R.flip(R.append)(res)),
+          R.ifElse(R.isNil, R.always(res), R.compose(R.flip(R.append)(res))),
+          search2sourceSelect,
           R.find(R.propEq('prop', prop))
         )(itemList);
       }, [] as CxFormItemConfig[])
@@ -170,6 +177,7 @@ export const useCxTableCompose = () => {
     arrNotEmpty,
     multiRuleWarn,
     getConfigByDynamicConfig,
+    search2sourceSelect,
     getDefaultFormItem,
     innerBracket,
     getAllSearchableColumn,

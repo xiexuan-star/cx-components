@@ -1,6 +1,7 @@
 import {
   getDoNothingIO, IO, map, Maybe, nextTimeout, queryDom, unsafeAssign, unsafeClearArray, unsafeClearObj,
-  unsafeClearPush, unsafeDeleteProperty, unsafePush, unsafeRemoveItem, unsafeSet, useState, useSync, withParams,EventBus
+  unsafeClearPush, unsafeDeleteProperty, unsafePush, unsafeRemoveItem, unsafeSet, useState, useSync, withParams,
+  EventBus
 } from 'chx-utils';
 import { debounce } from 'lodash-es';
 import * as R from 'ramda';

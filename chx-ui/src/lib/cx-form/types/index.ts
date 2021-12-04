@@ -91,7 +91,7 @@ export type CxFormItemConfig = {
   select: { options: CxFormSelectOptions; [propName: string]: any }
   search: { options: CxFormSelectOptions; [propName: string]: any }
   textarea: { showWordLimit?: boolean; [propName: string]: any }
-  sourceSelect: { sourceId: number, relyOn?: number, relyProp?: string, withAllOption: boolean, [propName: string]: any }
+  sourceSelect: { sourceId?: number, options?: NameWithId[], relyOn?: number, relyProp?: string, withAllOption: boolean, [propName: string]: any }
   selectMultiply: AnyObject
   date: AnyObject
   dateRange: AnyObject

@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue';
 
-export const useRadioConfig = (emit:Func<any>) => {
+export const useRadioConfig = (emit: Func<any>) => {
   const radioValue = ref(-1);
 
   watch(

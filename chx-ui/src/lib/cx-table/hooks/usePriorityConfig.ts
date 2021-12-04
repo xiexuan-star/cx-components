@@ -6,9 +6,9 @@ import { deepMerge } from '../utils';
 export const usePriorityConfig = ({ priorityColumnMap }: CxTableBaseObj) => {
   const onSetConfig: Func<any>[] = [];
 
-  const flushDone = debounce(()=>{
+  const flushDone = debounce(() => {
     onSetConfig.forEach(cb => cb());
-  },0)
+  }, 0);
 
   const setConfig = (
     prop: string,
@@ -18,7 +18,7 @@ export const usePriorityConfig = ({ priorityColumnMap }: CxTableBaseObj) => {
     const old = priorityColumnMap.get(prop) ?? {};
     deepMerge(old, config);
     priorityColumnMap.set(prop, old);
-    flushDone()
+    flushDone();
   };
 
   const clearConfig = () => {

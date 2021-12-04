@@ -17,35 +17,35 @@ export default defineComponent({
       return [
         CxTable.columnStore.rightFixedColumns.length
           ? createVNode(component, {
-              tableData: props.tableData,
-              style: {
-                width: getSums(CxTable.columnStore.rightFixedColumns) + 'px',
-                zIndex: 15
-              },
-              fixed: 'right',
-              class: {
-                'cx-table_fixed_right': true,
-                'cx-table_right_shadow': CxTable.scrollStore.showRightShadow,
-                'cx-bt': true
-              },
-              onlyTotal: true
-            })
+            tableData: props.tableData,
+            style: {
+              width: getSums(CxTable.columnStore.rightFixedColumns) + 'px',
+              zIndex: 15
+            },
+            fixed: 'right',
+            class: {
+              'cx-table_fixed_right': true,
+              'cx-table_right_shadow': CxTable.scrollStore.showRightShadow,
+              'cx-bt': true
+            },
+            onlyTotal: true
+          })
           : null,
         CxTable.columnStore.leftFixedColumns.length
           ? createVNode(component, {
-              tableData: props.tableData,
-              style: {
-                width: getSums(CxTable.columnStore.leftFixedColumns) + 'px',
-                zIndex: 15
-              },
-              fixed: 'left',
-              class: {
-                'cx-table_fixed_left': true,
-                'cx-table_left_shadow': CxTable.scrollStore.showLeftShadow,
-                'cx-bt': true
-              },
-              onlyTotal: true
-            })
+            tableData: props.tableData,
+            style: {
+              width: getSums(CxTable.columnStore.leftFixedColumns) + 'px',
+              zIndex: 15
+            },
+            fixed: 'left',
+            class: {
+              'cx-table_fixed_left': true,
+              'cx-table_left_shadow': CxTable.scrollStore.showLeftShadow,
+              'cx-bt': true
+            },
+            onlyTotal: true
+          })
           : null
       ];
     };

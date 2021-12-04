@@ -1,6 +1,6 @@
 {
   "name": "chx-ui",
-  "version": "1.6.14",
+  "version": "1.6.30",
   "description": "",
   "author": "xiexuan",
   "types": "dist/index.d.ts",

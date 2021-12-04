@@ -1,4 +1,3 @@
-
 import { CSSProperties } from 'vue';
 import { Nullable, PaginationModel } from '.';
 import { TypeOption } from '../constant';
@@ -12,11 +11,13 @@ import {
   CxTableConfig,
   CxTableItem
 } from './tableConfig';
+
 export interface CxTableCommonData {
   rowData: AnyObject;
   column: CxTableItem;
   rowIndex: number;
 }
+
 export type CxIgnoreControl = (params: {
   rowIndex: number;
   column: CxTableItem;
@@ -53,7 +54,7 @@ export type CxTablePropType = {
   virtualScroll: boolean;
   activeRows: number[];
   ignoreControl: CxIgnoreControl;
-  forceControl:CxIgnoreControl;
+  forceControl: CxIgnoreControl;
   styleSetting: CxStyleSetting;
   keyboard: boolean;
   expand: string | CxExpandFun;
@@ -76,8 +77,11 @@ export type CxTablePropType = {
 
 export interface CxTableHooks<Cache = any> {
   onSearch?<T = AnyObject>(rows: T[], data: AnyObject & { rows: T[] }): T[];
+
   onSetCache?(next: (arg: Cache) => void): void;
+
   onGetCache?(cache: Cache, type: TypeOption, rows: AnyObject[], form: AnyObject): void;
+
   afterSetCache?(): void;
 }
 

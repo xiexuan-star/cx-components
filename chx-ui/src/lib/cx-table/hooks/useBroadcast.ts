@@ -12,13 +12,16 @@ export class CxBroadcast {
     // 发送全局广播
     this.entireDep.forEach(cb => isFunction(cb) && cb(payload));
   }
+
   registEntireListener(cb: (payload: CxBroadcastPayload) => void) {
     !this.entireDep.includes(cb) && this.entireDep.push(cb);
   }
+
   registListener(key: string, rowData: AnyObject, cb: (payload: CxBroadcastPayload) => void) {
     const dep = this.getDep(key, rowData);
     !dep.includes(cb) && dep.push(cb);
   }
+
   getDep(key: string, rowData: AnyObject) {
     let result = [] as any[];
 
@@ -39,6 +42,7 @@ export class CxBroadcast {
     return result;
   }
 }
+
 export const useBroadcast = () => {
   return {
     broadcast: new CxBroadcast()

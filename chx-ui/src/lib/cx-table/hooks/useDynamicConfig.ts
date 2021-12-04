@@ -14,12 +14,12 @@ import { useUpdateState } from './useUpdateState';
 
 const cacheMap: Record<string, Func<any>[]> = {};
 
-const resolveColumns = (cols: CxTableItem[], props: CxTablePropType) => {
+const resolveColumns = async (cols: CxTableItem[], props: CxTablePropType): Promise<CxTableItem[]> => {
   const context = useCxTable().getContext();
 
-  return [...context.dynamicInject, props.dynamicInject].reduce((res, inject) => {
-    return isFunction(inject) ? inject(res) : res;
-  }, cols);
+  return [...context.dynamicInject, props.dynamicInject].reduce(async (res, inject) => {
+    return isFunction(inject) ? inject(await res) : res;
+  }, Promise.resolve(cols));
 };
 
 export const getCxDynamicHead = async (dynamic: DYNAMIC_CONFIG) => {
@@ -71,7 +71,7 @@ export const useDynamicConfig = (props: CxTablePropType, $CxTable: CxTableBaseOb
 
   const { updateState } = useUpdateState(props, $CxTable);
 
-  const forceUpdate = debounce((isDynamicChange = false) => {
+  const forceUpdate = debounce(async (isDynamicChange = false) => {
     if (isObject(props.dynamic)) {
       loading.value = true;
       const key = JSON.stringify(props.dynamic);
@@ -88,7 +88,7 @@ export const useDynamicConfig = (props: CxTablePropType, $CxTable: CxTableBaseOb
             }
             data = data.map(CxConfigAdaptor.of);
             dynamicColumn.value = R.clone(data);
-            data = resolveColumns(data, props);
+            data = await resolveColumns(data, props);
             columnProxy.value = data;
             useColumn($CxTable, columnProxy, props);
             useColumnValidity($CxTable);
@@ -111,7 +111,7 @@ export const useDynamicConfig = (props: CxTablePropType, $CxTable: CxTableBaseOb
           Reflect.deleteProperty(cacheMap, key);
         });
     } else {
-      columnProxy.value = resolveColumns(R.clone(props.tableConfig.items), props);
+      columnProxy.value = await resolveColumns(R.clone(props.tableConfig.items), props);
       useColumn($CxTable, columnProxy, props);
       useColumnValidity($CxTable);
       updateState();

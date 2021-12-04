@@ -1,5 +1,5 @@
 import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, ref, onMounted, onBeforeUnmount, watch, nextTick, openBlock, createBlock, Fragment, resolveComponent, reactive, onUnmounted, inject, watchEffect, createTextVNode, resolveDirective, setBlockTracking, withCtx, getCurrentInstance, render as render$7, renderSlot, Teleport, Transition, mergeProps, withModifiers, toDisplayString, vShow, unref, pushScopeId, popScopeId, withScopeId, renderList, provide } from 'vue';
-import { isObject as isObject$1, isFunction, omit, isNumber, isString, EventBus, isArray, isEmpty, unsafeSet, Maybe, unsafeDeleteProperty, map, unsafeGet, truthy, splat, unsafePush, unsafeWhenDevCall, sessionStore, getDateRange, isDeepObjectEqual, useComputed, useState, IO, localStore, unsafeClearPush, unsafeClearAssign, getMaybeValue, Left, Right, either, withParams, defaultPromise, useSync, nextTimeout, unsafeAssign, queryDom, unsafeClearArray, unsafeRemoveItem, getDoNothingIO, unsafeClearObj, addResizeListener, removeResizeListener, enum2Options, stateEq200, falsy, stopPropagation, preventDefault, loadingDecorator, clearTimer, unsafePerformIO, curryTimeout, setClassByArr, createTag, copyInnerText, curryAddListener, setInnerText, clearInnerHTML, appendToBody, appendChild, showEle, hideEle, curryRemoveListener, clearClassList, isHTMLInputElement, amount } from 'chx-utils';
+import { isObject as isObject$1, isFunction, omit, isNumber, isString, EventBus, isArray, isEmpty, unsafeSet, Maybe, unsafeDeleteProperty, map, unsafeGet, truthy, splat, unsafePush, unsafeWhenDevCall, sessionStore, getDateRange, isDeepObjectEqual, useComputed, useState, IO, localStore, unsafeClearPush, unsafeClearAssign, getMaybeValue, Left, Right, either, withParams, defaultPromise, useSync, nextTimeout, unsafeAssign, queryDom, unsafeClearArray, unsafeRemoveItem, getDoNothingIO, unsafeClearObj, addResizeListener, removeResizeListener, enum2Options, stateEq200, falsy, stopPropagation, preventDefault, clearTimer, unsafePerformIO, curryTimeout, setClassByArr, createTag, copyInnerText, curryAddListener, setInnerText, clearInnerHTML, appendToBody, appendChild, showEle, hideEle, curryRemoveListener, clearClassList, loadingDecorator, isHTMLInputElement, amount } from 'chx-utils';
 import * as R from 'ramda';
 import { clone, omit as omit$1 } from 'ramda';
 import dayjs from 'dayjs';
@@ -258,10 +258,12 @@ var script$d = defineComponent({
                     var stop = type === 'left'
                         ? targetPosition <= 0
                         : targetPosition >= wrapRef.value.scrollWidth - wrapRef.value.clientWidth;
-                    if (base === 0 || stop)
+                    if (base === 0 || stop) {
                         clearInterval(timer);
-                    else if (base <= 3)
+                    }
+                    else if (base <= 3) {
                         base = 0;
+                    }
                     else {
                         base -= base / 10;
                         offset = base / 10;
@@ -443,20 +445,21 @@ var useCxForm = function () {
     };
     var setFormConfig = function (prop, attr, val) {
         if (!_config)
-            throw new CxFormError("can't set property before regist");
+            throw new CxFormError('can\'t set property before regist');
         var item = _config === null || _config === void 0 ? void 0 : _config.items.find(function (item) { return item.prop === prop; });
         if (!item) {
             return console.warn("[cxForm warn]: prop " + prop + " isn't exist on this form's configList ");
         }
-        if (Reflect.has(item, attr))
+        if (Reflect.has(item, attr)) {
             return Reflect.set(item, attr, val);
+        }
         __spreadArray([], __read(CxFormRenderMap.keys())).find(function (type) {
             var typeAttrs = Reflect.get(item, type);
             if (!isObject$1(typeAttrs))
                 return;
             if (attr === 'options') {
                 if (!Array.isArray(val))
-                    throw new CxFormError("can't set options with non-array");
+                    throw new CxFormError('can\'t set options with non-array');
                 var options = Reflect.get(typeAttrs, 'options');
                 Array.isArray(options) ? (options.splice(0), options.push.apply(options, __spreadArray([], __read(val)))) : Reflect.set(typeAttrs, 'options', val);
                 Reflect.set(typeAttrs, 'key', Date.now());
@@ -1822,9 +1825,13 @@ var getEvalResult = function (formula, data, withCalc) {
     if (withCalc === void 0) { withCalc = false; }
     var getToken = function () {
         return formula.replace(/[a-zA-Z]+/g, function (prop) {
-            if (prop === 'undefined')
+            if (prop === 'undefined') {
                 return prop;
-            return withCalc ? (+data[prop] || 0) + '' : getInFactVal(data[prop]);
+            }
+            return withCalc ? (function () {
+                var res = +data[prop] || 0;
+                return res < 0 ? " " + res : res;
+            })() + '' : getInFactVal(data[prop]);
         });
     };
     try {
@@ -2192,6 +2199,11 @@ var FormConfigAdaptor$1 = /** @class */ (function () {
         else if (isFunction(searchStates.searchOptions)) {
             Reflect.set(controlConfig, 'options', function (payload) { return searchStates.searchOptions(payload); });
         }
+        searchStates.searchSourceId &&
+            (Reflect.set(controlConfig, 'sourceId', searchStates.searchSourceId),
+                Reflect.set(controlConfig, 'useCache', true));
+        searchStates.searchColumnProp && Reflect.set(controlConfig, 'relyProp', searchStates.searchColumnProp);
+        searchStates.searchColumnListId && Reflect.set(controlConfig, 'relyOn', searchStates.searchColumnListId);
         // options依赖项发生改变时清空该列数据 TODO
         var deps = getOptionsDeps((_c = searchStates.searchOptions) !== null && _c !== void 0 ? _c : []);
         var cb = unsafeDeleteProperty(R.__, this.__items.prop);
@@ -2234,13 +2246,15 @@ var useCxTableCompose = function () {
     var getSearchableFormConfig = R.compose(R.map(FormConfigAdaptor.of), getAllSearchableColumn);
     // column2NameWithId::CxTableDynamicColumn[]->NameWithId[]
     var column2NameWithId = R.compose(R.zipObj(['id', 'name']), R.props(['prop', 'label']));
+    // search2sourceSelect
+    var search2sourceSelect = R.compose(R.dissoc('search'), R.converge(R.assoc('sourceSelect'), [R.prop('search'), R.identity]));
     // getOptionListFromColumn::CxTableDynamicColumn[]->Option[]
     var getOptionListFromColumn = R.compose(R.map(column2NameWithId), getAllSearchableColumn);
     // getCurrentFormConfig::CxTableDynamicColumn[]->string[]->CxFormItemConfig[]
     var getCurrentFormConfig = function (columns, currentItems) {
         var itemList = getSearchableFormConfig(columns);
         return R.compose(R.append({ label: '', prop: 'add', custom: { slot: 'add' } }), R.reduce(function (res, prop) {
-            return R.compose(R.ifElse(R.isNil, R.always(res), R.flip(R.append)(res)), R.find(R.propEq('prop', prop)))(itemList);
+            return R.compose(R.ifElse(R.isNil, R.always(res), R.compose(R.flip(R.append)(res))), search2sourceSelect, R.find(R.propEq('prop', prop)))(itemList);
         }, []))(currentItems);
     };
     // isEmptyValue::a->boolean
@@ -2309,6 +2323,7 @@ var useCxTableCompose = function () {
         arrNotEmpty: arrNotEmpty,
         multiRuleWarn: multiRuleWarn,
         getConfigByDynamicConfig: getConfigByDynamicConfig,
+        search2sourceSelect: search2sourceSelect,
         getDefaultFormItem: getDefaultFormItem,
         innerBracket: innerBracket,
         getAllSearchableColumn: getAllSearchableColumn,
@@ -3377,12 +3392,30 @@ var useUpdateState = function (props, $CxTable) {
 };
 
 var cacheMap = {};
-var resolveColumns = function (cols, props) {
-    var context = useCxTable().getContext();
-    return __spreadArray(__spreadArray([], __read(context.dynamicInject)), [props.dynamicInject]).reduce(function (res, inject) {
-        return isFunction(inject) ? inject(res) : res;
-    }, cols);
-};
+var resolveColumns = function (cols, props) { return __awaiter(void 0, void 0, void 0, function () {
+    var context;
+    return __generator(this, function (_a) {
+        context = useCxTable().getContext();
+        return [2 /*return*/, __spreadArray(__spreadArray([], __read(context.dynamicInject)), [props.dynamicInject]).reduce(function (res, inject) { return __awaiter(void 0, void 0, void 0, function () {
+                var _a, _b;
+                return __generator(this, function (_c) {
+                    switch (_c.label) {
+                        case 0:
+                            if (!isFunction(inject)) return [3 /*break*/, 2];
+                            _b = inject;
+                            return [4 /*yield*/, res];
+                        case 1:
+                            _a = _b.apply(void 0, [_c.sent()]);
+                            return [3 /*break*/, 3];
+                        case 2:
+                            _a = res;
+                            _c.label = 3;
+                        case 3: return [2 /*return*/, _a];
+                    }
+                });
+            }); }, Promise.resolve(cols))];
+    });
+}); };
 var getCxDynamicHead = function (dynamic) { return __awaiter(void 0, void 0, void 0, function () {
     var url;
     return __generator(this, function (_a) {
@@ -3424,62 +3457,76 @@ var useDynamicConfig = function (props, $CxTable, emit) {
     var updateState = useUpdateState(props, $CxTable).updateState;
     var forceUpdate = debounce$1(function (isDynamicChange) {
         if (isDynamicChange === void 0) { isDynamicChange = false; }
-        if (isObject$1(props.dynamic)) {
-            loading.value = true;
-            var key_1 = JSON.stringify(props.dynamic);
-            getCxDynamicHead(props.dynamic)
-                .then(function (_a) {
-                var data = _a.data;
-                return __awaiter(void 0, void 0, void 0, function () {
-                    var duplicate_1;
-                    return __generator(this, function (_b) {
-                        switch (_b.label) {
-                            case 0:
-                                if (Array.isArray(data)) {
-                                    sessionStore.set(key_1, data, CX_TABLE_THROTTLE_DURATION, CX_TABLE_DYNAMIC_CACHE);
-                                    if (Array.isArray(cacheMap[key_1])) {
-                                        duplicate_1 = R.clone(data);
-                                        cacheMap[key_1].forEach(function (resolve) {
-                                            resolve({ data: duplicate_1, state: 200, message: '' });
-                                        });
-                                        Reflect.deleteProperty(cacheMap, key_1);
+        return __awaiter(void 0, void 0, void 0, function () {
+            var key_1, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (!isObject$1(props.dynamic)) return [3 /*break*/, 1];
+                        loading.value = true;
+                        key_1 = JSON.stringify(props.dynamic);
+                        getCxDynamicHead(props.dynamic)
+                            .then(function (_a) {
+                            var data = _a.data;
+                            return __awaiter(void 0, void 0, void 0, function () {
+                                var duplicate_1;
+                                return __generator(this, function (_b) {
+                                    switch (_b.label) {
+                                        case 0:
+                                            if (!Array.isArray(data)) return [3 /*break*/, 2];
+                                            sessionStore.set(key_1, data, CX_TABLE_THROTTLE_DURATION, CX_TABLE_DYNAMIC_CACHE);
+                                            if (Array.isArray(cacheMap[key_1])) {
+                                                duplicate_1 = R.clone(data);
+                                                cacheMap[key_1].forEach(function (resolve) {
+                                                    resolve({ data: duplicate_1, state: 200, message: '' });
+                                                });
+                                                Reflect.deleteProperty(cacheMap, key_1);
+                                            }
+                                            data = data.map(CxConfigAdaptor.of);
+                                            dynamicColumn.value = R.clone(data);
+                                            return [4 /*yield*/, resolveColumns(data, props)];
+                                        case 1:
+                                            data = _b.sent();
+                                            columnProxy.value = data;
+                                            useColumn($CxTable, columnProxy, props);
+                                            useColumnValidity($CxTable);
+                                            updateState();
+                                            _b.label = 2;
+                                        case 2: return [4 /*yield*/, nextTick()];
+                                        case 3:
+                                            _b.sent();
+                                            isDynamicChange && emit('dynamicUpdate');
+                                            return [2 /*return*/];
                                     }
-                                    data = data.map(CxConfigAdaptor.of);
-                                    dynamicColumn.value = R.clone(data);
-                                    data = resolveColumns(data, props);
-                                    columnProxy.value = data;
-                                    useColumn($CxTable, columnProxy, props);
-                                    useColumnValidity($CxTable);
-                                    updateState();
-                                }
-                                return [4 /*yield*/, nextTick()];
-                            case 1:
-                                _b.sent();
-                                isDynamicChange && emit('dynamicUpdate');
-                                return [2 /*return*/];
-                        }
-                    });
-                });
-            })["finally"](function () {
-                loading.value = false;
-                var data = sessionStore.get(key_1, CX_TABLE_DYNAMIC_CACHE);
-                if (data === CX_TABLE_CACHE_PENDING) {
-                    sessionStore.remove(key_1, CX_TABLE_DYNAMIC_CACHE);
+                                });
+                            });
+                        })["finally"](function () {
+                            loading.value = false;
+                            var data = sessionStore.get(key_1, CX_TABLE_DYNAMIC_CACHE);
+                            if (data === CX_TABLE_CACHE_PENDING) {
+                                sessionStore.remove(key_1, CX_TABLE_DYNAMIC_CACHE);
+                            }
+                            if (Array.isArray(cacheMap[key_1])) {
+                                cacheMap[key_1].forEach(function (resolve) {
+                                    resolve({ data: R.clone(data), state: 200, message: '' });
+                                });
+                            }
+                            Reflect.deleteProperty(cacheMap, key_1);
+                        });
+                        return [3 /*break*/, 3];
+                    case 1:
+                        _a = columnProxy;
+                        return [4 /*yield*/, resolveColumns(R.clone(props.tableConfig.items), props)];
+                    case 2:
+                        _a.value = _b.sent();
+                        useColumn($CxTable, columnProxy, props);
+                        useColumnValidity($CxTable);
+                        updateState();
+                        _b.label = 3;
+                    case 3: return [2 /*return*/];
                 }
-                if (Array.isArray(cacheMap[key_1])) {
-                    cacheMap[key_1].forEach(function (resolve) {
-                        resolve({ data: R.clone(data), state: 200, message: '' });
-                    });
-                }
-                Reflect.deleteProperty(cacheMap, key_1);
             });
-        }
-        else {
-            columnProxy.value = resolveColumns(R.clone(props.tableConfig.items), props);
-            useColumn($CxTable, columnProxy, props);
-            useColumnValidity($CxTable);
-            updateState();
-        }
+        });
     }, 300);
     if (isObject$1(props.dynamic)) {
         watch(function () { return props.dynamic; }, R.converge(forceUpdate, [R.T]), { deep: true, immediate: true });
@@ -3886,13 +3933,15 @@ var useWatch = function (props, $CxTable, columnProxy, tableWrapper, expandConfi
         });
     }); };
     watch([function () { return props.tableData.length; }, function () { return props.emptyLimit; }], updateData);
-    watch(function () { return props.tableData; }, updateTableState, { deep: true });
     var updateExpand = function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            setTimeout(function () {
-                useScrollState($CxTable);
-            });
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, nextTick()];
+                case 1:
+                    _a.sent();
+                    useScrollState($CxTable);
+                    return [2 /*return*/];
+            }
         });
     }); };
     watch(function () { return expandConfig; }, updateExpand, { deep: true, immediate: true });
@@ -4435,10 +4484,7 @@ var CxTableHead = defineComponent({
 });
 
 var renderDefaultNode = function (params) {
-    var defaultRenderer = CxTableRendererMap.get('default');
-    return isFunction(defaultRenderer)
-        ? defaultRenderer(params)
-        : createVNode('div', null, params.rowData[params.column.prop]);
+    return createVNode(_CX_ELLIPSIS, { content: params.rowData[params.column.prop] }, null, PATCH_FLAG.PROPS, ['content']);
 };
 var renderCellContent = function (props, isActived, rowIndex, sum, rootSlots, selectConfig, radioValue, disabled, bus, expandConfig, broadcast, pagination, ignoreControl, forceControl) {
     if (sum === void 0) { sum = false; }
@@ -4482,7 +4528,7 @@ var renderCalcCell = function (params) {
     return (openBlock(),
         createBlock(Fragment, null, [
             isFunction(column.calculate)
-                ? createVNode('span', null, column.calculate(rowData), PATCH_FLAG.TEXT)
+                ? createVNode(_CX_ELLIPSIS, { content: column.calculate(rowData) }, null, PATCH_FLAG.PROPS, ['content'])
                 : createCommentVNode('v-if', true),
         ]));
 };
@@ -4495,10 +4541,7 @@ var renderCustomCell = function (params, isActived, disabled, ignoreControl, for
         var force = forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false;
         return renderer(__assign(__assign({}, params), { isActived: isActived, disabled: disabled, prop: params.column.prop, ignore: ignore, force: force }));
     }
-    var defaultRenderer = CxTableRendererMap.get('default');
-    return isFunction(defaultRenderer)
-        ? defaultRenderer(__assign(__assign({}, params), { isActived: isActived, disabled: disabled, prop: params.column.prop, ignore: true, force: false }))
-        : createVNode('div', null, params.rowData[params.column.prop]);
+    return renderDefaultNode(params);
 };
 
 var Cell = defineComponent({
@@ -4538,7 +4581,7 @@ var Cell = defineComponent({
                 })
                 : null;
             if (!result && props.column.required) {
-                result = isEmpty(props.rowData[props.column.prop]) ? props.column.label + '为必填' : null;
+                result = isEmpty(props.rowData[props.column.prop]) ? '请填写' + props.column.label : null;
             }
             return invalidContent.value = result;
         });
@@ -5020,18 +5063,16 @@ var CxTableBody = defineComponent({
         watchEffect(function () {
             tableClass.value = rootProp.stripe || rootProp.showForm ? 'stripe' : '';
         });
-        return function () {
-            return openBlock(),
-                createBlock('div', { "class": hoisted_2, style: bodyWrapperStyle.value }, [
-                    createVNode('table', { style: tableStyle.value, "class": tableClass.value }, [createVNode('tbody', null, [renderContent(), renderAddBtn(), renderTotalSum()])], PATCH_FLAG.STYLE),
-                    (openBlock(),
-                        createBlock(Fragment, null, [
-                            props.fixed === 'bottom'
-                                ? createVNode(FixedBottom, { tableData: props.tableData }, null, PATCH_FLAG.PROPS | PATCH_FLAG.NEED_PATCH, ['tableData'])
-                                : createCommentVNode('v-if_fixed_bottom', true)
-                        ], PATCH_FLAG.STABLE_FRAGMENT))
-                ], PATCH_FLAG.CLASS | PATCH_FLAG.STYLE);
-        };
+        return function () { return (openBlock(),
+            createBlock('div', { "class": hoisted_2, style: bodyWrapperStyle.value }, [
+                createVNode('table', { style: tableStyle.value, "class": tableClass.value }, [createVNode('tbody', null, [renderContent(), renderAddBtn(), renderTotalSum()])], PATCH_FLAG.STYLE),
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        props.fixed === 'bottom'
+                            ? createVNode(FixedBottom, { tableData: props.tableData }, null, PATCH_FLAG.PROPS | PATCH_FLAG.NEED_PATCH, ['tableData'])
+                            : createCommentVNode('v-if_fixed_bottom', true)
+                    ], PATCH_FLAG.STABLE_FRAGMENT))
+            ], PATCH_FLAG.CLASS | PATCH_FLAG.STYLE)); };
     }
 });
 
@@ -5316,7 +5357,6 @@ var DynamicFormAdd = defineComponent({
                                         createVNode(_hoisted_component_3, {
                                             size: 'mini',
                                             "class": _hoisted_class_1,
-                                            suffixIcon: 'iconfont icon-sousuo',
                                             modelValue: searchContent(),
                                             'onUpdate:modelValue': setSearchContent,
                                             placeholder: '搜索过滤条件'
@@ -5439,7 +5479,8 @@ var useDynamicFormSearch = function () {
     ]);
     var checkDynamic = function (dynamic) {
         if (!dynamic) {
-            throw cxTableWarn("can't fetch data if dynamic ", dynamic, " is invalid");
+            cxTableWarn("can't fetch data if dynamic ", dynamic, " is invalid");
+            throw 'invalid dynamic';
         }
     };
     var matchedRule = R.compose(getMaybeValue, R.converge(getConfigByDynamicConfig, [
@@ -5449,61 +5490,53 @@ var useDynamicFormSearch = function () {
     var search = function (rootProp, form, currentFormItems, tableDataVisitor) { return __awaiter(void 0, void 0, void 0, function () {
         var dynamic, matchedRuleEither;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    dynamic = rootProp.dynamic;
-                    checkDynamic(dynamic);
-                    matchedRuleEither = R.compose(R.ifElse(R.isNil, Left.of, Right.of), matchedRule);
-                    return [4 /*yield*/, either(withParams(errorDevTip, [dynamic]), function (rule) { return __awaiter(void 0, void 0, void 0, function () {
-                            var rulePropVal, stateEq200, _a;
-                            return __generator(this, function (_b) {
-                                switch (_b.label) {
-                                    case 0:
-                                        devTip(dynamic);
-                                        rulePropVal = R.prop(R.__, rule);
-                                        stateEq200 = R.propEq('state', 200);
-                                        _a = R.when(stateEq200, R.compose(updateTableData(R.__, rootProp), R.prop('data')));
-                                        return [4 /*yield*/, rulePropVal('requestInstance').postJSON(rulePropVal('api'), initRequestParams(rootProp, form, currentFormItems, tableDataVisitor))];
-                                    case 1:
-                                        _a.apply(void 0, [_b.sent()]);
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); }, matchedRuleEither(dynamic))];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
+            dynamic = rootProp.dynamic;
+            checkDynamic(dynamic);
+            matchedRuleEither = R.compose(R.ifElse(R.isNil, Left.of, Right.of), matchedRule);
+            return [2 /*return*/, either(withParams(errorDevTip, [dynamic]), function (rule) { return __awaiter(void 0, void 0, void 0, function () {
+                    var rulePropVal, stateEq200, _a;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0:
+                                devTip(dynamic);
+                                rulePropVal = R.prop(R.__, rule);
+                                stateEq200 = R.propEq('state', 200);
+                                _a = R.when(stateEq200, R.compose(updateTableData(R.__, rootProp), R.prop('data')));
+                                return [4 /*yield*/, rulePropVal('requestInstance').postJSON(rulePropVal('api'), initRequestParams(rootProp, form, currentFormItems, tableDataVisitor))];
+                            case 1:
+                                _a.apply(void 0, [_b.sent()]);
+                                return [2 /*return*/];
+                        }
+                    });
+                }); }, matchedRuleEither(dynamic))];
         });
     }); };
     var searchTotal = function (rootProp, form, currentFormItems, tableDataVisitor, CxTable) { return __awaiter(void 0, void 0, void 0, function () {
         var dynamic, matchedRuleEither;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    dynamic = rootProp.dynamic;
-                    checkDynamic(dynamic);
-                    matchedRuleEither = R.compose(R.ifElse(R.isNil, Left.of, Right.of), matchedRule);
-                    return [4 /*yield*/, either(R.converge(errorDevTip, [R.always(dynamic)]), function (rule) { return __awaiter(void 0, void 0, void 0, function () {
-                            var rulePropVal, stateEq200, requestInstance, getTotals, _a;
-                            return __generator(this, function (_b) {
-                                switch (_b.label) {
-                                    case 0:
-                                        rulePropVal = R.prop(R.__, rule);
-                                        stateEq200 = R.propEq('state', 200);
-                                        requestInstance = rulePropVal('requestInstance');
-                                        getTotals = R.compose(getMaybeValue, map(R.objOf('totals')), map(R.map(R.prop('prop'))), map(R.filter(R.compose(truthy, R.prop('sum')))), map(R.prop('flatColumns')), Maybe.of);
-                                        _a = R.when(stateEq200, R.compose(R.curryN(3, R.call)(updateTotal, R.__, CxTable), R.prop('data')));
-                                        return [4 /*yield*/, R.compose(R.ifElse(R.compose(arrNotEmpty, R.prop('totals')), R.compose(R.converge(requestInstance.postJSON.bind(requestInstance), [
-                                                R.always('/header/total'),
-                                                R.identity
-                                            ]), R.mergeLeft(initRequestParams(rootProp, form, currentFormItems, tableDataVisitor))), defaultPromise({})), getTotals)(CxTable)];
-                                    case 1:
-                                        _a.apply(void 0, [_b.sent()]);
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); }, matchedRuleEither(dynamic))];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
+            dynamic = rootProp.dynamic;
+            checkDynamic(dynamic);
+            matchedRuleEither = R.compose(R.ifElse(R.isNil, Left.of, Right.of), matchedRule);
+            return [2 /*return*/, either(R.converge(errorDevTip, [R.always(dynamic)]), function (rule) { return __awaiter(void 0, void 0, void 0, function () {
+                    var rulePropVal, stateEq200, requestInstance, getTotals, _a;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0:
+                                rulePropVal = R.prop(R.__, rule);
+                                stateEq200 = R.propEq('state', 200);
+                                requestInstance = rulePropVal('requestInstance');
+                                getTotals = R.compose(getMaybeValue, map(R.objOf('totals')), map(R.map(R.prop('prop'))), map(R.filter(R.compose(truthy, R.prop('sum')))), map(R.prop('flatColumns')), Maybe.of);
+                                _a = R.when(stateEq200, R.compose(R.curryN(3, R.call)(updateTotal, R.__, CxTable), R.prop('data')));
+                                return [4 /*yield*/, R.compose(R.ifElse(R.compose(arrNotEmpty, R.prop('totals')), R.compose(R.converge(requestInstance.postJSON.bind(requestInstance), [
+                                        R.always('/header/total'),
+                                        R.identity
+                                    ]), R.mergeLeft(initRequestParams(rootProp, form, currentFormItems, tableDataVisitor))), defaultPromise({})), getTotals)(CxTable)];
+                            case 1:
+                                _a.apply(void 0, [_b.sent()]);
+                                return [2 /*return*/];
+                        }
+                    });
+                }); }, matchedRuleEither(dynamic))];
         });
     }); };
     return { initRequestParams: initRequestParams, updateTableData: updateTableData, search: search, searchTotal: searchTotal };
@@ -5856,26 +5889,32 @@ function render$4(_ctx, _cache) {
                 createVNode("footer", _hoisted_6$1, [
                   renderSlot(_ctx.$slots, "footer", {}, () => [
                     createVNode("div", _hoisted_7$1, [
-                      createVNode(_component_cx_btn, {
-                        onClick: _cache[3] || (_cache[3] = $event => (_ctx.openDialog(false),_ctx.$emit('cancel')))
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString(_ctx.cancelText), 1 /* TEXT */)
-                        ]),
-                        _: 1 /* STABLE */
-                      }),
-                      createVNode(_component_cx_btn, {
-                        level: "1",
-                        class: "cx_ml_16",
-                        loading: _ctx.okLoading,
-                        disabled: _ctx.disabledOk,
-                        onClick: _cache[4] || (_cache[4] = $event => (_ctx.$emit('ok')))
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString(_ctx.okText), 1 /* TEXT */)
-                        ]),
-                        _: 1 /* STABLE */
-                      }, 8 /* PROPS */, ["loading", "disabled"])
+                      (_ctx.cancelText)
+                        ? (openBlock(), createBlock(_component_cx_btn, {
+                            key: 0,
+                            onClick: _cache[3] || (_cache[3] = $event => (_ctx.openDialog(false),_ctx.$emit('cancel')))
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(_ctx.cancelText), 1 /* TEXT */)
+                            ]),
+                            _: 1 /* STABLE */
+                          }))
+                        : createCommentVNode("v-if", true),
+                      (_ctx.okText)
+                        ? (openBlock(), createBlock(_component_cx_btn, {
+                            key: 1,
+                            level: "1",
+                            class: "cx_ml_16",
+                            loading: _ctx.okLoading,
+                            disabled: _ctx.disabledOk,
+                            onClick: _cache[4] || (_cache[4] = $event => (_ctx.$emit('ok')))
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString(_ctx.okText), 1 /* TEXT */)
+                            ]),
+                            _: 1 /* STABLE */
+                          }, 8 /* PROPS */, ["loading", "disabled"]))
+                        : createCommentVNode("v-if", true)
                     ])
                   ])
                 ])
@@ -5928,15 +5967,11 @@ function useCxDialog() {
 var script$8 = defineComponent({
     name: 'CxEllipsis',
     props: {
-        content: { type: [String, Number], "default": '' },
+        content: { "default": '' },
         activeBgColor: { type: String, "default": '#fff' },
-        placement: {
-            type: String,
-            "default": 'left'
-        }
+        placement: { type: String, "default": 'left' }
     },
-    setup: function (props, _a) {
-        var expose = _a.expose;
+    setup: function (props) {
         var containerRef = ref(null);
         var contentRef = ref(null);
         var tipVisible = ref(false);
@@ -5968,8 +6003,17 @@ var script$8 = defineComponent({
         onUnmounted(function () {
             removeResizeListener(contentRef.value, resizeFn);
         });
-        expose({
-            calcContentWidth: calcContentWidth
+        var renderContent = computed(function () {
+            if (isString(props.content) || isNumber(props.content)) {
+                return props.content;
+            }
+            if (isArray(props.content)) {
+                return props.content.join(',');
+            }
+            if (isObject$1(props.content)) {
+                return JSON.stringify(props.content);
+            }
+            return props.content;
         });
         var popperConfig = reactive({
             text: props.content,
@@ -5985,6 +6029,7 @@ var script$8 = defineComponent({
         });
         return {
             popperConfig: popperConfig,
+            renderContent: renderContent,
             containerRef: containerRef,
             tipVisible: tipVisible,
             paddingRight: paddingRight,
@@ -6011,7 +6056,7 @@ const render$3 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
       createVNode("p", {
         ref: "contentRef",
         class: "tips"
-      }, toDisplayString(_ctx.content), 513 /* TEXT, NEED_PATCH */)
+      }, toDisplayString(_ctx.renderContent), 513 /* TEXT, NEED_PATCH */)
     ])
   ], 6 /* CLASS, STYLE */)), [
     [_directive_uni_popper, _ctx.popperConfig]
@@ -6623,885 +6668,6 @@ var CxTableTitle = defineComponent({
         };
     }
 });
-
-var useDynamicConfigDialog = function () {
-    var context = useCxTable().getContext();
-    var getMessageInstance = (function () { return R.path(['messageInstance'], context); });
-    var totalList = ref([]);
-    var departmentMap = computed(function () {
-        return totalList.value.reduce(function (res, item) {
-            var _a;
-            var tag = (_a = item.tag) !== null && _a !== void 0 ? _a : '基本信息';
-            if (Array.isArray(res[tag])) {
-                res[tag].push(item);
-            }
-            else {
-                res[tag] = [item];
-            }
-            return res;
-        }, {});
-    });
-    var getDefaultData = function () { return ({
-        居左固定字段: [],
-        非固定字段: [],
-        居右固定字段: []
-    }); };
-    var listMap = reactive(getDefaultData());
-    var getDisabledKey = function (item) {
-        if (!item)
-            return '';
-        var key = Object.keys(listMap).find(function (key) {
-            return listMap[key].find(function (innerItem) { return innerItem.id === item.id; });
-        });
-        if (key === null || key === void 0 ? void 0 : key.includes('居')) {
-            return key;
-        }
-        else {
-            return '';
-        }
-    };
-    var checkedList = computed(function () {
-        return Object.values(listMap).reduce(function (res, val) {
-            res.push.apply(res, __spreadArray([], __read(val.map(function (item) { return item.id; }))));
-            return res;
-        }, []);
-    });
-    var updateCheckedList = function (val, id) {
-        if (val) {
-            var item = totalList.value.find(function (item) { return item.id === id; });
-            item && listMap['非固定字段'].push(item);
-        }
-        else {
-            Object.values(listMap).some(function (list) {
-                var index = list.findIndex(function (item) { return item.id === id; });
-                if (index >= 0) {
-                    list.splice(index, 1);
-                    return true;
-                }
-            });
-        }
-    };
-    var getData = function (dynamicConfig) { return __awaiter(void 0, void 0, void 0, function () {
-        var data;
-        var _a, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    if (!dynamicConfig)
-                        return [2 /*return*/, console.warn('[dynamicConfigDialog]: invalid dynamicConfig')];
-                    return [4 /*yield*/, context.dynamicRequestInstance.get('/table/settings/get', dynamicConfig)];
-                case 1:
-                    data = (_c.sent()).data;
-                    totalList.value = (_a = data === null || data === void 0 ? void 0 : data.itemList) !== null && _a !== void 0 ? _a : [];
-                    Object.assign(listMap, getDefaultData());
-                    (_b = data === null || data === void 0 ? void 0 : data.displayList) === null || _b === void 0 ? void 0 : _b.forEach(function (item) {
-                        switch (item.fixed) {
-                            case 'left':
-                                listMap['居左固定字段'].push(item);
-                                break;
-                            case 'right':
-                                listMap['居右固定字段'].push(item);
-                                break;
-                            default:
-                                listMap['非固定字段'].push(item);
-                        }
-                    });
-                    return [2 /*return*/];
-            }
-        });
-    }); };
-    var submit = function (dynamicConfig) { return __awaiter(void 0, void 0, void 0, function () {
-        var columnList, state;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (!dynamicConfig)
-                        return [2 /*return*/, console.warn('[dynamicConfigDialog]: invalid dynamicConfig')];
-                    columnList = Object.entries(listMap).reduce(function (res, _a) {
-                        var _b = __read(_a, 2), key = _b[0], val = _b[1];
-                        res.push.apply(res, __spreadArray([], __read(val.map(function (item) { return ({
-                            id: item.id,
-                            fixed: key.includes('左') ? 'left' : key.includes('右') ? 'right' : undefined
-                        }); }))));
-                        return res;
-                    }, []);
-                    return [4 /*yield*/, context.dynamicRequestInstance.putJSON('/table/settings/save', __assign(__assign({}, dynamicConfig), { columnList: columnList }))];
-                case 1:
-                    state = (_a.sent()).state;
-                    if (state !== 200)
-                        return [2 /*return*/, Promise.reject()];
-                    getMessageInstance().success('修改成功');
-                    return [2 /*return*/];
-            }
-        });
-    }); };
-    return {
-        totalList: totalList,
-        getDisabledKey: getDisabledKey,
-        departmentMap: departmentMap,
-        listMap: listMap,
-        checkedList: checkedList,
-        updateCheckedList: updateCheckedList,
-        getData: getData,
-        submit: submit
-    };
-};
-
-//
-var script$7 = defineComponent({
-    name: 'ColumnSettingDialog',
-    components: { Draggable: Draggable, CxDialog: _CX_DIALOG },
-    props: { dynamicList: { type: Array, required: true } },
-    emits: ['submit'],
-    install: function (app) {
-        app.component('columnSettingDialog', this);
-    },
-    setup: function (props, _a) {
-        var _this = this;
-        var emit = _a.emit, expose = _a.expose;
-        var _b = __read(useCxDialog(), 2), register = _b[0], openDialog = _b[1].openDialog;
-        var DYNAMIC_BUSINESS_TYPE = useCxTable().getContext().dynamicType.DYNAMIC_BUSINESS_TYPE;
-        var _c = useDynamicConfigDialog(), totalList = _c.totalList, departmentMap = _c.departmentMap, listMap = _c.listMap, checkedList = _c.checkedList, updateCheckedList = _c.updateCheckedList, getData = _c.getData, submit = _c.submit, getDisabledKey = _c.getDisabledKey;
-        var activeTab = ref(0);
-        var activeDynamicConfig = computed(function () {
-            return props.dynamicList[activeTab.value];
-        });
-        var tabOptionList = computed(function () {
-            var _a;
-            return (_a = props.dynamicList) === null || _a === void 0 ? void 0 : _a.map(function (config, index) {
-                var _a;
-                return {
-                    id: index,
-                    name: DYNAMIC_BUSINESS_TYPE[(_a = config === null || config === void 0 ? void 0 : config.businessType) !== null && _a !== void 0 ? _a : '']
-                };
-            });
-        });
-        var _d = __read(loadingDecorator(function () { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        activeTab.value = 0;
-                        return [4 /*yield*/, fetchList()];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        }); }), 2), open = _d[0], openLoading = _d[1];
-        var fetchList = function () { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!activeDynamicConfig.value)
-                            return [2 /*return*/];
-                        return [4 /*yield*/, getData(activeDynamicConfig.value)];
-                    case 1:
-                        _a.sent();
-                        openDialog();
-                        return [2 /*return*/];
-                }
-            });
-        }); };
-        watch(activeTab, fetchList);
-        expose({ open: open });
-        var _e = __read(loadingDecorator(function () { return __awaiter(_this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        if (!activeDynamicConfig.value)
-                            return [2 /*return*/];
-                        return [4 /*yield*/, submit(activeDynamicConfig.value)];
-                    case 1:
-                        _b.sent();
-                        if (((_a = props.dynamicList) === null || _a === void 0 ? void 0 : _a.length) < 2) {
-                            openDialog(false);
-                        }
-                        emit('submit', activeDynamicConfig.value);
-                        return [2 /*return*/];
-                }
-            });
-        }); }), 2), submitData = _e[0], submitLoading = _e[1];
-        var header = computed(function () {
-            var _a, _b;
-            return "\u8BBE\u7F6E" + ((_b = DYNAMIC_BUSINESS_TYPE[(_a = activeDynamicConfig.value) === null || _a === void 0 ? void 0 : _a.dataType]) !== null && _b !== void 0 ? _b : '') + "\u663E\u793A\u5B57\u6BB5";
-        });
-        var onMove = function (e) {
-            var _a;
-            var relatedContext = e.relatedContext, draggedContext = e.draggedContext;
-            var targetItem = relatedContext === null || relatedContext === void 0 ? void 0 : relatedContext.element;
-            var currentItem = draggedContext === null || draggedContext === void 0 ? void 0 : draggedContext.element;
-            var targetItemKey = getDisabledKey(targetItem);
-            var currentItemKey = getDisabledKey(currentItem);
-            return (!targetItemKey || targetItemKey === currentItemKey || ((_a = listMap[targetItemKey]) === null || _a === void 0 ? void 0 : _a.length) < 3);
-        };
-        return {
-            totalList: totalList,
-            checkedList: checkedList,
-            updateCheckedList: updateCheckedList,
-            listMap: listMap,
-            tabOptionList: tabOptionList,
-            departmentMap: departmentMap,
-            register: register,
-            submitData: submitData,
-            activeTab: activeTab,
-            submitLoading: submitLoading,
-            open: open,
-            openLoading: openLoading,
-            header: header,
-            onMove: onMove
-        };
-    }
-});
-
-const _withId$1 = /*#__PURE__*/withScopeId("data-v-0b829fd6");
-
-pushScopeId("data-v-0b829fd6");
-const _hoisted_1$1 = /*#__PURE__*/createVNode("div", null, [
-  /*#__PURE__*/createVNode("div", { class: "cx_flex_center cx_justify_between" }, [
-    /*#__PURE__*/createVNode("div", { class: "cx_ptb_12 cx_pl_16 cx_flex_1" }, "可选属性"),
-    /*#__PURE__*/createVNode("div", { class: "cx_ptb_12 cx_w_250" }, "已选属性")
-  ]),
-  /*#__PURE__*/createVNode("div", { class: "cx_line cx_w_100p cx_m_0" })
-], -1 /* HOISTED */);
-const _hoisted_2 = { class: "cx_dp_flex cx_justify_between" };
-const _hoisted_3 = {
-  class: "cx_flex_1 cx_br cx_p_16 cx_h_500",
-  style: {"overflow":"auto","position":"relative"}
-};
-const _hoisted_4 = {
-  class: "cx_fs_16 cx_pl_12 cx_ptb_8",
-  style: {"font-weight":"500"}
-};
-const _hoisted_5 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_m_0 cx_w_100p cx_mtb_6" }, null, -1 /* HOISTED */);
-const _hoisted_6 = {
-  class: "cx_w_230 cx_p_16 cx_h_500",
-  style: {"overflow":"auto"}
-};
-const _hoisted_7 = {
-  key: 0,
-  class: "cx_line cx_mb_10 cx_mt_14"
-};
-const _hoisted_8 = { class: "cx_mb_8 cx_fs_14" };
-const _hoisted_9 = { class: "cx_fs_14 cx_ptb_9 hover_active cx_cursor_move" };
-const _hoisted_10 = /*#__PURE__*/createVNode("i", { class: "iconfont icon-tuodong1 cx_mr_8" }, null, -1 /* HOISTED */);
-popScopeId();
-
-const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
-  const _component_CxTab = resolveComponent("CxTab");
-  const _component_ElCheckbox = resolveComponent("ElCheckbox");
-  const _component_Draggable = resolveComponent("Draggable");
-  const _component_CxDialog = resolveComponent("CxDialog");
-  const _directive_loading = resolveDirective("loading");
-
-  return (openBlock(), createBlock(_component_CxDialog, {
-    okLoading: _ctx.submitLoading,
-    width: "1020px",
-    onRegister: _ctx.register,
-    top: "50px",
-    title: _ctx.header,
-    onOk: _ctx.submitData,
-    "append-to-body": ""
-  }, {
-    default: _withId$1(() => [
-      (_ctx.tabOptionList && _ctx.tabOptionList.length > 1)
-        ? (openBlock(), createBlock(_component_CxTab, {
-            key: 0,
-            class: "cx_plr_16",
-            level: "2",
-            options: _ctx.tabOptionList,
-            modelValue: _ctx.activeTab,
-            "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => (_ctx.activeTab = $event))
-          }, null, 8 /* PROPS */, ["options", "modelValue"]))
-        : createCommentVNode("v-if", true),
-      _hoisted_1$1,
-      withDirectives(createVNode("div", _hoisted_2, [
-        createVNode("section", _hoisted_3, [
-          (openBlock(true), createBlock(Fragment, null, renderList(_ctx.departmentMap, (item, key) => {
-            return (openBlock(), createBlock("div", {
-              key: key,
-              class: "cx_mtb_5"
-            }, [
-              createVNode("h3", _hoisted_4, toDisplayString(key), 1 /* TEXT */),
-              (openBlock(true), createBlock(Fragment, null, renderList(item, (option) => {
-                return (openBlock(), createBlock("div", {
-                  key: option.id,
-                  class: "cx_dp_ib cx_mtb_16 cx_w_130 cx_pl_12"
-                }, [
-                  createVNode(_component_ElCheckbox, {
-                    "model-value": _ctx.checkedList.includes(option.id),
-                    "onUpdate:modelValue": val => _ctx.updateCheckedList(val, option.id),
-                    disabled: option.irrevocable,
-                    label: option.label,
-                    value: option.id
-                  }, null, 8 /* PROPS */, ["model-value", "onUpdate:modelValue", "disabled", "label", "value"])
-                ]))
-              }), 128 /* KEYED_FRAGMENT */)),
-              _hoisted_5
-            ]))
-          }), 128 /* KEYED_FRAGMENT */))
-        ]),
-        createVNode("section", _hoisted_6, [
-          (openBlock(true), createBlock(Fragment, null, renderList(_ctx.listMap, (_, key, index) => {
-            return (openBlock(), createBlock("div", { key: key }, [
-              (index !== 0)
-                ? (openBlock(), createBlock("div", _hoisted_7))
-                : createCommentVNode("v-if", true),
-              createVNode("h3", _hoisted_8, toDisplayString(key), 1 /* TEXT */),
-              createVNode(_component_Draggable, {
-                modelValue: _ctx.listMap[key],
-                "onUpdate:modelValue": $event => (_ctx.listMap[key] = $event),
-                "item-key": "id",
-                group: "list",
-                tag: "transition-group",
-                "component-data": { tag: 'ul', name: 'flip-list', type: 'transition' },
-                ghostClass: "cx_opacity_20",
-                move: _ctx.onMove
-              }, {
-                item: _withId$1(({ element }) => [
-                  createVNode("li", _hoisted_9, [
-                    _hoisted_10,
-                    createTextVNode(toDisplayString(element.label), 1 /* TEXT */)
-                  ])
-                ]),
-                _: 2 /* DYNAMIC */
-              }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["modelValue", "onUpdate:modelValue", "move"])
-            ]))
-          }), 128 /* KEYED_FRAGMENT */))
-        ])
-      ], 512 /* NEED_PATCH */), [
-        [_directive_loading, _ctx.openLoading]
-      ])
-    ]),
-    _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["okLoading", "onRegister", "title", "onOk"]))
-});
-
-script$7.render = render$2;
-script$7.__scopeId = "data-v-0b829fd6";
-script$7.__file = "src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";
-
-//
-var script$6 = defineComponent({
-    name: 'DynamicConfigSettings',
-    components: { ColumnSettingDialog: script$7 },
-    props: { dynamicConfig: { type: Object, requred: true } },
-    emits: ['submit'],
-    setup: function (_, _a) {
-        var _this = this;
-        var emit = _a.emit;
-        var dialogRef = ref(null);
-        var _b = __read(loadingDecorator(function () { return __awaiter(_this, void 0, void 0, function () {
-            var _a, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, ((_b = (_a = dialogRef.value) === null || _a === void 0 ? void 0 : _a.open) === null || _b === void 0 ? void 0 : _b.call(_a))];
-                    case 1:
-                        _c.sent();
-                        return [2 /*return*/];
-                }
-            });
-        }); }), 2), open = _b[0], openLoading = _b[1];
-        var CxTable = inject('CxTable');
-        var right = computed(function () {
-            if (!CxTable)
-                return 0;
-            return CxTable.scrollStore.rightScrollBar ? CxTable.styleStore.CX_TABLE_SCROLL_BAR + 'px' : 0;
-        });
-        return {
-            open: open,
-            openLoading: openLoading,
-            submit: function () {
-                emit('submit');
-            },
-            dialogRef: dialogRef,
-            right: right
-        };
-    }
-});
-
-const _withId = /*#__PURE__*/withScopeId("data-v-df9138d6");
-
-pushScopeId("data-v-df9138d6");
-const _hoisted_1 = { class: "setting_btn cx_flex_center cx_justify_center" };
-popScopeId();
-
-const render$1 = /*#__PURE__*/_withId((_ctx, _cache) => {
-  const _component_CxBtn = resolveComponent("CxBtn");
-  const _component_ElTooltip = resolveComponent("ElTooltip");
-  const _component_ColumnSettingDialog = resolveComponent("ColumnSettingDialog");
-
-  return (openBlock(), createBlock("div", {
-    style: { position: 'absolute', right: _ctx.right, top: 0, zIndex: 1500 }
-  }, [
-    createVNode("div", _hoisted_1, [
-      createVNode(_component_ElTooltip, {
-        effect: "dark",
-        placement: "left-start",
-        content: "设置表头字段"
-      }, {
-        default: _withId(() => [
-          createVNode(_component_CxBtn, {
-            class: "cx_p_0",
-            icon: "shezhi1",
-            onClick: _ctx.open,
-            loading: _ctx.openLoading
-          }, null, 8 /* PROPS */, ["onClick", "loading"])
-        ]),
-        _: 1 /* STABLE */
-      })
-    ]),
-    createVNode(_component_ColumnSettingDialog, {
-      ref: "dialogRef",
-      onSubmit: _ctx.submit,
-      dynamicList: [_ctx.dynamicConfig]
-    }, null, 8 /* PROPS */, ["onSubmit", "dynamicList"])
-  ], 4 /* STYLE */))
-});
-
-script$6.render = render$1;
-script$6.__scopeId = "data-v-df9138d6";
-script$6.__file = "src/lib/cx-table/components/dynamicConfigSetting/index.vue";
-
-var CxTableProp = {
-    tableConfig: { type: Object, "default": function () { return ({ items: [] }); } },
-    tableData: { type: Array, "default": function () { return []; } },
-    /**
-     * @description 显示底部总计
-     */
-    showTotalSum: { type: Boolean, "default": false },
-    /**
-     * @description 显示悬浮底部总计
-     */
-    floatTotalSum: { type: Boolean, "default": false },
-    /**
-     * @description 固定底部总计
-     */
-    fixTotalSum: { type: Boolean, "default": false },
-    /**
-     * @description 集成分页器, 传入分页器参数对象即可开启, 可使用useCxPagination获得, 分页参数更新,将抛出paging事件
-     */
-    pagination: { type: Object, "default": null },
-    /**
-     * @description 自定义总计行数据源, 将完全采用该对象作为合计行数据渲染
-     */
-    customTotalSum: { type: Object, "default": null },
-    /**
-     * @description 最大高度,传入后将固定头部,可以是数字(将被自动格式化为px高度),也可以是任意描述高度的字符串,如 calc(100vh - 100px)
-     */
-    height: { type: [Number, String], "default": '' },
-    /**
-     * @description 禁用所有输入类控件, 无法直接影响插槽, 可使用插槽scope中的disable属性判断
-     */
-    disabled: { type: Boolean, "default": false },
-    /**
-     * @description 空行补位, 补位的空行没有键盘事件响应也无法聚焦
-     */
-    emptyLimit: { type: Number, "default": 0 },
-    /**
-     * @description 控制colspan/rowspan, 函数类型, 入参为column,rowIndex,rowData, 返回{colspan:number,rowspan:number}对象或[rowspan,colspan]数组
-     */
-    spanMethod: { type: Function, "default": null },
-    /**
-     * @description 显示添加按钮(特定需求使用,点击该按钮将抛出addNewRow事件)
-     */
-    showAddBtn: { type: String, "default": '' },
-    /**
-     * @description 开启虚拟滚动, 表格行数较小不建议开启, 会消耗一定的额外性能, 且当其与spanMethod同时使用时,性能开销较大(但仍远小于长列表渲染),渲染前预计算spanMethod 10000行*20列约300ms
-     */
-    virtualScroll: { type: Boolean, "default": false },
-    /**
-     * @description 表现为激活状态行的index列表, 该属性主要用于自定义行多选,行单选的情况,激活行默认表现为浅蓝色(可与集成单选/多选同时使用)
-     */
-    activeRows: { type: Array, "default": function () { return []; } },
-    /**
-     * @description 目标行/列隐藏控件, 无法直接影响插槽, 插槽可通过scope中的ignore属性自定义设置
-     */
-    ignoreControl: { type: Function, "default": function () { return false; } },
-    /**
-     * @description 目标行/列强制显示控件,无法直接影响插槽, 插槽可通过scope中的isControl属性自定义设置
-     */
-    forceControl: { type: Function, "default": function () { return false; } },
-    /**
-     * @description 默认样式配置,{width:默认单元格宽度,height:默认单元格高度,padding:单元格内左右padding,cache:虚拟滚动视口外缓冲行数}
-     */
-    styleSetting: { type: Object, "default": function () { return ({}); } },
-    /**
-     * @description 是否启用键盘事件,关闭后单元格将无法聚焦
-     */
-    keyboard: { type: Boolean, "default": true },
-    /**
-     * @description 拓展行,可以是插槽名或一个返回插槽名的函数,入参为column,rowData,rowIndex,如果返回值为空,那么便不渲染,该功能可针对特定的某行开启拓展行.
-     */
-    expand: { type: [String, Function], "default": '' },
-    /**
-     * @description 表格title, 聊胜于无的功能
-     */
-    title: { type: String, "default": '' },
-    /**
-     * @description 是否开启懒加载, 默认为开启
-     */
-    lazy: { type: Boolean, "default": true },
-    /**
-     * @description 是否使用宽度适配器提供的宽度,默认开启
-     */
-    widthAdaptor: { type: Boolean, "default": true },
-    /**
-     * @description 动态表头加载参数,一旦传入该属性,则表格的tableConfig属性将失效
-     */
-    dynamic: { type: Object },
-    /**
-     * @description 行样式
-     */
-    cellStyle: {
-        type: [Function, Object]
-    },
-    /**
-     * @description 表头样式
-     */
-    headCellStyle: {
-        type: [Function, Object]
-    },
-    /**
-     * @description 设置nativeCheckbox多选禁用状态
-     */
-    checkSelect: { type: Function },
-    /**
-     * @description dynamic表头模式下用于手动添加或修改表头
-     */
-    dynamicInject: { type: Function },
-    /**
-     * @description 是否缓存表格数据,传入值为缓存key值或一个返回key值的函数(返回空值则不缓存)
-     * 在不同的路由下 不 允许使用相同的key值, 这通常会导致缓存读取错误
-     */
-    cache: { type: [String, Function] },
-    /**
-     * @description 在dynamic状态下, 是否开启配置弹窗
-     */
-    configurable: { type: Boolean, "default": true },
-    /**
-     * @description 是否显示表单控件
-     */
-    showForm: { type: Boolean, "default": false },
-    /**
-     * @description 渲染表单时,是否渲染至其他容器,值为容器的选择器
-     */
-    formTeleport: { type: String },
-    /**
-     * @description 钩子
-     */
-    hooks: { type: Object },
-    /**
-     * @description 暂存列表按钮容器的选择器
-     */
-    cacheListBtn: { type: String },
-    /**
-     * @description 暂存按钮容器的选择器
-     */
-    setCacheBtn: { type: String },
-    /**
-     * @description 斑马纹
-     */
-    stripe: { type: Boolean, "default": false }
-};
-
-var script$5 = defineComponent({
-    name: 'CxTable',
-    props: CxTableProp,
-    emits: CX_TABLE_EVENT_LIST,
-    setup: function (props, _a) {
-        var _this = this;
-        var slots = _a.slots, emit = _a.emit, expose = _a.expose;
-        // 根对象
-        var $CxTable = createCxTableConfig();
-        var _b = useDynamicConfig(props, $CxTable, emit), columnProxy = _b.columnProxy, dynamicColumn = _b.dynamicColumn, loading = _b.loading, forceUpdate = _b.forceUpdate;
-        var searchLoading = ref(false);
-        var bus = useCxTableEvent($CxTable, props, emit).bus;
-        var tid = useTableId().generateTableId();
-        var tableDataVisitor = useCxSort(props).tableDataVisitor;
-        // 集成多选
-        var _c = useSelectConfig(tableDataVisitor, emit), selectConfig = _c.selectConfig, setCheckSelect = _c.setCheckSelect, clearSelection = _c.clearSelection, toggleRowSelection = _c.toggleRowSelection, toggleAllSelection = _c.toggleAllSelection, getSelectValue = _c.getSelectValue, getSelectAllValue = _c.getSelectAllValue, setSelectDisabled = _c.setSelectDisabled, updateSelectConfig = _c.updateSelectConfig;
-        setCheckSelect(props.checkSelect);
-        bus.on('toggleAllSelection', toggleAllSelection);
-        bus.on('toggleRowSelection', toggleRowSelection);
-        // 集成单选
-        var _d = useRadioConfig(emit), radioValue = _d.radioValue, removeRadio = _d.removeRadio, setRadio = _d.setRadio, getRadio = _d.getRadio;
-        // 集成展开行
-        var _e = useExpandConfig(), expandConfig = _e.expandConfig, setExpand = _e.setExpand, clearExpand = _e.clearExpand;
-        // 表单校验
-        var validate = useValidator($CxTable, props).validate;
-        var _f = usePriorityConfig($CxTable), setConfig = _f.setConfig, removeConfig = _f.removeConfig, clearConfig = _f.clearConfig, onSetConfig = _f.onSetConfig;
-        // 缓存
-        // const { removeCache, setCache, getCache } = useCache(props);
-        var broadcast = useBroadcast().broadcast;
-        var updateWidth = debounce$1(function () { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        useAutoWidth($CxTable);
-                        return [4 /*yield*/, nextTick()];
-                    case 1:
-                        _a.sent();
-                        scrollUpdateShadow($CxTable);
-                        return [2 /*return*/];
-                }
-            });
-        }); }, 50);
-        broadcast.registEntireListener(function (payload) { return __awaiter(_this, void 0, void 0, function () {
-            var prop;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        prop = payload.prop;
-                        return [4 /*yield*/, nextTick()];
-                    case 1:
-                        _a.sent();
-                        updateCxTableWidth($CxTable, props, prop);
-                        updateWidth();
-                        emit('broadcast', payload);
-                        return [2 /*return*/];
-                }
-            });
-        }); });
-        var exposeMethods = {
-            // radio
-            removeRadio: removeRadio,
-            setRadio: setRadio,
-            getRadio: getRadio,
-            // checkbox
-            clearSelection: clearSelection,
-            toggleRowSelection: toggleRowSelection,
-            toggleAllSelection: toggleAllSelection,
-            getSelectValue: getSelectValue,
-            getSelectAllValue: getSelectAllValue,
-            setSelectDisabled: setSelectDisabled,
-            updateSelectConfig: updateSelectConfig,
-            // expand
-            setExpand: setExpand,
-            clearExpand: clearExpand,
-            // config
-            setConfig: setConfig,
-            removeConfig: removeConfig,
-            clearConfig: clearConfig,
-            // validate
-            validate: validate,
-            // update
-            forceUpdate: forceUpdate,
-            // event
-            triggerBroadcast: function (prop, rowData) {
-                broadcast.trigger(prop, rowData, { prop: prop, rowData: rowData });
-            },
-            focusCell: function (_a) {
-                var prop = _a.prop, rowData = _a.rowData, rowIndex = _a.rowIndex;
-                return __awaiter(_this, void 0, void 0, function () {
-                    var rowHeight, column, cell;
-                    var _b;
-                    return __generator(this, function (_c) {
-                        switch (_c.label) {
-                            case 0:
-                                if (!prop)
-                                    return [2 /*return*/];
-                                if (!rowData && rowIndex == undefined)
-                                    return [2 /*return*/];
-                                if (!props.virtualScroll) return [3 /*break*/, 2];
-                                rowIndex = rowIndex !== null && rowIndex !== void 0 ? rowIndex : props.tableData.findIndex(function (data) { return data === rowData; });
-                                if (!isNumber(rowIndex) || !$CxTable.wrapperEle)
-                                    return [2 /*return*/];
-                                rowHeight = $CxTable.styleStore.CX_TABLE_HEIGHT;
-                                $CxTable.wrapperEle.scrollTop = rowHeight * rowIndex;
-                                return [4 /*yield*/, nextTick()];
-                            case 1:
-                                _c.sent();
-                                _c.label = 2;
-                            case 2:
-                                rowData = rowData !== null && rowData !== void 0 ? rowData : props.tableData[rowIndex];
-                                column = (_b = $CxTable.flatColumns) === null || _b === void 0 ? void 0 : _b.find(function (col) { return col.prop === prop; });
-                                if (!column)
-                                    return [2 /*return*/];
-                                cell = domShare.getCell($CxTable, column, rowData);
-                                setTimeout(function () {
-                                    cell === null || cell === void 0 ? void 0 : cell.click();
-                                });
-                                return [2 /*return*/];
-                        }
-                    });
-                });
-            },
-            // setCache,
-            // getCache,
-            // removeCache,
-            removeCacheItem: function () {
-                bus.emit('removeCacheItem');
-            },
-            search: function (payload) {
-                bus.emit('search', payload);
-            }
-        };
-        expose(exposeMethods);
-        emit('register', { registerTarget: exposeMethods, props: props });
-        provide('broadcast', broadcast);
-        provide('tableDataVisitor', tableDataVisitor);
-        provide('CxTable', $CxTable);
-        provide('rootProp', props);
-        provide('rootSlots', slots);
-        provide('bus', bus);
-        provide('loading', loading);
-        provide('selectConfig', selectConfig);
-        provide('radioValue', radioValue);
-        provide('expandConfig', expandConfig);
-        provide('tid', tid);
-        provide('dynamicColumn', dynamicColumn);
-        var tableWrapper = ref(null);
-        var tableVisible = ref(!props.lazy);
-        onMounted(function () {
-            if (!tableWrapper.value)
-                return;
-            $CxTable.wrapperEle = tableWrapper.value;
-            var _a = useWatch(props, $CxTable, columnProxy, tableWrapper, expandConfig, tableVisible), updateColumn = _a.updateColumn, updateData = _a.updateData;
-            onSetConfig.push(updateColumn);
-            onSetConfig.push(updateData);
-            props.lazy && useLazyLoad(tableWrapper.value, tableVisible);
-        });
-        useRegister($CxTable, props, tableDataVisitor, tableWrapper, bus, tid);
-        var _hoisted_1_class = 'cx-table_wrapper';
-        var _hoisted_2_class = 'cx-table_scrollWrapper';
-        var _hoisted_3_class = 'cx-table_border_line';
-        var _hoisted_directive = resolveDirective('loading');
-        var renderContent = function (fixed) {
-            return createVNode(CxTableContent, { tableData: tableDataVisitor.sortedData, fixed: fixed }, null, PATCH_FLAG.PROPS, ['tableData']);
-        };
-        var renderTables = function () {
-            var _a = $CxTable.columnStore, leftFixedColumns = _a.leftFixedColumns, rightFixedColumns = _a.rightFixedColumns;
-            var _b = $CxTable.scrollStore, rightScrollBar = _b.rightScrollBar, bottomScrollBar = _b.bottomScrollBar;
-            return [
-                renderContent(),
-                (openBlock(), createBlock(Fragment, null, [
-                    leftFixedColumns.length && bottomScrollBar ? renderContent('left') : createCommentVNode('v-if_left', true)
-                ])),
-                (openBlock(), createBlock(Fragment, null, [
-                    rightFixedColumns.length && bottomScrollBar ? renderContent('right') : createCommentVNode('v-if_right', true)
-                ])),
-                (openBlock(), createBlock(Fragment, null, [
-                    props.height && rightScrollBar ? renderContent('top') : createCommentVNode('v-if_top', true)
-                ])),
-                (openBlock(), createBlock(Fragment, null, [
-                    props.fixTotalSum && props.showTotalSum && rightScrollBar ? renderContent('bottom') : createCommentVNode('v-if_bottom', true)
-                ]))
-            ];
-        };
-        var renderBorderLine = function () {
-            return createVNode('div', { "class": _hoisted_3_class });
-        };
-        var renderEmpty = function () {
-            return (openBlock(),
-                createBlock(Fragment, null, [
-                    tableDataVisitor.sortedData.length || props.emptyLimit > 0 || props.showAddBtn
-                        ? createCommentVNode('v-if_empty', true)
-                        : createVNode(CxTableEmpty)
-                ]));
-        };
-        var renderDynamicConfigSetting = function () {
-            return (openBlock(),
-                createBlock(Fragment, null, [
-                    props.configurable && props.dynamic
-                        ? createVNode(script$6, {
-                            dynamicConfig: props.dynamic,
-                            onSubmit: function () {
-                                forceUpdate();
-                                emit('dynamicSetting');
-                            }
-                        }, null, PATCH_FLAG.PROPS | PATCH_FLAG.NEED_PATCH, ['dynamicConfig'])
-                        : createCommentVNode('v-if_dynamic_config', true)
-                ]));
-        };
-        var renderTeleBtn = function (comp) {
-            return createVNode(comp, { dynamicColumn: dynamicColumn.value, tableDataVisitor: tableDataVisitor }, null, PATCH_FLAG.PROPS, ['dynamicColumn', 'tableDataVisitor']);
-        };
-        var placeHolderAttrs = computed(function () {
-            var dataHeight = (props.tableData.length +
-                +!!props.showTotalSum +
-                invokeLayeredRow($CxTable.columns).length) *
-                $CxTable.styleStore.CX_TABLE_HEIGHT;
-            var height = formatWidth(props.height ? Math.min(dataHeight, isNaN(+props.height) ? 400 : +props.height) : dataHeight);
-            return { style: { height: height } };
-        });
-        var innerStyle = computed(function () {
-            return { maxHeight: isNumber(props.height) ? props.height + 'px' : props.height };
-        });
-        var cssVariable = useCSSVariable($CxTable).cssVariable;
-        return function (_, cache) {
-            return createVNode('div', { style: cssVariable.value, "class": 'cx-table_container' }, [
-                createVNode(CxTableTitle),
-                (openBlock(),
-                    createBlock(Fragment, null, [
-                        props.setCacheBtn
-                            ? renderTeleBtn(SetCacheBtn)
-                            : createCommentVNode('v-if_set_cache_btn', true),
-                        props.cacheListBtn
-                            ? renderTeleBtn(CacheListBtn)
-                            : createCommentVNode('v-if_cache_list_btn', true)
-                    ])),
-                (openBlock(),
-                    createBlock(Fragment, null, [
-                        props.showForm
-                            ? createVNode(TeleForm, {
-                                dynamicColumn: dynamicColumn.value,
-                                tableDataVisitor: tableDataVisitor,
-                                loading: searchLoading.value,
-                                'onUpdate:loading': function (val) { return (searchLoading.value = val); }
-                            }, null, PATCH_FLAG.PROPS, ['dynamicColumn', 'tableDataVisitor', 'loading'])
-                            : createCommentVNode('v-if_form', true)
-                    ])),
-                createVNode('div', { tid: tid, "class": _hoisted_1_class }, [
-                    withDirectives(createVNode('div', { "class": _hoisted_2_class, style: innerStyle.value, ref: tableWrapper }, [
-                        (openBlock(),
-                            createBlock(Fragment, null, tableVisible.value
-                                ? [
-                                    renderTables(),
-                                    renderEmpty(),
-                                    cache[0] || (cache[0] = renderBorderLine()),
-                                    renderDynamicConfigSetting()
-                                ]
-                                : [createVNode('div', placeHolderAttrs.value)]))
-                    ], PATCH_FLAG.STYLE | PATCH_FLAG.NEED_PATCH), [[_hoisted_directive !== null && _hoisted_directive !== void 0 ? _hoisted_directive : {}, loading.value || searchLoading.value]])
-                ], PATCH_FLAG.STYLE),
-                (openBlock(),
-                    createBlock(Fragment, null, [
-                        props.floatTotalSum
-                            ? createVNode('div', { "class": _hoisted_1_class }, [
-                                createVNode('div', { "class": _hoisted_2_class + " cx_of_hidden" }, [
-                                    createVNode(CxTableBody, {
-                                        tableData: tableDataVisitor.sortedData,
-                                        onlyTotal: true,
-                                        float: true,
-                                        "class": 'cx_mt_20',
-                                        style: {
-                                            right: $CxTable.scrollStore.scrollLeft + '' + "px",
-                                            position: 'relative'
-                                        }
-                                    }, null, PATCH_FLAG.FULL_PROPS)
-                                ])
-                            ])
-                            : createCommentVNode('v-if_float_total_sum', true)
-                    ])),
-                (openBlock(),
-                    createBlock(Fragment, null, [
-                        isObject$1(props.pagination)
-                            ? createVNode(_CX_PAGINATION, {
-                                pagination: props.pagination,
-                                onPaging: cache[1] || (cache[1] = function () { return emit('paging'); })
-                            }, null, PATCH_FLAG.PROPS, ['pagination'])
-                            : createCommentVNode('v-if_pagination', true)
-                    ]))
-            ], PATCH_FLAG.STYLE);
-        };
-    }
-});
-
-script$5.install = function (app) {
-    app.component(script$5.name, script$5);
-};
-var _CX_TABLE = script$5;
 
 var top = 'top';
 var bottom = 'bottom';
@@ -9493,7 +8659,7 @@ var renderListItem = function (item) {
     var hasText = function () { return truthy(item.text); };
     var createWrapper = function () {
         return setClassByArr([
-            'cx_fs_white',
+            'cx_fc_white',
             'hover_bg_black_75',
             'cx_b_radius_4',
             'cx_plr_8',
@@ -9523,7 +8689,7 @@ var bindClickEvent = R.curryN(2, function (ele, item) {
 var patchListEle = function (list, container) {
     list.forEach(R.compose(appendChild(R.__, container), R.converge(bindClickEvent, [renderListItem, R.identity])));
 };
-var renderTextItem = R.compose(setClassByArr(['cx_p_12', 'cx_fs_white', 'cx_fs_12']), R.converge(setInnerText, [R.identity, R.converge(createTag, [R.always('div')])]));
+var renderTextItem = R.compose(setClassByArr(['cx_p_12', 'cx_fc_white', 'cx_fs_12']), R.converge(setInnerText, [R.identity, R.converge(createTag, [R.always('div')])]));
 var patchTextEle = function (text, container) {
     return R.compose(appendChild(R.__, container), renderTextItem)(text);
 };
@@ -9531,7 +8697,7 @@ var setCancelWatcher = function (cancel) { return (cancel); };
 // updatePopInstance::Instance->Func
 var updatePopInstance = R.converge(R.bind, [R.prop('update'), R.identity]);
 var EleKeyMap = new WeakMap();
-var script$4 = {
+var script$7 = {
     name: 'uniPopper',
     mounted: function (el, _a) {
         var value = _a.value;
@@ -9573,9 +8739,882 @@ var script$4 = {
     }
 };
 
-var _CX_UNI_POPPER = script$4;
+var useDynamicConfigDialog = function () {
+    var context = useCxTable().getContext();
+    var getMessageInstance = (function () { return R.path(['messageInstance'], context); });
+    var totalList = ref([]);
+    var departmentMap = computed(function () {
+        return totalList.value.reduce(function (res, item) {
+            var _a;
+            var tag = (_a = item.tag) !== null && _a !== void 0 ? _a : '基本信息';
+            if (Array.isArray(res[tag])) {
+                res[tag].push(item);
+            }
+            else {
+                res[tag] = [item];
+            }
+            return res;
+        }, {});
+    });
+    var getDefaultData = function () { return ({
+        居左固定字段: [],
+        非固定字段: [],
+        居右固定字段: []
+    }); };
+    var listMap = reactive(getDefaultData());
+    var getDisabledKey = function (item) {
+        if (!item)
+            return '';
+        var key = Object.keys(listMap).find(function (key) {
+            return listMap[key].find(function (innerItem) { return innerItem.id === item.id; });
+        });
+        if (key === null || key === void 0 ? void 0 : key.includes('居')) {
+            return key;
+        }
+        else {
+            return '';
+        }
+    };
+    var checkedList = computed(function () {
+        return Object.values(listMap).reduce(function (res, val) {
+            res.push.apply(res, __spreadArray([], __read(val.map(function (item) { return item.id; }))));
+            return res;
+        }, []);
+    });
+    var updateCheckedList = function (val, id) {
+        if (val) {
+            var item = totalList.value.find(function (item) { return item.id === id; });
+            item && listMap['非固定字段'].push(item);
+        }
+        else {
+            Object.values(listMap).some(function (list) {
+                var index = list.findIndex(function (item) { return item.id === id; });
+                if (index >= 0) {
+                    list.splice(index, 1);
+                    return true;
+                }
+            });
+        }
+    };
+    var getData = function (dynamicConfig) { return __awaiter(void 0, void 0, void 0, function () {
+        var data;
+        var _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    if (!dynamicConfig)
+                        return [2 /*return*/, console.warn('[dynamicConfigDialog]: invalid dynamicConfig')];
+                    return [4 /*yield*/, context.dynamicRequestInstance.get('/table/settings/get', dynamicConfig)];
+                case 1:
+                    data = (_c.sent()).data;
+                    totalList.value = (_a = data === null || data === void 0 ? void 0 : data.itemList) !== null && _a !== void 0 ? _a : [];
+                    Object.assign(listMap, getDefaultData());
+                    (_b = data === null || data === void 0 ? void 0 : data.displayList) === null || _b === void 0 ? void 0 : _b.forEach(function (item) {
+                        switch (item.fixed) {
+                            case 'left':
+                                listMap['居左固定字段'].push(item);
+                                break;
+                            case 'right':
+                                listMap['居右固定字段'].push(item);
+                                break;
+                            default:
+                                listMap['非固定字段'].push(item);
+                        }
+                    });
+                    return [2 /*return*/];
+            }
+        });
+    }); };
+    var submit = function (dynamicConfig) { return __awaiter(void 0, void 0, void 0, function () {
+        var columnList, state;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!dynamicConfig)
+                        return [2 /*return*/, console.warn('[dynamicConfigDialog]: invalid dynamicConfig')];
+                    columnList = Object.entries(listMap).reduce(function (res, _a) {
+                        var _b = __read(_a, 2), key = _b[0], val = _b[1];
+                        res.push.apply(res, __spreadArray([], __read(val.map(function (item) { return ({
+                            id: item.id,
+                            fixed: key.includes('左') ? 'left' : key.includes('右') ? 'right' : undefined
+                        }); }))));
+                        return res;
+                    }, []);
+                    return [4 /*yield*/, context.dynamicRequestInstance.putJSON('/table/settings/save', __assign(__assign({}, dynamicConfig), { columnList: columnList }))];
+                case 1:
+                    state = (_a.sent()).state;
+                    if (state !== 200)
+                        return [2 /*return*/, Promise.reject()];
+                    getMessageInstance().success('修改成功');
+                    return [2 /*return*/];
+            }
+        });
+    }); };
+    return {
+        totalList: totalList,
+        getDisabledKey: getDisabledKey,
+        departmentMap: departmentMap,
+        listMap: listMap,
+        checkedList: checkedList,
+        updateCheckedList: updateCheckedList,
+        getData: getData,
+        submit: submit
+    };
+};
+
+//
+var script$6 = defineComponent({
+    name: 'ColumnSettingDialog',
+    components: { Draggable: Draggable, CxDialog: _CX_DIALOG },
+    props: { dynamicList: { type: Array, required: true } },
+    emits: ['submit'],
+    install: function (app) {
+        app.component('columnSettingDialog', this);
+    },
+    setup: function (props, _a) {
+        var _this = this;
+        var emit = _a.emit, expose = _a.expose;
+        var _b = __read(useCxDialog(), 2), register = _b[0], openDialog = _b[1].openDialog;
+        var DYNAMIC_BUSINESS_TYPE = useCxTable().getContext().dynamicType.DYNAMIC_BUSINESS_TYPE;
+        var _c = useDynamicConfigDialog(), totalList = _c.totalList, departmentMap = _c.departmentMap, listMap = _c.listMap, checkedList = _c.checkedList, updateCheckedList = _c.updateCheckedList, getData = _c.getData, submit = _c.submit, getDisabledKey = _c.getDisabledKey;
+        var activeTab = ref(0);
+        var activeDynamicConfig = computed(function () {
+            return props.dynamicList[activeTab.value];
+        });
+        var tabOptionList = computed(function () {
+            var _a;
+            return (_a = props.dynamicList) === null || _a === void 0 ? void 0 : _a.map(function (config, index) {
+                var _a;
+                return {
+                    id: index,
+                    name: DYNAMIC_BUSINESS_TYPE[(_a = config === null || config === void 0 ? void 0 : config.businessType) !== null && _a !== void 0 ? _a : '']
+                };
+            });
+        });
+        var _d = __read(loadingDecorator(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        activeTab.value = 0;
+                        return [4 /*yield*/, fetchList()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); }), 2), open = _d[0], openLoading = _d[1];
+        var fetchList = function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!activeDynamicConfig.value)
+                            return [2 /*return*/];
+                        return [4 /*yield*/, getData(activeDynamicConfig.value)];
+                    case 1:
+                        _a.sent();
+                        openDialog();
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        watch(activeTab, fetchList);
+        expose({ open: open });
+        var _e = __read(loadingDecorator(function () { return __awaiter(_this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (!activeDynamicConfig.value)
+                            return [2 /*return*/];
+                        return [4 /*yield*/, submit(activeDynamicConfig.value)];
+                    case 1:
+                        _b.sent();
+                        if (((_a = props.dynamicList) === null || _a === void 0 ? void 0 : _a.length) < 2) {
+                            openDialog(false);
+                        }
+                        emit('submit', activeDynamicConfig.value);
+                        return [2 /*return*/];
+                }
+            });
+        }); }), 2), submitData = _e[0], submitLoading = _e[1];
+        var header = computed(function () {
+            var _a, _b;
+            return "\u8BBE\u7F6E" + ((_b = DYNAMIC_BUSINESS_TYPE[(_a = activeDynamicConfig.value) === null || _a === void 0 ? void 0 : _a.dataType]) !== null && _b !== void 0 ? _b : '') + "\u663E\u793A\u5B57\u6BB5";
+        });
+        var onMove = function (e) {
+            var _a;
+            var relatedContext = e.relatedContext, draggedContext = e.draggedContext;
+            var targetItem = relatedContext === null || relatedContext === void 0 ? void 0 : relatedContext.element;
+            var currentItem = draggedContext === null || draggedContext === void 0 ? void 0 : draggedContext.element;
+            var targetItemKey = getDisabledKey(targetItem);
+            var currentItemKey = getDisabledKey(currentItem);
+            return (!targetItemKey || targetItemKey === currentItemKey || ((_a = listMap[targetItemKey]) === null || _a === void 0 ? void 0 : _a.length) < 3);
+        };
+        return {
+            totalList: totalList,
+            checkedList: checkedList,
+            updateCheckedList: updateCheckedList,
+            listMap: listMap,
+            tabOptionList: tabOptionList,
+            departmentMap: departmentMap,
+            register: register,
+            submitData: submitData,
+            activeTab: activeTab,
+            submitLoading: submitLoading,
+            open: open,
+            openLoading: openLoading,
+            header: header,
+            onMove: onMove
+        };
+    }
+});
+
+const _withId$1 = /*#__PURE__*/withScopeId("data-v-0b829fd6");
+
+pushScopeId("data-v-0b829fd6");
+const _hoisted_1$1 = /*#__PURE__*/createVNode("div", null, [
+  /*#__PURE__*/createVNode("div", { class: "cx_flex_center cx_justify_between" }, [
+    /*#__PURE__*/createVNode("div", { class: "cx_ptb_12 cx_pl_16 cx_flex_1" }, "可选属性"),
+    /*#__PURE__*/createVNode("div", { class: "cx_ptb_12 cx_w_250" }, "已选属性")
+  ]),
+  /*#__PURE__*/createVNode("div", { class: "cx_line cx_w_100p cx_m_0" })
+], -1 /* HOISTED */);
+const _hoisted_2 = { class: "cx_dp_flex cx_justify_between" };
+const _hoisted_3 = {
+  class: "cx_flex_1 cx_br cx_p_16 cx_h_500",
+  style: {"overflow":"auto","position":"relative"}
+};
+const _hoisted_4 = {
+  class: "cx_fs_16 cx_pl_12 cx_ptb_8",
+  style: {"font-weight":"500"}
+};
+const _hoisted_5 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_m_0 cx_w_100p cx_mtb_6" }, null, -1 /* HOISTED */);
+const _hoisted_6 = {
+  class: "cx_w_230 cx_p_16 cx_h_500",
+  style: {"overflow":"auto"}
+};
+const _hoisted_7 = {
+  key: 0,
+  class: "cx_line cx_mb_10 cx_mt_14"
+};
+const _hoisted_8 = { class: "cx_mb_8 cx_fs_14" };
+const _hoisted_9 = { class: "cx_fs_14 cx_ptb_9 hover_active cx_cursor_move" };
+const _hoisted_10 = /*#__PURE__*/createVNode("i", { class: "iconfont icon-tuodong1 cx_mr_8" }, null, -1 /* HOISTED */);
+popScopeId();
+
+const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
+  const _component_CxTab = resolveComponent("CxTab");
+  const _component_ElCheckbox = resolveComponent("ElCheckbox");
+  const _component_Draggable = resolveComponent("Draggable");
+  const _component_CxDialog = resolveComponent("CxDialog");
+  const _directive_loading = resolveDirective("loading");
+
+  return (openBlock(), createBlock(_component_CxDialog, {
+    okLoading: _ctx.submitLoading,
+    width: "1020px",
+    onRegister: _ctx.register,
+    top: "50px",
+    title: _ctx.header,
+    onOk: _ctx.submitData,
+    "append-to-body": ""
+  }, {
+    default: _withId$1(() => [
+      (_ctx.tabOptionList && _ctx.tabOptionList.length > 1)
+        ? (openBlock(), createBlock(_component_CxTab, {
+            key: 0,
+            class: "cx_plr_16",
+            level: "2",
+            options: _ctx.tabOptionList,
+            modelValue: _ctx.activeTab,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => (_ctx.activeTab = $event))
+          }, null, 8 /* PROPS */, ["options", "modelValue"]))
+        : createCommentVNode("v-if", true),
+      _hoisted_1$1,
+      withDirectives(createVNode("div", _hoisted_2, [
+        createVNode("section", _hoisted_3, [
+          (openBlock(true), createBlock(Fragment, null, renderList(_ctx.departmentMap, (item, key) => {
+            return (openBlock(), createBlock("div", {
+              key: key,
+              class: "cx_mtb_5"
+            }, [
+              createVNode("h3", _hoisted_4, toDisplayString(key), 1 /* TEXT */),
+              (openBlock(true), createBlock(Fragment, null, renderList(item, (option) => {
+                return (openBlock(), createBlock("div", {
+                  key: option.id,
+                  class: "cx_dp_ib cx_mtb_16 cx_w_130 cx_pl_12"
+                }, [
+                  createVNode(_component_ElCheckbox, {
+                    "model-value": _ctx.checkedList.includes(option.id),
+                    "onUpdate:modelValue": val => _ctx.updateCheckedList(val, option.id),
+                    disabled: option.irrevocable,
+                    label: option.label,
+                    value: option.id
+                  }, null, 8 /* PROPS */, ["model-value", "onUpdate:modelValue", "disabled", "label", "value"])
+                ]))
+              }), 128 /* KEYED_FRAGMENT */)),
+              _hoisted_5
+            ]))
+          }), 128 /* KEYED_FRAGMENT */))
+        ]),
+        createVNode("section", _hoisted_6, [
+          (openBlock(true), createBlock(Fragment, null, renderList(_ctx.listMap, (_, key, index) => {
+            return (openBlock(), createBlock("div", { key: key }, [
+              (index !== 0)
+                ? (openBlock(), createBlock("div", _hoisted_7))
+                : createCommentVNode("v-if", true),
+              createVNode("h3", _hoisted_8, toDisplayString(key), 1 /* TEXT */),
+              createVNode(_component_Draggable, {
+                modelValue: _ctx.listMap[key],
+                "onUpdate:modelValue": $event => (_ctx.listMap[key] = $event),
+                "item-key": "id",
+                group: "list",
+                tag: "transition-group",
+                "component-data": { tag: 'ul', name: 'flip-list', type: 'transition' },
+                ghostClass: "cx_opacity_20",
+                move: _ctx.onMove
+              }, {
+                item: _withId$1(({ element }) => [
+                  createVNode("li", _hoisted_9, [
+                    _hoisted_10,
+                    createTextVNode(toDisplayString(element.label), 1 /* TEXT */)
+                  ])
+                ]),
+                _: 2 /* DYNAMIC */
+              }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["modelValue", "onUpdate:modelValue", "move"])
+            ]))
+          }), 128 /* KEYED_FRAGMENT */))
+        ])
+      ], 512 /* NEED_PATCH */), [
+        [_directive_loading, _ctx.openLoading]
+      ])
+    ]),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["okLoading", "onRegister", "title", "onOk"]))
+});
+
+script$6.render = render$2;
+script$6.__scopeId = "data-v-0b829fd6";
+script$6.__file = "src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";
+
+//
+var script$5 = defineComponent({
+    name: 'DynamicConfigSettings',
+    components: { ColumnSettingDialog: script$6 },
+    props: { dynamicConfig: { type: Object, requred: true } },
+    directives: { uniPopper: script$7 },
+    emits: ['submit'],
+    setup: function (_, _a) {
+        var _this = this;
+        var emit = _a.emit;
+        var dialogRef = ref(null);
+        var _b = __read(loadingDecorator(function () { return __awaiter(_this, void 0, void 0, function () {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0: return [4 /*yield*/, ((_b = (_a = dialogRef.value) === null || _a === void 0 ? void 0 : _a.open) === null || _b === void 0 ? void 0 : _b.call(_a))];
+                    case 1:
+                        _c.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); }), 2), open = _b[0], openLoading = _b[1];
+        var CxTable = inject('CxTable');
+        var right = computed(function () {
+            if (!CxTable)
+                return 0;
+            return CxTable.scrollStore.rightScrollBar ? CxTable.styleStore.CX_TABLE_SCROLL_BAR + 'px' : 0;
+        });
+        return {
+            open: open,
+            openLoading: openLoading,
+            submit: function () {
+                emit('submit');
+            },
+            dialogRef: dialogRef,
+            right: right
+        };
+    }
+});
+
+const _withId = /*#__PURE__*/withScopeId("data-v-df9138d6");
+
+pushScopeId("data-v-df9138d6");
+const _hoisted_1 = { class: "setting_btn cx_flex_center cx_justify_center" };
+popScopeId();
+
+const render$1 = /*#__PURE__*/_withId((_ctx, _cache) => {
+  const _component_cx_btn = resolveComponent("cx-btn");
+  const _component_ColumnSettingDialog = resolveComponent("ColumnSettingDialog");
+  const _directive_uni_popper = resolveDirective("uni-popper");
+
+  return (openBlock(), createBlock("div", {
+    style: { position: 'absolute', right: _ctx.right, top: 0, zIndex: 1500 }
+  }, [
+    createVNode("div", _hoisted_1, [
+      withDirectives(createVNode(_component_cx_btn, {
+        class: "cx_p_0",
+        icon: "shezhi1",
+        onClick: _ctx.open,
+        loading: _ctx.openLoading
+      }, null, 8 /* PROPS */, ["onClick", "loading"]), [
+        [_directive_uni_popper, {placement:'left-start',text:'设置表头字段'}]
+      ])
+    ]),
+    createVNode(_component_ColumnSettingDialog, {
+      ref: "dialogRef",
+      onSubmit: _ctx.submit,
+      dynamicList: [_ctx.dynamicConfig]
+    }, null, 8 /* PROPS */, ["onSubmit", "dynamicList"])
+  ], 4 /* STYLE */))
+});
+
+script$5.render = render$1;
+script$5.__scopeId = "data-v-df9138d6";
+script$5.__file = "src/lib/cx-table/components/dynamicConfigSetting/index.vue";
+
+var CxTableProp = {
+    tableConfig: { type: Object, "default": function () { return ({ items: [] }); } },
+    tableData: { type: Array, "default": function () { return []; } },
+    /**
+     * @description 显示底部总计
+     */
+    showTotalSum: { type: Boolean, "default": false },
+    /**
+     * @description 显示悬浮底部总计
+     */
+    floatTotalSum: { type: Boolean, "default": false },
+    /**
+     * @description 固定底部总计
+     */
+    fixTotalSum: { type: Boolean, "default": false },
+    /**
+     * @description 集成分页器, 传入分页器参数对象即可开启, 可使用useCxPagination获得, 分页参数更新,将抛出paging事件
+     */
+    pagination: { type: Object, "default": null },
+    /**
+     * @description 自定义总计行数据源, 将完全采用该对象作为合计行数据渲染
+     */
+    customTotalSum: { type: Object, "default": null },
+    /**
+     * @description 最大高度,传入后将固定头部,可以是数字(将被自动格式化为px高度),也可以是任意描述高度的字符串,如 calc(100vh - 100px)
+     */
+    height: { type: [Number, String], "default": '' },
+    /**
+     * @description 禁用所有输入类控件, 无法直接影响插槽, 可使用插槽scope中的disable属性判断
+     */
+    disabled: { type: Boolean, "default": false },
+    /**
+     * @description 空行补位, 补位的空行没有键盘事件响应也无法聚焦
+     */
+    emptyLimit: { type: Number, "default": 0 },
+    /**
+     * @description 控制colspan/rowspan, 函数类型, 入参为column,rowIndex,rowData, 返回{colspan:number,rowspan:number}对象或[rowspan,colspan]数组
+     */
+    spanMethod: { type: Function, "default": null },
+    /**
+     * @description 显示添加按钮(特定需求使用,点击该按钮将抛出addNewRow事件)
+     */
+    showAddBtn: { type: String, "default": '' },
+    /**
+     * @description 开启虚拟滚动, 表格行数较小不建议开启, 会消耗一定的额外性能, 且当其与spanMethod同时使用时,性能开销较大(但仍远小于长列表渲染),渲染前预计算spanMethod 10000行*20列约300ms
+     */
+    virtualScroll: { type: Boolean, "default": false },
+    /**
+     * @description 表现为激活状态行的index列表, 该属性主要用于自定义行多选,行单选的情况,激活行默认表现为浅蓝色(可与集成单选/多选同时使用)
+     */
+    activeRows: { type: Array, "default": function () { return []; } },
+    /**
+     * @description 目标行/列隐藏控件, 无法直接影响插槽, 插槽可通过scope中的ignore属性自定义设置
+     */
+    ignoreControl: { type: Function, "default": function () { return false; } },
+    /**
+     * @description 目标行/列强制显示控件,无法直接影响插槽, 插槽可通过scope中的isControl属性自定义设置
+     */
+    forceControl: { type: Function, "default": function () { return false; } },
+    /**
+     * @description 默认样式配置,{width:默认单元格宽度,height:默认单元格高度,padding:单元格内左右padding,cache:虚拟滚动视口外缓冲行数}
+     */
+    styleSetting: { type: Object, "default": function () { return ({}); } },
+    /**
+     * @description 是否启用键盘事件,关闭后单元格将无法聚焦
+     */
+    keyboard: { type: Boolean, "default": true },
+    /**
+     * @description 拓展行,可以是插槽名或一个返回插槽名的函数,入参为column,rowData,rowIndex,如果返回值为空,那么便不渲染,该功能可针对特定的某行开启拓展行.
+     */
+    expand: { type: [String, Function], "default": '' },
+    /**
+     * @description 表格title, 聊胜于无的功能
+     */
+    title: { type: String, "default": '' },
+    /**
+     * @description 是否开启懒加载, 默认为开启
+     */
+    lazy: { type: Boolean, "default": true },
+    /**
+     * @description 是否使用宽度适配器提供的宽度,默认开启
+     */
+    widthAdaptor: { type: Boolean, "default": true },
+    /**
+     * @description 动态表头加载参数,一旦传入该属性,则表格的tableConfig属性将失效
+     */
+    dynamic: { type: Object },
+    /**
+     * @description 行样式
+     */
+    cellStyle: {
+        type: [Function, Object]
+    },
+    /**
+     * @description 表头样式
+     */
+    headCellStyle: {
+        type: [Function, Object]
+    },
+    /**
+     * @description 设置nativeCheckbox多选禁用状态
+     */
+    checkSelect: { type: Function },
+    /**
+     * @description dynamic表头模式下用于手动添加或修改表头
+     */
+    dynamicInject: { type: Function },
+    /**
+     * @description 是否缓存表格数据,传入值为缓存key值或一个返回key值的函数(返回空值则不缓存)
+     * 在不同的路由下 不 允许使用相同的key值, 这通常会导致缓存读取错误
+     */
+    cache: { type: [String, Function] },
+    /**
+     * @description 在dynamic状态下, 是否开启配置弹窗
+     */
+    configurable: { type: Boolean, "default": true },
+    /**
+     * @description 是否显示表单控件
+     */
+    showForm: { type: Boolean, "default": false },
+    /**
+     * @description 渲染表单时,是否渲染至其他容器,值为容器的选择器
+     */
+    formTeleport: { type: String },
+    /**
+     * @description 钩子
+     */
+    hooks: { type: Object },
+    /**
+     * @description 暂存列表按钮容器的选择器
+     */
+    cacheListBtn: { type: String },
+    /**
+     * @description 暂存按钮容器的选择器
+     */
+    setCacheBtn: { type: String },
+    /**
+     * @description 斑马纹
+     */
+    stripe: { type: Boolean, "default": false }
+};
+
+var script$4 = defineComponent({
+    name: 'CxTable',
+    props: CxTableProp,
+    emits: CX_TABLE_EVENT_LIST,
+    setup: function (props, _a) {
+        var _this = this;
+        var slots = _a.slots, emit = _a.emit, expose = _a.expose;
+        // 根对象
+        var $CxTable = createCxTableConfig();
+        var _b = useDynamicConfig(props, $CxTable, emit), columnProxy = _b.columnProxy, dynamicColumn = _b.dynamicColumn, loading = _b.loading, forceUpdate = _b.forceUpdate;
+        var searchLoading = ref(false);
+        var bus = useCxTableEvent($CxTable, props, emit).bus;
+        var tid = useTableId().generateTableId();
+        var tableDataVisitor = useCxSort(props).tableDataVisitor;
+        // 集成多选
+        var _c = useSelectConfig(tableDataVisitor, emit), selectConfig = _c.selectConfig, setCheckSelect = _c.setCheckSelect, clearSelection = _c.clearSelection, toggleRowSelection = _c.toggleRowSelection, toggleAllSelection = _c.toggleAllSelection, getSelectValue = _c.getSelectValue, getSelectAllValue = _c.getSelectAllValue, setSelectDisabled = _c.setSelectDisabled, updateSelectConfig = _c.updateSelectConfig;
+        setCheckSelect(props.checkSelect);
+        bus.on('toggleAllSelection', toggleAllSelection);
+        bus.on('toggleRowSelection', toggleRowSelection);
+        // 集成单选
+        var _d = useRadioConfig(emit), radioValue = _d.radioValue, removeRadio = _d.removeRadio, setRadio = _d.setRadio, getRadio = _d.getRadio;
+        // 集成展开行
+        var _e = useExpandConfig(), expandConfig = _e.expandConfig, setExpand = _e.setExpand, clearExpand = _e.clearExpand;
+        // 表单校验
+        var validate = useValidator($CxTable, props).validate;
+        var _f = usePriorityConfig($CxTable), setConfig = _f.setConfig, removeConfig = _f.removeConfig, clearConfig = _f.clearConfig, onSetConfig = _f.onSetConfig;
+        // 缓存
+        // const { removeCache, setCache, getCache } = useCache(props);
+        var broadcast = useBroadcast().broadcast;
+        var updateWidth = debounce$1(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        useAutoWidth($CxTable);
+                        return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _a.sent();
+                        scrollUpdateShadow($CxTable);
+                        return [2 /*return*/];
+                }
+            });
+        }); }, 50);
+        broadcast.registEntireListener(function (payload) { return __awaiter(_this, void 0, void 0, function () {
+            var prop;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        prop = payload.prop;
+                        return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _a.sent();
+                        updateCxTableWidth($CxTable, props, prop);
+                        updateWidth();
+                        emit('broadcast', payload);
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        var exposeMethods = {
+            // radio
+            removeRadio: removeRadio,
+            setRadio: setRadio,
+            getRadio: getRadio,
+            // checkbox
+            clearSelection: clearSelection,
+            toggleRowSelection: toggleRowSelection,
+            toggleAllSelection: toggleAllSelection,
+            getSelectValue: getSelectValue,
+            getSelectAllValue: getSelectAllValue,
+            setSelectDisabled: setSelectDisabled,
+            updateSelectConfig: updateSelectConfig,
+            // expand
+            setExpand: setExpand,
+            clearExpand: clearExpand,
+            // config
+            setConfig: setConfig,
+            removeConfig: removeConfig,
+            clearConfig: clearConfig,
+            // validate
+            validate: validate,
+            // update
+            forceUpdate: forceUpdate,
+            // event
+            triggerBroadcast: function (prop, rowData) {
+                broadcast.trigger(prop, rowData, { prop: prop, rowData: rowData });
+            },
+            focusCell: function (_a) {
+                var prop = _a.prop, rowData = _a.rowData, rowIndex = _a.rowIndex;
+                return __awaiter(_this, void 0, void 0, function () {
+                    var rowHeight, column, cell;
+                    var _b;
+                    return __generator(this, function (_c) {
+                        switch (_c.label) {
+                            case 0:
+                                if (!prop)
+                                    return [2 /*return*/];
+                                if (!rowData && rowIndex == undefined)
+                                    return [2 /*return*/];
+                                if (!props.virtualScroll) return [3 /*break*/, 2];
+                                rowIndex = rowIndex !== null && rowIndex !== void 0 ? rowIndex : props.tableData.findIndex(function (data) { return data === rowData; });
+                                if (!isNumber(rowIndex) || !$CxTable.wrapperEle)
+                                    return [2 /*return*/];
+                                rowHeight = $CxTable.styleStore.CX_TABLE_HEIGHT;
+                                $CxTable.wrapperEle.scrollTop = rowHeight * rowIndex;
+                                return [4 /*yield*/, nextTick()];
+                            case 1:
+                                _c.sent();
+                                _c.label = 2;
+                            case 2:
+                                rowData = rowData !== null && rowData !== void 0 ? rowData : props.tableData[rowIndex];
+                                column = (_b = $CxTable.flatColumns) === null || _b === void 0 ? void 0 : _b.find(function (col) { return col.prop === prop; });
+                                if (!column)
+                                    return [2 /*return*/];
+                                cell = domShare.getCell($CxTable, column, rowData);
+                                setTimeout(function () {
+                                    cell === null || cell === void 0 ? void 0 : cell.click();
+                                });
+                                return [2 /*return*/];
+                        }
+                    });
+                });
+            },
+            // setCache,
+            // getCache,
+            // removeCache,
+            removeCacheItem: function () {
+                bus.emit('removeCacheItem');
+            },
+            search: function (payload) {
+                bus.emit('search', payload);
+            }
+        };
+        expose(exposeMethods);
+        emit('register', { registerTarget: exposeMethods, props: props });
+        provide('broadcast', broadcast);
+        provide('tableDataVisitor', tableDataVisitor);
+        provide('CxTable', $CxTable);
+        provide('rootProp', props);
+        provide('rootSlots', slots);
+        provide('bus', bus);
+        provide('loading', loading);
+        provide('selectConfig', selectConfig);
+        provide('radioValue', radioValue);
+        provide('expandConfig', expandConfig);
+        provide('tid', tid);
+        provide('dynamicColumn', dynamicColumn);
+        var tableWrapper = ref(null);
+        var tableVisible = ref(!props.lazy);
+        onMounted(function () {
+            if (!tableWrapper.value)
+                return;
+            $CxTable.wrapperEle = tableWrapper.value;
+            var _a = useWatch(props, $CxTable, columnProxy, tableWrapper, expandConfig, tableVisible), updateColumn = _a.updateColumn, updateData = _a.updateData;
+            onSetConfig.push(updateColumn);
+            onSetConfig.push(updateData);
+            props.lazy && useLazyLoad(tableWrapper.value, tableVisible);
+        });
+        useRegister($CxTable, props, tableDataVisitor, tableWrapper, bus, tid);
+        var _hoisted_1_class = 'cx-table_wrapper';
+        var _hoisted_2_class = 'cx-table_scrollWrapper';
+        var _hoisted_3_class = 'cx-table_border_line';
+        var _hoisted_directive = resolveDirective('loading');
+        var renderContent = function (fixed) {
+            return createVNode(CxTableContent, { tableData: tableDataVisitor.sortedData, fixed: fixed }, null, PATCH_FLAG.PROPS, ['tableData']);
+        };
+        var renderTables = function () {
+            var _a = $CxTable.columnStore, leftFixedColumns = _a.leftFixedColumns, rightFixedColumns = _a.rightFixedColumns;
+            var _b = $CxTable.scrollStore, rightScrollBar = _b.rightScrollBar, bottomScrollBar = _b.bottomScrollBar;
+            return [
+                renderContent(),
+                (openBlock(), createBlock(Fragment, null, [
+                    leftFixedColumns.length && bottomScrollBar ? renderContent('left') : createCommentVNode('v-if_left', true)
+                ])),
+                (openBlock(), createBlock(Fragment, null, [
+                    rightFixedColumns.length && bottomScrollBar ? renderContent('right') : createCommentVNode('v-if_right', true)
+                ])),
+                (openBlock(), createBlock(Fragment, null, [
+                    props.height && rightScrollBar ? renderContent('top') : createCommentVNode('v-if_top', true)
+                ])),
+                (openBlock(), createBlock(Fragment, null, [
+                    props.fixTotalSum && props.showTotalSum && rightScrollBar ? renderContent('bottom') : createCommentVNode('v-if_bottom', true)
+                ]))
+            ];
+        };
+        var renderBorderLine = function () {
+            return createVNode('div', { "class": _hoisted_3_class });
+        };
+        var renderEmpty = function () {
+            return (openBlock(),
+                createBlock(Fragment, null, [
+                    tableDataVisitor.sortedData.length || props.emptyLimit > 0 || props.showAddBtn
+                        ? createCommentVNode('v-if_empty', true)
+                        : createVNode(CxTableEmpty)
+                ]));
+        };
+        var renderDynamicConfigSetting = function () {
+            return (openBlock(),
+                createBlock(Fragment, null, [
+                    props.configurable && props.dynamic
+                        ? createVNode(script$5, {
+                            dynamicConfig: props.dynamic,
+                            onSubmit: function () {
+                                forceUpdate();
+                                emit('dynamicSetting');
+                            }
+                        }, null, PATCH_FLAG.PROPS | PATCH_FLAG.NEED_PATCH, ['dynamicConfig'])
+                        : createCommentVNode('v-if_dynamic_config', true)
+                ]));
+        };
+        var renderTeleBtn = function (comp) {
+            return createVNode(comp, { dynamicColumn: dynamicColumn.value, tableDataVisitor: tableDataVisitor }, null, PATCH_FLAG.PROPS, ['dynamicColumn', 'tableDataVisitor']);
+        };
+        var placeHolderAttrs = computed(function () {
+            var dataHeight = (props.tableData.length +
+                +!!props.showTotalSum +
+                invokeLayeredRow($CxTable.columns).length) *
+                $CxTable.styleStore.CX_TABLE_HEIGHT;
+            var height = formatWidth(props.height ? Math.min(dataHeight, isNaN(+props.height) ? 400 : +props.height) : dataHeight);
+            return { style: { height: height } };
+        });
+        var innerStyle = computed(function () {
+            return { maxHeight: isNumber(props.height) ? props.height + 'px' : props.height };
+        });
+        var cssVariable = useCSSVariable($CxTable).cssVariable;
+        return function (_, cache) {
+            return createVNode('div', { style: cssVariable.value, "class": 'cx-table_container' }, [
+                createVNode(CxTableTitle),
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        props.setCacheBtn
+                            ? renderTeleBtn(SetCacheBtn)
+                            : createCommentVNode('v-if_set_cache_btn', true),
+                        props.cacheListBtn
+                            ? renderTeleBtn(CacheListBtn)
+                            : createCommentVNode('v-if_cache_list_btn', true)
+                    ])),
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        props.showForm
+                            ? createVNode(TeleForm, {
+                                dynamicColumn: dynamicColumn.value,
+                                tableDataVisitor: tableDataVisitor,
+                                loading: searchLoading.value,
+                                'onUpdate:loading': function (val) { return (searchLoading.value = val); }
+                            }, null, PATCH_FLAG.PROPS, ['dynamicColumn', 'tableDataVisitor', 'loading'])
+                            : createCommentVNode('v-if_form', true)
+                    ])),
+                createVNode('div', { tid: tid, "class": _hoisted_1_class }, [
+                    withDirectives(createVNode('div', { "class": _hoisted_2_class, style: innerStyle.value, ref: tableWrapper }, [
+                        (openBlock(),
+                            createBlock(Fragment, null, tableVisible.value
+                                ? [
+                                    renderTables(),
+                                    renderEmpty(),
+                                    cache[0] || (cache[0] = renderBorderLine()),
+                                    renderDynamicConfigSetting()
+                                ]
+                                : [createVNode('div', placeHolderAttrs.value)]))
+                    ], PATCH_FLAG.STYLE | PATCH_FLAG.NEED_PATCH), [[_hoisted_directive !== null && _hoisted_directive !== void 0 ? _hoisted_directive : {}, loading.value || searchLoading.value]])
+                ], PATCH_FLAG.STYLE),
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        props.floatTotalSum
+                            ? createVNode('div', { "class": _hoisted_1_class }, [
+                                createVNode('div', { "class": _hoisted_2_class + " cx_of_hidden" }, [
+                                    createVNode(CxTableBody, {
+                                        tableData: tableDataVisitor.sortedData,
+                                        onlyTotal: true,
+                                        float: true,
+                                        "class": 'cx_mt_20',
+                                        style: {
+                                            right: $CxTable.scrollStore.scrollLeft + '' + "px",
+                                            position: 'relative'
+                                        }
+                                    }, null, PATCH_FLAG.FULL_PROPS)
+                                ])
+                            ])
+                            : createCommentVNode('v-if_float_total_sum', true)
+                    ])),
+                (openBlock(),
+                    createBlock(Fragment, null, [
+                        isObject$1(props.pagination)
+                            ? createVNode(_CX_PAGINATION, {
+                                pagination: props.pagination,
+                                onPaging: cache[1] || (cache[1] = function () { return emit('paging'); })
+                            }, null, PATCH_FLAG.PROPS, ['pagination'])
+                            : createCommentVNode('v-if_pagination', true)
+                    ]))
+            ], PATCH_FLAG.STYLE);
+        };
+    }
+});
+
+script$4.install = function (app) {
+    app.component(script$4.name, script$4);
+};
+var _CX_TABLE = script$4;
+
+var _CX_UNI_POPPER = script$7;
 _CX_UNI_POPPER.install = function (app) {
-    app.directive(script$4.name, script$4);
+    app.directive(script$7.name, script$7);
 };
 
 // 正数

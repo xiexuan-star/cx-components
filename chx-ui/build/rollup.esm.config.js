@@ -1,4 +1,5 @@
-import basicConfig, { name, file } from './rollup.config'
+import basicConfig, { name, file } from './rollup.config';
+
 export default {
   ...basicConfig,
   output: {
@@ -6,4 +7,4 @@ export default {
     file: file('esm'),
     format: 'es'
   }
-}
+};

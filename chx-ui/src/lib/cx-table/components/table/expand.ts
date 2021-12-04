@@ -38,8 +38,8 @@ export default defineComponent({
       return props.fixed === 'left'
         ? CxTable.columnStore.leftFixedColumns?.length
         : props.fixed === 'right'
-        ? CxTable.columnStore.rightFixedColumns?.length
-        : CxTable.flatColumns?.length;
+          ? CxTable.columnStore.rightFixedColumns?.length
+          : CxTable.flatColumns?.length;
     });
 
     const slotName = computed(() => {
@@ -59,9 +59,9 @@ export default defineComponent({
     return () => {
       return (
         openBlock(),
-        createBlock(Fragment, null, [
-          slotName.value && expandConfig[props.rowIndex] && rootSlots[slotName.value]
-            ? createVNode(
+          createBlock(Fragment, null, [
+            slotName.value && expandConfig[props.rowIndex] && rootSlots[slotName.value]
+              ? createVNode(
                 'tr',
                 { class: classList.value },
                 [
@@ -72,8 +72,8 @@ export default defineComponent({
                       createVNode(
                         'div',
                         {
-                          class: `${hoisted_1}`,
-                          style: (function() {
+                          class: `${ hoisted_1 }`,
+                          style: (function () {
                             const result: CSSProperties = {};
                             if (props.fixed) {
                               const { width } = useTableStyle(props, CxTable, 'table').value;
@@ -109,8 +109,8 @@ export default defineComponent({
                 ],
                 PATCH_FLAG.CLASS
               )
-            : createCommentVNode('v-if_expand', true)
-        ])
+              : createCommentVNode('v-if_expand', true)
+          ])
       );
     };
   }

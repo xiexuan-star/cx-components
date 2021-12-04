@@ -1,4 +1,4 @@
-import { CxTableFormAdaptorPlugin } from "../../..";
+import { CxTableFormAdaptorPlugin } from '../../..';
 
 //格式化条码
 export function formatBarcode(str: string) {

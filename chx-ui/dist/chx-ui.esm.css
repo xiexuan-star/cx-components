@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("//at.alicdn.com/t/font_2898473_1ao4ge4ct4f.css");
+@import url("//at.alicdn.com/t/font_1831856_bnrnjzk7n4o.css");
 .cx-btn_wrapper {
   font-family: PingFang SC;
   font-style: normal;
@@ -424,6 +424,10 @@
           .cx-table_wrapper .cx-table_scrollWrapper table td .cx-table_cell img,
           .cx-table_wrapper .cx-table_scrollWrapper table th .cx-table_cell img {
             vertical-align: middle; }
+          .cx-table_wrapper .cx-table_scrollWrapper table td .cx-table_cell input,
+          .cx-table_wrapper .cx-table_scrollWrapper table th .cx-table_cell input {
+            border: 0 !important;
+            background-color: transparent; }
       .cx-table_wrapper .cx-table_scrollWrapper table th {
         background-color: #f5f5f5;
         font-style: normal;

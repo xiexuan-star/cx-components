@@ -8,7 +8,7 @@ export const useTableClass = (props: AnyObject, CxTable: CxTableBaseObj) => {
     if (props.fixed) {
       const { scrollStore } = CxTable;
       const { showLeftShadow, showRightShadow, showTopShadow, showBottomShadow } = scrollStore;
-      result.push(`cx-table_fixed_${props.fixed}`);
+      result.push(`cx-table_fixed_${ props.fixed }`);
       if (showLeftShadow && props.fixed === 'left') {
         result.push('cx-table_left_shadow');
       } else if (showRightShadow && props.fixed === 'right') {

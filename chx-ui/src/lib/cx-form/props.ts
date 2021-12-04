@@ -1,5 +1,5 @@
-import { PropType } from 'vue'
-import { CxFormItemConfig } from './types'
+import { PropType } from 'vue';
+import { CxFormItemConfig } from './types';
 
 export const CxFormProps = {
   form: { type: Object as PropType<AnyObject>, default: () => ({}) },
@@ -9,4 +9,4 @@ export const CxFormProps = {
   items: { type: Array as PropType<CxFormItemConfig[]>, default: (): any[] => [] },
   class: { type: [Array, Object, String], default: (): any[] => [] },
   formAttrs: { type: Object as PropType<AnyObject> },
-}
+};

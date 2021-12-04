@@ -8,7 +8,7 @@ import {
 } from 'vue';
 import { PATCH_FLAG } from '../../constant';
 import { CxTableBaseObj } from '../../types';
-import Empty from './../empty.vue'
+import Empty from './../empty.vue';
 
 export default defineComponent({
   name: 'CxTableEmpty',
@@ -22,28 +22,28 @@ export default defineComponent({
       const rowspan = CxTable.flatColumns.length;
       return (
         openBlock(),
-        createBlock('div', hoisted_1, [
-          createVNode('table', hoisted_2, [
-            createVNode('tbody', null, [
-              createVNode('tr', null, [
-                createVNode(
-                  'td',
-                  { rowspan },
-                  [
-                    (function() {
-                      setBlockTracking(-1);
-                      const node = createVNode(Empty);
-                      setBlockTracking(1);
-                      return node;
-                    })()
-                  ],
-                  PATCH_FLAG.PROPS,
-                  ['rowspan']
-                )
+          createBlock('div', hoisted_1, [
+            createVNode('table', hoisted_2, [
+              createVNode('tbody', null, [
+                createVNode('tr', null, [
+                  createVNode(
+                    'td',
+                    { rowspan },
+                    [
+                      (function () {
+                        setBlockTracking(-1);
+                        const node = createVNode(Empty);
+                        setBlockTracking(1);
+                        return node;
+                      })()
+                    ],
+                    PATCH_FLAG.PROPS,
+                    ['rowspan']
+                  )
+                ])
               ])
             ])
           ])
-        ])
       );
     };
   }

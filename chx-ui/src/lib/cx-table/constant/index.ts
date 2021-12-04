@@ -1,4 +1,4 @@
-export * from './enum'
+export * from './enum';
 import { DYNAMIC_CONFIG } from '../types';
 
 export const CX_TABLE_ROW_ID_PREPEND = 'cxrow-';

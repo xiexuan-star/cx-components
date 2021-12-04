@@ -76,6 +76,15 @@ export class FormConfigAdaptor {
     } else if (isFunction(searchStates.searchOptions)) {
       Reflect.set(controlConfig, 'options', (payload: { form: AnyObject }) => (searchStates.searchOptions as Function)(payload));
     }
+
+    searchStates.searchSourceId &&
+    (
+      Reflect.set(controlConfig, 'sourceId', searchStates.searchSourceId),
+        Reflect.set(controlConfig, 'useCache', true)
+    );
+    searchStates.searchColumnProp && Reflect.set(controlConfig, 'relyProp', searchStates.searchColumnProp);
+    searchStates.searchColumnListId && Reflect.set(controlConfig, 'relyOn', searchStates.searchColumnListId);
+
     // options依赖项发生改变时清空该列数据 TODO
     const deps = getOptionsDeps(searchStates.searchOptions ?? []);
     const cb = unsafeDeleteProperty(R.__, this.__items.prop);

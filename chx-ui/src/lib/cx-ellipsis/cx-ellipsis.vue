@@ -7,26 +7,23 @@
     v-uni-popper="popperConfig"
   >
     <div style="overflow: hidden">
-      <p ref="contentRef" class="tips">{{ content }}</p>
+      <p ref="contentRef" class="tips">{{ renderContent }}</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
-import { addResizeListener, removeResizeListener } from 'chx-utils';
+import { computed, defineComponent, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { addResizeListener, isArray, isNumber, isObject, isString, removeResizeListener } from 'chx-utils';
 
 export default defineComponent({
   name: 'CxEllipsis',
   props: {
-    content: { type: [String, Number], default: '' },
+    content: { default: '' },
     activeBgColor: { type: String, default: '#fff' },
-    placement: {
-      type: String,
-      default: 'left'
-    }
+    placement: { type: String, default: 'left' }
   },
-  setup(props, { expose }) {
+  setup(props) {
     const containerRef = ref<HTMLElement | null>(null);
     const contentRef = ref<HTMLElement | null>(null);
 
@@ -54,8 +51,17 @@ export default defineComponent({
       removeResizeListener(contentRef.value, resizeFn);
     });
 
-    expose({
-      calcContentWidth
+    const renderContent = computed(() => {
+      if (isString(props.content) || isNumber(props.content)) {
+        return props.content;
+      }
+      if (isArray(props.content)) {
+        return (props.content as Array<any>).join(',');
+      }
+      if (isObject(props.content)) {
+        return JSON.stringify(props.content);
+      }
+      return props.content;
     });
 
     const popperConfig = reactive({
@@ -76,6 +82,7 @@ export default defineComponent({
 
     return {
       popperConfig,
+      renderContent,
       containerRef,
       tipVisible,
       paddingRight,
