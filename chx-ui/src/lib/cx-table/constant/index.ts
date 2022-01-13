@@ -18,6 +18,7 @@ export const CX_TABLE_EVENT_LIST = [
   'expandCheck',
   'broadcast',
   'dynamicUpdate',
+  'columnUpdate',
   'dynamicSetting',
   'cached'
 ];

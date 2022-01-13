@@ -1,5 +1,5 @@
 import {
-  enum2Options, EventBus, falsy, getMaybeValue, IO, map, Maybe, nextTimeout, preventDefault, stateEq200,
+  enum2Options, EventBus, falsy, getMaybeValue, IO, isPromise, map, Maybe, nextTimeout, preventDefault, stateEq200,
   stopPropagation, truthy, unsafeClearArray, unsafeClearObj, unsafeClearPush, unsafePush, unsafeRemoveItem, useComputed,
   useState
 } from 'chx-utils';
@@ -501,7 +501,7 @@ export default defineComponent({
     const noRequired = invokerWithChildren(R.omit(['required']));
     const setImgsType = R.compose(
       R.when(
-        R.compose(R.equals('款型图'), R.prop<string, any>('label')),
+        R.compose(R.includes(R.__,['款型图','蜡版图','CAD版图']), R.prop<string, any>('label')),
         R.compose(
           R.set(R.lensProp<any>('control'), R.objOf('type', 'imgs')),
           R.omit(['slot']) as (a: AnyObject) => AnyObject
@@ -517,14 +517,16 @@ export default defineComponent({
     const imgsTypeInvoker = invokerWithChildren(setImgsType);
     const slotInvoker = invokerWithChildren(setDefaultSlot);
     const labelNotShow = R.compose(R.not, R.propSatisfies(labelContainer, 'label'));
+    const colsParserProcess = R.compose(R.map<AnyObject, AnyObject>(R.compose(imgsTypeInvoker, slotInvoker, noRequired)),
+      R.filter(labelNotShow) as (a: AnyObject[]) => AnyObject[]);
     const dynamicInject = R.compose(
-      R.map<AnyObject, AnyObject>(R.compose(imgsTypeInvoker, slotInvoker, noRequired)),
-      R.filter(labelNotShow) as (a: AnyObject[]) => AnyObject[],
-      R.when(
-        R.converge(R.is(Function), [R.always(rootProp.dynamicInject)]),
-        rootProp.dynamicInject!
+        R.ifElse(R.is(Promise), R.andThen(colsParserProcess), colsParserProcess),
+        R.when(
+          R.converge(R.is(Function), [R.always(rootProp.dynamicInject)]),
+          (cols: any[]) => rootProp.dynamicInject!(cols)
+        )
       )
-    );
+    ;
     const renderOrderTable = (config: { items: AnyObject[] }, dataList: AnyObject[]) => {
       return createVNode(
         CxTable,
@@ -564,7 +566,7 @@ export default defineComponent({
             createVNode(
               _CX_DIALOG,
               {
-                title: TypeOption[currentType()],
+                title: '暂存列表',
                 appendToBody: true,
                 okText: '编辑',
                 width: '1524px',

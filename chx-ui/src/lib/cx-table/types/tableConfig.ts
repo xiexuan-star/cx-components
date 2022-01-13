@@ -339,7 +339,7 @@ export type CxTableControl = {
    * @description 在默认控件(input,select,search等表单控件)上绑定自定义属性,可在input上绑定onInput事件,回调函数的第二个参数为rowData,可用于联动操作,select/search控件可绑定onChange事件,同样回调函数中第二个参数为rowData,可用于联动
    * broadcastRegister 其他列数据变化时会发送广播, 该属性可用于在当前单元格注册广播处理函数
    */
-  attrs: ControlAttrs | (({ rowData }: { rowData: AnyObject }) => ControlAttrs);
+  attrs: ControlAttrs | (({ rowData, rowIndex }: { rowData: AnyObject, rowIndex: number }) => ControlAttrs);
   /**
    * @description select/search控件的options列表,可以是一个静态的options列表,也可以是一个返回options列表的函数,入参为{rowData,rowIndex}
    */

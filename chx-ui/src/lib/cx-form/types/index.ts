@@ -98,6 +98,7 @@ export type CxFormItemConfig = {
   time: AnyObject
   inscription: AnyObject
   radio: AnyObject
+  optionRadio: AnyObject & { options: NameWithId[] }
   checkbox: AnyObject
   switchAttr: AnyObject
 }>

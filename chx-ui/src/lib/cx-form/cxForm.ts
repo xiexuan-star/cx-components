@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 import { createVNode, VNode } from 'vue';
 import { CxFormControl } from './constructor';
 import { CxForm } from './constructor';
@@ -37,6 +37,10 @@ export default defineComponent({
         emit('change', { prop, val: props.form[prop], form: props.form });
       },
     });
+
+    onMounted(()=>{
+
+    })
 
     return () => {
       return createVNode('div', { name: 'cx-form' }, [renderForm()]);

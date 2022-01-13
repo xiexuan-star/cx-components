@@ -17,9 +17,10 @@ const cacheMap: Record<string, Func<any>[]> = {};
 const resolveColumns = async (cols: CxTableItem[], props: CxTablePropType): Promise<CxTableItem[]> => {
   const context = useCxTable().getContext();
 
-  return [...context.dynamicInject, props.dynamicInject].reduce(async (res, inject) => {
+  const result = [...context.dynamicInject, props.dynamicInject].reduce(async (res, inject, index) => {
     return isFunction(inject) ? inject(await res) : res;
   }, Promise.resolve(cols));
+  return result;
 };
 
 export const getCxDynamicHead = async (dynamic: DYNAMIC_CONFIG) => {
@@ -64,9 +65,18 @@ export const getCxDynamicHead = async (dynamic: DYNAMIC_CONFIG) => {
   });
 };
 
+export const filterOnlyFormItem = (cols: any[]) => {
+  return cols.filter(col => {
+    if (Array.isArray(col.children)) {
+      col.children = filterOnlyFormItem(col.children);
+    }
+    return !col.jsonData?.onlyForm;
+  });
+};
+
 export const useDynamicConfig = (props: CxTablePropType, $CxTable: CxTableBaseObj, emit: Func<any>) => {
   const columnProxy = ref<CxTableItem[]>([]);
-  const dynamicColumn = ref<CxTableDynamicColumn[]>([]);
+  const dynamicColumn = ref<AnyObject[]>([]);
   const loading = ref(false);
 
   const { updateState } = useUpdateState(props, $CxTable);
@@ -86,15 +96,17 @@ export const useDynamicConfig = (props: CxTablePropType, $CxTable: CxTableBaseOb
               });
               Reflect.deleteProperty(cacheMap, key);
             }
-            data = data.map(CxConfigAdaptor.of);
-            dynamicColumn.value = R.clone(data);
-            data = await resolveColumns(data, props);
-            columnProxy.value = data;
+            let tableItems = data.map(CxConfigAdaptor.of);
+            const copy = R.clone(tableItems);
+            tableItems = await resolveColumns(tableItems, props);
+            dynamicColumn.value = copy;
+            columnProxy.value = filterOnlyFormItem(tableItems);
             useColumn($CxTable, columnProxy, props);
             useColumnValidity($CxTable);
             updateState();
           }
           await nextTick();
+          emit('columnUpdate');
           isDynamicChange && emit('dynamicUpdate');
         })
         .finally(() => {

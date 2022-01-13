@@ -3,12 +3,12 @@ import {
   unsafeClearPush, unsafeDeleteProperty, unsafePush, unsafeRemoveItem, unsafeSet, useState, useSync, withParams,
   EventBus
 } from 'chx-utils';
-import { debounce } from 'lodash-es';
-import * as R from 'ramda';
 import {
   createVNode, defineComponent, getCurrentInstance, inject, nextTick, PropType, reactive, render, resolveDirective,
   watch, withDirectives
 } from 'vue';
+import * as R from 'ramda';
+import { debounce } from 'lodash-es';
 import { CxFormItemConfig } from '../../../..';
 import { PATCH_FLAG } from '../../constant';
 import { useCxTableCompose } from '../../hooks';
@@ -145,7 +145,7 @@ export default defineComponent({
 
     const onSearch = nextTimeout((payload?: AnyObject) => {
       // 处理states
-      R.when(R.compose(R.not, R.prop<string, boolean>('visible')), toggleVisibleStates)(states);
+      // R.when(R.compose(R.not, R.prop<string, boolean>('visible')), toggleVisibleStates)(states);
       // 处理payload
       R.when(
         R.is(Object),
@@ -194,30 +194,31 @@ export default defineComponent({
       )];
     };
 
-    const states = reactive(
-      cache.getVisibleCacheIO.map(R.compose(R.objOf('visible'), R.ifElse(R.isNil, R.T, R.identity))).unsafePerformIO()
-    );
-    const toggleVisibleStates = () => (states.visible = !states.visible);
-    watch(
-      () => states.visible,
-      cache.setVisibleCacheIO.unsafePerformIO.bind(cache.setVisibleCacheIO)
-    );
+    // const states = reactive(
+    //   cache.getVisibleCacheIO.map(R.compose(R.objOf('visible'), R.ifElse(R.isNil, R.T, R.identity))).unsafePerformIO()
+    // );
+    const states = reactive({visible:true});
+    // const toggleVisibleStates = () => (states.visible = !states.visible);
+    // watch(
+    //   () => states.visible,
+    //   cache.setVisibleCacheIO.unsafePerformIO.bind(cache.setVisibleCacheIO)
+    // );
 
-    const _hoisted_attrs_1 = { class: 'cx_dp_flex cx_justify_end cx_mb_16' };
-    const _hoisted_attrs_2 = { class: 'cx_line cx_mb_12 cx_mlr_0 cx_w_100p' };
+    // const _hoisted_attrs_1 = { class: 'cx_dp_flex cx_justify_end cx_mb_16' };
+    // const _hoisted_attrs_2 = { class: 'cx_line cx_mb_12 cx_mlr_0 cx_w_100p' };
     const _hoisted_attrs_3 = { class: 'cx_dp_flex' };
 
-    const _hoisted_node_1 = createVNode('div', _hoisted_attrs_2);
+    // const _hoisted_node_1 = createVNode('div', _hoisted_attrs_2);
 
     const renderForm = () =>
       createVNode('div', { class: 'cx-table_tele_form' }, [
-        createVNode('div', _hoisted_attrs_1, [
-          createVNode(DynamicFilterBtn, {
-            onClick: toggleVisibleStates,
-            states
-          })
-        ]),
-        _hoisted_node_1,
+        // createVNode('div', _hoisted_attrs_1, [
+        //   createVNode(DynamicFilterBtn, {
+        //     onClick: toggleVisibleStates,
+        //     states
+        //   })
+        // ]),
+        // _hoisted_node_1,
         createVNode('div', _hoisted_attrs_3, [
           withDirectives(
             createVNode(

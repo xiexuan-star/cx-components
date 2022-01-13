@@ -1,11 +1,11 @@
-import { isFunction, isString } from 'chx-utils';
+import { isFunction, isNumber, isString } from 'chx-utils';
 import { createBlock, createCommentVNode, createTextVNode, createVNode, Fragment, openBlock, Ref } from 'vue';
 import { EventBus } from 'chx-utils';
 import { CxEllipsis } from '../../index';
 import { COLUMN_FLAG, PATCH_FLAG } from '../constant';
 import { CxBroadcast, CxTableRendererMap } from '../hooks';
 import { CxCellProp, CxIgnoreControl, PaginationModel, SelectConfig } from '../types';
-import { pick } from '../utils';
+import { decimalFixed, getColumnSelectText, pick } from '../utils';
 
 interface Params extends CxCellProp {
   rowIndex: number;
@@ -17,9 +17,18 @@ interface Params extends CxCellProp {
   broadcast: CxBroadcast;
 }
 
-
 const renderDefaultNode = (params: Params) => {
-  return createVNode(CxEllipsis, {content:params.rowData[params.column.prop]},null,PATCH_FLAG.PROPS,['content'] );
+  const withDefault = (v:any)=>v??params.column.defaultValue;
+  return createVNode(CxEllipsis,
+    {
+      content: params.column.renderText
+        ? withDefault(params.rowData[getColumnSelectText(params.column)])
+        : isNumber(params.column.accuracy)
+          ? decimalFixed(withDefault(params.rowData[params.column.prop]), params.column.accuracy, true)
+          : withDefault(params.rowData[params.column.prop])
+    },
+    null,
+    PATCH_FLAG.PROPS, ['content']);
 };
 
 export const renderCellContent = (
@@ -137,5 +146,5 @@ const renderCustomCell = (
     const force = forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false;
     return renderer({ ...params, isActived, disabled, prop: params.column.prop, ignore, force });
   }
-  return renderDefaultNode(params)
+  return renderDefaultNode(params);
 };

@@ -63,8 +63,10 @@ export const useDynamicFormSearch = () => {
       R.pick(['currentPage', 'pageCapacity'], R.prop('pagination', rootProp))
     ) as (a: DYNAMIC_FORM_REQUEST_PARAMS) => DYNAMIC_FORM_REQUEST_PARAMS;
 
+    const beforeSearchIsExist = () => truthy(rootProp.hooks?.beforeSearch);
     return R.compose(
-      setItems,
+      R.when(beforeSearchIsExist, rootProp.hooks?.beforeSearch),
+      setItems as any,
       mergeSort,
       mergePagination,
       R.prop<'dynamic', DYNAMIC_FORM_REQUEST_PARAMS>('dynamic')
@@ -92,7 +94,7 @@ export const useDynamicFormSearch = () => {
 
   const checkDynamic = (dynamic?: DYNAMIC_CONFIG) => {
     if (!dynamic) {
-      cxTableWarn(`can't fetch data if dynamic `, dynamic, ` is invalid`)
+      cxTableWarn(`can't fetch data if dynamic `, dynamic, ` is invalid`);
       throw 'invalid dynamic';
     }
   };

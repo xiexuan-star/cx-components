@@ -62,12 +62,31 @@ export const useDynamicConfigDialog = () => {
     }
   };
 
+  let onlyFormItemCache = [] as any[];
+  let onlyFormItemMap = {} as Record<string, boolean>;
+
+  const filterOnlyForm = (cols: any[]) => {
+    onlyFormItemMap = {};
+    return cols.reduce((res, col) => {
+      if (col.jsonData?.onlyForm) {
+        res.onlyFormItem.push(col);
+        onlyFormItemMap[col.label] = true;
+      } else {
+        res.normalItem.push(col);
+      }
+
+      return res;
+    }, { onlyFormItem: [] as any[], normalItem: [] as any[] });
+  };
   const getData = async (dynamicConfig?: AnyObject) => {
     if (!dynamicConfig) return console.warn('[dynamicConfigDialog]: invalid dynamicConfig');
     const { data } = await context.dynamicRequestInstance.get('/table/settings/get', dynamicConfig);
-    totalList.value = data?.itemList ?? [];
+    const { normalItem, onlyFormItem } = filterOnlyForm(data?.itemList ?? []);
+    totalList.value = normalItem;
+    onlyFormItemCache = onlyFormItem;
     Object.assign(listMap, getDefaultData());
     data?.displayList?.forEach((item: AnyObject) => {
+      if (onlyFormItemMap[item.label]) return;
       switch (item.fixed) {
         case 'left':
           listMap['居左固定字段'].push(item);
@@ -92,6 +111,7 @@ export const useDynamicConfigDialog = () => {
       );
       return res;
     }, [] as AnyObject[]);
+    columnList.push(...onlyFormItemCache);
     const { state } = await context.dynamicRequestInstance.putJSON('/table/settings/save', {
       ...dynamicConfig,
       columnList

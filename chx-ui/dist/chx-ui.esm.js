@@ -1,4 +1,4 @@
-import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, ref, onMounted, onBeforeUnmount, watch, nextTick, openBlock, createBlock, Fragment, resolveComponent, reactive, onUnmounted, inject, watchEffect, createTextVNode, resolveDirective, setBlockTracking, withCtx, getCurrentInstance, render as render$7, renderSlot, Teleport, Transition, mergeProps, withModifiers, toDisplayString, vShow, unref, pushScopeId, popScopeId, withScopeId, renderList, provide } from 'vue';
+import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, reactive, ref, onMounted, onBeforeUnmount, watch, onUpdated, nextTick, openBlock, createBlock, Fragment, renderList, createTextVNode, toDisplayString, renderSlot, resolveComponent, onUnmounted, inject, watchEffect, resolveDirective, setBlockTracking, withCtx, getCurrentInstance, render as render$8, Teleport, Transition, mergeProps, withModifiers, vShow, unref, pushScopeId, popScopeId, withScopeId, provide } from 'vue';
 import { isObject as isObject$1, isFunction, omit, isNumber, isString, EventBus, isArray, isEmpty, unsafeSet, Maybe, unsafeDeleteProperty, map, unsafeGet, truthy, splat, unsafePush, unsafeWhenDevCall, sessionStore, getDateRange, isDeepObjectEqual, useComputed, useState, IO, localStore, unsafeClearPush, unsafeClearAssign, getMaybeValue, Left, Right, either, withParams, defaultPromise, useSync, nextTimeout, unsafeAssign, queryDom, unsafeClearArray, unsafeRemoveItem, getDoNothingIO, unsafeClearObj, addResizeListener, removeResizeListener, enum2Options, stateEq200, falsy, stopPropagation, preventDefault, clearTimer, unsafePerformIO, curryTimeout, setClassByArr, createTag, copyInnerText, curryAddListener, setInnerText, clearInnerHTML, appendToBody, appendChild, showEle, hideEle, curryRemoveListener, clearClassList, loadingDecorator, isHTMLInputElement, amount } from 'chx-utils';
 import * as R from 'ramda';
 import { clone, omit as omit$1 } from 'ramda';
@@ -184,6 +184,553 @@ function __spreadArray(to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 }
 
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Built-in value references. */
+var Symbol$1 = root.Symbol;
+
+/** Used for built-in method references. */
+var objectProto$1 = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto$1.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString$1 = objectProto$1.toString;
+
+/** Built-in value references. */
+var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined;
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag$1),
+      tag = value[symToStringTag$1];
+
+  try {
+    value[symToStringTag$1] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString$1.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag$1] = tag;
+    } else {
+      delete value[symToStringTag$1];
+    }
+  }
+  return result;
+}
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && baseGetTag(value) == symbolTag);
+}
+
+/** Used to match a single whitespace character. */
+var reWhitespace = /\s/;
+
+/**
+ * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
+ * character of `string`.
+ *
+ * @private
+ * @param {string} string The string to inspect.
+ * @returns {number} Returns the index of the last non-whitespace character.
+ */
+function trimmedEndIndex(string) {
+  var index = string.length;
+
+  while (index-- && reWhitespace.test(string.charAt(index))) {}
+  return index;
+}
+
+/** Used to match leading whitespace. */
+var reTrimStart = /^\s+/;
+
+/**
+ * The base implementation of `_.trim`.
+ *
+ * @private
+ * @param {string} string The string to trim.
+ * @returns {string} Returns the trimmed string.
+ */
+function baseTrim(string) {
+  return string
+    ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
+    : string;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = baseTrim(value);
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT$1 = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce$1(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT$1);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        timeWaiting = wait - timeSinceLastCall;
+
+    return maxing
+      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+      : timeWaiting;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        clearTimeout(timerId);
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a throttled function that only invokes `func` at most once per
+ * every `wait` milliseconds. The throttled function comes with a `cancel`
+ * method to cancel delayed `func` invocations and a `flush` method to
+ * immediately invoke them. Provide `options` to indicate whether `func`
+ * should be invoked on the leading and/or trailing edge of the `wait`
+ * timeout. The `func` is invoked with the last arguments provided to the
+ * throttled function. Subsequent calls to the throttled function return the
+ * result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the throttled function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.throttle` and `_.debounce`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to throttle.
+ * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=true]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new throttled function.
+ * @example
+ *
+ * // Avoid excessively updating the position while scrolling.
+ * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+ *
+ * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+ * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+ * jQuery(element).on('click', throttled);
+ *
+ * // Cancel the trailing throttled invocation.
+ * jQuery(window).on('popstate', throttled.cancel);
+ */
+function throttle(func, wait, options) {
+  var leading = true,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  if (isObject(options)) {
+    leading = 'leading' in options ? !!options.leading : leading;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+  return debounce$1(func, wait, {
+    'leading': leading,
+    'maxWait': wait,
+    'trailing': trailing
+  });
+}
+
+//
 var script$d = defineComponent({
     name: 'CxTab',
     props: {
@@ -197,18 +744,18 @@ var script$d = defineComponent({
          */
         options: {
             type: Array,
-            "default": function () { return []; },
+            "default": function () { return []; }
         },
         disabled: { type: Boolean, "default": false },
         /**
          * badge数据源,对应tab项中的badgeKey
          */
-        badgeObj: { type: Object, "default": function () { return ({}); } },
+        badgeObj: { type: Object, "default": function () { return ({}); } }
     },
-    emits: ['update:modelValue', 'change'],
+    emits: ['change', 'update:modelValue'],
     setup: function (props, _a) {
         var _this = this;
-        var emit = _a.emit, slots = _a.slots;
+        var emit = _a.emit, expose = _a.expose;
         var clickHandle = function (id) {
             if (id === props.modelValue)
                 return;
@@ -226,121 +773,220 @@ var script$d = defineComponent({
                 return isObject$1(item) ? item : { id: item, name: item };
             });
         });
-        var renderItems = function () {
-            return tabs.value.map(function (item) {
-                var _a, _b, _c;
-                var classList = ['cx-tab_item', 'clickable', 'cx_flex_center'];
-                props.modelValue === item.id && classList.push('cx-tab_item_active');
-                var badgeValue = (_b = props.badgeObj[(_a = item.badgeKey) !== null && _a !== void 0 ? _a : '']) !== null && _b !== void 0 ? _b : 0;
-                var badgeUnit = (_c = item.unit) !== null && _c !== void 0 ? _c : '';
-                if (badgeValue >= 100)
-                    badgeValue = '99+';
-                return createVNode('div', { onClick: function () { return clickHandle(item.id); }, "class": classList }, [
-                    item.name,
-                    badgeValue
-                        ? createVNode('div', { "class": "cx-tab_badge_" + props.level }, "" + badgeValue + badgeUnit, 2 /* CLASS */ | 1 /* TEXT */)
-                        : createCommentVNode('v-if_badge', true),
-                ], 512 /* NEED_PATCH */ | 2 /* CLASS */);
-            });
-        };
-        var wrapRef = ref(null);
-        var renderArrow = function (type) {
-            var onClick = function () {
-                if (!wrapRef.value)
-                    return;
-                var base = 300;
-                var offset = base / 10;
-                var timer = setInterval(function () {
-                    if (!wrapRef.value)
-                        return;
-                    var targetPosition = wrapRef.value.scrollLeft + (type === 'left' ? -offset : offset);
-                    wrapRef.value.scrollTo(targetPosition, 0);
-                    var stop = type === 'left'
-                        ? targetPosition <= 0
-                        : targetPosition >= wrapRef.value.scrollWidth - wrapRef.value.clientWidth;
-                    if (base === 0 || stop) {
-                        clearInterval(timer);
-                    }
-                    else if (base <= 3) {
-                        base = 0;
-                    }
-                    else {
-                        base -= base / 10;
-                        offset = base / 10;
-                    }
-                }, 10);
-            };
-            var classList = [
-                "cx-tab_" + type + "_arrow",
-                'iconfont',
-                'cx_flex_center',
-                type === 'left' ? 'icon-xiangzuo' : 'icon-xiangyou',
-            ];
-            return createVNode('div', { onClick: onClick, "class": classList }, null, 512 /* NEED_PATCH */ | 2 /* CLASS */);
-        };
-        var isShowArrow = function () {
-            if (!wrapRef.value)
-                return;
-            var tabs = wrapRef.value.querySelector('.cx-tabs');
-            if (!tabs)
-                return;
-            var wrapWidth = wrapRef.value.clientWidth;
-            var tabsWidth = tabs.clientWidth;
-            return tabsWidth > wrapWidth;
-        };
-        var showArrow = ref(isShowArrow());
-        // const MutationObserver = window.MutationObserver;
-        // const observer = new MutationObserver(() => {
-        // })
-        var debounce = function (cb, delay) {
-            var timer;
-            return function () {
-                clearTimeout(timer);
-                timer = setTimeout(cb, delay);
-            };
-        };
-        var tabsResize = debounce(function () {
-            showArrow.value = isShowArrow();
-        }, 100);
-        onMounted(function () {
-            window.addEventListener('resize', tabsResize);
-        });
-        onBeforeUnmount(function () {
-            window.removeEventListener('resize', tabsResize);
-        });
-        watch(function () { return tabs.value; }, function () { return __awaiter(_this, void 0, void 0, function () {
+        var cursorStyle = reactive({ left: 0, width: 0 });
+        var updateCursor = function () { return __awaiter(_this, void 0, void 0, function () {
+            var id, currentTab, left, width;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, nextTick()];
                     case 1:
                         _a.sent();
-                        showArrow.value = isShowArrow();
+                        if (!wrapRef.value)
+                            return [2 /*return*/];
+                        id = props.modelValue;
+                        currentTab = wrapRef.value.querySelector(".cx-tab_item[id=\"" + id + "\"]");
+                        if (!currentTab)
+                            return [2 /*return*/];
+                        left = currentTab.offsetLeft + 'px';
+                        width = currentTab.offsetWidth + 'px';
+                        Object.assign(cursorStyle, { left: left, width: width });
                         return [2 /*return*/];
                 }
             });
-        }); }, { deep: true, immediate: true });
-        return function (_, cache) {
-            var classList = [
-                'cx-tab_scroll_wrapper',
-                'cx_flex_center',
-                'cx_justify_between',
-                "level-" + props.level + "_wrapper"
-            ];
-            showArrow.value && classList.push('cx_plr_20');
-            props.disabled && classList.push('cx-tab_disabled');
-            return createVNode('div', { "class": classList }, [
-                createVNode('div', { "class": 'cx-tab_wrapper', ref: wrapRef }, [createVNode('div', { "class": 'cx-tabs' }, renderItems())], 512 /* NEED_PATCH */),
-                showArrow.value
-                    ? cache[0] || (cache[0] = renderArrow('left'))
-                    : createCommentVNode('v-if_left_arrow', true),
-                showArrow.value
-                    ? cache[1] || (cache[1] = renderArrow('right'))
-                    : createCommentVNode('v-if_right_arrow', true),
-                createVNode('div', { "class": 'cx-tab_extension' }, [slots.ext && slots.ext()])
-            ], 2 /* CLASS */);
+        }); };
+        var wrapRef = ref(null);
+        var slotRef = ref(null);
+        var getBadgeValue = function (item) {
+            var badgeValue = props.badgeObj[item.badgeKey || ''] || 0;
+            return badgeValue >= 100 ? '99+' : badgeValue;
         };
-    },
+        var showArrow = ref(false);
+        var slotWidth = ref(0);
+        var updateWrapWidth = function () { return __awaiter(_this, void 0, void 0, function () {
+            var tabs, wrapWidth, tabsWidth;
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _b.sent();
+                        if (!wrapRef.value)
+                            return [2 /*return*/];
+                        tabs = wrapRef.value.querySelector('.cx-tabs');
+                        if (!tabs)
+                            return [2 /*return*/];
+                        if (!slotRef.value) return [3 /*break*/, 3];
+                        slotWidth.value = (_a = slotRef.value.clientWidth) !== null && _a !== void 0 ? _a : 0;
+                        return [4 /*yield*/, nextTick()];
+                    case 2:
+                        _b.sent();
+                        _b.label = 3;
+                    case 3:
+                        wrapWidth = wrapRef.value.clientWidth;
+                        tabsWidth = tabs.clientWidth;
+                        showArrow.value = tabsWidth > wrapWidth;
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        var forceUpdate = debounce$1(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, updateWrapWidth()];
+                    case 1:
+                        _a.sent();
+                        setTimeout(function () {
+                            updateCursor();
+                        }, 200);
+                        return [2 /*return*/];
+                }
+            });
+        }); }, 100);
+        onMounted(function () {
+            window.addEventListener('resize', forceUpdate);
+        });
+        onBeforeUnmount(function () {
+            window.removeEventListener('resize', forceUpdate);
+        });
+        var arrowClick = function (type) {
+            if (!wrapRef.value)
+                return;
+            var base = 300;
+            var offset = base / 10;
+            var timer = setInterval(function () {
+                if (!wrapRef.value)
+                    return;
+                var targetPosition = wrapRef.value.scrollLeft + (type === 'left' ? -offset : offset);
+                wrapRef.value.scrollTo(targetPosition, 0);
+                var stop = type === 'left'
+                    ? targetPosition <= 0
+                    : targetPosition >= wrapRef.value.scrollWidth - wrapRef.value.clientWidth;
+                if (base === 0 || stop) {
+                    clearInterval(timer);
+                }
+                else if (base <= 3) {
+                    base = 0;
+                }
+                else {
+                    base -= base / 10;
+                    offset = base / 10;
+                }
+            }, 10);
+        };
+        watch(tabs, forceUpdate, { deep: true, immediate: true });
+        onUpdated(updateCursor);
+        expose({
+            forceUpdate: forceUpdate
+        });
+        return {
+            clickHandle: clickHandle,
+            wrapRef: wrapRef,
+            tabs: tabs,
+            getBadgeValue: getBadgeValue,
+            showArrow: showArrow,
+            arrowClick: arrowClick,
+            cursorStyle: cursorStyle,
+            slotRef: slotRef,
+            slotWidth: slotWidth
+        };
+    }
 });
+
+const _hoisted_1$5 = { class: "cx-tabs" };
+
+function render$7(_ctx, _cache) {
+  return (openBlock(), createBlock("div", {
+    class: ['cx-tab', `level-${_ctx.level}_bottom_line`]
+  }, [
+    createVNode("div", {
+      class: {
+        'cx-tab_scroll_wrapper': true,
+        cx_flex_center: true,
+        cx_justify_between: true,
+        [`level-${_ctx.level}_wrapper`]: true,
+        'cx-tab_disabled': _ctx.disabled,
+        cx_pos_relative: true
+      },
+      style: {
+        maxWidth: `calc(100% - ${_ctx.slotWidth}px)`
+      }
+    }, [
+      createVNode("div", {
+        class: {
+          'cx-tab_wrapper': true,
+          cx_plr_20: _ctx.showArrow,
+          cx_border_box: true,
+          cx_pos_relative: true
+        },
+        ref: "wrapRef"
+      }, [
+        createVNode("div", _hoisted_1$5, [
+          (openBlock(true), createBlock(Fragment, null, renderList(_ctx.tabs, (item) => {
+            return (openBlock(), createBlock("div", {
+              key: item.id,
+              onClick: $event => (_ctx.clickHandle(item.id)),
+              id: item.id,
+              class: {
+              clickable: true,
+              cx_flex_center: true,
+              'cx-tab_item': true,
+              'cx-tab_item_active': _ctx.modelValue === item.id,
+              cx_pos_relative: true
+            }
+            }, [
+              createTextVNode(toDisplayString(item.name) + " ", 1 /* TEXT */),
+              (item.badgeKey)
+                ? (openBlock(), createBlock("div", {
+                    key: 0,
+                    class: `cx-tab_badge_${_ctx.level}`
+                  }, toDisplayString(`${_ctx.getBadgeValue(item)}${item.unit || ''}`), 3 /* TEXT, CLASS */))
+                : createCommentVNode("v-if", true)
+            ], 10 /* CLASS, PROPS */, ["onClick", "id"]))
+          }), 128 /* KEYED_FRAGMENT */))
+        ]),
+        (_ctx.level < 3)
+          ? (openBlock(), createBlock("i", {
+              key: 0,
+              class: "cx-tab_cursor",
+              style: _ctx.cursorStyle
+            }, null, 4 /* STYLE */))
+          : createCommentVNode("v-if", true)
+      ], 2 /* CLASS */),
+      (_ctx.showArrow)
+        ? (openBlock(), createBlock(Fragment, { key: 0 }, [
+            createVNode("i", {
+              class: "cx-tab_left_arrow cx_flex_center iconfont icon-xiangzuo",
+              onClick: _cache[1] || (_cache[1] = $event => (_ctx.arrowClick('left')))
+            }),
+            createVNode("i", {
+              class: "cx-tab_right_arrow cx_flex_center iconfont icon-xiangyou",
+              onClick: _cache[2] || (_cache[2] = $event => (_ctx.arrowClick('right')))
+            })
+          ], 64 /* STABLE_FRAGMENT */))
+        : createCommentVNode("v-if", true)
+    ], 6 /* CLASS, STYLE */),
+    createVNode("div", null, [
+      (_ctx.$slots.operation)
+        ? (openBlock(), createBlock("div", {
+            key: 0,
+            ref: "slotRef",
+            class: "cx_flex_center cx_pos_relative cx_iflex cx_fr",
+            style: {
+          'margin-top': _ctx.level === 4 ? '-33px' : '-42px',
+          'z-index': '200',
+          height: _ctx.level === 4 ? '33px' : '42px'
+        }
+          }, [
+            renderSlot(_ctx.$slots, "operation")
+          ], 4 /* STYLE */))
+        : createCommentVNode("v-if", true)
+    ])
+  ], 2 /* CLASS */))
+}
+
+script$d.render = render$7;
+script$d.__file = "src/lib/cx-tab/cx-tab.vue";
+
 script$d.install = function (app) {
     app.component(script$d.name, script$d);
 };
@@ -716,6 +1362,8 @@ var CxForm = defineComponent({
                 emit('change', { prop: prop, val: props.form[prop], form: props.form });
             },
         });
+        onMounted(function () {
+        });
         return function () {
             return createVNode('div', { name: 'cx-form' }, [renderForm()]);
         };
@@ -814,6 +1462,7 @@ var CX_TABLE_EVENT_LIST = [
     'expandCheck',
     'broadcast',
     'dynamicUpdate',
+    'columnUpdate',
     'dynamicSetting',
     'cached'
 ];
@@ -1008,6 +1657,7 @@ var CxTableWidthMap = new Map([
     ['默认', { width: 120, rule: function () { return true; } }]
 ]);
 
+var selectType = ['search', 'select', 'optionSelect', 'sourceSelect'];
 // 表格内容区字符宽度(基准宽度)
 var contentWidthAdaptor = function (column, props) {
     var _a;
@@ -1050,7 +1700,7 @@ var contentWidthAdaptor = function (column, props) {
             var textContentWidth = getStringWidth(rowData[getColumnSelectText(column)]);
             var nameContentWidth = getStringWidth(rowData[getColumnSelectText(column, 'Name')]);
             contentWidth = Math.max(contentWidth, textContentWidth, nameContentWidth);
-            if (['search', 'select'].includes(column.slotType)) {
+            if (selectType.includes(column.slotType)) {
                 contentWidth += 55;
             }
             else if (['input'].includes(column.slotType)) {
@@ -1097,7 +1747,7 @@ var widthMapAdaptor = function (_a) {
             width = (configWidth !== null && configWidth !== void 0 ? configWidth : configMinWidth);
             isStatic = !!configWidth;
         }
-        if (['search', 'select'].includes(slotType)) {
+        if (selectType.includes(slotType)) {
             width += 55;
         }
         else if (['input'].includes(slotType)) {
@@ -1280,7 +1930,9 @@ var CxBroadcast = /** @class */ (function () {
     };
     CxBroadcast.prototype.registListener = function (key, rowData, cb) {
         var dep = this.getDep(key, rowData);
-        !dep.includes(cb) && dep.push(cb);
+        if (dep.every(function (f) { return f.toString() !== cb.toString(); })) {
+            dep.push(cb);
+        }
     };
     CxBroadcast.prototype.getDep = function (key, rowData) {
         var result = [];
@@ -1901,7 +2553,7 @@ var calcInnerItem = function (formula, data, finder, defaultValue, getResult) {
             if (typeof val === 'object') {
                 Object.entries(val).some(function (_a) {
                     var _b = __read(_a, 2), innerKey = _b[0], innerVal = _b[1];
-                    if (+data[key] === +innerKey) {
+                    if (+data[key] === +innerKey || val === '*') {
                         if (finder(innerVal)) {
                             result_1 = getResult(innerVal, data);
                         }
@@ -1932,11 +2584,13 @@ var CxControlConfig = /** @class */ (function () {
         switch (this.type) {
             case 'input':
                 this.inputConfigAdaptor(config);
+                Reflect.set(this.attrs, 'placeholder', "\u8BF7\u8F93\u5165" + config.label);
                 break;
             case 'inscription':
             case 'search':
             case 'select':
                 this.selectConfigAdaptor(config);
+                Reflect.set(this.attrs, 'placeholder', "\u8BF7\u9009\u62E9" + config.label);
                 break;
             case 'status':
             case 'tag':
@@ -1948,7 +2602,7 @@ var CxControlConfig = /** @class */ (function () {
         var _a, _b;
         var statusMap = Object.entries((_b = (_a = config.control) === null || _a === void 0 ? void 0 : _a.statusMap) !== null && _b !== void 0 ? _b : {}).reduce(function (res, _a) {
             var _b = __read(_a, 2), key = _b[0], val = _b[1];
-            res[key] = __assign(__assign({}, val), { prop: config.prop });
+            res[key] = __assign({}, val);
             return res;
         }, {});
         Reflect.set(this, 'statusMap', statusMap);
@@ -1960,7 +2614,7 @@ var CxControlConfig = /** @class */ (function () {
         if (!control)
             return;
         isNumber(control.maxLength) && Reflect.set(this.attrs, 'maxlength', control.maxLength);
-        isNumber(control.minLength) && Reflect.set(this.attrs, 'minlength', control.minLength);
+        control.showWordLimit && Reflect.set(this.attrs, 'showWordLimit', control.showWordLimit);
         influenced &&
             (this.attrs.broadcastRegister = function (register) {
                 _this.influencedRegister(register, config);
@@ -2342,552 +2996,6 @@ var useCxTableCompose = function () {
         getParamsItems: getParamsItems
     };
 };
-
-/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-/** Built-in value references. */
-var Symbol$1 = root.Symbol;
-
-/** Used for built-in method references. */
-var objectProto$1 = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto$1.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString$1 = objectProto$1.toString;
-
-/** Built-in value references. */
-var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined;
-
-/**
- * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the raw `toStringTag`.
- */
-function getRawTag(value) {
-  var isOwn = hasOwnProperty.call(value, symToStringTag$1),
-      tag = value[symToStringTag$1];
-
-  try {
-    value[symToStringTag$1] = undefined;
-    var unmasked = true;
-  } catch (e) {}
-
-  var result = nativeObjectToString$1.call(value);
-  if (unmasked) {
-    if (isOwn) {
-      value[symToStringTag$1] = tag;
-    } else {
-      delete value[symToStringTag$1];
-    }
-  }
-  return result;
-}
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/**
- * Converts `value` to a string using `Object.prototype.toString`.
- *
- * @private
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- */
-function objectToString(value) {
-  return nativeObjectToString.call(value);
-}
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
-  }
-  return (symToStringTag && symToStringTag in Object(value))
-    ? getRawTag(value)
-    : objectToString(value);
-}
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && baseGetTag(value) == symbolTag);
-}
-
-/** Used to match a single whitespace character. */
-var reWhitespace = /\s/;
-
-/**
- * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
- * character of `string`.
- *
- * @private
- * @param {string} string The string to inspect.
- * @returns {number} Returns the index of the last non-whitespace character.
- */
-function trimmedEndIndex(string) {
-  var index = string.length;
-
-  while (index-- && reWhitespace.test(string.charAt(index))) {}
-  return index;
-}
-
-/** Used to match leading whitespace. */
-var reTrimStart = /^\s+/;
-
-/**
- * The base implementation of `_.trim`.
- *
- * @private
- * @param {string} string The string to trim.
- * @returns {string} Returns the trimmed string.
- */
-function baseTrim(string) {
-  return string
-    ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
-    : string;
-}
-
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return value != null && (type == 'object' || type == 'function');
-}
-
-/** Used as references for various `Number` constants. */
-var NAN = 0 / 0;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3.2);
- * // => 3.2
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3.2');
- * // => 3.2
- */
-function toNumber(value) {
-  if (typeof value == 'number') {
-    return value;
-  }
-  if (isSymbol(value)) {
-    return NAN;
-  }
-  if (isObject(value)) {
-    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = baseTrim(value);
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
-/**
- * Gets the timestamp of the number of milliseconds that have elapsed since
- * the Unix epoch (1 January 1970 00:00:00 UTC).
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Date
- * @returns {number} Returns the timestamp.
- * @example
- *
- * _.defer(function(stamp) {
- *   console.log(_.now() - stamp);
- * }, _.now());
- * // => Logs the number of milliseconds it took for the deferred invocation.
- */
-var now = function() {
-  return root.Date.now();
-};
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT$1 = 'Expected a function';
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide `options` to indicate whether `func` should be invoked on the
- * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent
- * calls to the debounced function return the result of the last `func`
- * invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the debounced function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=false]
- *  Specify invoking on the leading edge of the timeout.
- * @param {number} [options.maxWait]
- *  The maximum time `func` is allowed to be delayed before it's invoked.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
-function debounce$1(func, wait, options) {
-  var lastArgs,
-      lastThis,
-      maxWait,
-      result,
-      timerId,
-      lastCallTime,
-      lastInvokeTime = 0,
-      leading = false,
-      maxing = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT$1);
-  }
-  wait = toNumber(wait) || 0;
-  if (isObject(options)) {
-    leading = !!options.leading;
-    maxing = 'maxWait' in options;
-    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function invokeFunc(time) {
-    var args = lastArgs,
-        thisArg = lastThis;
-
-    lastArgs = lastThis = undefined;
-    lastInvokeTime = time;
-    result = func.apply(thisArg, args);
-    return result;
-  }
-
-  function leadingEdge(time) {
-    // Reset any `maxWait` timer.
-    lastInvokeTime = time;
-    // Start the timer for the trailing edge.
-    timerId = setTimeout(timerExpired, wait);
-    // Invoke the leading edge.
-    return leading ? invokeFunc(time) : result;
-  }
-
-  function remainingWait(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime,
-        timeWaiting = wait - timeSinceLastCall;
-
-    return maxing
-      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
-      : timeWaiting;
-  }
-
-  function shouldInvoke(time) {
-    var timeSinceLastCall = time - lastCallTime,
-        timeSinceLastInvoke = time - lastInvokeTime;
-
-    // Either this is the first call, activity has stopped and we're at the
-    // trailing edge, the system time has gone backwards and we're treating
-    // it as the trailing edge, or we've hit the `maxWait` limit.
-    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
-      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
-  }
-
-  function timerExpired() {
-    var time = now();
-    if (shouldInvoke(time)) {
-      return trailingEdge(time);
-    }
-    // Restart the timer.
-    timerId = setTimeout(timerExpired, remainingWait(time));
-  }
-
-  function trailingEdge(time) {
-    timerId = undefined;
-
-    // Only invoke if we have `lastArgs` which means `func` has been
-    // debounced at least once.
-    if (trailing && lastArgs) {
-      return invokeFunc(time);
-    }
-    lastArgs = lastThis = undefined;
-    return result;
-  }
-
-  function cancel() {
-    if (timerId !== undefined) {
-      clearTimeout(timerId);
-    }
-    lastInvokeTime = 0;
-    lastArgs = lastCallTime = lastThis = timerId = undefined;
-  }
-
-  function flush() {
-    return timerId === undefined ? result : trailingEdge(now());
-  }
-
-  function debounced() {
-    var time = now(),
-        isInvoking = shouldInvoke(time);
-
-    lastArgs = arguments;
-    lastThis = this;
-    lastCallTime = time;
-
-    if (isInvoking) {
-      if (timerId === undefined) {
-        return leadingEdge(lastCallTime);
-      }
-      if (maxing) {
-        // Handle invocations in a tight loop.
-        clearTimeout(timerId);
-        timerId = setTimeout(timerExpired, wait);
-        return invokeFunc(lastCallTime);
-      }
-    }
-    if (timerId === undefined) {
-      timerId = setTimeout(timerExpired, wait);
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  debounced.flush = flush;
-  return debounced;
-}
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/**
- * Creates a throttled function that only invokes `func` at most once per
- * every `wait` milliseconds. The throttled function comes with a `cancel`
- * method to cancel delayed `func` invocations and a `flush` method to
- * immediately invoke them. Provide `options` to indicate whether `func`
- * should be invoked on the leading and/or trailing edge of the `wait`
- * timeout. The `func` is invoked with the last arguments provided to the
- * throttled function. Subsequent calls to the throttled function return the
- * result of the last `func` invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the throttled function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.throttle` and `_.debounce`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to throttle.
- * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=true]
- *  Specify invoking on the leading edge of the timeout.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new throttled function.
- * @example
- *
- * // Avoid excessively updating the position while scrolling.
- * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
- *
- * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
- * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
- * jQuery(element).on('click', throttled);
- *
- * // Cancel the trailing throttled invocation.
- * jQuery(window).on('popstate', throttled.cancel);
- */
-function throttle(func, wait, options) {
-  var leading = true,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  if (isObject(options)) {
-    leading = 'leading' in options ? !!options.leading : leading;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-  return debounce$1(func, wait, {
-    'leading': leading,
-    'maxWait': wait,
-    'trailing': trailing
-  });
-}
 
 var registResponsive = function (wrapper, callbacks) {
     onMounted(function () {
@@ -3393,27 +3501,28 @@ var useUpdateState = function (props, $CxTable) {
 
 var cacheMap = {};
 var resolveColumns = function (cols, props) { return __awaiter(void 0, void 0, void 0, function () {
-    var context;
+    var context, result;
     return __generator(this, function (_a) {
         context = useCxTable().getContext();
-        return [2 /*return*/, __spreadArray(__spreadArray([], __read(context.dynamicInject)), [props.dynamicInject]).reduce(function (res, inject) { return __awaiter(void 0, void 0, void 0, function () {
-                var _a, _b;
-                return __generator(this, function (_c) {
-                    switch (_c.label) {
-                        case 0:
-                            if (!isFunction(inject)) return [3 /*break*/, 2];
-                            _b = inject;
-                            return [4 /*yield*/, res];
-                        case 1:
-                            _a = _b.apply(void 0, [_c.sent()]);
-                            return [3 /*break*/, 3];
-                        case 2:
-                            _a = res;
-                            _c.label = 3;
-                        case 3: return [2 /*return*/, _a];
-                    }
-                });
-            }); }, Promise.resolve(cols))];
+        result = __spreadArray(__spreadArray([], __read(context.dynamicInject)), [props.dynamicInject]).reduce(function (res, inject, index) { return __awaiter(void 0, void 0, void 0, function () {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (!isFunction(inject)) return [3 /*break*/, 2];
+                        _b = inject;
+                        return [4 /*yield*/, res];
+                    case 1:
+                        _a = _b.apply(void 0, [_c.sent()]);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        _a = res;
+                        _c.label = 3;
+                    case 3: return [2 /*return*/, _a];
+                }
+            });
+        }); }, Promise.resolve(cols));
+        return [2 /*return*/, result];
     });
 }); };
 var getCxDynamicHead = function (dynamic) { return __awaiter(void 0, void 0, void 0, function () {
@@ -3450,6 +3559,15 @@ var getCxDynamicHead = function (dynamic) { return __awaiter(void 0, void 0, voi
             })];
     });
 }); };
+var filterOnlyFormItem = function (cols) {
+    return cols.filter(function (col) {
+        var _a;
+        if (Array.isArray(col.children)) {
+            col.children = filterOnlyFormItem(col.children);
+        }
+        return !((_a = col.jsonData) === null || _a === void 0 ? void 0 : _a.onlyForm);
+    });
+};
 var useDynamicConfig = function (props, $CxTable, emit) {
     var columnProxy = ref([]);
     var dynamicColumn = ref([]);
@@ -3469,7 +3587,7 @@ var useDynamicConfig = function (props, $CxTable, emit) {
                             .then(function (_a) {
                             var data = _a.data;
                             return __awaiter(void 0, void 0, void 0, function () {
-                                var duplicate_1;
+                                var duplicate_1, tableItems, copy;
                                 return __generator(this, function (_b) {
                                     switch (_b.label) {
                                         case 0:
@@ -3482,12 +3600,13 @@ var useDynamicConfig = function (props, $CxTable, emit) {
                                                 });
                                                 Reflect.deleteProperty(cacheMap, key_1);
                                             }
-                                            data = data.map(CxConfigAdaptor.of);
-                                            dynamicColumn.value = R.clone(data);
-                                            return [4 /*yield*/, resolveColumns(data, props)];
+                                            tableItems = data.map(CxConfigAdaptor.of);
+                                            copy = R.clone(tableItems);
+                                            return [4 /*yield*/, resolveColumns(tableItems, props)];
                                         case 1:
-                                            data = _b.sent();
-                                            columnProxy.value = data;
+                                            tableItems = _b.sent();
+                                            dynamicColumn.value = copy;
+                                            columnProxy.value = filterOnlyFormItem(tableItems);
                                             useColumn($CxTable, columnProxy, props);
                                             useColumnValidity($CxTable);
                                             updateState();
@@ -3495,6 +3614,7 @@ var useDynamicConfig = function (props, $CxTable, emit) {
                                         case 2: return [4 /*yield*/, nextTick()];
                                         case 3:
                                             _b.sent();
+                                            emit('columnUpdate');
                                             isDynamicChange && emit('dynamicUpdate');
                                             return [2 /*return*/];
                                     }
@@ -4012,9 +4132,9 @@ var domShare = {
     }
 };
 
-var getFunctionAttrs = function (rowData, attrs) {
+var getFunctionAttrs = function (rowData, rowIndex, attrs) {
     if (isFunction(attrs)) {
-        var result = attrs({ rowData: rowData });
+        var result = attrs({ rowData: rowData, rowIndex: rowIndex });
         return isObject$1(result) ? result : void 0;
     }
     return attrs;
@@ -4182,7 +4302,7 @@ var getTotalSumData = function (cols, data) {
                     rowData[col.prop] = (_b = (_a = col.calculate) === null || _a === void 0 ? void 0 : _a.call(col, rowData)) !== null && _b !== void 0 ? _b : rowData[col.prop];
                 });
             }
-            result[col.prop] = getSums(data, col.prop);
+            result[col.prop] = isNumber(col.accuracy) ? decimalFixed(getSums(data, col.prop), col.accuracy, true) : getSums(data, col.prop);
         }
         else if (col.columnFlag & COLUMN_FLAG.CUSTOM_SUM_COLUMN) {
             result[col.prop] = isFunction(col.sum) ? col.sum(data) : null;
@@ -4304,14 +4424,14 @@ var getPreOrNextItem = function (arr, item, direction, prop) {
     return (_a = arr[index + (direction === 'pre' ? -1 : 1)]) !== null && _a !== void 0 ? _a : item;
 };
 var getStatusAttrs = function (rowData, column) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e;
     var statusMap = ((_a = column.control) !== null && _a !== void 0 ? _a : {}).statusMap;
     // statusMap分2种情况, Array => string[] / Object => { [k:string]:{content?:string,prop?:string,type?:string} }
-    var _e = Array.isArray(statusMap)
+    var _f = Array.isArray(statusMap)
         ? { content: statusMap[rowData[column.prop]], prop: undefined, type: undefined }
-        : (_c = (_b = statusMap === null || statusMap === void 0 ? void 0 : statusMap[rowData[column.prop]]) !== null && _b !== void 0 ? _b : statusMap === null || statusMap === void 0 ? void 0 : statusMap["default"]) !== null && _c !== void 0 ? _c : {}, content = _e.content, prop = _e.prop, type = _e.type;
+        : (_d = (_c = (_b = statusMap === null || statusMap === void 0 ? void 0 : statusMap[rowData[column.prop]]) !== null && _b !== void 0 ? _b : statusMap === null || statusMap === void 0 ? void 0 : statusMap['*']) !== null && _c !== void 0 ? _c : statusMap === null || statusMap === void 0 ? void 0 : statusMap["default"]) !== null && _d !== void 0 ? _d : {}, content = _f.content, prop = _f.prop, type = _f.type;
     return {
-        content: content ? content : prop ? rowData[prop] : (_d = rowData[prop + 'Text']) !== null && _d !== void 0 ? _d : '',
+        content: content ? content : prop ? rowData[prop] : (_e = rowData[column.prop + 'Text']) !== null && _e !== void 0 ? _e : '',
         type: type
     };
 };
@@ -4484,7 +4604,14 @@ var CxTableHead = defineComponent({
 });
 
 var renderDefaultNode = function (params) {
-    return createVNode(_CX_ELLIPSIS, { content: params.rowData[params.column.prop] }, null, PATCH_FLAG.PROPS, ['content']);
+    var withDefault = function (v) { return v !== null && v !== void 0 ? v : params.column.defaultValue; };
+    return createVNode(_CX_ELLIPSIS, {
+        content: params.column.renderText
+            ? withDefault(params.rowData[getColumnSelectText(params.column)])
+            : isNumber(params.column.accuracy)
+                ? decimalFixed(withDefault(params.rowData[params.column.prop]), params.column.accuracy, true)
+                : withDefault(params.rowData[params.column.prop])
+    }, null, PATCH_FLAG.PROPS, ['content']);
 };
 var renderCellContent = function (props, isActived, rowIndex, sum, rootSlots, selectConfig, radioValue, disabled, bus, expandConfig, broadcast, pagination, ignoreControl, forceControl) {
     if (sum === void 0) { sum = false; }
@@ -4689,7 +4816,7 @@ var Cell = defineComponent({
             });
         });
         // 当column为select/search时,由于text的存在,不能仅仅监听id变化,text值也会对渲染有影响,同时,插槽内容的变化也难以监听
-        if (['search', 'select'].includes((_a = props.column.control) === null || _a === void 0 ? void 0 : _a.type) || props.column.slot) {
+        if (['search', 'select', 'optionSelect'].includes((_a = props.column.control) === null || _a === void 0 ? void 0 : _a.type) || props.column.slot) {
             var textKey_1 = getColumnSelectText(props.column);
             watch(function () { return props.rowData[textKey_1]; }, function () {
                 broadcast === null || broadcast === void 0 ? void 0 : broadcast.trigger(textKey_1, props.rowData, {
@@ -4699,14 +4826,8 @@ var Cell = defineComponent({
             });
         }
         return function () {
-            var _a, _b, _c;
-            // 广播注册,每次重新渲染时需要重新注册,否则会出现行数据错误的问题(虚拟滚动)
-            var attrs = getFunctionAttrs(props.rowData, (_a = props.column.control) === null || _a === void 0 ? void 0 : _a.attrs);
-            var broadcastRegister = attrs === null || attrs === void 0 ? void 0 : attrs.broadcastRegister;
-            if (broadcastRegister && isFunction(broadcastRegister)) {
-                broadcastRegister(function (prop, cb) { return broadcast.registListener(prop, props.rowData, cb); });
-            }
-            if (mergeSpan.value && (((_b = mergeSpan.value) === null || _b === void 0 ? void 0 : _b.rowspan) === 0 || ((_c = mergeSpan.value) === null || _c === void 0 ? void 0 : _c.colspan) === 0)) {
+            var _a, _b;
+            if (mergeSpan.value && (((_a = mergeSpan.value) === null || _a === void 0 ? void 0 : _a.rowspan) === 0 || ((_b = mergeSpan.value) === null || _b === void 0 ? void 0 : _b.colspan) === 0)) {
                 return;
             }
             return createVNode('td', __assign(__assign(__assign({ key: key }, handles), mergeSpan.value), { style: tdStyle.value, colid: props.column._colid, "class": { actived: isActived.value } }), [
@@ -4929,6 +5050,7 @@ var CxTableBody = defineComponent({
     },
     setup: function (props) {
         var CxTable = inject('CxTable');
+        var broadcast = inject('broadcast');
         var rootProp = inject('rootProp');
         var hoisted_1 = 'cx-table_footer';
         var hoisted_2 = 'cx-table_body';
@@ -4954,14 +5076,24 @@ var CxTableBody = defineComponent({
                 key: rowid
             }, {
                 "default": function () {
+                    CxTable.flatColumns.forEach(function (col) {
+                        var _a;
+                        var attrs = getFunctionAttrs(rowData, rowIndex, (_a = col.control) === null || _a === void 0 ? void 0 : _a.attrs);
+                        var broadcastRegister = attrs === null || attrs === void 0 ? void 0 : attrs.broadcastRegister;
+                        if (broadcastRegister && isFunction(broadcastRegister)) {
+                            broadcastRegister(function (prop, cb) { return broadcast.registListener(prop, rowData, cb); });
+                        }
+                    });
                     return (openBlock(true),
-                        createBlock(Fragment, null, CxTable.flatColumns.map(function (col) { return (openBlock(),
-                            createBlock(Fragment, null, [
-                                props.fixed && props.fixed !== 'bottom' && col.fixed !== props.fixed
-                                    ? createCommentVNode('v-if', true)
-                                    : (openBlock(),
-                                        createBlock(Cell, { rowData: rowData, rowIndex: rowIndex, column: col, sum: sum, empty: empty, key: col._colid }, null, PATCH_FLAG.PROPS, ['rowData', 'rowIndex', 'column', 'sum', 'empty']))
-                            ])); }), PATCH_FLAG.KEYED_FRAGMENT));
+                        createBlock(Fragment, null, CxTable.flatColumns.map(function (col) {
+                            return openBlock(),
+                                createBlock(Fragment, null, [
+                                    props.fixed && props.fixed !== 'bottom' && col.fixed !== props.fixed
+                                        ? createCommentVNode('v-if', true)
+                                        : (openBlock(),
+                                            createBlock(Cell, { rowData: rowData, rowIndex: rowIndex, column: col, sum: sum, empty: empty, key: col._colid }, null, PATCH_FLAG.PROPS, ['rowData', 'rowIndex', 'column', 'sum', 'empty']))
+                                ]);
+                        }), PATCH_FLAG.KEYED_FRAGMENT));
                 }
             }, PATCH_FLAG.PROPS | PATCH_FLAG.CLASS | PATCH_FLAG.DYNAMIC_SLOTS, ['rowData', 'rowIndex', 'activedRow', 'rowid', 'key']);
         };
@@ -5010,11 +5142,8 @@ var CxTableBody = defineComponent({
         watchEffect(function () {
             var _a;
             hideTotalSum.value =
-                (rootProp.virtualScroll &&
-                    props.fixed !== 'bottom' &&
-                    !props.onlyTotal &&
-                    CxTable.virtualStore.renderEndIndex < rootProp.tableData.length) ||
-                    (((!rootProp.showTotalSum && !rootProp.showForm) || ((_a = props.tableData) === null || _a === void 0 ? void 0 : _a.length) <= 0) &&
+                (rootProp.virtualScroll && props.fixed !== 'bottom' && !props.onlyTotal && CxTable.virtualStore.renderEndIndex < rootProp.tableData.length)
+                    || (((!rootProp.showTotalSum && !(rootProp.showForm && CxTable.flatColumns.some(function (col) { return !!col.sum; }))) || ((_a = props.tableData) === null || _a === void 0 ? void 0 : _a.length) <= 0) &&
                         !rootProp.showAddBtn &&
                         !props.float);
         });
@@ -5259,27 +5388,6 @@ var CxTableEmpty = defineComponent({
     }
 });
 
-var DynamicFilterBtn = defineComponent({
-    name: 'DynamicFilterBtn',
-    props: { states: { type: Object, required: true } },
-    emits: ['click'],
-    setup: function (props, _a) {
-        var emit = _a.emit;
-        var color = computed(function () {
-            var _a;
-            return ((_a = props.states) === null || _a === void 0 ? void 0 : _a.visible) ? '#0084ff' : 'rgba(0,0,0,.85)';
-        });
-        return function (_, cache) {
-            return createVNode(_CX_BTN, {
-                onClick: cache[0] || (cache[0] = function () { return emit('click'); }),
-                icon: 'filtershaixuan',
-                content: '筛选',
-                style: { color: color.value, borderColor: color.value }
-            }, null, PATCH_FLAG.STYLE | PATCH_FLAG.FULL_PROPS);
-        };
-    }
-});
-
 var DynamicFormAdd = defineComponent({
     name: 'DynamicFormAdd',
     props: {
@@ -5455,10 +5563,12 @@ var useDynamicFormSearch = function () {
         cxTableWarn("can't match api by config ", changeDynamicIdToText(dynamic));
     });
     var initRequestParams = function (rootProp, form, currentFormItems, tableDataVisitor) {
+        var _a;
         var setItems = R.set(R.lensProp('items'), getParamsItems(form, currentFormItems));
         var mergeSort = R.mergeLeft(R.zipObj(['sortDirection', 'sortProp'], [tableDataVisitor.sortStatus, tableDataVisitor.sortProp]));
         var mergePagination = R.mergeLeft(R.pick(['currentPage', 'pageCapacity'], R.prop('pagination', rootProp)));
-        return R.compose(setItems, mergeSort, mergePagination, R.prop('dynamic'))(rootProp);
+        var beforeSearchIsExist = function () { var _a; return truthy((_a = rootProp.hooks) === null || _a === void 0 ? void 0 : _a.beforeSearch); };
+        return R.compose(R.when(beforeSearchIsExist, (_a = rootProp.hooks) === null || _a === void 0 ? void 0 : _a.beforeSearch), setItems, mergeSort, mergePagination, R.prop('dynamic'))(rootProp);
     };
     var updateTableData = R.curryN(2, function (data, rootProp) {
         var _a, _b;
@@ -5625,7 +5735,7 @@ var TeleForm = defineComponent({
         }); }, 50);
         var onSearch = nextTimeout(function (payload) {
             // 处理states
-            R.when(R.compose(R.not, R.prop('visible')), toggleVisibleStates)(states);
+            // R.when(R.compose(R.not, R.prop<string, boolean>('visible')), toggleVisibleStates)(states);
             // 处理payload
             R.when(R.is(Object), R.compose(unsafePush(R.__, currentFormItems), R.flip(R.difference)(currentFormItems), R.keys, R.tap(unsafeAssign(R.__, form)), R.pick(R.map(R.prop('id'), getOptionListFromColumn(props.dynamicColumn)))))(payload);
             fetchAllData();
@@ -5649,22 +5759,28 @@ var TeleForm = defineComponent({
                     'onUpdate:modelValue': unsafeClearPush(R.__, currentFormItems)
                 }, null, PATCH_FLAG.FULL_PROPS)];
         };
-        var states = reactive(cache.getVisibleCacheIO.map(R.compose(R.objOf('visible'), R.ifElse(R.isNil, R.T, R.identity))).unsafePerformIO());
-        var toggleVisibleStates = function () { return (states.visible = !states.visible); };
-        watch(function () { return states.visible; }, cache.setVisibleCacheIO.unsafePerformIO.bind(cache.setVisibleCacheIO));
-        var _hoisted_attrs_1 = { "class": 'cx_dp_flex cx_justify_end cx_mb_16' };
-        var _hoisted_attrs_2 = { "class": 'cx_line cx_mb_12 cx_mlr_0 cx_w_100p' };
+        // const states = reactive(
+        //   cache.getVisibleCacheIO.map(R.compose(R.objOf('visible'), R.ifElse(R.isNil, R.T, R.identity))).unsafePerformIO()
+        // );
+        var states = reactive({ visible: true });
+        // const toggleVisibleStates = () => (states.visible = !states.visible);
+        // watch(
+        //   () => states.visible,
+        //   cache.setVisibleCacheIO.unsafePerformIO.bind(cache.setVisibleCacheIO)
+        // );
+        // const _hoisted_attrs_1 = { class: 'cx_dp_flex cx_justify_end cx_mb_16' };
+        // const _hoisted_attrs_2 = { class: 'cx_line cx_mb_12 cx_mlr_0 cx_w_100p' };
         var _hoisted_attrs_3 = { "class": 'cx_dp_flex' };
-        var _hoisted_node_1 = createVNode('div', _hoisted_attrs_2);
+        // const _hoisted_node_1 = createVNode('div', _hoisted_attrs_2);
         var renderForm = function () {
             return createVNode('div', { "class": 'cx-table_tele_form' }, [
-                createVNode('div', _hoisted_attrs_1, [
-                    createVNode(DynamicFilterBtn, {
-                        onClick: toggleVisibleStates,
-                        states: states
-                    })
-                ]),
-                _hoisted_node_1,
+                // createVNode('div', _hoisted_attrs_1, [
+                //   createVNode(DynamicFilterBtn, {
+                //     onClick: toggleVisibleStates,
+                //     states
+                //   })
+                // ]),
+                // _hoisted_node_1,
                 createVNode('div', _hoisted_attrs_3, [
                     withDirectives(createVNode(TeleFormInstance, { states: states, form: form, items: formConfig, onChange: fetchAllData, onClose: onClose }, { add: renderDynamicFormAdd }, PATCH_FLAG.FULL_PROPS), [[_hoisted_direction !== null && _hoisted_direction !== void 0 ? _hoisted_direction : {}, formLoading()]])
                 ])
@@ -5673,7 +5789,7 @@ var TeleForm = defineComponent({
         // unsafeClearDom::void->string
         var unsafeClearEle = R.compose(map(unsafeSet(R.__, 'innerHTML', '')), Maybe.of);
         // renderVNodeToDom::HTMLElement->void
-        var renderVNodeToDom = R.compose(R.converge(render$7, [renderForm, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
+        var renderVNodeToDom = R.compose(R.converge(render$8, [renderForm, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
         var unsafeWarn = function () {
             return cxTableWarn("can't find container element by selector", rootProp.formTeleport);
         };
@@ -5710,7 +5826,7 @@ var TeleForm = defineComponent({
 });
 
 //
-var zIndex = 2000;
+var zIndex = 1500;
 var script$a = defineComponent({
     name: 'CxOverlay',
     props: { disabled: { type: Boolean, "default": false }, lockScroll: { type: Boolean, "default": false } },
@@ -5748,7 +5864,7 @@ var script$9 = defineComponent({
         showFullScreen: { type: Boolean, "default": true, },
         openDelay: { type: Number, "default": 0 },
         closeDelay: { type: Number, "default": 0 },
-        closeOnClickModal: { type: Boolean, "default": true },
+        closeOnClickModal: { type: Boolean, "default": false },
         closeOnPressEscape: { type: Boolean, "default": true },
         showClose: { type: Boolean, "default": true },
         beforeClose: { type: Function },
@@ -5882,7 +5998,7 @@ function render$4(_ctx, _cache) {
                       class: "cx-dialog__body",
                       style: _ctx.bodyStyle
                     }, [
-                      renderSlot(_ctx.$slots, "default")
+                      renderSlot(_ctx.$slots, "default", { isFullscreen: _ctx.isFullscreen })
                     ], 4 /* STYLE */))
                   : createCommentVNode("v-if", true),
                 _hoisted_5$1,
@@ -6406,12 +6522,13 @@ var cacheListDialog = defineComponent({
             return R.compose(truthy, R.find(R.includes(R.__, label)))(['操作', '选择', '多选']);
         });
         var noRequired = invokerWithChildren(R.omit(['required']));
-        var setImgsType = R.compose(R.when(R.compose(R.equals('款型图'), R.prop('label')), R.compose(R.set(R.lensProp('control'), R.objOf('type', 'imgs')), R.omit(['slot']))));
+        var setImgsType = R.compose(R.when(R.compose(R.includes(R.__, ['款型图', '蜡版图', 'CAD版图']), R.prop('label')), R.compose(R.set(R.lensProp('control'), R.objOf('type', 'imgs')), R.omit(['slot']))));
         var setDefaultSlot = R.compose(R.when(R.compose(R.all(falsy), R.props(['slot', 'calculate', 'dynamicCalculate'])), R.assoc('slot', 'renderWithText')));
         var imgsTypeInvoker = invokerWithChildren(setImgsType);
         var slotInvoker = invokerWithChildren(setDefaultSlot);
         var labelNotShow = R.compose(R.not, R.propSatisfies(labelContainer, 'label'));
-        var dynamicInject = R.compose(R.map(R.compose(imgsTypeInvoker, slotInvoker, noRequired)), R.filter(labelNotShow), R.when(R.converge(R.is(Function), [R.always(rootProp.dynamicInject)]), rootProp.dynamicInject));
+        var colsParserProcess = R.compose(R.map(R.compose(imgsTypeInvoker, slotInvoker, noRequired)), R.filter(labelNotShow));
+        var dynamicInject = R.compose(R.ifElse(R.is(Promise), R.andThen(colsParserProcess), colsParserProcess), R.when(R.converge(R.is(Function), [R.always(rootProp.dynamicInject)]), function (cols) { return rootProp.dynamicInject(cols); }));
         var renderOrderTable = function (config, dataList) {
             return createVNode(_CX_TABLE, __assign(__assign({ dynamicInject: dynamicInject }, R.pick(['ignoreControl'], rootProp)), { tableConfig: config, disabled: true, keyboard: false, height: 427, "class": 'cx_m_16', tableData: dataList, configurable: false }), __assign(__assign({}, rootSlots), { renderWithText: function (_a) {
                     var _b, _c, _d, _e;
@@ -6430,7 +6547,7 @@ var cacheListDialog = defineComponent({
             return (openBlock(),
                 createBlock(Fragment, null, [
                     createVNode(_CX_DIALOG, {
-                        title: TypeOption[currentType()],
+                        title: '暂存列表',
                         appendToBody: true,
                         okText: '编辑',
                         width: '1524px',
@@ -6538,7 +6655,7 @@ var TeleportBtn = defineComponent({
             return createVNode(innerBtn, __assign(__assign({}, attrs), { disabledState: props.disabledState, loadingState: loadingState, onClick: onClick }), slots, PATCH_FLAG.FULL_PROPS);
         };
         // renderVNodeToDom::HTMLElement->void
-        var renderVNodeToDom = R.compose(R.converge(render$7, [renderBtn, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
+        var renderVNodeToDom = R.compose(R.converge(render$8, [renderBtn, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
         // 组件更新IO
         var updateComponentIO = IO.of(queryDom).map(R.ifElse(R.isNil, R.compose(unsafeWarn, unsafeClearEle, container), R.compose(map(renderVNodeToDom), Maybe.of, setContainer)));
         watch(function () { return props.dynamicColumn; }, function () { return __awaiter(_this, void 0, void 0, function () {
@@ -8796,20 +8913,40 @@ var useDynamicConfigDialog = function () {
             });
         }
     };
+    var onlyFormItemCache = [];
+    var onlyFormItemMap = {};
+    var filterOnlyForm = function (cols) {
+        onlyFormItemMap = {};
+        return cols.reduce(function (res, col) {
+            var _a;
+            if ((_a = col.jsonData) === null || _a === void 0 ? void 0 : _a.onlyForm) {
+                res.onlyFormItem.push(col);
+                onlyFormItemMap[col.label] = true;
+            }
+            else {
+                res.normalItem.push(col);
+            }
+            return res;
+        }, { onlyFormItem: [], normalItem: [] });
+    };
     var getData = function (dynamicConfig) { return __awaiter(void 0, void 0, void 0, function () {
-        var data;
-        var _a, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var data, _a, normalItem, onlyFormItem;
+        var _b, _c;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
                 case 0:
                     if (!dynamicConfig)
                         return [2 /*return*/, console.warn('[dynamicConfigDialog]: invalid dynamicConfig')];
                     return [4 /*yield*/, context.dynamicRequestInstance.get('/table/settings/get', dynamicConfig)];
                 case 1:
-                    data = (_c.sent()).data;
-                    totalList.value = (_a = data === null || data === void 0 ? void 0 : data.itemList) !== null && _a !== void 0 ? _a : [];
+                    data = (_d.sent()).data;
+                    _a = filterOnlyForm((_b = data === null || data === void 0 ? void 0 : data.itemList) !== null && _b !== void 0 ? _b : []), normalItem = _a.normalItem, onlyFormItem = _a.onlyFormItem;
+                    totalList.value = normalItem;
+                    onlyFormItemCache = onlyFormItem;
                     Object.assign(listMap, getDefaultData());
-                    (_b = data === null || data === void 0 ? void 0 : data.displayList) === null || _b === void 0 ? void 0 : _b.forEach(function (item) {
+                    (_c = data === null || data === void 0 ? void 0 : data.displayList) === null || _c === void 0 ? void 0 : _c.forEach(function (item) {
+                        if (onlyFormItemMap[item.label])
+                            return;
                         switch (item.fixed) {
                             case 'left':
                                 listMap['居左固定字段'].push(item);
@@ -8840,6 +8977,7 @@ var useDynamicConfigDialog = function () {
                         }); }))));
                         return res;
                     }, []);
+                    columnList.push.apply(columnList, __spreadArray([], __read(onlyFormItemCache)));
                     return [4 /*yield*/, context.dynamicRequestInstance.putJSON('/table/settings/save', __assign(__assign({}, dynamicConfig), { columnList: columnList }))];
                 case 1:
                     state = (_a.sent()).state;
@@ -8865,7 +9003,7 @@ var useDynamicConfigDialog = function () {
 //
 var script$6 = defineComponent({
     name: 'ColumnSettingDialog',
-    components: { Draggable: Draggable, CxDialog: _CX_DIALOG },
+    components: { CxEllipsis: script$8, Draggable: Draggable, CxDialog: _CX_DIALOG },
     props: { dynamicList: { type: Array, required: true } },
     emits: ['submit'],
     install: function (app) {
@@ -8981,35 +9119,28 @@ const _hoisted_1$1 = /*#__PURE__*/createVNode("div", null, [
 ], -1 /* HOISTED */);
 const _hoisted_2 = { class: "cx_dp_flex cx_justify_between" };
 const _hoisted_3 = {
-  class: "cx_flex_1 cx_br cx_p_16 cx_h_500",
-  style: {"overflow":"auto","position":"relative"}
-};
-const _hoisted_4 = {
   class: "cx_fs_16 cx_pl_12 cx_ptb_8",
   style: {"font-weight":"500"}
 };
-const _hoisted_5 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_m_0 cx_w_100p cx_mtb_6" }, null, -1 /* HOISTED */);
-const _hoisted_6 = {
-  class: "cx_w_230 cx_p_16 cx_h_500",
-  style: {"overflow":"auto"}
-};
-const _hoisted_7 = {
+const _hoisted_4 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_m_0 cx_w_100p cx_mtb_6" }, null, -1 /* HOISTED */);
+const _hoisted_5 = {
   key: 0,
   class: "cx_line cx_mb_10 cx_mt_14"
 };
-const _hoisted_8 = { class: "cx_mb_8 cx_fs_14" };
-const _hoisted_9 = { class: "cx_fs_14 cx_ptb_9 hover_active cx_cursor_move" };
-const _hoisted_10 = /*#__PURE__*/createVNode("i", { class: "iconfont icon-tuodong1 cx_mr_8" }, null, -1 /* HOISTED */);
+const _hoisted_6 = { class: "cx_mb_8 cx_fs_14" };
+const _hoisted_7 = { class: "cx_fs_14 cx_ptb_9 hover_active cx_cursor_move" };
+const _hoisted_8 = /*#__PURE__*/createVNode("i", { class: "iconfont icon-tuodong1 cx_mr_8" }, null, -1 /* HOISTED */);
 popScopeId();
 
 const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
-  const _component_CxTab = resolveComponent("CxTab");
-  const _component_ElCheckbox = resolveComponent("ElCheckbox");
+  const _component_cx_tab = resolveComponent("cx-tab");
+  const _component_cx_ellipsis = resolveComponent("cx-ellipsis");
+  const _component_el_checkbox = resolveComponent("el-checkbox");
   const _component_Draggable = resolveComponent("Draggable");
-  const _component_CxDialog = resolveComponent("CxDialog");
+  const _component_cx_dialog = resolveComponent("cx-dialog");
   const _directive_loading = resolveDirective("loading");
 
-  return (openBlock(), createBlock(_component_CxDialog, {
+  return (openBlock(), createBlock(_component_cx_dialog, {
     okLoading: _ctx.submitLoading,
     width: "1020px",
     onRegister: _ctx.register,
@@ -9018,9 +9149,9 @@ const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
     onOk: _ctx.submitData,
     "append-to-body": ""
   }, {
-    default: _withId$1(() => [
+    default: _withId$1(({isFullscreen}) => [
       (_ctx.tabOptionList && _ctx.tabOptionList.length > 1)
-        ? (openBlock(), createBlock(_component_CxTab, {
+        ? (openBlock(), createBlock(_component_cx_tab, {
             key: 0,
             class: "cx_plr_16",
             level: "2",
@@ -9031,38 +9162,53 @@ const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
         : createCommentVNode("v-if", true),
       _hoisted_1$1,
       withDirectives(createVNode("div", _hoisted_2, [
-        createVNode("section", _hoisted_3, [
+        createVNode("section", {
+          class: "cx_flex_1 cx_br cx_p_16",
+          style: {overflow: 'auto', position: 'relative',height:isFullscreen?'calc(100vh - 181px)':'500px'}
+        }, [
           (openBlock(true), createBlock(Fragment, null, renderList(_ctx.departmentMap, (item, key) => {
             return (openBlock(), createBlock("div", {
               key: key,
               class: "cx_mtb_5"
             }, [
-              createVNode("h3", _hoisted_4, toDisplayString(key), 1 /* TEXT */),
+              createVNode("h3", _hoisted_3, toDisplayString(key), 1 /* TEXT */),
               (openBlock(true), createBlock(Fragment, null, renderList(item, (option) => {
                 return (openBlock(), createBlock("div", {
                   key: option.id,
                   class: "cx_dp_ib cx_mtb_16 cx_w_130 cx_pl_12"
                 }, [
-                  createVNode(_component_ElCheckbox, {
+                  createVNode(_component_el_checkbox, {
+                    class: "cx_w_100p",
                     "model-value": _ctx.checkedList.includes(option.id),
                     "onUpdate:modelValue": val => _ctx.updateCheckedList(val, option.id),
                     disabled: option.irrevocable,
                     label: option.label,
                     value: option.id
-                  }, null, 8 /* PROPS */, ["model-value", "onUpdate:modelValue", "disabled", "label", "value"])
+                  }, {
+                    default: _withId$1(() => [
+                      createVNode(_component_cx_ellipsis, {
+                        style: {"width":"108px"},
+                        content: option.label
+                      }, null, 8 /* PROPS */, ["content"])
+                    ]),
+                    _: 2 /* DYNAMIC */
+                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["model-value", "onUpdate:modelValue", "disabled", "label", "value"])
                 ]))
               }), 128 /* KEYED_FRAGMENT */)),
-              _hoisted_5
+              _hoisted_4
             ]))
           }), 128 /* KEYED_FRAGMENT */))
-        ]),
-        createVNode("section", _hoisted_6, [
+        ], 4 /* STYLE */),
+        createVNode("section", {
+          class: "cx_w_230 cx_p_16",
+          style: {overflow: 'auto',height:isFullscreen?'calc(100vh - 181px)':'500px'}
+        }, [
           (openBlock(true), createBlock(Fragment, null, renderList(_ctx.listMap, (_, key, index) => {
             return (openBlock(), createBlock("div", { key: key }, [
               (index !== 0)
-                ? (openBlock(), createBlock("div", _hoisted_7))
+                ? (openBlock(), createBlock("div", _hoisted_5))
                 : createCommentVNode("v-if", true),
-              createVNode("h3", _hoisted_8, toDisplayString(key), 1 /* TEXT */),
+              createVNode("h3", _hoisted_6, toDisplayString(key), 1 /* TEXT */),
               createVNode(_component_Draggable, {
                 modelValue: _ctx.listMap[key],
                 "onUpdate:modelValue": $event => (_ctx.listMap[key] = $event),
@@ -9074,8 +9220,8 @@ const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
                 move: _ctx.onMove
               }, {
                 item: _withId$1(({ element }) => [
-                  createVNode("li", _hoisted_9, [
-                    _hoisted_10,
+                  createVNode("li", _hoisted_7, [
+                    _hoisted_8,
                     createTextVNode(toDisplayString(element.label), 1 /* TEXT */)
                   ])
                 ]),
@@ -9083,7 +9229,7 @@ const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
               }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["modelValue", "onUpdate:modelValue", "move"])
             ]))
           }), 128 /* KEYED_FRAGMENT */))
-        ])
+        ], 4 /* STYLE */)
       ], 512 /* NEED_PATCH */), [
         [_directive_loading, _ctx.openLoading]
       ])
@@ -9769,4 +9915,4 @@ var CxUI = {
 };
 
 export default CxUI;
-export { ARROW_KEY, COLUMN_FLAG, _CX_PAGINATION as CXPagination, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_ELLIPSIS as CxEllipsis, _CX_FORM as CxForm, _CX_NUMBER_INPUT as CxNumberInput, _CX_OVERLAY as CxOverlay, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_TAG as CxTag, _CX_UNI_POPPER as CxUniPopper, PATCH_FLAG, TypeOption, arrFlat, assignAttrs, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, changeDynamicIdToText, copySort, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, domShare, findAncestor, formatDate, formatFormDefaultValue, formatTime, formatWidth, getColumnSelectText, getCxDynamicHead, getEvalResult, getFunctionAttrs, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, invokeLayeredRow, pick, staticConfigList, toggleArrState, updateCxTableWidth, useAutoWidth, useBroadcast, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useCxTableEvent, useDynamicConfig, useExpandConfig, useLazyLoad, usePriorityConfig, useRadioConfig, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useStyle, useTableClass, useTableId, useTableStyle, useValidator, useWatch };
+export { ARROW_KEY, COLUMN_FLAG, _CX_PAGINATION as CXPagination, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_ELLIPSIS as CxEllipsis, _CX_FORM as CxForm, _CX_NUMBER_INPUT as CxNumberInput, _CX_OVERLAY as CxOverlay, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_TAG as CxTag, _CX_UNI_POPPER as CxUniPopper, PATCH_FLAG, TypeOption, arrFlat, assignAttrs, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, changeDynamicIdToText, copySort, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, domShare, filterOnlyFormItem, findAncestor, formatDate, formatFormDefaultValue, formatTime, formatWidth, getColumnSelectText, getCxDynamicHead, getEvalResult, getFunctionAttrs, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, invokeLayeredRow, pick, staticConfigList, toggleArrState, updateCxTableWidth, useAutoWidth, useBroadcast, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useCxTableEvent, useDynamicConfig, useExpandConfig, useLazyLoad, usePriorityConfig, useRadioConfig, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useStyle, useTableClass, useTableId, useTableStyle, useValidator, useWatch };

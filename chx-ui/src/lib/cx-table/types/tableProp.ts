@@ -1,5 +1,5 @@
 import { CSSProperties } from 'vue';
-import { Nullable, PaginationModel } from '.';
+import { DYNAMIC_CONFIG, Nullable, PaginationModel } from '.';
 import { TypeOption } from '../constant';
 import {
   CxCellStyleFun,
@@ -76,11 +76,13 @@ export type CxTablePropType = {
 }>;
 
 export interface CxTableHooks<Cache = any> {
-  onSearch?<T = AnyObject>(rows: T[], data: AnyObject & { rows: T[] }): T[];
+  onSearch?(rows: AnyObject[], data: AnyObject & { rows: AnyObject[] }): AnyObject[];
 
   onSetCache?(next: (arg: Cache) => void): void;
 
   onGetCache?(cache: Cache, type: TypeOption, rows: AnyObject[], form: AnyObject): void;
+
+  beforeSearch?(form: { currentPage: number, pageCapacity: number } & DYNAMIC_CONFIG & { items: { prop: string, value: any, val1: any, val2: any }[] }): any;
 
   afterSetCache?(): void;
 }

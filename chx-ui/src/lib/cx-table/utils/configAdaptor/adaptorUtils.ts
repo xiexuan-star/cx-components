@@ -179,7 +179,7 @@ export const calcInnerItem = (
     Object.entries(formula).some(([key, val]) => {
       if (typeof val === 'object') {
         Object.entries(val).some(([innerKey, innerVal]) => {
-          if (+data[key] === +innerKey) {
+          if (+data[key] === +innerKey || val === '*') {
             if (finder(innerVal)) {
               result = getResult(innerVal, data);
             } else if (typeof innerVal === 'object') {

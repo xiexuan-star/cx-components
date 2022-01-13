@@ -1,13 +1,13 @@
-import { isNumber, isObject, isString } from 'chx-utils';
+import { isFunction, isNumber, isObject, isString } from 'chx-utils';
 import * as R from 'ramda';
 import {
   computed, createBlock, createCommentVNode, createVNode, CSSProperties, defineComponent, Fragment, inject, openBlock,
   PropType, ref, watchEffect
 } from 'vue';
 import { CX_TABLE_EMPTY_INDEX, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, PATCH_FLAG } from '../../constant';
-import { useTableId, useTableStyle } from '../../hooks';
+import { CxBroadcast, useTableId, useTableStyle } from '../../hooks';
 import { CxTableBaseObj, CxTableColumnObj, CxTablePropType } from '../../types';
-import { getTotalSumData, pick } from '../../utils';
+import { getFunctionAttrs, getTotalSumData, pick } from '../../utils';
 import Cell from './cell';
 import Expand from './expand';
 import FixedBottom from './fixedBottom';
@@ -24,7 +24,7 @@ export default defineComponent({
   },
   setup(props) {
     const CxTable = inject<CxTableBaseObj>('CxTable')!;
-
+    const broadcast = inject<CxBroadcast>('broadcast')!;
     const rootProp = inject<CxTablePropType>('rootProp')!;
 
     const hoisted_1 = 'cx-table_footer';
@@ -53,14 +53,21 @@ export default defineComponent({
         },
         {
           default: () => {
+            CxTable.flatColumns.forEach(col => {
+              const attrs = getFunctionAttrs(rowData,rowIndex, col.control?.attrs);
+              const broadcastRegister = attrs?.broadcastRegister;
+              if (broadcastRegister && isFunction(broadcastRegister)) {
+                broadcastRegister((prop, cb) => broadcast.registListener(prop, rowData, cb));
+              }
+            });
             return (
               openBlock(true),
                 createBlock(
                   Fragment,
                   null,
                   CxTable.flatColumns.map(
-                    col => (
-                      openBlock(),
+                    col => {
+                      return openBlock(),
                         createBlock(Fragment, null, [
                           props.fixed && props.fixed !== 'bottom' && col.fixed !== props.fixed
                             ? createCommentVNode('v-if', true)
@@ -72,8 +79,8 @@ export default defineComponent({
                                 PATCH_FLAG.PROPS,
                                 ['rowData', 'rowIndex', 'column', 'sum', 'empty']
                               ))
-                        ])
-                    )
+                        ]);
+                    }
                   ),
                   PATCH_FLAG.KEYED_FRAGMENT
                 )
@@ -96,7 +103,7 @@ export default defineComponent({
                 createBlock(
                   Fragment,
                   null,
-                  (function() {
+                  (function () {
                     const result: JSX.Element[] = [];
                     let data;
                     let indexPrepend = 0;
@@ -156,13 +163,10 @@ export default defineComponent({
     const hideTotalSum = ref(false);
     watchEffect(() => {
       hideTotalSum.value =
-        (rootProp.virtualScroll &&
-         props.fixed !== 'bottom' &&
-         !props.onlyTotal &&
-         CxTable.virtualStore.renderEndIndex < rootProp.tableData.length) ||
-        (((!rootProp.showTotalSum && !rootProp.showForm) || props.tableData?.length <= 0) &&
-         !rootProp.showAddBtn &&
-         !props.float);
+        (rootProp.virtualScroll && props.fixed !== 'bottom' && !props.onlyTotal && CxTable.virtualStore.renderEndIndex < rootProp.tableData.length)
+        || (((!rootProp.showTotalSum && !(rootProp.showForm && CxTable.flatColumns.some(col => !!col.sum))) || props.tableData?.length <= 0) &&
+            !rootProp.showAddBtn &&
+            !props.float);
     });
     const transferOtherSum = (columns: CxTableColumnObj[]) => {
       const result: AnyObject = {};

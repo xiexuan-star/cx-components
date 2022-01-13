@@ -1,6 +1,9 @@
 import { EventBus, isArray, isDeepObjectEqual, isEmpty, isFunction, } from 'chx-utils';
 import {
-  computed, createVNode, CSSProperties, defineComponent, inject, PropType, reactive, ref, Ref, resolveDirective, watch,
+  computed, createBlock, createCommentVNode, createVNode, CSSProperties, defineComponent, Fragment, inject, openBlock,
+  PropType, reactive,
+  ref, Ref,
+  resolveDirective, watch,
   watchEffect, withDirectives
 } from 'vue';
 import { COLUMN_FLAG, CX_SPAN_METHOD_TYPE, CX_TABLE_COLUMN_KEY, PATCH_FLAG } from '../../constant';
@@ -8,7 +11,7 @@ import { registCellEvent } from '../../helper/eventHelper';
 import { renderCellContent } from '../../helper/renderHelper';
 import { CxBroadcast } from '../../hooks';
 import { CxTableBaseObj, CxTableColumnObj, CxTablePropType, SelectConfig } from '../../types';
-import { getColumnSelectText, getFunctionAttrs, } from '../../utils';
+import { getColumnSelectText, } from '../../utils';
 
 export default defineComponent({
   name: 'CxTableCell',
@@ -186,7 +189,7 @@ export default defineComponent({
     );
 
     // 当column为select/search时,由于text的存在,不能仅仅监听id变化,text值也会对渲染有影响,同时,插槽内容的变化也难以监听
-    if (['search', 'select'].includes(props.column.control?.type as any) || props.column.slot) {
+    if (['search', 'select', 'optionSelect'].includes(props.column.control?.type as any) || props.column.slot) {
       const textKey = getColumnSelectText(props.column);
       watch(
         () => props.rowData[textKey],
@@ -200,13 +203,6 @@ export default defineComponent({
     }
 
     return () => {
-      // 广播注册,每次重新渲染时需要重新注册,否则会出现行数据错误的问题(虚拟滚动)
-      const attrs = getFunctionAttrs(props.rowData, props.column.control?.attrs);
-      const broadcastRegister = attrs?.broadcastRegister;
-      if (broadcastRegister && isFunction(broadcastRegister)) {
-        broadcastRegister((prop, cb) => broadcast.registListener(prop, props.rowData, cb));
-      }
-
       if (mergeSpan.value && (mergeSpan.value?.rowspan === 0 || mergeSpan.value?.colspan === 0)) {
         return;
       }

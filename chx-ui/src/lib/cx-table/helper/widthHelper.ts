@@ -4,6 +4,8 @@ import { CxTableBaseObj, CxTableColumnObj, CxTableItem, CxTablePropType } from '
 import { cxTableWarn, getColumnSelectText, getStatusAttrs, getStringWidth, } from '../utils';
 import { decimalFixed } from '../utils';
 
+const selectType = ['search', 'select', 'optionSelect', 'sourceSelect'];
+
 // 旧方法,专用于适配vxe,vxe完全弃用后可删除
 export const widthTypeAdaptor = (
   item: string | CxTableItem
@@ -67,7 +69,7 @@ export const contentWidthAdaptor = (column: CxTableItem, props: CxTablePropType)
         const textContentWidth = getStringWidth(rowData[getColumnSelectText(column)]);
         const nameContentWidth = getStringWidth(rowData[getColumnSelectText(column, 'Name')]);
         contentWidth = Math.max(contentWidth, textContentWidth, nameContentWidth);
-        if (['search', 'select'].includes(column.slotType!)) {
+        if (selectType.includes(column.slotType!)) {
           contentWidth += 55;
         } else if (['input'].includes(column.slotType!)) {
           contentWidth += 40;
@@ -133,7 +135,7 @@ export const widthMapAdaptor = ({
       width = (configWidth ?? configMinWidth) as number;
       isStatic = !!configWidth;
     }
-    if (['search', 'select'].includes(slotType!)) {
+    if (selectType.includes(slotType!)) {
       width += 55;
     } else if (['input'].includes(slotType!)) {
       width += 40;

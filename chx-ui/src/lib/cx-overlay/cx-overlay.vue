@@ -10,7 +10,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-let zIndex = 2000;
+let zIndex = 1500;
 
 export default defineComponent({
   name: 'CxOverlay',

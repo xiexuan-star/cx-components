@@ -16,11 +16,13 @@ export class CxControlConfig {
     switch (this.type) {
       case 'input':
         this.inputConfigAdaptor(config);
+        Reflect.set(this.attrs, 'placeholder', `请输入${ config.label }`);
         break;
       case 'inscription':
       case 'search':
       case 'select':
         this.selectConfigAdaptor(config);
+        Reflect.set(this.attrs, 'placeholder', `请选择${ config.label }`);
         break;
       case 'status':
       case 'tag':
@@ -31,7 +33,7 @@ export class CxControlConfig {
 
   tagConfigAdaptor(config: CxTableDynamicColumn) {
     const statusMap = Object.entries(config.control?.statusMap ?? {}).reduce((res, [key, val]) => {
-      res[key] = { ...val, prop: config.prop };
+      res[key] = { ...val };
       return res;
     }, {} as AnyObject);
     Reflect.set(this, 'statusMap', statusMap);
@@ -42,8 +44,7 @@ export class CxControlConfig {
     const { control, influenced, sideEffect, prop } = config;
     if (!control) return;
     isNumber(control.maxLength) && Reflect.set(this.attrs, 'maxlength', control.maxLength);
-    isNumber(control.minLength) && Reflect.set(this.attrs, 'minlength', control.minLength);
-
+    control.showWordLimit && Reflect.set(this.attrs, 'showWordLimit', control.showWordLimit);
     influenced &&
     (this.attrs!.broadcastRegister = register => {
       this.influencedRegister(register, config);

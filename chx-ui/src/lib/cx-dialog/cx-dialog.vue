@@ -36,7 +36,7 @@
             </header>
             <div class="cx_line cx_mlr_0 cx_w_100p"/>
             <section class="cx-dialog__body" :style="bodyStyle" v-if="bodyExist">
-              <slot/>
+              <slot :isFullscreen="isFullscreen"/>
             </section>
             <div class="cx_line cx_mlr_0 cx_w_100p"/>
             <footer class="cx-dialog__footer">
@@ -81,7 +81,7 @@ export default defineComponent({
     showFullScreen: { type: Boolean, default: true, },
     openDelay: { type: Number, default: 0 },
     closeDelay: { type: Number, default: 0 },
-    closeOnClickModal: { type: Boolean, default: true },
+    closeOnClickModal: { type: Boolean, default: false },
     closeOnPressEscape: { type: Boolean, default: true },
     showClose: { type: Boolean, default: true },
     beforeClose: { type: Function },

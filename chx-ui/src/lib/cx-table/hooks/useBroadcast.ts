@@ -1,5 +1,5 @@
 import { isFunction } from 'chx-utils';
-import { CxBroadcastPayload } from '../types/index';
+import { CxBroadcastPayload } from '../types';
 
 export class CxBroadcast {
   deps = new Map<string, WeakMap<AnyObject, ((payload: CxBroadcastPayload) => void)[]>>();
@@ -19,7 +19,9 @@ export class CxBroadcast {
 
   registListener(key: string, rowData: AnyObject, cb: (payload: CxBroadcastPayload) => void) {
     const dep = this.getDep(key, rowData);
-    !dep.includes(cb) && dep.push(cb);
+    if (dep.every(f => f.toString() !== cb.toString())) {
+      dep.push(cb);
+    }
   }
 
   getDep(key: string, rowData: AnyObject) {

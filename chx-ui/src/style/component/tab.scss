@@ -1,11 +1,28 @@
-$fontSize1: '14px';
-$fontSize2: '14px';
+.cx-tab {
+  box-sizing: border-box;
+
+  &.level-1_bottom_line {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+  }
+
+  &.level-2_bottom_line,
+  &.level-3_bottom_line,
+  &.level-3_bottom_line {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+}
 
 .cx-tab_scroll_wrapper {
   position: relative;
   background-color: #fff;
-  transition: all 0.2s linear;
   box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+
+  .cx-tab_content_wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+  }
 
   .cx-tab_item {
     position: relative;
@@ -33,7 +50,8 @@ $fontSize2: '14px';
     }
 
     .cx-tab_badge_2,
-    .cx-tab_badge_3 {
+    .cx-tab_badge_3,
+    .cx-tab_badge_4 {
       display: inline-block;
       position: relative;
       margin-left: 5px;
@@ -58,69 +76,75 @@ $fontSize2: '14px';
   &.level-1_wrapper {
     max-width: calc(100% + 40px);
     padding: 0 20px;
-    margin: -20px -20px 20px -20px;
-    border-top: 1px solid #f0f0f0;
-    border-bottom: 2px solid #f0f0f0;
+    margin: -20px -20px 0 -20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
     z-index: 100;
 
     .cx-tab_item {
       display: inline-block;
-      padding: 0 32px;
-      line-height: 38px;
-      height: 38px;
-      font-size: #{$fontSize1};
+      padding: 0 24px;
+      line-height: 42px;
+      height: 42px;
+      font-size: 16px;
 
       &.cx-tab_item_active {
         color: #{$color-primary};
         background: #fafafa;
-
-        &::before {
-          bottom: 0;
-        }
       }
     }
   }
 
   &.level-2_wrapper {
     max-width: 100%;
-    border-bottom: 1px solid #f0f0f0;
 
     .cx-tab_item {
-      padding: 0px 2px;
-      height: 56px;
-      line-height: 56px;
-      font-size: #{$fontSize1};
-      margin-right: 32px;
+      padding: 0 18px;
+      height: 42px;
+      line-height: 42px;
+      font-size: 14px;
 
       &.cx-tab_item_active {
         color: #{$color-primary};
-
-        &::before {
-          bottom: 0;
-        }
       }
     }
   }
 
   &.level-3_wrapper {
+    padding: 0 16px;
+
+    .cx-tab_item {
+      height: 42px;
+      font-size: 14px;
+      padding: 0 18px;
+      background-color: #f9fafc;
+      border-radius: 4px 4px 0 0;
+      margin-right: 6px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      transform: translateY(1px);
+      z-index: 100;
+
+      &.cx-tab_item_active {
+        border-bottom-color: rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
+
+  &.level-4_wrapper {
     background-color: #f5f5f5;
     width: fit-content;
     padding: 2px;
+    border-radius: 5px;
 
     .cx-tab_item {
       padding: 8px 17px;
-      font-size: #{$fontSize2};
-      border-radius: 2px;
+      font-size: 14px;
+      border-radius: 4px;
 
       &.cx-tab_item_active {
         background-color: white;
         color: #{$color-primary};
         border-color: #{$color-primary};
         z-index: 101;
-
-        &::before {
-          display: none;
-        }
       }
     }
   }
@@ -133,6 +157,7 @@ $fontSize2: '14px';
     top: 0;
     background-color: #fff;
     cursor: pointer;
+    z-index: 300;
   }
 
   .cx-tab_left_arrow {
@@ -150,24 +175,14 @@ $fontSize2: '14px';
   .cx-tab_item {
     text-align: center;
     box-sizing: border-box;
-    font-family: PingFang SC;
     font-style: normal;
     font-weight: 500;
     position: relative;
     color: rgba(0, 0, 0, 0.65);
-    transition: background-color, color 0.3s linear;
+    transition: all 0.2s ease-in-out;
 
     &.cx-tab_item_active {
       color: #{$color-primary};
-
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background-color: #{$color-primary};
-      }
     }
 
     &:hover {
@@ -182,13 +197,23 @@ $fontSize2: '14px';
   }
 }
 
+.cx-tab_cursor {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 3px;
+  background-color: #{$color-primary};
+  transition: all 0.2s ease-in-out;
+  bottom: 0;
+}
+
 .cx-tab_wrapper {
   display: flex;
   justify-content: space-between;
   z-index: 100;
   overflow: hidden;
   word-break: keep-all;
-  transition: all 0.2s linear;
+  transition: all 0.2s ease-in-out;
   flex-wrap: nowrap;
 
   &::-webkit-scrollbar {

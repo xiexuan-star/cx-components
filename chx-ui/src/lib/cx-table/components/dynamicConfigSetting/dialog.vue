@@ -1,5 +1,5 @@
 <template>
-  <CxDialog
+  <cx-dialog
     :okLoading="submitLoading"
     width="1020px"
     @register="register"
@@ -8,62 +8,68 @@
     @ok="submitData"
     append-to-body
   >
-    <CxTab
-      class="cx_plr_16"
-      level="2"
-      v-if="tabOptionList && tabOptionList.length > 1"
-      :options="tabOptionList"
-      v-model="activeTab"
-    />
-    <div>
-      <div class="cx_flex_center cx_justify_between">
-        <div class="cx_ptb_12 cx_pl_16 cx_flex_1">可选属性</div>
-        <div class="cx_ptb_12 cx_w_250">已选属性</div>
+    <template #default="{isFullscreen}">
+      <cx-tab
+        class="cx_plr_16"
+        level="2"
+        v-if="tabOptionList && tabOptionList.length > 1"
+        :options="tabOptionList"
+        v-model="activeTab"
+      />
+      <div>
+        <div class="cx_flex_center cx_justify_between">
+          <div class="cx_ptb_12 cx_pl_16 cx_flex_1">可选属性</div>
+          <div class="cx_ptb_12 cx_w_250">已选属性</div>
+        </div>
+        <div class="cx_line cx_w_100p cx_m_0"></div>
       </div>
-      <div class="cx_line cx_w_100p cx_m_0"></div>
-    </div>
-    <div class="cx_dp_flex cx_justify_between" v-loading="openLoading">
-      <section class="cx_flex_1 cx_br cx_p_16 cx_h_500" style="overflow: auto; position: relative">
-        <div v-for="(item, key) in departmentMap" :key="key" class="cx_mtb_5">
-          <h3 class="cx_fs_16 cx_pl_12 cx_ptb_8" style="font-weight: 500">{{ key }}</h3>
-          <div v-for="option in item" :key="option.id" class="cx_dp_ib cx_mtb_16 cx_w_130 cx_pl_12">
-            <ElCheckbox
-              :model-value="checkedList.includes(option.id)"
-              @update:modelValue="val => updateCheckedList(val, option.id)"
-              :disabled="option.irrevocable"
-              :label="option.label"
-              :value="option.id"
-            ></ElCheckbox>
+      <div class="cx_dp_flex cx_justify_between" v-loading="openLoading">
+        <section class="cx_flex_1 cx_br cx_p_16" :style="{overflow: 'auto', position: 'relative',height:isFullscreen?'calc(100vh - 181px)':'500px'}">
+          <div v-for="(item, key) in departmentMap" :key="key" class="cx_mtb_5">
+            <h3 class="cx_fs_16 cx_pl_12 cx_ptb_8" style="font-weight: 500">{{ key }}</h3>
+            <div v-for="option in item" :key="option.id" class="cx_dp_ib cx_mtb_16 cx_w_130 cx_pl_12">
+              <el-checkbox
+                class="cx_w_100p"
+                :model-value="checkedList.includes(option.id)"
+                @update:modelValue="val => updateCheckedList(val, option.id)"
+                :disabled="option.irrevocable"
+                :label="option.label"
+                :value="option.id"
+              >
+                <cx-ellipsis style="width: 108px" :content="option.label"/>
+              </el-checkbox>
+            </div>
+            <div class="cx_line cx_m_0 cx_w_100p cx_mtb_6"></div>
           </div>
-          <div class="cx_line cx_m_0 cx_w_100p cx_mtb_6"></div>
-        </div>
-      </section>
-      <section class="cx_w_230 cx_p_16 cx_h_500" style="overflow: auto">
-        <div v-for="(_, key, index) in listMap" :key="key">
-          <div class="cx_line cx_mb_10 cx_mt_14" v-if="index !== 0"></div>
-          <h3 class="cx_mb_8 cx_fs_14">{{ key }}</h3>
-          <Draggable
-            v-model="listMap[key]"
-            item-key="id"
-            group="list"
-            tag="transition-group"
-            :component-data="{ tag: 'ul', name: 'flip-list', type: 'transition' }"
-            ghostClass="cx_opacity_20"
-            :move="onMove"
-          >
-            <template #item="{ element }">
-              <li class="cx_fs_14 cx_ptb_9 hover_active cx_cursor_move">
-                <i class="iconfont icon-tuodong1 cx_mr_8"></i>{{ element.label }}
-              </li>
-            </template>
-          </Draggable>
-        </div>
-      </section>
-    </div>
-  </CxDialog>
+        </section>
+        <section class="cx_w_230 cx_p_16" :style="{overflow: 'auto',height:isFullscreen?'calc(100vh - 181px)':'500px'}">
+          <div v-for="(_, key, index) in listMap" :key="key">
+            <div class="cx_line cx_mb_10 cx_mt_14" v-if="index !== 0"></div>
+            <h3 class="cx_mb_8 cx_fs_14">{{ key }}</h3>
+            <Draggable
+              v-model="listMap[key]"
+              item-key="id"
+              group="list"
+              tag="transition-group"
+              :component-data="{ tag: 'ul', name: 'flip-list', type: 'transition' }"
+              ghostClass="cx_opacity_20"
+              :move="onMove"
+            >
+              <template #item="{ element }">
+                <li class="cx_fs_14 cx_ptb_9 hover_active cx_cursor_move">
+                  <i class="iconfont icon-tuodong1 cx_mr_8"></i>{{ element.label }}
+                </li>
+              </template>
+            </Draggable>
+          </div>
+        </section>
+      </div>
+    </template>
+  </cx-dialog>
 </template>
 
 <script lang="ts">
+import CxEllipsis from '../../../cx-ellipsis/cx-ellipsis.vue';
 import { useDynamicConfigDialog } from './useDynamicConfigDialog';
 import { App, computed, defineComponent, PropType, ref, watch } from 'vue';
 import Draggable from 'vuedraggable';
@@ -75,7 +81,7 @@ import { AnyObject } from 'cx-store/dist/statistic/types';
 
 export default defineComponent({
   name: 'ColumnSettingDialog',
-  components: { Draggable, CxDialog },
+  components: { CxEllipsis, Draggable, CxDialog },
   props: { dynamicList: { type: Array as PropType<AnyObject[]>, required: true } },
   emits: ['submit'],
   install(app: App) {

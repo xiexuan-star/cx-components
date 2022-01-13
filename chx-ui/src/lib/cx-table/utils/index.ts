@@ -4,16 +4,18 @@ import { ControlAttrs, CxTableColumnObj, CxTableItem, DYNAMIC_CONFIG, Nullable }
 import * as R from 'ramda';
 import { useCxTable } from '../hooks';
 import { isFunction, isNumber, isObject, getDateRange } from 'chx-utils';
+import { decimalFixed } from './configAdaptor';
 
 export * from './dom';
 export * from './configAdaptor';
 
 export const getFunctionAttrs = (
   rowData: AnyObject,
-  attrs?: ControlAttrs | ((a: { rowData: AnyObject }) => ControlAttrs | undefined)
+  rowIndex: number,
+  attrs?: ControlAttrs | ((a: { rowData: AnyObject, rowIndex: number }) => ControlAttrs | undefined)
 ) => {
   if (isFunction(attrs)) {
-    const result = attrs({ rowData });
+    const result = attrs({ rowData, rowIndex });
     return isObject(result) ? result : void 0;
   }
   return attrs;
@@ -212,7 +214,7 @@ export const getTotalSumData = (cols: CxTableColumnObj[], data: AnyObject[]): An
           rowData[col.prop] = col.calculate?.(rowData) ?? rowData[col.prop];
         });
       }
-      result[col.prop] = getSums(data, col.prop);
+      result[col.prop] = isNumber(col.accuracy) ? decimalFixed(getSums(data, col.prop), col.accuracy, true) : getSums(data, col.prop);
     } else if (col.columnFlag & COLUMN_FLAG.CUSTOM_SUM_COLUMN) {
       result[col.prop] = isFunction(col.sum) ? col.sum(data) : null;
     }
@@ -351,10 +353,10 @@ export const getStatusAttrs = (rowData: AnyObject, column: CxTableColumnObj | Cx
   // statusMap分2种情况, Array => string[] / Object => { [k:string]:{content?:string,prop?:string,type?:string} }
   const { content, prop, type } = Array.isArray(statusMap)
     ? { content: statusMap[rowData[column.prop]], prop: undefined, type: undefined }
-    : statusMap?.[rowData[column.prop]] ?? statusMap?.default ?? {};
+    : statusMap?.[rowData[column.prop]] ?? statusMap?.['*'] ?? statusMap?.default ?? {};
 
   return {
-    content: content ? content : prop ? rowData[prop] : rowData[prop + 'Text'] ?? '',
+    content: content ? content : prop ? rowData[prop] : rowData[column.prop + 'Text'] ?? '',
     type
   };
 };
