@@ -1,20 +1,14 @@
 .cx-tab {
   box-sizing: border-box;
 
-  &.level-1_bottom_line {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.08);
-  }
-
-  &.level-2_bottom_line,
-  &.level-3_bottom_line,
   &.level-3_bottom_line {
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   }
 }
 
 .cx-tab_scroll_wrapper {
-  position: relative;
   background-color: #fff;
+  position: relative;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -110,10 +104,10 @@
   }
 
   &.level-3_wrapper {
-    padding: 0 16px;
-
+    padding: 10px 16px 0 16px;
     .cx-tab_item {
-      height: 42px;
+      height: 32px;
+      line-height: 32px;
       font-size: 14px;
       padding: 0 18px;
       background-color: #f9fafc;
@@ -125,6 +119,7 @@
 
       &.cx-tab_item_active {
         border-bottom-color: rgba(0, 0, 0, 0.08);
+        background-color: #f0f5ff;
       }
     }
   }

@@ -45,7 +45,8 @@ $theme: (
       }
 
       &.cx-btn_disabled {
-        #{$key}: #{$disabled} !important;
+        #{$key}: #{$main} !important;
+        opacity: .5;
       }
     }
   }
@@ -140,6 +141,21 @@ $theme: (
       $disabled: map-get($value, 'disabled');
 
       @include colorGroup($key, $main, $hover, $active, $disabled, 'color');
+    }
+  }
+
+  &.cx-btn_level_4 {
+    color: $color-primary;
+    @each $key, $value in $theme {
+      $main: map-get($value, 'main');
+      $hover: map-get($value, 'hover');
+      $active: map-get($value, 'active');
+
+      @include colorGroup($key, $main, $hover, $active, 'rgba(0, 0, 0, 0.3)', 'color', 'border-color');
+
+      &.cx-btn_#{$key} {
+        border-color: rgba($color: #000000, $alpha: 0.3);
+      }
     }
   }
 }

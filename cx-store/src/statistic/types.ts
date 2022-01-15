@@ -30,14 +30,18 @@ export interface CxStorePlugin {
 
 export abstract class CxLocalStoreType {
   abstract get(key: string, module: string): any | undefined;
+
   abstract set(key: string, val: any, expire: number, module: string): boolean;
+
   abstract remove(key: string, module: string): boolean;
+
+  abstract clearModule(module: string, keyFilter: (key: string) => boolean)
 }
 
 export interface AnyObject {
-  [k: string]: any
+  [k: string]: any;
 }
 
 export interface Func<T = any> {
-  (...args: any[]): T
+  (...args: any[]): T;
 }

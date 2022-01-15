@@ -1,15 +1,22 @@
 @import '../mixins/mixin.scss';
 @import '../mixins/config.scss';
 
+.cx-overlay-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @include b(dialog) {
   background-color: white;
   border-radius: 4px;
   width: var(--width);
-  margin: var(--top) auto auto;
-
+  max-width: var(--width);
+  margin: auto auto;
+  max-height: calc(100vh - 180px);
   @include when(fullscreen) {
-    width: 100vw;
-    height: 100vh;
+    width: calc(100vw - 180px);
+    height: calc(100vh - 180px);
     margin: 0;
   }
 
@@ -37,7 +44,8 @@
 
   @include e(body) {
     overflow: auto;
-    color: #606266
+    color: #606266;
+    max-height: calc(100vh - 283px);
   }
 
   @include e(footer) {

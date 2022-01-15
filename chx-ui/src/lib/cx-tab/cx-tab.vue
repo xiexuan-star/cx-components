@@ -1,5 +1,5 @@
 <template>
-  <div :class="['cx-tab', `level-${level}_bottom_line`]">
+  <div :class="['cx-tab', `level-${level}_bottom_line`,+level===1?'cx_mb_16':'']">
     <div
       :class="{
         'cx-tab_scroll_wrapper': true,
@@ -10,7 +10,7 @@
         cx_pos_relative: true
       }"
       :style="{
-        maxWidth: `calc(100% - ${slotWidth}px)`
+        maxWidth: `calc(100% + ${+level===1?40:0}px - ${slotWidth}px)`
       }"
     >
       <div
@@ -42,7 +42,7 @@
             </div>
           </div>
         </div>
-        <i class="cx-tab_cursor" v-if="level < 3" :style="cursorStyle" />
+        <i class="cx-tab_cursor" v-if="level < 3" :style="cursorStyle"/>
       </div>
       <template v-if="showArrow">
         <i
@@ -66,7 +66,7 @@
           height: level === 4 ? '33px' : '42px'
         }"
       >
-        <slot name="operation" />
+        <slot name="operation"/>
       </div>
     </div>
   </div>
@@ -134,7 +134,7 @@ export default defineComponent({
       await nextTick();
       if (!wrapRef.value) return;
       const id = props.modelValue;
-      const currentTab = wrapRef.value.querySelector<HTMLElement>(`.cx-tab_item[id="${id}"]`);
+      const currentTab = wrapRef.value.querySelector<HTMLElement>(`.cx-tab_item[id="${ id }"]`);
       if (!currentTab) return;
       const left = currentTab.offsetLeft + 'px';
       const width = currentTab.offsetWidth + 'px';

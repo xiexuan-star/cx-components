@@ -16,7 +16,7 @@
           <div
             class="cx-dialog"
             :class="{'is-fullscreen':isFullscreen,'cx-dialog__border':!modal}"
-            :style="{'--width':width,'--top':top}"
+            :style="{'--width':renderWidth}"
             v-bind="$attrs"
             @click.stop
           >
@@ -26,7 +26,7 @@
               </h2>
               <div>
                 <i
-                  v-if="showFullScreen"
+                  v-if="renderFullScreenBtn"
                   :class="`iconfont icon-${isFullscreen?'fullscreen-shrink':'fullscreen-expand'}`"
                   @click="isFullscreen=!isFullscreen"
                   :title="isFullscreen?'退出全屏':'全屏'"
@@ -35,7 +35,7 @@
               </div>
             </header>
             <div class="cx_line cx_mlr_0 cx_w_100p"/>
-            <section class="cx-dialog__body" :style="bodyStyle" v-if="bodyExist">
+            <section class="cx-dialog__body" :style="renderBodyStyle" v-if="bodyExist">
               <slot :isFullscreen="isFullscreen"/>
             </section>
             <div class="cx_line cx_mlr_0 cx_w_100p"/>
@@ -64,7 +64,7 @@
 </template>
 <script lang="ts">
 import CxOverlay from '../cx-overlay/cx-overlay.vue';
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, PropType, ref } from 'vue';
 
 export default defineComponent({
   name: 'CxDialog',
@@ -77,11 +77,11 @@ export default defineComponent({
     okLoading: { type: Boolean, default: false },
     title: { type: String },
     width: { type: [String, Number], default: '50%' },
-    top: { type: [String, Number], default: '50px' },
-    showFullScreen: { type: Boolean, default: true, },
+    size: { type: String as PropType<'large' | 'middle' | 'small' | 'fullscreen'> },
     openDelay: { type: Number, default: 0 },
     closeDelay: { type: Number, default: 0 },
     closeOnClickModal: { type: Boolean, default: false },
+    showFullScreen: { type: Boolean, default: false, },
     closeOnPressEscape: { type: Boolean, default: true },
     showClose: { type: Boolean, default: true },
     beforeClose: { type: Function },
@@ -95,6 +95,33 @@ export default defineComponent({
     const visible = ref(false);
     const bodyExist = ref(false);
     const isFullscreen = ref(false);
+
+    const renderBodyStyle = computed(() => {
+      return Object.assign({}, props.bodyStyle, {
+        height: (isFullscreen.value || props.size === 'fullscreen') ? 'calc(100vh - 283px)' : ''
+      });
+    });
+
+    const renderWidth = computed(() => {
+      if (isFullscreen.value) {
+        return 'calc(100vw - 180px)';
+      }
+      switch (props.size) {
+        case 'large':
+          return '960px';
+        case 'middle':
+          return '760px';
+        case 'small':
+          return '512px';
+        case 'fullscreen':
+          return 'calc(100vw - 180px)';
+      }
+      return props.width;
+    });
+
+    const renderFullScreenBtn = computed(() => {
+      return props.size === 'large' || props.showFullScreen;
+    });
 
     const setVisible = (v = true) => {
       if (v) {
@@ -149,7 +176,18 @@ export default defineComponent({
 
     expose(actions);
 
-    return { visible, isFullscreen, openDialog, afterEnter, afterLeave, beforeLeave, bodyExist };
+    return {
+      visible,
+      isFullscreen,
+      renderBodyStyle,
+      openDialog,
+      afterEnter,
+      afterLeave,
+      beforeLeave,
+      bodyExist,
+      renderWidth,
+      renderFullScreenBtn
+    };
   }
 });
 </script>

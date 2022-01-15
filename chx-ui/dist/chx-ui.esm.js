@@ -1,4 +1,4 @@
-import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, reactive, ref, onMounted, onBeforeUnmount, watch, onUpdated, nextTick, openBlock, createBlock, Fragment, renderList, createTextVNode, toDisplayString, renderSlot, resolveComponent, onUnmounted, inject, watchEffect, resolveDirective, setBlockTracking, withCtx, getCurrentInstance, render as render$8, Teleport, Transition, mergeProps, withModifiers, vShow, unref, pushScopeId, popScopeId, withScopeId, provide } from 'vue';
+import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, reactive, ref, onMounted, onBeforeUnmount, watch, onUpdated, nextTick, openBlock, createBlock, Fragment, renderList, createTextVNode, toDisplayString, renderSlot, resolveComponent, onUnmounted, inject, watchEffect, resolveDirective, setBlockTracking, withCtx, getCurrentInstance, render as render$9, Teleport, Transition, mergeProps, withModifiers, vShow, unref, pushScopeId, popScopeId, withScopeId, provide } from 'vue';
 import { isObject as isObject$1, isFunction, omit, isNumber, isString, EventBus, isArray, isEmpty, unsafeSet, Maybe, unsafeDeleteProperty, map, unsafeGet, truthy, splat, unsafePush, unsafeWhenDevCall, sessionStore, getDateRange, isDeepObjectEqual, useComputed, useState, IO, localStore, unsafeClearPush, unsafeClearAssign, getMaybeValue, Left, Right, either, withParams, defaultPromise, useSync, nextTimeout, unsafeAssign, queryDom, unsafeClearArray, unsafeRemoveItem, getDoNothingIO, unsafeClearObj, addResizeListener, removeResizeListener, enum2Options, stateEq200, falsy, stopPropagation, preventDefault, clearTimer, unsafePerformIO, curryTimeout, setClassByArr, createTag, copyInnerText, curryAddListener, setInnerText, clearInnerHTML, appendToBody, appendChild, showEle, hideEle, curryRemoveListener, clearClassList, loadingDecorator, isHTMLInputElement, amount } from 'chx-utils';
 import * as R from 'ramda';
 import { clone, omit as omit$1 } from 'ramda';
@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import PinyinMatch from 'pinyin-match';
 import Draggable from 'vuedraggable';
 
-var script$e = defineComponent({
+var script$f = defineComponent({
     name: 'CxBtn',
     props: {
         size: {
@@ -72,10 +72,10 @@ var script$e = defineComponent({
         };
     },
 });
-script$e.install = function (app) {
-    app.component(script$e.name, script$e);
+script$f.install = function (app) {
+    app.component(script$f.name, script$f);
 };
-var _CX_BTN = script$e;
+var _CX_BTN = script$f;
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -731,7 +731,7 @@ function throttle(func, wait, options) {
 }
 
 //
-var script$d = defineComponent({
+var script$e = defineComponent({
     name: 'CxTab',
     props: {
         /**
@@ -892,11 +892,11 @@ var script$d = defineComponent({
     }
 });
 
-const _hoisted_1$5 = { class: "cx-tabs" };
+const _hoisted_1$6 = { class: "cx-tabs" };
 
-function render$7(_ctx, _cache) {
+function render$8(_ctx, _cache) {
   return (openBlock(), createBlock("div", {
-    class: ['cx-tab', `level-${_ctx.level}_bottom_line`]
+    class: ['cx-tab', `level-${_ctx.level}_bottom_line`,+_ctx.level===1?'cx_mb_16':'']
   }, [
     createVNode("div", {
       class: {
@@ -908,7 +908,7 @@ function render$7(_ctx, _cache) {
         cx_pos_relative: true
       },
       style: {
-        maxWidth: `calc(100% - ${_ctx.slotWidth}px)`
+        maxWidth: `calc(100% + ${+_ctx.level===1?40:0}px - ${_ctx.slotWidth}px)`
       }
     }, [
       createVNode("div", {
@@ -920,7 +920,7 @@ function render$7(_ctx, _cache) {
         },
         ref: "wrapRef"
       }, [
-        createVNode("div", _hoisted_1$5, [
+        createVNode("div", _hoisted_1$6, [
           (openBlock(true), createBlock(Fragment, null, renderList(_ctx.tabs, (item) => {
             return (openBlock(), createBlock("div", {
               key: item.id,
@@ -984,13 +984,13 @@ function render$7(_ctx, _cache) {
   ], 2 /* CLASS */))
 }
 
-script$d.render = render$7;
-script$d.__file = "src/lib/cx-tab/cx-tab.vue";
+script$e.render = render$8;
+script$e.__file = "src/lib/cx-tab/cx-tab.vue";
 
-script$d.install = function (app) {
-    app.component(script$d.name, script$d);
+script$e.install = function (app) {
+    app.component(script$e.name, script$e);
 };
-var _CX_TAB = script$d;
+var _CX_TAB = script$e;
 
 var renderComp = function (attrs, slots, Comp) {
     return (openBlock(),
@@ -1370,11 +1370,11 @@ var CxForm = defineComponent({
     },
 });
 
-var script$c = CxForm;
-script$c.install = function (app) {
-    app.component(script$c.name, script$c);
+var script$d = CxForm;
+script$d.install = function (app) {
+    app.component(script$d.name, script$d);
 };
-var _CX_FORM = script$c;
+var _CX_FORM = script$d;
 
 var ARROW_KEY;
 (function (ARROW_KEY) {
@@ -5285,11 +5285,11 @@ var CxTableContent = defineComponent({
 //
 //
 //
-var script$b = {
+var script$c = {
     name: 'Empty',
 };
 
-const _hoisted_1$4 = { class: "cx_flex_center cx_flex_d_column cx_justify_center" };
+const _hoisted_1$5 = { class: "cx_flex_center cx_flex_d_column cx_justify_center" };
 const _hoisted_2$2 = /*#__PURE__*/createVNode("div", { class: "cx_h_100" }, [
   /*#__PURE__*/createVNode("svg", {
     width: "120",
@@ -5349,15 +5349,15 @@ const _hoisted_2$2 = /*#__PURE__*/createVNode("div", { class: "cx_h_100" }, [
 ], -1 /* HOISTED */);
 const _hoisted_3$2 = /*#__PURE__*/createVNode("p", null, "暂无数据", -1 /* HOISTED */);
 
-function render$6(_ctx, _cache) {
-  return (openBlock(), createBlock("div", _hoisted_1$4, [
+function render$7(_ctx, _cache) {
+  return (openBlock(), createBlock("div", _hoisted_1$5, [
     _hoisted_2$2,
     _hoisted_3$2
   ]))
 }
 
-script$b.render = render$6;
-script$b.__file = "src/lib/cx-table/components/empty.vue";
+script$c.render = render$7;
+script$c.__file = "src/lib/cx-table/components/empty.vue";
 
 var CxTableEmpty = defineComponent({
     name: 'CxTableEmpty',
@@ -5375,7 +5375,7 @@ var CxTableEmpty = defineComponent({
                                 createVNode('td', { rowspan: rowspan }, [
                                     (function () {
                                         setBlockTracking(-1);
-                                        var node = createVNode(script$b);
+                                        var node = createVNode(script$c);
                                         setBlockTracking(1);
                                         return node;
                                     })()
@@ -5789,7 +5789,7 @@ var TeleForm = defineComponent({
         // unsafeClearDom::void->string
         var unsafeClearEle = R.compose(map(unsafeSet(R.__, 'innerHTML', '')), Maybe.of);
         // renderVNodeToDom::HTMLElement->void
-        var renderVNodeToDom = R.compose(R.converge(render$8, [renderForm, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
+        var renderVNodeToDom = R.compose(R.converge(render$9, [renderForm, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
         var unsafeWarn = function () {
             return cxTableWarn("can't find container element by selector", rootProp.formTeleport);
         };
@@ -5827,31 +5827,38 @@ var TeleForm = defineComponent({
 
 //
 var zIndex = 1500;
-var script$a = defineComponent({
+var script$b = defineComponent({
     name: 'CxOverlay',
-    props: { disabled: { type: Boolean, "default": false }, lockScroll: { type: Boolean, "default": false } },
+    props: {
+        disabled: { type: Boolean, "default": false },
+        lockScroll: { type: Boolean, "default": false }
+    },
     setup: function () {
         return { zIndex: zIndex++ };
     }
 });
 
-function render$5(_ctx, _cache) {
+function render$6(_ctx, _cache) {
   return (openBlock(), createBlock("div", {
     onClick: _cache[1] || (_cache[1] = $event => (_ctx.$emit('click'))),
     style: {'--zIndex':_ctx.zIndex},
-    class: {'cx-overlay':true ,'cx-overlay__disabled':_ctx.disabled,'cx_of_auto':!_ctx.lockScroll}
+    class: {
+      'cx-overlay':true ,
+      'cx-overlay__disabled':_ctx.disabled,
+      'cx_of_auto':!_ctx.lockScroll
+    }
   }, [
     renderSlot(_ctx.$slots, "default")
   ], 6 /* CLASS, STYLE */))
 }
 
-script$a.render = render$5;
-script$a.__file = "src/lib/cx-overlay/cx-overlay.vue";
+script$b.render = render$6;
+script$b.__file = "src/lib/cx-overlay/cx-overlay.vue";
 
 //
-var script$9 = defineComponent({
+var script$a = defineComponent({
     name: 'CxDialog',
-    components: { CxOverlay: script$a },
+    components: { CxOverlay: script$b },
     emits: ['register', 'close', 'closed', 'open', 'opened', 'ok', 'cancel'],
     props: {
         cancelText: { type: String, "default": '取消', },
@@ -5860,11 +5867,11 @@ var script$9 = defineComponent({
         okLoading: { type: Boolean, "default": false },
         title: { type: String },
         width: { type: [String, Number], "default": '50%' },
-        top: { type: [String, Number], "default": '50px' },
-        showFullScreen: { type: Boolean, "default": true, },
+        size: { type: String },
         openDelay: { type: Number, "default": 0 },
         closeDelay: { type: Number, "default": 0 },
         closeOnClickModal: { type: Boolean, "default": false },
+        showFullScreen: { type: Boolean, "default": false, },
         closeOnPressEscape: { type: Boolean, "default": true },
         showClose: { type: Boolean, "default": true },
         beforeClose: { type: Function },
@@ -5879,6 +5886,30 @@ var script$9 = defineComponent({
         var visible = ref(false);
         var bodyExist = ref(false);
         var isFullscreen = ref(false);
+        var renderBodyStyle = computed(function () {
+            return Object.assign({}, props.bodyStyle, {
+                height: (isFullscreen.value || props.size === 'fullscreen') ? 'calc(100vh - 283px)' : ''
+            });
+        });
+        var renderWidth = computed(function () {
+            if (isFullscreen.value) {
+                return 'calc(100vw - 180px)';
+            }
+            switch (props.size) {
+                case 'large':
+                    return '960px';
+                case 'middle':
+                    return '760px';
+                case 'small':
+                    return '512px';
+                case 'fullscreen':
+                    return 'calc(100vw - 180px)';
+            }
+            return props.width;
+        });
+        var renderFullScreenBtn = computed(function () {
+            return props.size === 'large' || props.showFullScreen;
+        });
         var setVisible = function (v) {
             if (v === void 0) { v = true; }
             if (v) {
@@ -5926,11 +5957,22 @@ var script$9 = defineComponent({
             document.body.removeEventListener('keydown', keydownEvent, true);
         });
         expose(actions);
-        return { visible: visible, isFullscreen: isFullscreen, openDialog: openDialog, afterEnter: afterEnter, afterLeave: afterLeave, beforeLeave: beforeLeave, bodyExist: bodyExist };
+        return {
+            visible: visible,
+            isFullscreen: isFullscreen,
+            renderBodyStyle: renderBodyStyle,
+            openDialog: openDialog,
+            afterEnter: afterEnter,
+            afterLeave: afterLeave,
+            beforeLeave: beforeLeave,
+            bodyExist: bodyExist,
+            renderWidth: renderWidth,
+            renderFullScreenBtn: renderFullScreenBtn
+        };
     }
 });
 
-const _hoisted_1$3 = { class: "cx-overlay-dialog" };
+const _hoisted_1$4 = { class: "cx-overlay-dialog" };
 const _hoisted_2$1 = { class: "cx-dialog__header" };
 const _hoisted_3$1 = { class: "cx-dialog__title cx_fs_18" };
 const _hoisted_4$1 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_mlr_0 cx_w_100p" }, null, -1 /* HOISTED */);
@@ -5938,7 +5980,7 @@ const _hoisted_5$1 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_mlr_0 
 const _hoisted_6$1 = { class: "cx-dialog__footer" };
 const _hoisted_7$1 = { class: "cx_flex_center cx_justify_end" };
 
-function render$4(_ctx, _cache) {
+function render$5(_ctx, _cache) {
   const _component_cx_btn = resolveComponent("cx-btn");
   const _component_cx_overlay = resolveComponent("cx-overlay");
 
@@ -5959,10 +6001,10 @@ function render$4(_ctx, _cache) {
           onClick: _cache[6] || (_cache[6] = $event => (_ctx.closeOnClickModal && _ctx.openDialog(false)))
         }, {
           default: withCtx(() => [
-            createVNode("div", _hoisted_1$3, [
+            createVNode("div", _hoisted_1$4, [
               createVNode("div", mergeProps({
                 class: ["cx-dialog", {'is-fullscreen':_ctx.isFullscreen,'cx-dialog__border':!_ctx.modal}],
-                style: {'--width':_ctx.width,'--top':_ctx.top}
+                style: {'--width':_ctx.renderWidth}
               }, _ctx.$attrs, {
                 onClick: _cache[5] || (_cache[5] = withModifiers(() => {}, ["stop"]))
               }), [
@@ -5973,7 +6015,7 @@ function render$4(_ctx, _cache) {
                     ])
                   ]),
                   createVNode("div", null, [
-                    (_ctx.showFullScreen)
+                    (_ctx.renderFullScreenBtn)
                       ? (openBlock(), createBlock("i", {
                           key: 0,
                           class: `iconfont icon-${_ctx.isFullscreen?'fullscreen-shrink':'fullscreen-expand'}`,
@@ -5996,7 +6038,7 @@ function render$4(_ctx, _cache) {
                   ? (openBlock(), createBlock("section", {
                       key: 0,
                       class: "cx-dialog__body",
-                      style: _ctx.bodyStyle
+                      style: _ctx.renderBodyStyle
                     }, [
                       renderSlot(_ctx.$slots, "default", { isFullscreen: _ctx.isFullscreen })
                     ], 4 /* STYLE */))
@@ -6047,13 +6089,13 @@ function render$4(_ctx, _cache) {
   ], 8 /* PROPS */, ["disabled"]))
 }
 
-script$9.render = render$4;
-script$9.__file = "src/lib/cx-dialog/cx-dialog.vue";
+script$a.render = render$5;
+script$a.__file = "src/lib/cx-dialog/cx-dialog.vue";
 
-script$9.install = function (app) {
-    app.component(script$9.name, script$9);
+script$a.install = function (app) {
+    app.component(script$a.name, script$a);
 };
-var _CX_DIALOG = script$9;
+var _CX_DIALOG = script$a;
 
 function useCxDialog() {
     var dialogRef = ref(null);
@@ -6080,7 +6122,7 @@ function useCxDialog() {
 }
 
 //
-var script$8 = defineComponent({
+var script$9 = defineComponent({
     name: 'CxEllipsis',
     props: {
         content: { "default": '' },
@@ -6157,10 +6199,10 @@ var script$8 = defineComponent({
 const _withId$2 = /*#__PURE__*/withScopeId("data-v-506ab1f0");
 
 pushScopeId("data-v-506ab1f0");
-const _hoisted_1$2 = { style: {"overflow":"hidden"} };
+const _hoisted_1$3 = { style: {"overflow":"hidden"} };
 popScopeId();
 
-const render$3 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
+const render$4 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
   const _directive_uni_popper = resolveDirective("uni-popper");
 
   return withDirectives((openBlock(), createBlock("div", {
@@ -6168,7 +6210,7 @@ const render$3 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
     class: ["cx-ellipsis", { ellipsis: _ctx.tipVisible }],
     style: { '--paddingRight': _ctx.paddingRight, '--bgColor': _ctx.activeBgColor }
   }, [
-    createVNode("div", _hoisted_1$2, [
+    createVNode("div", _hoisted_1$3, [
       createVNode("p", {
         ref: "contentRef",
         class: "tips"
@@ -6179,14 +6221,14 @@ const render$3 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
   ])
 });
 
-script$8.render = render$3;
-script$8.__scopeId = "data-v-506ab1f0";
-script$8.__file = "src/lib/cx-ellipsis/cx-ellipsis.vue";
+script$9.render = render$4;
+script$9.__scopeId = "data-v-506ab1f0";
+script$9.__file = "src/lib/cx-ellipsis/cx-ellipsis.vue";
 
-script$8.install = function (app) {
-    app.component(script$8.name, script$8);
+script$9.install = function (app) {
+    app.component(script$9.name, script$9);
 };
-var _CX_ELLIPSIS = script$8;
+var _CX_ELLIPSIS = script$9;
 
 var DEFAULT_CAPACITY = 10;
 var cacheListDialog = defineComponent({
@@ -6441,7 +6483,7 @@ var cacheListDialog = defineComponent({
         var _hoisted_direction_1 = resolveDirective('infinite-scroll');
         var _hoisted_class_1 = 'cx_secondary_title cx_pl_16 cx_ptb_12';
         var _hoisted_class_2 = 'cx_pl_16 cx_cursor_pointer cx_position_re hover_show_container';
-        var _hoisted_class_3 = 'cx_of_auto cx_h_500';
+        var _hoisted_class_3 = 'cx_of_auto';
         var _hoisted_class_4 = 'cx_ml_5 cx_mr_16';
         var _hoisted_class_5 = 'cx_flex_center cx_ptb_12 cx_plr_16 cx_bb';
         var _hoisted_class_6 = 'cx_p_16 cx_flex_center cx_justify_between';
@@ -6453,7 +6495,7 @@ var cacheListDialog = defineComponent({
             "class": 'iconfont icon-shanchu cx_position_ab hover_high_light_red hover_show',
             style: 'right:16px;bottom:16px'
         };
-        var _hoisted_attrs_2 = { "class": _hoisted_class_3 };
+        var _hoisted_attrs_2 = { "class": _hoisted_class_3, style: { height: 'calc(100vh - 398px)' } };
         var _hoisted_attrs_3 = { style: { width: 'calc(100% - 200px)' } };
         var _hoisted_attrs_4 = { style: 'color: rgba(0, 0, 0, 0.45)' };
         var _hoisted_attrs_5 = __assign({ "class": 'cx_flex_center cx_justify_center' }, _hoisted_attrs_3);
@@ -6550,8 +6592,7 @@ var cacheListDialog = defineComponent({
                         title: '暂存列表',
                         appendToBody: true,
                         okText: '编辑',
-                        width: '1524px',
-                        top: '50px',
+                        size: 'fullscreen',
                         destroyOnClose: true,
                         onRegister: register,
                         onOk: onOk,
@@ -6592,7 +6633,7 @@ var cacheListDialog = defineComponent({
                                                     renderOrderInfo(activeItem()),
                                                     renderOrderTable(tableConfig, tableData())
                                                 ])
-                                                : createVNode('div', _hoisted_attrs_5, [createVNode(script$b)])
+                                                : createVNode('div', _hoisted_attrs_5, [createVNode(script$c)])
                                         ]))
                                 ])
                             ];
@@ -6655,7 +6696,7 @@ var TeleportBtn = defineComponent({
             return createVNode(innerBtn, __assign(__assign({}, attrs), { disabledState: props.disabledState, loadingState: loadingState, onClick: onClick }), slots, PATCH_FLAG.FULL_PROPS);
         };
         // renderVNodeToDom::HTMLElement->void
-        var renderVNodeToDom = R.compose(R.converge(render$8, [renderBtn, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
+        var renderVNodeToDom = R.compose(R.converge(render$9, [renderBtn, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
         // 组件更新IO
         var updateComponentIO = IO.of(queryDom).map(R.ifElse(R.isNil, R.compose(unsafeWarn, unsafeClearEle, container), R.compose(map(renderVNodeToDom), Maybe.of, setContainer)));
         watch(function () { return props.dynamicColumn; }, function () { return __awaiter(_this, void 0, void 0, function () {
@@ -8814,7 +8855,7 @@ var setCancelWatcher = function (cancel) { return (cancel); };
 // updatePopInstance::Instance->Func
 var updatePopInstance = R.converge(R.bind, [R.prop('update'), R.identity]);
 var EleKeyMap = new WeakMap();
-var script$7 = {
+var script$8 = {
     name: 'uniPopper',
     mounted: function (el, _a) {
         var value = _a.value;
@@ -9001,9 +9042,9 @@ var useDynamicConfigDialog = function () {
 };
 
 //
-var script$6 = defineComponent({
+var script$7 = defineComponent({
     name: 'ColumnSettingDialog',
-    components: { CxEllipsis: script$8, Draggable: Draggable, CxDialog: _CX_DIALOG },
+    components: { CxEllipsis: script$9, Draggable: Draggable, CxDialog: _CX_DIALOG },
     props: { dynamicList: { type: Array, required: true } },
     emits: ['submit'],
     install: function (app) {
@@ -9110,7 +9151,7 @@ var script$6 = defineComponent({
 const _withId$1 = /*#__PURE__*/withScopeId("data-v-0b829fd6");
 
 pushScopeId("data-v-0b829fd6");
-const _hoisted_1$1 = /*#__PURE__*/createVNode("div", null, [
+const _hoisted_1$2 = /*#__PURE__*/createVNode("div", null, [
   /*#__PURE__*/createVNode("div", { class: "cx_flex_center cx_justify_between" }, [
     /*#__PURE__*/createVNode("div", { class: "cx_ptb_12 cx_pl_16 cx_flex_1" }, "可选属性"),
     /*#__PURE__*/createVNode("div", { class: "cx_ptb_12 cx_w_250" }, "已选属性")
@@ -9132,7 +9173,7 @@ const _hoisted_7 = { class: "cx_fs_14 cx_ptb_9 hover_active cx_cursor_move" };
 const _hoisted_8 = /*#__PURE__*/createVNode("i", { class: "iconfont icon-tuodong1 cx_mr_8" }, null, -1 /* HOISTED */);
 popScopeId();
 
-const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
+const render$3 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
   const _component_cx_tab = resolveComponent("cx-tab");
   const _component_cx_ellipsis = resolveComponent("cx-ellipsis");
   const _component_el_checkbox = resolveComponent("el-checkbox");
@@ -9160,7 +9201,7 @@ const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
             "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => (_ctx.activeTab = $event))
           }, null, 8 /* PROPS */, ["options", "modelValue"]))
         : createCommentVNode("v-if", true),
-      _hoisted_1$1,
+      _hoisted_1$2,
       withDirectives(createVNode("div", _hoisted_2, [
         createVNode("section", {
           class: "cx_flex_1 cx_br cx_p_16",
@@ -9238,16 +9279,16 @@ const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
   }, 8 /* PROPS */, ["okLoading", "onRegister", "title", "onOk"]))
 });
 
-script$6.render = render$2;
-script$6.__scopeId = "data-v-0b829fd6";
-script$6.__file = "src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";
+script$7.render = render$3;
+script$7.__scopeId = "data-v-0b829fd6";
+script$7.__file = "src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";
 
 //
-var script$5 = defineComponent({
+var script$6 = defineComponent({
     name: 'DynamicConfigSettings',
-    components: { ColumnSettingDialog: script$6 },
+    components: { ColumnSettingDialog: script$7 },
     props: { dynamicConfig: { type: Object, requred: true } },
-    directives: { uniPopper: script$7 },
+    directives: { uniPopper: script$8 },
     emits: ['submit'],
     setup: function (_, _a) {
         var _this = this;
@@ -9285,10 +9326,10 @@ var script$5 = defineComponent({
 const _withId = /*#__PURE__*/withScopeId("data-v-df9138d6");
 
 pushScopeId("data-v-df9138d6");
-const _hoisted_1 = { class: "setting_btn cx_flex_center cx_justify_center" };
+const _hoisted_1$1 = { class: "setting_btn cx_flex_center cx_justify_center" };
 popScopeId();
 
-const render$1 = /*#__PURE__*/_withId((_ctx, _cache) => {
+const render$2 = /*#__PURE__*/_withId((_ctx, _cache) => {
   const _component_cx_btn = resolveComponent("cx-btn");
   const _component_ColumnSettingDialog = resolveComponent("ColumnSettingDialog");
   const _directive_uni_popper = resolveDirective("uni-popper");
@@ -9296,7 +9337,7 @@ const render$1 = /*#__PURE__*/_withId((_ctx, _cache) => {
   return (openBlock(), createBlock("div", {
     style: { position: 'absolute', right: _ctx.right, top: 0, zIndex: 1500 }
   }, [
-    createVNode("div", _hoisted_1, [
+    createVNode("div", _hoisted_1$1, [
       withDirectives(createVNode(_component_cx_btn, {
         class: "cx_p_0",
         icon: "shezhi1",
@@ -9314,9 +9355,9 @@ const render$1 = /*#__PURE__*/_withId((_ctx, _cache) => {
   ], 4 /* STYLE */))
 });
 
-script$5.render = render$1;
-script$5.__scopeId = "data-v-df9138d6";
-script$5.__file = "src/lib/cx-table/components/dynamicConfigSetting/index.vue";
+script$6.render = render$2;
+script$6.__scopeId = "data-v-df9138d6";
+script$6.__file = "src/lib/cx-table/components/dynamicConfigSetting/index.vue";
 
 var CxTableProp = {
     tableConfig: { type: Object, "default": function () { return ({ items: [] }); } },
@@ -9460,7 +9501,7 @@ var CxTableProp = {
     stripe: { type: Boolean, "default": false }
 };
 
-var script$4 = defineComponent({
+var script$5 = defineComponent({
     name: 'CxTable',
     props: CxTableProp,
     emits: CX_TABLE_EVENT_LIST,
@@ -9659,7 +9700,7 @@ var script$4 = defineComponent({
             return (openBlock(),
                 createBlock(Fragment, null, [
                     props.configurable && props.dynamic
-                        ? createVNode(script$5, {
+                        ? createVNode(script$6, {
                             dynamicConfig: props.dynamic,
                             onSubmit: function () {
                                 forceUpdate();
@@ -9753,14 +9794,14 @@ var script$4 = defineComponent({
     }
 });
 
-script$4.install = function (app) {
-    app.component(script$4.name, script$4);
+script$5.install = function (app) {
+    app.component(script$5.name, script$5);
 };
-var _CX_TABLE = script$4;
+var _CX_TABLE = script$5;
 
-var _CX_UNI_POPPER = script$7;
+var _CX_UNI_POPPER = script$8;
 _CX_UNI_POPPER.install = function (app) {
-    app.directive(script$7.name, script$7);
+    app.directive(script$8.name, script$8);
 };
 
 // 正数
@@ -9792,7 +9833,7 @@ function onInput(el, ele, binding, vnode) {
     }
     return handle;
 }
-var script$3 = {
+var script$4 = {
     name: 'numberInput',
     beforeMount: function (el, binding, vnode) {
         var ele = isHTMLInputElement(el) ? el : el.querySelector('input');
@@ -9810,18 +9851,18 @@ var script$3 = {
     }
 };
 
-var _CX_NUMBER_INPUT = script$3;
+var _CX_NUMBER_INPUT = script$4;
 _CX_NUMBER_INPUT.install = function (app) {
-    app.directive(script$3.name, script$3);
+    app.directive(script$4.name, script$4);
 };
 
-script$a.install = function (app) {
-    app.component(script$a.name, script$a);
+script$b.install = function (app) {
+    app.component(script$b.name, script$b);
 };
-var _CX_OVERLAY = script$a;
+var _CX_OVERLAY = script$b;
 
 //
-var script$2 = defineComponent({
+var script$3 = defineComponent({
     name: 'CxTag',
     props: {
         type: {
@@ -9833,7 +9874,7 @@ var script$2 = defineComponent({
     }
 });
 
-function render(_ctx, _cache) {
+function render$1(_ctx, _cache) {
   return (openBlock(), createBlock("span", {
     class: ["cx-tag", ['cx-tag--' + _ctx.type, 'cx-tag--' + _ctx.size]]
   }, [
@@ -9843,16 +9884,16 @@ function render(_ctx, _cache) {
   ], 2 /* CLASS */))
 }
 
-script$2.render = render;
-script$2.__file = "src/lib/cx-tag/cx-tag.vue";
+script$3.render = render$1;
+script$3.__file = "src/lib/cx-tag/cx-tag.vue";
 
-var script$1 = script$2;
-script$1.install = function (app) {
-    app.component(script$1.name, script$1);
+var script$2 = script$3;
+script$2.install = function (app) {
+    app.component(script$2.name, script$2);
 };
-var _CX_TAG = script$1;
+var _CX_TAG = script$2;
 
-var script = defineComponent({
+var script$1 = defineComponent({
     name: 'CxPagination',
     props: { pagination: { type: Object, "default": function () { return ({}); } } },
     setup: function (props, _a) {
@@ -9886,10 +9927,132 @@ var script = defineComponent({
     }
 });
 
+script$1.install = function (app) {
+    app.component(script$1.name, script$1);
+};
+var _CX_PAGINATION = script$1;
+
+//
+var script = defineComponent({
+    name: 'CxSwitch',
+    props: {
+        modelValue: { type: [String, Boolean, Number] },
+        size: { type: String, "default": 'small' },
+        activeColor: { type: String, "default": '#6BCFA4' },
+        inactiveColor: { type: String, "default": '#FF7875' },
+        width: { type: Number },
+        borderColor: { type: String, "default": 'white' },
+        activeIcon: { type: String, "default": 'check-line' },
+        inactiveIcon: { type: String, "default": 'jianshao' },
+        activeText: { type: String },
+        inactiveText: { type: String },
+        activeValue: { type: [String, Boolean, Number], "default": true },
+        inactiveValue: { type: [String, Boolean, Number], "default": false },
+        loading: { type: Boolean, "default": false },
+        disabled: { type: Boolean, "default": false },
+        beforeChange: { type: Function }
+    },
+    emits: ['update:modelValue', 'change'],
+    setup: function (props, _a) {
+        var _this = this;
+        var emit = _a.emit;
+        var style = computed(function () {
+            return {
+                '--height': props.size === 'large' ? '22px' : '16px',
+                '--width': props.width ? props.width + "px" : (props.size === 'large' ? '44px' : '28px'),
+                '--active-color': props.activeColor,
+                '--inactive-color': props.inactiveColor,
+                '--border-color': props.borderColor
+            };
+        });
+        var isActive = computed(function () {
+            return props.modelValue === props.activeValue;
+        });
+        var clickHandler = function () { return __awaiter(_this, void 0, void 0, function () {
+            var updateValue, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (props.loading || props.disabled)
+                            return [2 /*return*/];
+                        updateValue = isActive.value ? props.inactiveValue : props.activeValue;
+                        _a = isFunction(props.beforeChange);
+                        if (!_a) return [3 /*break*/, 2];
+                        return [4 /*yield*/, props.beforeChange(updateValue)];
+                    case 1:
+                        _a = (_b.sent());
+                        _b.label = 2;
+                    case 2:
+                        emit('update:modelValue', updateValue);
+                        emit('change');
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        return {
+            style: style,
+            isActive: isActive,
+            clickHandler: clickHandler
+        };
+    }
+});
+
+const _hoisted_1 = {
+  key: 0,
+  class: "el-icon-loading"
+};
+
+function render(_ctx, _cache) {
+  return (openBlock(), createBlock("div", {
+    class: {
+      'cx-switch': true,
+      'cx-switch_disabled': _ctx.disabled
+    }
+  }, [
+    (_ctx.inactiveText)
+      ? (openBlock(), createBlock("span", {
+          key: 0,
+          class: "cx_mr_4 animate",
+          style: { color: _ctx.isActive ? `` : `${_ctx.inactiveColor}` }
+        }, toDisplayString(_ctx.inactiveText), 5 /* TEXT, STYLE */))
+      : createCommentVNode("v-if", true),
+    createVNode("div", {
+      class: "cx-switch_wrapper",
+      style: _ctx.style,
+      onClick: _cache[1] || (_cache[1] = withModifiers((...args) => (_ctx.clickHandler && _ctx.clickHandler(...args)), ["stop","prevent"]))
+    }, [
+      createVNode("div", {
+        class: {
+          'cx-switch_slider': true,
+          active: _ctx.isActive,
+          animate: true
+        }
+      }, [
+        (_ctx.loading)
+          ? (openBlock(), createBlock("i", _hoisted_1))
+          : (openBlock(), createBlock("i", {
+              key: 1,
+              class: `iconfont icon-${_ctx.isActive ? _ctx.activeIcon : _ctx.inactiveIcon}`
+            }, null, 2 /* CLASS */))
+      ], 2 /* CLASS */)
+    ], 4 /* STYLE */),
+    (_ctx.activeText)
+      ? (openBlock(), createBlock("span", {
+          key: 1,
+          class: "cx_ml_4 animate",
+          style: { color: _ctx.isActive ? `${_ctx.activeColor}` : `` }
+        }, toDisplayString(_ctx.activeText), 5 /* TEXT, STYLE */))
+      : createCommentVNode("v-if", true)
+  ], 2 /* CLASS */))
+}
+
+script.render = render;
+script.__file = "src/lib/cx-switch/cx-switch.vue";
+
 script.install = function (app) {
     app.component(script.name, script);
 };
-var _CX_PAGINATION = script;
+var _CX_SWITCH = script;
 
 var components = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -9903,7 +10066,8 @@ var components = /*#__PURE__*/Object.freeze({
   CxDialog: _CX_DIALOG,
   CxTable: _CX_TABLE,
   CxUniPopper: _CX_UNI_POPPER,
-  CxTag: _CX_TAG
+  CxTag: _CX_TAG,
+  CxSwitch: _CX_SWITCH
 });
 
 var CxUI = {
@@ -9915,4 +10079,4 @@ var CxUI = {
 };
 
 export default CxUI;
-export { ARROW_KEY, COLUMN_FLAG, _CX_PAGINATION as CXPagination, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_ELLIPSIS as CxEllipsis, _CX_FORM as CxForm, _CX_NUMBER_INPUT as CxNumberInput, _CX_OVERLAY as CxOverlay, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_TAG as CxTag, _CX_UNI_POPPER as CxUniPopper, PATCH_FLAG, TypeOption, arrFlat, assignAttrs, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, changeDynamicIdToText, copySort, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, domShare, filterOnlyFormItem, findAncestor, formatDate, formatFormDefaultValue, formatTime, formatWidth, getColumnSelectText, getCxDynamicHead, getEvalResult, getFunctionAttrs, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, invokeLayeredRow, pick, staticConfigList, toggleArrState, updateCxTableWidth, useAutoWidth, useBroadcast, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useCxTableEvent, useDynamicConfig, useExpandConfig, useLazyLoad, usePriorityConfig, useRadioConfig, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useStyle, useTableClass, useTableId, useTableStyle, useValidator, useWatch };
+export { ARROW_KEY, COLUMN_FLAG, _CX_PAGINATION as CXPagination, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_ELLIPSIS as CxEllipsis, _CX_FORM as CxForm, _CX_NUMBER_INPUT as CxNumberInput, _CX_OVERLAY as CxOverlay, _CX_SWITCH as CxSwitch, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_TAG as CxTag, _CX_UNI_POPPER as CxUniPopper, PATCH_FLAG, TypeOption, arrFlat, assignAttrs, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, changeDynamicIdToText, copySort, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, domShare, filterOnlyFormItem, findAncestor, formatDate, formatFormDefaultValue, formatTime, formatWidth, getColumnSelectText, getCxDynamicHead, getEvalResult, getFunctionAttrs, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, invokeLayeredRow, pick, staticConfigList, toggleArrState, updateCxTableWidth, useAutoWidth, useBroadcast, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useCxTableEvent, useDynamicConfig, useExpandConfig, useLazyLoad, usePriorityConfig, useRadioConfig, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useStyle, useTableClass, useTableId, useTableStyle, useValidator, useWatch };

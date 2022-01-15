@@ -340,7 +340,7 @@ export default defineComponent({
 
     const _hoisted_class_1 = 'cx_secondary_title cx_pl_16 cx_ptb_12';
     const _hoisted_class_2 = 'cx_pl_16 cx_cursor_pointer cx_position_re hover_show_container';
-    const _hoisted_class_3 = 'cx_of_auto cx_h_500';
+    const _hoisted_class_3 = 'cx_of_auto';
     const _hoisted_class_4 = 'cx_ml_5 cx_mr_16';
     const _hoisted_class_5 = 'cx_flex_center cx_ptb_12 cx_plr_16 cx_bb';
     const _hoisted_class_6 = 'cx_p_16 cx_flex_center cx_justify_between';
@@ -353,7 +353,7 @@ export default defineComponent({
       class: 'iconfont icon-shanchu cx_position_ab hover_high_light_red hover_show',
       style: 'right:16px;bottom:16px'
     };
-    const _hoisted_attrs_2 = { class: _hoisted_class_3 };
+    const _hoisted_attrs_2 = { class: _hoisted_class_3, style: { height: 'calc(100vh - 398px)' } };
     const _hoisted_attrs_3 = { style: { width: 'calc(100% - 200px)' } };
     const _hoisted_attrs_4 = { style: 'color: rgba(0, 0, 0, 0.45)' };
     const _hoisted_attrs_5 = { class: 'cx_flex_center cx_justify_center', ..._hoisted_attrs_3 };
@@ -501,7 +501,7 @@ export default defineComponent({
     const noRequired = invokerWithChildren(R.omit(['required']));
     const setImgsType = R.compose(
       R.when(
-        R.compose(R.includes(R.__,['款型图','蜡版图','CAD版图']), R.prop<string, any>('label')),
+        R.compose(R.includes(R.__, ['款型图', '蜡版图', 'CAD版图']), R.prop<string, any>('label')),
         R.compose(
           R.set(R.lensProp<any>('control'), R.objOf('type', 'imgs')),
           R.omit(['slot']) as (a: AnyObject) => AnyObject
@@ -569,8 +569,7 @@ export default defineComponent({
                 title: '暂存列表',
                 appendToBody: true,
                 okText: '编辑',
-                width: '1524px',
-                top: '50px',
+                size: 'fullscreen',
                 destroyOnClose: true,
                 onRegister: register,
                 onOk,
