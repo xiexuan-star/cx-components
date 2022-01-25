@@ -1,0 +1,61 @@
+@import '../mixins/mixin.scss';
+@import '../mixins/config.scss';
+
+$size: (
+        large: (
+                height:36px,
+                padding:8px
+        ),
+        small:(
+                height:28px,
+                padding:4px
+        )
+);
+
+@mixin sizeGroup($theme,$height,$padding) {
+  @include e($theme) {
+    .tr {
+      height: $height;
+      line-height: $height;
+    }
+
+    .th {
+      padding: 0 $padding;
+
+      & > div {
+        padding: 0 $padding;
+      }
+    }
+  }
+}
+
+@include b(description) {
+  background-color: white;
+  font-size: 14px;
+
+  .tr {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  @each $key, $value in $size {
+    @include sizeGroup($key, map-get($value, 'height'), map-get($value, 'padding'))
+  }
+
+  .tr, .td, .th {
+    box-sizing: border-box;
+  }
+  .th {
+    text-align: left;
+    position: relative;
+
+    &:after {
+      content: ':';
+      position: absolute;
+      right: 4px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}

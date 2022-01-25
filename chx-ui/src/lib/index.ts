@@ -10,8 +10,10 @@ import CxEllipsis from './cx-ellipsis';
 import CxTag from './cx-tag';
 import CXPagination from './cx-pagination';
 import CxSwitch from './cx-switch';
+import CxDescription from './cx-description';
+import cxDescriptionItem from './cx-description-item';
 
 export {
   CxNumberInput, CXPagination, CxEllipsis, CxBtn, CxOverlay, CxTab, CxForm, CxDialog, CxTable, CxUniPopper, CxTag,
-  CxSwitch
+  CxSwitch, CxDescription, cxDescriptionItem
 };

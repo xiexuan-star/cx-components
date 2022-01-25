@@ -3,7 +3,6 @@
     :okLoading="submitLoading"
     width="1020px"
     @register="register"
-    top="50px"
     :title="header"
     @ok="submitData"
     append-to-body

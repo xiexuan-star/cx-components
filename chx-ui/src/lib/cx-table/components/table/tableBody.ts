@@ -7,7 +7,7 @@ import {
 import { CX_TABLE_EMPTY_INDEX, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, PATCH_FLAG } from '../../constant';
 import { CxBroadcast, useTableId, useTableStyle } from '../../hooks';
 import { CxTableBaseObj, CxTableColumnObj, CxTablePropType } from '../../types';
-import { getFunctionAttrs, getTotalSumData, pick } from '../../utils';
+import { getFunctionAttrs, getTotalSumData } from '../../utils';
 import Cell from './cell';
 import Expand from './expand';
 import FixedBottom from './fixedBottom';
@@ -54,7 +54,7 @@ export default defineComponent({
         {
           default: () => {
             CxTable.flatColumns.forEach(col => {
-              const attrs = getFunctionAttrs(rowData,rowIndex, col.control?.attrs);
+              const attrs = getFunctionAttrs(rowData, rowIndex, col.control?.attrs);
               const broadcastRegister = attrs?.broadcastRegister;
               if (broadcastRegister && isFunction(broadcastRegister)) {
                 broadcastRegister((prop, cb) => broadcast.registListener(prop, rowData, cb));
@@ -178,26 +178,20 @@ export default defineComponent({
     };
     // 合计行渲染
     const renderTotalSum = () => {
-      return (
-        openBlock(),
-          createBlock(Fragment, null, [
-            hideTotalSum.value
-              ? createCommentVNode('v-if', true)
-              : isObject(rootProp.customTotalSum)
-                ? renderRow(Object.assign({}, rootProp.customTotalSum), CX_TABLE_SUM_INDEX, true)
-                : isObject(CxTable.entireTotalSum)
-                  ? renderRow(
-                    R.mergeLeft(transferOtherSum(CxTable.flatColumns), CxTable.entireTotalSum),
-                    CX_TABLE_SUM_INDEX,
-                    true
-                  )
-                  : renderRow(
-                    getTotalSumData(CxTable.flatColumns, rootProp.tableData ?? []),
-                    CX_TABLE_SUM_INDEX,
-                    true
-                  )
-          ])
-      );
+      const getRowData = () => {
+        const rowData = isObject(rootProp.customTotalSum)
+          ? Object.assign({}, rootProp.customTotalSum)
+          : isObject(CxTable.entireTotalSum)
+            ? R.mergeLeft(transferOtherSum(CxTable.flatColumns), CxTable.entireTotalSum)
+            : getTotalSumData(CxTable.flatColumns, rootProp.tableData ?? []);
+        CxTable.flatColumns.forEach(col => {
+          col.calculate && Reflect.set(rowData, col.prop, col.calculate(rowData));
+        });
+        return rowData;
+      };
+      return (openBlock(), createBlock(Fragment, null, [hideTotalSum.value
+        ? createCommentVNode('v-if', true)
+        : renderRow(getRowData(), CX_TABLE_SUM_INDEX, true)]));
     };
 
     // 基准style对象,根据不同的元素取出不同的项
@@ -206,7 +200,7 @@ export default defineComponent({
     const tableStyle = computed(() => {
       const { styleStore } = CxTable;
       const result: CSSProperties = {
-        ...pick(style.value, ['left']),
+        left: style.value.left,
         top: props.fixed === 'bottom' || props.onlyTotal ? 0 : -CxTable.scrollStore.scrollTop + 'px'
       };
 
@@ -220,7 +214,13 @@ export default defineComponent({
     });
 
     const bodyWrapperStyle = computed(() => {
-      return pick(style.value, ['right', 'bottom', 'top', 'height', 'width']);
+      return {
+        right: style.value.right,
+        bottom: style.value.bottom,
+        top: style.value.top,
+        height: style.value.height,
+        width: style.value.width,
+      };
     });
 
     // 不宜使用computed

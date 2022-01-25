@@ -97,7 +97,7 @@ export const updateCxTableWidth = async (
    * 故需要由xxxText反推id列prop
    */
   if (!targetColumn) {
-    if (/.+Text/.test(prop)) {
+    if (/.+Text$/.test(prop)) {
       const idProp = prop.replace(/Text$/, 'Id');
       targetColumn = $CxTable.flatColumns?.find(column => column.prop === idProp);
     }

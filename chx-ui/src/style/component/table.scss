@@ -38,6 +38,12 @@ $color-primary: #0084ff;
     border-radius: 5px;
   }
 
+  .cx-table_head.sticky {
+    position: fixed;
+    z-index: 100;
+    top: calc(var(--sticky-top) * 1px)
+  }
+
   .cx-table_scrollWrapper {
     overflow: auto;
     position: static !important;

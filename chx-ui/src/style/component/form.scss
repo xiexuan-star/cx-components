@@ -1,0 +1,32 @@
+@import '../mixins/mixin.scss';
+@import '../mixins/config.scss';
+
+@include b(form) {
+  .el-form {
+    padding: 0 !important;
+  }
+  .el-form--inline {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .el-form-item {
+      margin-right: calc(var(--margin-right) * 1px) !important;
+      min-width: calc(var(--render-width) * 1px) !important;
+
+      .el-input, .el-select {
+        max-width: calc(var(--render-width) * 1px) !important;
+        width: calc(var(--render-width) * 1px) !important;
+      }
+
+      .el-range-editor {
+        max-width: calc(var(--render-width) * 2px + var(--margin-right) * 1px) !important;
+        width: calc(var(--render-width) * 2px + var(--margin-right) * 1px) !important;
+      }
+    }
+
+    .el-form-item__label {
+      padding-bottom: 0;
+    }
+  }
+}

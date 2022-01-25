@@ -1,8 +1,6 @@
 const form = () => ({
   size: 'small',
-  labelSuffix: ':',
-  // labelWidth: 'auto',
-  labelPosition: 'left',
+  labelPosition: 'top',
   onSubmit: (e: any) => e.preventDefault(),
 });
 

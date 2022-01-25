@@ -110,29 +110,6 @@ export function formatFormDefaultValue(defaultEnum: string, searchType: string) 
   }
 }
 
-/**
- * 选择对象属性
- * @param object 需要copy属性的对象
- * @param props 需要copy的属性列表
- */
-export function pick<T extends Record<string, any>, K extends keyof T>(
-  object: T,
-  props: K[] | K = []
-): Pick<T, K> {
-  const res: any = {};
-  const arr = Array.isArray(props) ? props : [props];
-  (Object.keys(object) as K[]).forEach((key: K) => {
-    if (arr.includes(key)) {
-      res[key] =
-        typeof object[key] === 'object' && object[key] !== null
-          ? R.clone(object[key])
-          : object[key];
-    }
-  });
-
-  return res;
-}
-
 export const getColumnSelectText = (
   column: CxTableColumnObj | CxTableItem,
   replaceProp = 'Text'

@@ -58,8 +58,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .setting_btn {
   background-color: #f5f5f5;
-  height: 40px;
-  width: 30px;
+  height: 32px;
+  width: 32px;
   font-style: normal;
   font-weight: 700 !important;
   font-size: 14px;

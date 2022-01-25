@@ -73,6 +73,7 @@ export type CxTablePropType = {
   setCacheBtn: string;
   cacheListBtn: string;
   stripe: boolean;
+  sticky: string | number;
 }>;
 
 export interface CxTableHooks<Cache = any> {

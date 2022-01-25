@@ -206,7 +206,7 @@ export default defineComponent({
 
     // const _hoisted_attrs_1 = { class: 'cx_dp_flex cx_justify_end cx_mb_16' };
     // const _hoisted_attrs_2 = { class: 'cx_line cx_mb_12 cx_mlr_0 cx_w_100p' };
-    const _hoisted_attrs_3 = { class: 'cx_dp_flex' };
+    // const _hoisted_attrs_3 = { class: 'cx_dp_flex' };
 
     // const _hoisted_node_1 = createVNode('div', _hoisted_attrs_2);
 
@@ -219,7 +219,7 @@ export default defineComponent({
         //   })
         // ]),
         // _hoisted_node_1,
-        createVNode('div', _hoisted_attrs_3, [
+        createVNode('div', null, [
           withDirectives(
             createVNode(
               TeleFormInstance,

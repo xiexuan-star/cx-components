@@ -119,7 +119,7 @@ export const useCxTableCompose = () => {
             R.compose(
               unsafePush(R.__, res),
               R.of,
-              R.mergeRight(R.objOf('prop', R.replace(/Text|Name$/, 'Id', prop))),
+              R.mergeRight(R.objOf('prop', R.replace(/(Text|Name)$/, 'Id', prop))),
               formValueFormat
             ),
             R.always(res)

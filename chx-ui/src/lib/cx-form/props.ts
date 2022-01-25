@@ -9,4 +9,7 @@ export const CxFormProps = {
   items: { type: Array as PropType<CxFormItemConfig[]>, default: (): any[] => [] },
   class: { type: [Array, Object, String], default: (): any[] => [] },
   formAttrs: { type: Object as PropType<AnyObject> },
+  minWidth: { type: Number, default: 190 },
+  maxWidth: { type: Number, default: 280 },
+  marginRigth: { type: Number, default: 10 }
 };

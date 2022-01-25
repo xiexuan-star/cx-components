@@ -34,11 +34,11 @@ export default {
   /**
    * @description 集成分页器, 传入分页器参数对象即可开启, 可使用useCxPagination获得, 分页参数更新,将抛出paging事件
    */
-  pagination: { type: Object as PropType<PaginationModel>, default: null },
+  pagination: { type: Object as PropType<PaginationModel> },
   /**
    * @description 自定义总计行数据源, 将完全采用该对象作为合计行数据渲染
    */
-  customTotalSum: { type: Object as PropType<Nullable<AnyObject>>, default: null },
+  customTotalSum: { type: Object as PropType<Nullable<AnyObject>> },
   /**
    * @description 最大高度,传入后将固定头部,可以是数字(将被自动格式化为px高度),也可以是任意描述高度的字符串,如 calc(100vh - 100px)
    */
@@ -54,7 +54,7 @@ export default {
   /**
    * @description 控制colspan/rowspan, 函数类型, 入参为column,rowIndex,rowData, 返回{colspan:number,rowspan:number}对象或[rowspan,colspan]数组
    */
-  spanMethod: { type: Function as PropType<CxSpanMethodFun>, default: null },
+  spanMethod: { type: Function as PropType<CxSpanMethodFun> },
   /**
    * @description 显示添加按钮(特定需求使用,点击该按钮将抛出addNewRow事件)
    */
@@ -66,19 +66,19 @@ export default {
   /**
    * @description 表现为激活状态行的index列表, 该属性主要用于自定义行多选,行单选的情况,激活行默认表现为浅蓝色(可与集成单选/多选同时使用)
    */
-  activeRows: { type: Array as PropType<number[]>, default: () => [] },
+  activeRows: { type: Array as PropType<number[]> },
   /**
    * @description 目标行/列隐藏控件, 无法直接影响插槽, 插槽可通过scope中的ignore属性自定义设置
    */
-  ignoreControl: { type: Function as PropType<CxIgnoreControl>, default: () => false },
+  ignoreControl: { type: Function as PropType<CxIgnoreControl> },
   /**
    * @description 目标行/列强制显示控件,无法直接影响插槽, 插槽可通过scope中的isControl属性自定义设置
    */
-  forceControl: { type: Function as PropType<CxIgnoreControl>, default: () => false },
+  forceControl: { type: Function as PropType<CxIgnoreControl> },
   /**
    * @description 默认样式配置,{width:默认单元格宽度,height:默认单元格高度,padding:单元格内左右padding,cache:虚拟滚动视口外缓冲行数}
    */
-  styleSetting: { type: Object as PropType<CxStyleSetting>, default: () => ({}) },
+  styleSetting: { type: Object as PropType<CxStyleSetting> },
   /**
    * @description 是否启用键盘事件,关闭后单元格将无法聚焦
    */
@@ -86,7 +86,7 @@ export default {
   /**
    * @description 拓展行,可以是插槽名或一个返回插槽名的函数,入参为column,rowData,rowIndex,如果返回值为空,那么便不渲染,该功能可针对特定的某行开启拓展行.
    */
-  expand: { type: [String, Function] as PropType<CxExpandFun | string>, default: '' },
+  expand: { type: [String, Function] as PropType<CxExpandFun | string> },
   /**
    * @description 表格title, 聊胜于无的功能
    */
@@ -155,5 +155,9 @@ export default {
   /**
    * @description 斑马纹
    */
-  stripe: { type: Boolean, default: false }
+  stripe: { type: Boolean, default: true },
+  /**
+   * @description 表头是否sticky固定
+   */
+  stickyHead: { type: [Number, String] }
 };

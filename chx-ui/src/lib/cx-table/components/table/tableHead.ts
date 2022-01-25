@@ -3,7 +3,6 @@ import {
   createBlock,
   createCommentVNode,
   createVNode,
-  CSSProperties,
   defineComponent,
   Fragment,
   inject,
@@ -12,7 +11,7 @@ import {
 import { PATCH_FLAG } from '../../constant';
 import { useTableStyle } from '../../hooks';
 import { CxTableBaseObj } from '../../types';
-import { invokeLayeredRow, pick } from '../../utils';
+import { invokeLayeredRow } from '../../utils';
 import HeadCell from './headCell';
 
 export default defineComponent({
@@ -29,56 +28,61 @@ export default defineComponent({
       return invokeLayeredRow(CxTable.columns);
     });
 
-    const hoisted_1: Array<keyof CSSProperties> = ['top', 'height', 'width', 'right'];
     const hoisted_2 = 'cx-table_head';
 
-    return () =>
-      createVNode(
-        'div',
-        { class: hoisted_2, style: pick(style.value, hoisted_1) },
-        [
-          createVNode(
-            'table',
-            { style: pick(style.value, ['left']) },
-            [
-              (openBlock(),
-                createBlock(
-                  Fragment,
-                  null,
-                  layeredHeadItems.value.map((headers, index) => {
-                    return (
-                      openBlock(),
-                        createBlock('tr', null, [
-                          (openBlock(true),
-                            createBlock(
-                              Fragment,
-                              null,
-                              headers.map(col => {
-                                return props.fixed && props.fixed !== 'top' && col.fixed !== props.fixed
-                                  ? createCommentVNode('v-if_table_head', true)
-                                  : (openBlock(),
-                                    createBlock(
-                                      HeadCell,
-                                      {
-                                        column: col,
-                                        layeredLevel: layeredHeadItems.value.length - index
-                                      },
-                                      null,
-                                      PATCH_FLAG.PROPS,
-                                      ['column', 'layeredLevel']
-                                    ));
-                              }),
-                              PATCH_FLAG.UNKEYED_FRAGMENT
-                            ))
-                        ])
-                    );
-                  }, PATCH_FLAG.UNKEYED_FRAGMENT)
-                ))
-            ],
-            PATCH_FLAG.STYLE
-          )
-        ],
-        PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
-      );
+    return () => {
+        return createVNode(
+          'div',
+          { class: hoisted_2, style: {
+              'top': style.value.top,
+              'height': style.value.height,
+              'width': style.value.width,
+              'right': style.value.right,
+            } },
+          [
+            createVNode(
+              'table',
+              { style: { left: style.value.left } },
+              [
+                (openBlock(),
+                  createBlock(
+                    Fragment,
+                    null,
+                    layeredHeadItems.value.map((headers, index) => {
+                      return (
+                        openBlock(),
+                          createBlock('tr', null, [
+                            (openBlock(true),
+                              createBlock(
+                                Fragment,
+                                null,
+                                headers.map(col => {
+                                  return props.fixed && props.fixed !== 'top' && col.fixed !== props.fixed
+                                    ? createCommentVNode('v-if_table_head', true)
+                                    : (openBlock(),
+                                      createBlock(
+                                        HeadCell,
+                                        {
+                                          column: col,
+                                          layeredLevel: layeredHeadItems.value.length - index
+                                        },
+                                        null,
+                                        PATCH_FLAG.PROPS,
+                                        ['column', 'layeredLevel']
+                                      ));
+                                }),
+                                PATCH_FLAG.UNKEYED_FRAGMENT
+                              ))
+                          ])
+                      );
+                    }, PATCH_FLAG.UNKEYED_FRAGMENT)
+                  ))
+              ],
+              PATCH_FLAG.STYLE
+            )
+          ],
+          PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
+        );
+    };
   }
 });

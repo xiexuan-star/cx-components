@@ -5,7 +5,7 @@ import { CxEllipsis } from '../../index';
 import { COLUMN_FLAG, PATCH_FLAG } from '../constant';
 import { CxBroadcast, CxTableRendererMap } from '../hooks';
 import { CxCellProp, CxIgnoreControl, PaginationModel, SelectConfig } from '../types';
-import { decimalFixed, getColumnSelectText, pick } from '../utils';
+import { decimalFixed, getColumnSelectText } from '../utils';
 
 interface Params extends CxCellProp {
   rowIndex: number;
@@ -18,7 +18,7 @@ interface Params extends CxCellProp {
 }
 
 const renderDefaultNode = (params: Params) => {
-  const withDefault = (v:any)=>v??params.column.defaultValue;
+  const withDefault = (v: any) => v ?? params.column.defaultValue;
   return createVNode(CxEllipsis,
     {
       content: params.column.renderText
@@ -102,8 +102,16 @@ const renderCellSlot = (
       isActived,
       disabled,
       prop: params.column.prop,
-      ignore: ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false,
-      force: forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false,
+      ignore: ignoreControl ? ignoreControl({
+        'column': params.column,
+        'rowIndex': params.rowIndex,
+        'rowData': params.rowData
+      }) : false,
+      force: forceControl ? forceControl({
+        'column': params.column,
+        'rowIndex': params.rowIndex,
+        'rowData': params.rowData
+      }) : false,
     });
   }
   return rootSlots?.[params.column.slot!]
@@ -112,8 +120,16 @@ const renderCellSlot = (
       isActived,
       disabled,
       prop: params.column.prop,
-      ignore: ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false,
-      force: forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false,
+      ignore: ignoreControl ? ignoreControl({
+        'column': params.column,
+        'rowIndex': params.rowIndex,
+        'rowData': params.rowData
+      }) : false,
+      force: forceControl ? forceControl({
+        'column': params.column,
+        'rowIndex': params.rowIndex,
+        'rowData': params.rowData
+      }) : false,
     })
     : null;
 };
@@ -142,8 +158,16 @@ const renderCustomCell = (
   const renderer = CxTableRendererMap.get(type as string);
 
   if (isFunction(renderer)) {
-    const ignore = ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false;
-    const force = forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false;
+    const ignore = ignoreControl ? ignoreControl({
+      'column': params.column,
+      'rowIndex': params.rowIndex,
+      'rowData': params.rowData
+    }) : false;
+    const force = forceControl ? forceControl({
+      'column': params.column,
+      'rowIndex': params.rowIndex,
+      'rowData': params.rowData
+    }) : false;
     return renderer({ ...params, isActived, disabled, prop: params.column.prop, ignore, force });
   }
   return renderDefaultNode(params);

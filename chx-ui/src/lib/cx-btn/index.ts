@@ -37,7 +37,7 @@ const script = defineComponent({
     };
 
     const classList = computed(() => {
-      const result: string[] = ['cx-btn_wrapper'];
+      const result: string[] = ['cx-btn'];
       if (props.disabled) result.push('cx-btn_disabled');
       result.push(`cx-btn_${ props.size }`);
       result.push(`cx-btn_level_${ props.level }`);

@@ -1,7 +1,10 @@
+@import '../mixins/mixin.scss';
+@import '../mixins/config.scss';
+
 $size: (
         large: '9px 16px',
         medium: '5px 16px',
-        mini: '2px 5px'
+        mini: '0 5px'
 );
 
 $theme: (
@@ -52,7 +55,7 @@ $theme: (
   }
 }
 
-.cx-btn_wrapper {
+@include b(btn) {
   font-family: PingFang SC;
   font-style: normal;
   font-weight: 500;

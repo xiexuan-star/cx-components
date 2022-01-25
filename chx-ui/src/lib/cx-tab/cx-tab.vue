@@ -1,5 +1,5 @@
 <template>
-  <div :class="['cx-tab', `level-${level}_bottom_line`,+level===1?'cx_mb_16':'']">
+  <div :class="['cx-tab', `level-${level}`,+level===1?'cx_mb_16':'']">
     <div
       :class="{
         'cx-tab_scroll_wrapper': true,
@@ -10,7 +10,7 @@
         cx_pos_relative: true
       }"
       :style="{
-        maxWidth: `calc(100% + ${+level===1?40:0}px - ${slotWidth}px)`
+        maxWidth: `calc(100% - ${slotWidth}px)`
       }"
     >
       <div
@@ -42,7 +42,7 @@
             </div>
           </div>
         </div>
-        <i class="cx-tab_cursor" v-if="level < 3" :style="cursorStyle"/>
+        <i class="cx-tab_cursor" v-if="level < 2" :style="cursorStyle"/>
       </div>
       <template v-if="showArrow">
         <i

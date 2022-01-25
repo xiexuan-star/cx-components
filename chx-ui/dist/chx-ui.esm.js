@@ -1,4 +1,4 @@
-import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, reactive, ref, onMounted, onBeforeUnmount, watch, onUpdated, nextTick, openBlock, createBlock, Fragment, renderList, createTextVNode, toDisplayString, renderSlot, resolveComponent, onUnmounted, inject, watchEffect, resolveDirective, setBlockTracking, withCtx, getCurrentInstance, render as render$9, Teleport, Transition, mergeProps, withModifiers, vShow, unref, pushScopeId, popScopeId, withScopeId, provide } from 'vue';
+import { defineComponent, computed, withDirectives, createVNode, createCommentVNode, reactive, ref, onMounted, onBeforeUnmount, watch, onUpdated, nextTick, openBlock, createBlock, Fragment, renderList, createTextVNode, toDisplayString, renderSlot, resolveComponent, onUnmounted, inject, watchEffect, resolveDirective, setBlockTracking, withCtx, getCurrentInstance, render as render$a, Teleport, Transition, mergeProps, withModifiers, vShow, unref, pushScopeId, popScopeId, withScopeId, provide, h } from 'vue';
 import { isObject as isObject$1, isFunction, omit, isNumber, isString, EventBus, isArray, isEmpty, unsafeSet, Maybe, unsafeDeleteProperty, map, unsafeGet, truthy, splat, unsafePush, unsafeWhenDevCall, sessionStore, getDateRange, isDeepObjectEqual, useComputed, useState, IO, localStore, unsafeClearPush, unsafeClearAssign, getMaybeValue, Left, Right, either, withParams, defaultPromise, useSync, nextTimeout, unsafeAssign, queryDom, unsafeClearArray, unsafeRemoveItem, getDoNothingIO, unsafeClearObj, addResizeListener, removeResizeListener, enum2Options, stateEq200, falsy, stopPropagation, preventDefault, clearTimer, unsafePerformIO, curryTimeout, setClassByArr, createTag, copyInnerText, curryAddListener, setInnerText, clearInnerHTML, appendToBody, appendChild, showEle, hideEle, curryRemoveListener, clearClassList, loadingDecorator, isHTMLInputElement, amount } from 'chx-utils';
 import * as R from 'ramda';
 import { clone, omit as omit$1 } from 'ramda';
@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import PinyinMatch from 'pinyin-match';
 import Draggable from 'vuedraggable';
 
-var script$f = defineComponent({
+var script$h = defineComponent({
     name: 'CxBtn',
     props: {
         size: {
@@ -36,7 +36,7 @@ var script$f = defineComponent({
             return createVNode('i', { onClick: function (e) { return e.stopPropagation(); }, "class": 'cx_mask' });
         };
         var classList = computed(function () {
-            var result = ['cx-btn_wrapper'];
+            var result = ['cx-btn'];
             if (props.disabled)
                 result.push('cx-btn_disabled');
             result.push("cx-btn_" + props.size);
@@ -72,10 +72,10 @@ var script$f = defineComponent({
         };
     },
 });
-script$f.install = function (app) {
-    app.component(script$f.name, script$f);
+script$h.install = function (app) {
+    app.component(script$h.name, script$h);
 };
-var _CX_BTN = script$f;
+var _CX_BTN = script$h;
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -731,7 +731,7 @@ function throttle(func, wait, options) {
 }
 
 //
-var script$e = defineComponent({
+var script$g = defineComponent({
     name: 'CxTab',
     props: {
         /**
@@ -894,9 +894,9 @@ var script$e = defineComponent({
 
 const _hoisted_1$6 = { class: "cx-tabs" };
 
-function render$8(_ctx, _cache) {
+function render$9(_ctx, _cache) {
   return (openBlock(), createBlock("div", {
-    class: ['cx-tab', `level-${_ctx.level}_bottom_line`,+_ctx.level===1?'cx_mb_16':'']
+    class: ['cx-tab', `level-${_ctx.level}`,+_ctx.level===1?'cx_mb_16':'']
   }, [
     createVNode("div", {
       class: {
@@ -908,7 +908,7 @@ function render$8(_ctx, _cache) {
         cx_pos_relative: true
       },
       style: {
-        maxWidth: `calc(100% + ${+_ctx.level===1?40:0}px - ${_ctx.slotWidth}px)`
+        maxWidth: `calc(100% - ${_ctx.slotWidth}px)`
       }
     }, [
       createVNode("div", {
@@ -944,7 +944,7 @@ function render$8(_ctx, _cache) {
             ], 10 /* CLASS, PROPS */, ["onClick", "id"]))
           }), 128 /* KEYED_FRAGMENT */))
         ]),
-        (_ctx.level < 3)
+        (_ctx.level < 2)
           ? (openBlock(), createBlock("i", {
               key: 0,
               class: "cx-tab_cursor",
@@ -984,13 +984,13 @@ function render$8(_ctx, _cache) {
   ], 2 /* CLASS */))
 }
 
-script$e.render = render$8;
-script$e.__file = "src/lib/cx-tab/cx-tab.vue";
+script$g.render = render$9;
+script$g.__file = "src/lib/cx-tab/cx-tab.vue";
 
-script$e.install = function (app) {
-    app.component(script$e.name, script$e);
+script$g.install = function (app) {
+    app.component(script$g.name, script$g);
 };
-var _CX_TAB = script$e;
+var _CX_TAB = script$g;
 
 var renderComp = function (attrs, slots, Comp) {
     return (openBlock(),
@@ -1241,9 +1241,7 @@ var CxFormControl = /** @class */ (function (_super) {
 
 var form = function () { return ({
     size: 'small',
-    labelSuffix: ':',
-    // labelWidth: 'auto',
-    labelPosition: 'left',
+    labelPosition: 'top',
     onSubmit: function (e) { return e.preventDefault(); },
 }); };
 var cxFormDefaultConfig = {
@@ -1330,6 +1328,9 @@ var CxFormProps = {
     items: { type: Array, "default": function () { return []; } },
     "class": { type: [Array, Object, String], "default": function () { return []; } },
     formAttrs: { type: Object },
+    minWidth: { type: Number, "default": 190 },
+    maxWidth: { type: Number, "default": 280 },
+    marginRigth: { type: Number, "default": 10 }
 };
 
 var CxForm = defineComponent({
@@ -1337,6 +1338,7 @@ var CxForm = defineComponent({
     name: 'CxForm',
     emits: ['change', 'register', 'close'],
     setup: function (props, _a) {
+        var _this = this;
         var slots = _a.slots, emit = _a.emit, expose = _a.expose;
         function renderControl(itemConfig) {
             return new CxFormControl(props.form, itemConfig, props, emit).addSlots(slots).render();
@@ -1345,6 +1347,7 @@ var CxForm = defineComponent({
             var slot = __assign(__assign({}, slots), { "default": function () { return [renderControl(itemConfig)]; } });
             return new CxFormItem(itemConfig).addSlots(slot).render();
         }
+        var instance = null;
         function renderForm() {
             var slot = function () {
                 var _a;
@@ -1353,7 +1356,7 @@ var CxForm = defineComponent({
                     return res;
                 }, []);
             };
-            var instance = new CxForm$1(props).addSlots(slot);
+            instance = new CxForm$1(props).addSlots(slot);
             emit('register', { props: props, ref: instance.getFormRef() });
             return instance.render();
         }
@@ -1362,19 +1365,71 @@ var CxForm = defineComponent({
                 emit('change', { prop: prop, val: props.form[prop], form: props.form });
             },
         });
-        onMounted(function () {
+        var wrapperRef = ref(null);
+        var cancelEffect = null;
+        var column = ref(0);
+        var renderWidth = ref(props.maxWidth);
+        onMounted(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _a.sent();
+                        cancelEffect = watch(function () { return props.items; }, updateRows, { immediate: true, deep: true });
+                        window.addEventListener('resize', updateRows);
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        onBeforeUnmount(function () {
+            window.removeEventListener('resize', updateRows);
+            cancelEffect === null || cancelEffect === void 0 ? void 0 : cancelEffect();
         });
+        function updateRows() {
+            return __awaiter(this, void 0, void 0, function () {
+                var wrapper, children, length, width, floatCapacity, capacity, rowNum;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, nextTick()];
+                        case 1:
+                            _a.sent();
+                            wrapper = wrapperRef.value;
+                            if (!wrapper)
+                                return [2 /*return*/];
+                            children = props.items;
+                            length = children.reduce(function (res, item) {
+                                if (item.hide)
+                                    return res;
+                                return res + (item.dateRange ? 2 : (+item.span || 1));
+                            }, 0);
+                            if (!length)
+                                return [2 /*return*/];
+                            width = wrapper.clientWidth - 8;
+                            floatCapacity = width / props.minWidth;
+                            capacity = +floatCapacity.toFixed(0);
+                            rowNum = parseInt(length / capacity + 1 + '');
+                            column.value = rowNum === 1 ? Math.min(length, capacity) : parseInt(floatCapacity + '');
+                            renderWidth.value = Math.min(parseInt(width / column.value + ''), props.maxWidth) - props.marginRigth;
+                            return [2 /*return*/];
+                    }
+                });
+            });
+        }
         return function () {
-            return createVNode('div', { name: 'cx-form' }, [renderForm()]);
+            return createVNode('div', {
+                "class": 'cx-form',
+                ref: wrapperRef,
+                style: "--render-width:" + renderWidth.value + ";--margin-right:" + props.marginRigth
+            }, [renderForm()]);
         };
     },
 });
 
-var script$d = CxForm;
-script$d.install = function (app) {
-    app.component(script$d.name, script$d);
+var script$f = CxForm;
+script$f.install = function (app) {
+    app.component(script$f.name, script$f);
 };
-var _CX_FORM = script$d;
+var _CX_FORM = script$f;
 
 var ARROW_KEY;
 (function (ARROW_KEY) {
@@ -1534,7 +1589,7 @@ var createCxTableConfig = function () {
         },
         styleStore: {
             CX_TABLE_MIN_WIDTH: 110,
-            CX_TABLE_HEIGHT: 40,
+            CX_TABLE_HEIGHT: 32,
             CX_TABLE_SCROLL_BAR: 8,
             CX_TABLE_PADDING: 8,
             CX_VISUAL_CACHE: 5
@@ -1885,7 +1940,7 @@ var updateCxTableWidth = function ($CxTable, props, prop) { return __awaiter(voi
          * 故需要由xxxText反推id列prop
          */
         if (!targetColumn) {
-            if (/.+Text/.test(prop)) {
+            if (/.+Text$/.test(prop)) {
                 idProp_1 = prop.replace(/Text$/, 'Id');
                 targetColumn = (_b = $CxTable.flatColumns) === null || _b === void 0 ? void 0 : _b.find(function (column) { return column.prop === idProp_1; });
             }
@@ -2945,7 +3000,7 @@ var useCxTableCompose = function () {
             return [];
         return currentFormItems.reduce(function (res, prop) {
             return Maybe.of(form[prop])
-                .map(R.ifElse(R.compose(R.not, isEmptyValue), R.compose(unsafePush(R.__, res), R.of, R.mergeRight(R.objOf('prop', R.replace(/Text|Name$/, 'Id', prop))), formValueFormat), R.always(res)))
+                .map(R.ifElse(R.compose(R.not, isEmptyValue), R.compose(unsafePush(R.__, res), R.of, R.mergeRight(R.objOf('prop', R.replace(/(Text|Name)$/, 'Id', prop))), formValueFormat), R.always(res)))
                 .getWithDefault(res);
         }, []);
     };
@@ -4212,25 +4267,6 @@ function formatFormDefaultValue(defaultEnum, searchType) {
             return +defaultEnum || defaultEnum;
     }
 }
-/**
- * 选择对象属性
- * @param object 需要copy属性的对象
- * @param props 需要copy的属性列表
- */
-function pick(object, props) {
-    if (props === void 0) { props = []; }
-    var res = {};
-    var arr = Array.isArray(props) ? props : [props];
-    Object.keys(object).forEach(function (key) {
-        if (arr.includes(key)) {
-            res[key] =
-                typeof object[key] === 'object' && object[key] !== null
-                    ? R.clone(object[key])
-                    : object[key];
-        }
-    });
-    return res;
-}
 var getColumnSelectText = function (column, replaceProp) {
     var _a;
     if (replaceProp === void 0) { replaceProp = 'Text'; }
@@ -4576,11 +4612,15 @@ var CxTableHead = defineComponent({
         var layeredHeadItems = computed(function () {
             return invokeLayeredRow(CxTable.columns);
         });
-        var hoisted_1 = ['top', 'height', 'width', 'right'];
         var hoisted_2 = 'cx-table_head';
         return function () {
-            return createVNode('div', { "class": hoisted_2, style: pick(style.value, hoisted_1) }, [
-                createVNode('table', { style: pick(style.value, ['left']) }, [
+            return createVNode('div', { "class": hoisted_2, style: {
+                    'top': style.value.top,
+                    'height': style.value.height,
+                    'width': style.value.width,
+                    'right': style.value.right,
+                } }, [
+                createVNode('table', { style: { left: style.value.left } }, [
                     (openBlock(),
                         createBlock(Fragment, null, layeredHeadItems.value.map(function (headers, index) {
                             return (openBlock(),
@@ -4644,10 +4684,26 @@ var renderCellSum = function (params, rootSlots) {
 };
 var renderCellSlot = function (params, isActived, disabled, rootSlots, ignoreControl, forceControl) {
     if (isFunction(params.column.slot)) {
-        return params.column.slot(__assign(__assign({}, params), { isActived: isActived, disabled: disabled, prop: params.column.prop, ignore: ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false, force: forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false }));
+        return params.column.slot(__assign(__assign({}, params), { isActived: isActived, disabled: disabled, prop: params.column.prop, ignore: ignoreControl ? ignoreControl({
+                'column': params.column,
+                'rowIndex': params.rowIndex,
+                'rowData': params.rowData
+            }) : false, force: forceControl ? forceControl({
+                'column': params.column,
+                'rowIndex': params.rowIndex,
+                'rowData': params.rowData
+            }) : false }));
     }
     return (rootSlots === null || rootSlots === void 0 ? void 0 : rootSlots[params.column.slot])
-        ? rootSlots === null || rootSlots === void 0 ? void 0 : rootSlots[params.column.slot](__assign(__assign({}, params), { isActived: isActived, disabled: disabled, prop: params.column.prop, ignore: ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false, force: forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false }))
+        ? rootSlots === null || rootSlots === void 0 ? void 0 : rootSlots[params.column.slot](__assign(__assign({}, params), { isActived: isActived, disabled: disabled, prop: params.column.prop, ignore: ignoreControl ? ignoreControl({
+                'column': params.column,
+                'rowIndex': params.rowIndex,
+                'rowData': params.rowData
+            }) : false, force: forceControl ? forceControl({
+                'column': params.column,
+                'rowIndex': params.rowIndex,
+                'rowData': params.rowData
+            }) : false }))
         : null;
 };
 var renderCalcCell = function (params) {
@@ -4664,8 +4720,16 @@ var renderCustomCell = function (params, isActived, disabled, ignoreControl, for
     var type = ((_a = params.column.control) !== null && _a !== void 0 ? _a : {}).type;
     var renderer = CxTableRendererMap.get(type);
     if (isFunction(renderer)) {
-        var ignore = ignoreControl ? ignoreControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false;
-        var force = forceControl ? forceControl(pick(params, ['column', 'rowIndex', 'rowData'])) : false;
+        var ignore = ignoreControl ? ignoreControl({
+            'column': params.column,
+            'rowIndex': params.rowIndex,
+            'rowData': params.rowData
+        }) : false;
+        var force = forceControl ? forceControl({
+            'column': params.column,
+            'rowIndex': params.rowIndex,
+            'rowData': params.rowData
+        }) : false;
         return renderer(__assign(__assign({}, params), { isActived: isActived, disabled: disabled, prop: params.column.prop, ignore: ignore, force: force }));
     }
     return renderDefaultNode(params);
@@ -5159,23 +5223,30 @@ var CxTableBody = defineComponent({
         };
         // 合计行渲染
         var renderTotalSum = function () {
-            var _a;
-            return (openBlock(),
-                createBlock(Fragment, null, [
-                    hideTotalSum.value
-                        ? createCommentVNode('v-if', true)
-                        : isObject$1(rootProp.customTotalSum)
-                            ? renderRow(Object.assign({}, rootProp.customTotalSum), CX_TABLE_SUM_INDEX, true)
-                            : isObject$1(CxTable.entireTotalSum)
-                                ? renderRow(R.mergeLeft(transferOtherSum(CxTable.flatColumns), CxTable.entireTotalSum), CX_TABLE_SUM_INDEX, true)
-                                : renderRow(getTotalSumData(CxTable.flatColumns, (_a = rootProp.tableData) !== null && _a !== void 0 ? _a : []), CX_TABLE_SUM_INDEX, true)
-                ]));
+            var getRowData = function () {
+                var _a;
+                var rowData = isObject$1(rootProp.customTotalSum)
+                    ? Object.assign({}, rootProp.customTotalSum)
+                    : isObject$1(CxTable.entireTotalSum)
+                        ? R.mergeLeft(transferOtherSum(CxTable.flatColumns), CxTable.entireTotalSum)
+                        : getTotalSumData(CxTable.flatColumns, (_a = rootProp.tableData) !== null && _a !== void 0 ? _a : []);
+                CxTable.flatColumns.forEach(function (col) {
+                    col.calculate && Reflect.set(rowData, col.prop, col.calculate(rowData));
+                });
+                return rowData;
+            };
+            return (openBlock(), createBlock(Fragment, null, [hideTotalSum.value
+                    ? createCommentVNode('v-if', true)
+                    : renderRow(getRowData(), CX_TABLE_SUM_INDEX, true)]));
         };
         // 基准style对象,根据不同的元素取出不同的项
         var style = useTableStyle(props, CxTable, 'body');
         var tableStyle = computed(function () {
             var styleStore = CxTable.styleStore;
-            var result = __assign(__assign({}, pick(style.value, ['left'])), { top: props.fixed === 'bottom' || props.onlyTotal ? 0 : -CxTable.scrollStore.scrollTop + 'px' });
+            var result = {
+                left: style.value.left,
+                top: props.fixed === 'bottom' || props.onlyTotal ? 0 : -CxTable.scrollStore.scrollTop + 'px'
+            };
             if (rootProp.virtualScroll && props.fixed !== 'bottom' && !props.onlyTotal) {
                 result.paddingTop = CxTable.virtualStore.renderPaddingTop + 'px';
                 result.paddingBottom = CxTable.virtualStore.renderPaddingBottom + 'px';
@@ -5185,7 +5256,13 @@ var CxTableBody = defineComponent({
             return result;
         });
         var bodyWrapperStyle = computed(function () {
-            return pick(style.value, ['right', 'bottom', 'top', 'height', 'width']);
+            return {
+                right: style.value.right,
+                bottom: style.value.bottom,
+                top: style.value.top,
+                height: style.value.height,
+                width: style.value.width,
+            };
         });
         // 不宜使用computed
         var tableClass = ref('');
@@ -5285,7 +5362,7 @@ var CxTableContent = defineComponent({
 //
 //
 //
-var script$c = {
+var script$e = {
     name: 'Empty',
 };
 
@@ -5349,15 +5426,15 @@ const _hoisted_2$2 = /*#__PURE__*/createVNode("div", { class: "cx_h_100" }, [
 ], -1 /* HOISTED */);
 const _hoisted_3$2 = /*#__PURE__*/createVNode("p", null, "暂无数据", -1 /* HOISTED */);
 
-function render$7(_ctx, _cache) {
+function render$8(_ctx, _cache) {
   return (openBlock(), createBlock("div", _hoisted_1$5, [
     _hoisted_2$2,
     _hoisted_3$2
   ]))
 }
 
-script$c.render = render$7;
-script$c.__file = "src/lib/cx-table/components/empty.vue";
+script$e.render = render$8;
+script$e.__file = "src/lib/cx-table/components/empty.vue";
 
 var CxTableEmpty = defineComponent({
     name: 'CxTableEmpty',
@@ -5375,7 +5452,7 @@ var CxTableEmpty = defineComponent({
                                 createVNode('td', { rowspan: rowspan }, [
                                     (function () {
                                         setBlockTracking(-1);
-                                        var node = createVNode(script$c);
+                                        var node = createVNode(script$e);
                                         setBlockTracking(1);
                                         return node;
                                     })()
@@ -5770,7 +5847,7 @@ var TeleForm = defineComponent({
         // );
         // const _hoisted_attrs_1 = { class: 'cx_dp_flex cx_justify_end cx_mb_16' };
         // const _hoisted_attrs_2 = { class: 'cx_line cx_mb_12 cx_mlr_0 cx_w_100p' };
-        var _hoisted_attrs_3 = { "class": 'cx_dp_flex' };
+        // const _hoisted_attrs_3 = { class: 'cx_dp_flex' };
         // const _hoisted_node_1 = createVNode('div', _hoisted_attrs_2);
         var renderForm = function () {
             return createVNode('div', { "class": 'cx-table_tele_form' }, [
@@ -5781,7 +5858,7 @@ var TeleForm = defineComponent({
                 //   })
                 // ]),
                 // _hoisted_node_1,
-                createVNode('div', _hoisted_attrs_3, [
+                createVNode('div', null, [
                     withDirectives(createVNode(TeleFormInstance, { states: states, form: form, items: formConfig, onChange: fetchAllData, onClose: onClose }, { add: renderDynamicFormAdd }, PATCH_FLAG.FULL_PROPS), [[_hoisted_direction !== null && _hoisted_direction !== void 0 ? _hoisted_direction : {}, formLoading()]])
                 ])
             ]);
@@ -5789,7 +5866,7 @@ var TeleForm = defineComponent({
         // unsafeClearDom::void->string
         var unsafeClearEle = R.compose(map(unsafeSet(R.__, 'innerHTML', '')), Maybe.of);
         // renderVNodeToDom::HTMLElement->void
-        var renderVNodeToDom = R.compose(R.converge(render$9, [renderForm, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
+        var renderVNodeToDom = R.compose(R.converge(render$a, [renderForm, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
         var unsafeWarn = function () {
             return cxTableWarn("can't find container element by selector", rootProp.formTeleport);
         };
@@ -5826,8 +5903,8 @@ var TeleForm = defineComponent({
 });
 
 //
-var zIndex = 1500;
-var script$b = defineComponent({
+var zIndex = 1700;
+var script$d = defineComponent({
     name: 'CxOverlay',
     props: {
         disabled: { type: Boolean, "default": false },
@@ -5838,7 +5915,7 @@ var script$b = defineComponent({
     }
 });
 
-function render$6(_ctx, _cache) {
+function render$7(_ctx, _cache) {
   return (openBlock(), createBlock("div", {
     onClick: _cache[1] || (_cache[1] = $event => (_ctx.$emit('click'))),
     style: {'--zIndex':_ctx.zIndex},
@@ -5852,13 +5929,13 @@ function render$6(_ctx, _cache) {
   ], 6 /* CLASS, STYLE */))
 }
 
-script$b.render = render$6;
-script$b.__file = "src/lib/cx-overlay/cx-overlay.vue";
+script$d.render = render$7;
+script$d.__file = "src/lib/cx-overlay/cx-overlay.vue";
 
 //
-var script$a = defineComponent({
+var script$c = defineComponent({
     name: 'CxDialog',
-    components: { CxOverlay: script$b },
+    components: { CxOverlay: script$d },
     emits: ['register', 'close', 'closed', 'open', 'opened', 'ok', 'cancel'],
     props: {
         cancelText: { type: String, "default": '取消', },
@@ -5980,12 +6057,12 @@ const _hoisted_5$1 = /*#__PURE__*/createVNode("div", { class: "cx_line cx_mlr_0 
 const _hoisted_6$1 = { class: "cx-dialog__footer" };
 const _hoisted_7$1 = { class: "cx_flex_center cx_justify_end" };
 
-function render$5(_ctx, _cache) {
+function render$6(_ctx, _cache) {
   const _component_cx_btn = resolveComponent("cx-btn");
   const _component_cx_overlay = resolveComponent("cx-overlay");
 
   return (openBlock(), createBlock(Teleport, {
-    to: "body",
+    to: "#cx-dialog-teleport-container",
     disabled: !_ctx.appendToBody
   }, [
     createVNode(Transition, {
@@ -6089,13 +6166,13 @@ function render$5(_ctx, _cache) {
   ], 8 /* PROPS */, ["disabled"]))
 }
 
-script$a.render = render$5;
-script$a.__file = "src/lib/cx-dialog/cx-dialog.vue";
+script$c.render = render$6;
+script$c.__file = "src/lib/cx-dialog/cx-dialog.vue";
 
-script$a.install = function (app) {
-    app.component(script$a.name, script$a);
+script$c.install = function (app) {
+    app.component(script$c.name, script$c);
 };
-var _CX_DIALOG = script$a;
+var _CX_DIALOG = script$c;
 
 function useCxDialog() {
     var dialogRef = ref(null);
@@ -6122,7 +6199,7 @@ function useCxDialog() {
 }
 
 //
-var script$9 = defineComponent({
+var script$b = defineComponent({
     name: 'CxEllipsis',
     props: {
         content: { "default": '' },
@@ -6202,7 +6279,7 @@ pushScopeId("data-v-506ab1f0");
 const _hoisted_1$3 = { style: {"overflow":"hidden"} };
 popScopeId();
 
-const render$4 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
+const render$5 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
   const _directive_uni_popper = resolveDirective("uni-popper");
 
   return withDirectives((openBlock(), createBlock("div", {
@@ -6221,14 +6298,14 @@ const render$4 = /*#__PURE__*/_withId$2((_ctx, _cache) => {
   ])
 });
 
-script$9.render = render$4;
-script$9.__scopeId = "data-v-506ab1f0";
-script$9.__file = "src/lib/cx-ellipsis/cx-ellipsis.vue";
+script$b.render = render$5;
+script$b.__scopeId = "data-v-506ab1f0";
+script$b.__file = "src/lib/cx-ellipsis/cx-ellipsis.vue";
 
-script$9.install = function (app) {
-    app.component(script$9.name, script$9);
+script$b.install = function (app) {
+    app.component(script$b.name, script$b);
 };
-var _CX_ELLIPSIS = script$9;
+var _CX_ELLIPSIS = script$b;
 
 var DEFAULT_CAPACITY = 10;
 var cacheListDialog = defineComponent({
@@ -6633,7 +6710,7 @@ var cacheListDialog = defineComponent({
                                                     renderOrderInfo(activeItem()),
                                                     renderOrderTable(tableConfig, tableData())
                                                 ])
-                                                : createVNode('div', _hoisted_attrs_5, [createVNode(script$c)])
+                                                : createVNode('div', _hoisted_attrs_5, [createVNode(script$e)])
                                         ]))
                                 ])
                             ];
@@ -6647,7 +6724,7 @@ var cacheListDialog = defineComponent({
 var renderInnerBtn = function (_a) {
     var _b, _c, _d;
     var $attrs = _a.$attrs, $slots = _a.$slots;
-    return createVNode(_CX_BTN, __assign(__assign({}, $attrs), { level: (_b = $attrs.level) !== null && _b !== void 0 ? _b : 2, loading: (_c = $attrs.loadingState) === null || _c === void 0 ? void 0 : _c.loading, disabled: (_d = $attrs.disabledState) === null || _d === void 0 ? void 0 : _d.disabled }), $slots, PATCH_FLAG.FULL_PROPS);
+    return createVNode(_CX_BTN, __assign(__assign({}, $attrs), { level: (_b = $attrs.level) !== null && _b !== void 0 ? _b : 4, loading: (_c = $attrs.loadingState) === null || _c === void 0 ? void 0 : _c.loading, disabled: (_d = $attrs.disabledState) === null || _d === void 0 ? void 0 : _d.disabled }), $slots, PATCH_FLAG.FULL_PROPS);
 };
 var innerBtn = defineComponent({});
 innerBtn.render = renderInnerBtn;
@@ -6696,7 +6773,7 @@ var TeleportBtn = defineComponent({
             return createVNode(innerBtn, __assign(__assign({}, attrs), { disabledState: props.disabledState, loadingState: loadingState, onClick: onClick }), slots, PATCH_FLAG.FULL_PROPS);
         };
         // renderVNodeToDom::HTMLElement->void
-        var renderVNodeToDom = R.compose(R.converge(render$9, [renderBtn, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
+        var renderVNodeToDom = R.compose(R.converge(render$a, [renderBtn, R.identity]), R.tap(unsafeClearEle), R.tap(unsafeDeleteProperty(R.__, '_vnode')));
         // 组件更新IO
         var updateComponentIO = IO.of(queryDom).map(R.ifElse(R.isNil, R.compose(unsafeWarn, unsafeClearEle, container), R.compose(map(renderVNodeToDom), Maybe.of, setContainer)));
         watch(function () { return props.dynamicColumn; }, function () { return __awaiter(_this, void 0, void 0, function () {
@@ -8855,7 +8932,7 @@ var setCancelWatcher = function (cancel) { return (cancel); };
 // updatePopInstance::Instance->Func
 var updatePopInstance = R.converge(R.bind, [R.prop('update'), R.identity]);
 var EleKeyMap = new WeakMap();
-var script$8 = {
+var script$a = {
     name: 'uniPopper',
     mounted: function (el, _a) {
         var value = _a.value;
@@ -9042,9 +9119,9 @@ var useDynamicConfigDialog = function () {
 };
 
 //
-var script$7 = defineComponent({
+var script$9 = defineComponent({
     name: 'ColumnSettingDialog',
-    components: { CxEllipsis: script$9, Draggable: Draggable, CxDialog: _CX_DIALOG },
+    components: { CxEllipsis: script$b, Draggable: Draggable, CxDialog: _CX_DIALOG },
     props: { dynamicList: { type: Array, required: true } },
     emits: ['submit'],
     install: function (app) {
@@ -9173,7 +9250,7 @@ const _hoisted_7 = { class: "cx_fs_14 cx_ptb_9 hover_active cx_cursor_move" };
 const _hoisted_8 = /*#__PURE__*/createVNode("i", { class: "iconfont icon-tuodong1 cx_mr_8" }, null, -1 /* HOISTED */);
 popScopeId();
 
-const render$3 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
+const render$4 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
   const _component_cx_tab = resolveComponent("cx-tab");
   const _component_cx_ellipsis = resolveComponent("cx-ellipsis");
   const _component_el_checkbox = resolveComponent("el-checkbox");
@@ -9185,7 +9262,6 @@ const render$3 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
     okLoading: _ctx.submitLoading,
     width: "1020px",
     onRegister: _ctx.register,
-    top: "50px",
     title: _ctx.header,
     onOk: _ctx.submitData,
     "append-to-body": ""
@@ -9279,16 +9355,16 @@ const render$3 = /*#__PURE__*/_withId$1((_ctx, _cache) => {
   }, 8 /* PROPS */, ["okLoading", "onRegister", "title", "onOk"]))
 });
 
-script$7.render = render$3;
-script$7.__scopeId = "data-v-0b829fd6";
-script$7.__file = "src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";
+script$9.render = render$4;
+script$9.__scopeId = "data-v-0b829fd6";
+script$9.__file = "src/lib/cx-table/components/dynamicConfigSetting/dialog.vue";
 
 //
-var script$6 = defineComponent({
+var script$8 = defineComponent({
     name: 'DynamicConfigSettings',
-    components: { ColumnSettingDialog: script$7 },
+    components: { ColumnSettingDialog: script$9 },
     props: { dynamicConfig: { type: Object, requred: true } },
-    directives: { uniPopper: script$8 },
+    directives: { uniPopper: script$a },
     emits: ['submit'],
     setup: function (_, _a) {
         var _this = this;
@@ -9329,7 +9405,7 @@ pushScopeId("data-v-df9138d6");
 const _hoisted_1$1 = { class: "setting_btn cx_flex_center cx_justify_center" };
 popScopeId();
 
-const render$2 = /*#__PURE__*/_withId((_ctx, _cache) => {
+const render$3 = /*#__PURE__*/_withId((_ctx, _cache) => {
   const _component_cx_btn = resolveComponent("cx-btn");
   const _component_ColumnSettingDialog = resolveComponent("ColumnSettingDialog");
   const _directive_uni_popper = resolveDirective("uni-popper");
@@ -9355,9 +9431,9 @@ const render$2 = /*#__PURE__*/_withId((_ctx, _cache) => {
   ], 4 /* STYLE */))
 });
 
-script$6.render = render$2;
-script$6.__scopeId = "data-v-df9138d6";
-script$6.__file = "src/lib/cx-table/components/dynamicConfigSetting/index.vue";
+script$8.render = render$3;
+script$8.__scopeId = "data-v-df9138d6";
+script$8.__file = "src/lib/cx-table/components/dynamicConfigSetting/index.vue";
 
 var CxTableProp = {
     tableConfig: { type: Object, "default": function () { return ({ items: [] }); } },
@@ -9377,11 +9453,11 @@ var CxTableProp = {
     /**
      * @description 集成分页器, 传入分页器参数对象即可开启, 可使用useCxPagination获得, 分页参数更新,将抛出paging事件
      */
-    pagination: { type: Object, "default": null },
+    pagination: { type: Object },
     /**
      * @description 自定义总计行数据源, 将完全采用该对象作为合计行数据渲染
      */
-    customTotalSum: { type: Object, "default": null },
+    customTotalSum: { type: Object },
     /**
      * @description 最大高度,传入后将固定头部,可以是数字(将被自动格式化为px高度),也可以是任意描述高度的字符串,如 calc(100vh - 100px)
      */
@@ -9397,7 +9473,7 @@ var CxTableProp = {
     /**
      * @description 控制colspan/rowspan, 函数类型, 入参为column,rowIndex,rowData, 返回{colspan:number,rowspan:number}对象或[rowspan,colspan]数组
      */
-    spanMethod: { type: Function, "default": null },
+    spanMethod: { type: Function },
     /**
      * @description 显示添加按钮(特定需求使用,点击该按钮将抛出addNewRow事件)
      */
@@ -9409,19 +9485,19 @@ var CxTableProp = {
     /**
      * @description 表现为激活状态行的index列表, 该属性主要用于自定义行多选,行单选的情况,激活行默认表现为浅蓝色(可与集成单选/多选同时使用)
      */
-    activeRows: { type: Array, "default": function () { return []; } },
+    activeRows: { type: Array },
     /**
      * @description 目标行/列隐藏控件, 无法直接影响插槽, 插槽可通过scope中的ignore属性自定义设置
      */
-    ignoreControl: { type: Function, "default": function () { return false; } },
+    ignoreControl: { type: Function },
     /**
      * @description 目标行/列强制显示控件,无法直接影响插槽, 插槽可通过scope中的isControl属性自定义设置
      */
-    forceControl: { type: Function, "default": function () { return false; } },
+    forceControl: { type: Function },
     /**
      * @description 默认样式配置,{width:默认单元格宽度,height:默认单元格高度,padding:单元格内左右padding,cache:虚拟滚动视口外缓冲行数}
      */
-    styleSetting: { type: Object, "default": function () { return ({}); } },
+    styleSetting: { type: Object },
     /**
      * @description 是否启用键盘事件,关闭后单元格将无法聚焦
      */
@@ -9429,7 +9505,7 @@ var CxTableProp = {
     /**
      * @description 拓展行,可以是插槽名或一个返回插槽名的函数,入参为column,rowData,rowIndex,如果返回值为空,那么便不渲染,该功能可针对特定的某行开启拓展行.
      */
-    expand: { type: [String, Function], "default": '' },
+    expand: { type: [String, Function] },
     /**
      * @description 表格title, 聊胜于无的功能
      */
@@ -9498,10 +9574,14 @@ var CxTableProp = {
     /**
      * @description 斑马纹
      */
-    stripe: { type: Boolean, "default": false }
+    stripe: { type: Boolean, "default": true },
+    /**
+     * @description 表头是否sticky固定
+     */
+    stickyHead: { type: [Number, String] }
 };
 
-var script$5 = defineComponent({
+var script$7 = defineComponent({
     name: 'CxTable',
     props: CxTableProp,
     emits: CX_TABLE_EVENT_LIST,
@@ -9700,7 +9780,7 @@ var script$5 = defineComponent({
             return (openBlock(),
                 createBlock(Fragment, null, [
                     props.configurable && props.dynamic
-                        ? createVNode(script$6, {
+                        ? createVNode(script$8, {
                             dynamicConfig: props.dynamic,
                             onSubmit: function () {
                                 forceUpdate();
@@ -9794,14 +9874,14 @@ var script$5 = defineComponent({
     }
 });
 
-script$5.install = function (app) {
-    app.component(script$5.name, script$5);
+script$7.install = function (app) {
+    app.component(script$7.name, script$7);
 };
-var _CX_TABLE = script$5;
+var _CX_TABLE = script$7;
 
-var _CX_UNI_POPPER = script$8;
+var _CX_UNI_POPPER = script$a;
 _CX_UNI_POPPER.install = function (app) {
-    app.directive(script$8.name, script$8);
+    app.directive(script$a.name, script$a);
 };
 
 // 正数
@@ -9833,7 +9913,7 @@ function onInput(el, ele, binding, vnode) {
     }
     return handle;
 }
-var script$4 = {
+var script$6 = {
     name: 'numberInput',
     beforeMount: function (el, binding, vnode) {
         var ele = isHTMLInputElement(el) ? el : el.querySelector('input');
@@ -9851,18 +9931,18 @@ var script$4 = {
     }
 };
 
-var _CX_NUMBER_INPUT = script$4;
+var _CX_NUMBER_INPUT = script$6;
 _CX_NUMBER_INPUT.install = function (app) {
-    app.directive(script$4.name, script$4);
+    app.directive(script$6.name, script$6);
 };
 
-script$b.install = function (app) {
-    app.component(script$b.name, script$b);
+script$d.install = function (app) {
+    app.component(script$d.name, script$d);
 };
-var _CX_OVERLAY = script$b;
+var _CX_OVERLAY = script$d;
 
 //
-var script$3 = defineComponent({
+var script$5 = defineComponent({
     name: 'CxTag',
     props: {
         type: {
@@ -9874,7 +9954,7 @@ var script$3 = defineComponent({
     }
 });
 
-function render$1(_ctx, _cache) {
+function render$2(_ctx, _cache) {
   return (openBlock(), createBlock("span", {
     class: ["cx-tag", ['cx-tag--' + _ctx.type, 'cx-tag--' + _ctx.size]]
   }, [
@@ -9884,16 +9964,16 @@ function render$1(_ctx, _cache) {
   ], 2 /* CLASS */))
 }
 
-script$3.render = render$1;
-script$3.__file = "src/lib/cx-tag/cx-tag.vue";
+script$5.render = render$2;
+script$5.__file = "src/lib/cx-tag/cx-tag.vue";
 
-var script$2 = script$3;
-script$2.install = function (app) {
-    app.component(script$2.name, script$2);
+var script$4 = script$5;
+script$4.install = function (app) {
+    app.component(script$4.name, script$4);
 };
-var _CX_TAG = script$2;
+var _CX_TAG = script$4;
 
-var script$1 = defineComponent({
+var script$3 = defineComponent({
     name: 'CxPagination',
     props: { pagination: { type: Object, "default": function () { return ({}); } } },
     setup: function (props, _a) {
@@ -9913,7 +9993,7 @@ var script$1 = defineComponent({
         var Pagination = resolveComponent('ElPagination');
         return function () {
             return createVNode(Pagination, {
-                "class": 'cx_align_right cx_p_20',
+                "class": 'cx_align_right cx_pt_12',
                 background: true,
                 currentPage: props.pagination.currentPage,
                 pageSizes: props.pagination.pageSizes,
@@ -9927,13 +10007,13 @@ var script$1 = defineComponent({
     }
 });
 
-script$1.install = function (app) {
-    app.component(script$1.name, script$1);
+script$3.install = function (app) {
+    app.component(script$3.name, script$3);
 };
-var _CX_PAGINATION = script$1;
+var _CX_PAGINATION = script$3;
 
 //
-var script = defineComponent({
+var script$2 = defineComponent({
     name: 'CxSwitch',
     props: {
         modelValue: { type: [String, Boolean, Number] },
@@ -10002,11 +10082,11 @@ const _hoisted_1 = {
   class: "el-icon-loading"
 };
 
-function render(_ctx, _cache) {
+function render$1(_ctx, _cache) {
   return (openBlock(), createBlock("div", {
     class: {
       'cx-switch': true,
-      'cx-switch_disabled': _ctx.disabled
+      'cx-switch__disabled': _ctx.disabled
     }
   }, [
     (_ctx.inactiveText)
@@ -10017,14 +10097,14 @@ function render(_ctx, _cache) {
         }, toDisplayString(_ctx.inactiveText), 5 /* TEXT, STYLE */))
       : createCommentVNode("v-if", true),
     createVNode("div", {
-      class: "cx-switch_wrapper",
+      class: "cx-switch__wrapper",
       style: _ctx.style,
       onClick: _cache[1] || (_cache[1] = withModifiers((...args) => (_ctx.clickHandler && _ctx.clickHandler(...args)), ["stop","prevent"]))
     }, [
       createVNode("div", {
         class: {
-          'cx-switch_slider': true,
-          active: _ctx.isActive,
+          'cx-switch__slider': true,
+          'is-active': _ctx.isActive,
           animate: true
         }
       }, [
@@ -10046,13 +10126,242 @@ function render(_ctx, _cache) {
   ], 2 /* CLASS */))
 }
 
+script$2.render = render$1;
+script$2.__file = "src/lib/cx-switch/cx-switch.vue";
+
+script$2.install = function (app) {
+    app.component(script$2.name, script$2);
+};
+var _CX_SWITCH = script$2;
+
+var CxDescriptionRow = defineComponent({
+    name: 'CxDescriptionRow',
+    props: {
+        row: { type: Array, required: true },
+        size: String,
+        renderWidth: { type: Number, required: true },
+        columnNum: { type: Number, required: true }
+    },
+    setup: function (props) {
+        var getVNodeProp = function (node, prop) {
+            var _a, _b, _c, _d, _e;
+            return (_b = Reflect.get((_a = node.props) !== null && _a !== void 0 ? _a : {}, prop)) !== null && _b !== void 0 ? _b : (_e = (_d = (_c = node.type) === null || _c === void 0 ? void 0 : _c.props) === null || _d === void 0 ? void 0 : _d[prop]) === null || _e === void 0 ? void 0 : _e["default"];
+        };
+        var flattenChildren = function (nodes, key) {
+            if (key === void 0) { key = 'children'; }
+            return nodes.reduce(function (res, item) {
+                if (typeof item === 'object') {
+                    if (Array.isArray(item)) {
+                        res.push.apply(res, __spreadArray([], __read(flattenChildren(item))));
+                    }
+                    else if (Array.isArray(item[key])) {
+                        res.push.apply(res, __spreadArray([], __read(flattenChildren(item[key], key))));
+                    }
+                    else if (item[key]) {
+                        res.push(item[key]);
+                    }
+                }
+                else {
+                    res.push(item);
+                }
+                return res;
+            }, []);
+        };
+        var withContainer = function (type, width, children) {
+            return [
+                h('div', { style: { width: width, margin: 0 } }, (function () {
+                    switch (type) {
+                        case 'custom':
+                            return children;
+                        default:
+                            return h(_CX_ELLIPSIS, {
+                                style: { width: width },
+                                content: flattenChildren(children).join()
+                            });
+                    }
+                })())
+            ];
+        };
+        var getSlot = function (node, width, slotName, tagName) {
+            var _a;
+            if (isObject$1(node.children) && node.children[slotName]) {
+                return h('div', { style: { width: width }, "class": tagName }, withContainer((_a = node.props) === null || _a === void 0 ? void 0 : _a.type, width, [
+                    node.children[slotName]()
+                ]));
+            }
+            return null;
+        };
+        return function () {
+            var colspanStat = 0;
+            return h('div', { "class": 'tr' }, props.row.reduce(function (res, node, index, arr) {
+                var _a, _b;
+                var ratio = getVNodeProp(node, 'ratio');
+                var thWidth = props.renderWidth * (1 - ratio);
+                var label = getSlot(node, thWidth + 'px', 'label', 'th');
+                if (label) {
+                    res.push(label);
+                }
+                else if ((_a = node.props) === null || _a === void 0 ? void 0 : _a.label) {
+                    res.push(h('div', { style: { width: thWidth + 'px' }, "class": 'th' }, withContainer(getVNodeProp(node, 'type'), thWidth - (props.size === 'large' ? 16 : 8) + 'px', [node.props.label])));
+                }
+                var span = +getVNodeProp(node, 'span') || 1;
+                var colspan = span > 1 ? (span - 1) * 2 + 1 : 1;
+                var tdWidth = span * props.renderWidth - thWidth;
+                colspanStat += span;
+                if (index === arr.length - 1) {
+                    var diff = props.columnNum - colspanStat;
+                    colspan += diff * 2;
+                    tdWidth += diff * props.renderWidth;
+                }
+                var defaultSlot = (_b = getSlot(node, tdWidth + 'px', 'default', 'td')) !== null && _b !== void 0 ? _b : h('div', { style: { width: tdWidth + 'px' }, "class": 'td' });
+                defaultSlot.props = Object.assign({}, defaultSlot.props, { colspan: colspan });
+                res.push(defaultSlot);
+                return res;
+            }, []));
+        };
+    }
+});
+
+var script$1 = defineComponent({
+    name: 'CxDescriptionItem',
+    props: {
+        label: String,
+        type: { type: String, "default": 'ellipsis' },
+        ratio: { type: Number, "default": 0.6 },
+        span: { type: Number, "default": 1 }
+    }
+});
+
+//
+var script = defineComponent({
+    name: 'CxDescription',
+    components: { CxDescriptionRow: CxDescriptionRow },
+    props: {
+        minWidth: { type: Number, "default": 240 },
+        maxWidth: { type: Number, "default": 320 },
+        size: { type: String, "default": 'middle' }
+    },
+    setup: function (props, _a) {
+        var _this = this;
+        var slots = _a.slots;
+        var getVNodeProp = function (node, prop) {
+            var _a, _b, _c, _d, _e;
+            return (_b = Reflect.get((_a = node.props) !== null && _a !== void 0 ? _a : {}, prop)) !== null && _b !== void 0 ? _b : (_e = (_d = (_c = node.type) === null || _c === void 0 ? void 0 : _c.props) === null || _d === void 0 ? void 0 : _d[prop]) === null || _e === void 0 ? void 0 : _e["default"];
+        };
+        var wrapperRef = ref(null);
+        var tableWidth = computed(function () {
+            var _a, _b;
+            return (((_b = (_a = rows.value[0]) === null || _a === void 0 ? void 0 : _a.reduce(function (res, node) {
+                return res + (+getVNodeProp(node, 'span') || 1);
+            }, 0)) !== null && _b !== void 0 ? _b : 0) *
+                renderWidth.value +
+                'px');
+        });
+        var rows = ref([]);
+        var flattedChildren = function (children) {
+            var temp = Array.isArray(children) ? children : [children];
+            var res = [];
+            temp.forEach(function (child) {
+                if (Array.isArray(child.children)) {
+                    res.push.apply(res, __spreadArray([], __read(flattedChildren(child.children))));
+                }
+                else {
+                    res.push(child);
+                }
+            });
+            return res;
+        };
+        var getChildren = function () {
+            var _a, _b, _c;
+            var defaults = flattedChildren((_b = (_a = slots["default"]) === null || _a === void 0 ? void 0 : _a.call(slots)) !== null && _b !== void 0 ? _b : []);
+            return ((_c = defaults === null || defaults === void 0 ? void 0 : defaults.filter(function (node) { var _a; return ((_a = node.type) === null || _a === void 0 ? void 0 : _a.name) === script$1.name; })) !== null && _c !== void 0 ? _c : []);
+        };
+        var cancelEffect = null;
+        var column = ref(0);
+        var renderWidth = ref(0);
+        onMounted(function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, nextTick()];
+                    case 1:
+                        _a.sent();
+                        cancelEffect = watchEffect(function () { return updateRows(); });
+                        window.addEventListener('resize', updateRows);
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        onBeforeUnmount(function () {
+            window.removeEventListener('resize', updateRows);
+            cancelEffect === null || cancelEffect === void 0 ? void 0 : cancelEffect();
+        });
+        var updateRows = function () {
+            var wrapper = wrapperRef.value;
+            if (!wrapper)
+                return;
+            var children = getChildren();
+            var length = children.length;
+            if (!length)
+                return;
+            var width = wrapper.clientWidth - (props.size === 'large' ? 16 : 8);
+            var floatCapacity = width / props.minWidth;
+            var capacity = +floatCapacity.toFixed(0);
+            var rowNum = parseInt(length / capacity + 1 + '');
+            column.value = rowNum === 1 ? Math.min(length, capacity) : parseInt(floatCapacity + '');
+            renderWidth.value = Math.min(parseInt(width / column.value + ''), props.maxWidth);
+            rows.value = children.reduce(function (res, child) {
+                var current = res[res.length - 1] || (res[res.length - 1] = []);
+                var length = current.reduce(function (res, node) {
+                    return res + (+getVNodeProp(node, 'span') || 1);
+                }, 0);
+                if (length >= column.value ||
+                    length + +(getVNodeProp(child, 'span') || 1) > column.value) {
+                    current = res[res.length] = [];
+                }
+                current.push(child);
+                return res;
+            }, [[]]);
+        };
+        return { wrapperRef: wrapperRef, rows: rows, column: column, renderWidth: renderWidth, tableWidth: tableWidth, updateRows: updateRows };
+    }
+});
+
+function render(_ctx, _cache) {
+  const _component_cx_description_row = resolveComponent("cx-description-row");
+
+  return (openBlock(), createBlock("div", {
+    class: `cx-description cx-description__${_ctx.size}`,
+    ref: "wrapperRef"
+  }, [
+    createVNode("section", {
+      style: { width: _ctx.tableWidth },
+      class: "table"
+    }, [
+      (openBlock(true), createBlock(Fragment, null, renderList(_ctx.rows, (row) => {
+        return (openBlock(), createBlock(_component_cx_description_row, {
+          size: _ctx.size,
+          renderWidth: _ctx.renderWidth,
+          columnNum: _ctx.column,
+          row: row,
+          key: row
+        }, null, 8 /* PROPS */, ["size", "renderWidth", "columnNum", "row"]))
+      }), 128 /* KEYED_FRAGMENT */))
+    ], 4 /* STYLE */)
+  ], 2 /* CLASS */))
+}
+
 script.render = render;
-script.__file = "src/lib/cx-switch/cx-switch.vue";
+script.__file = "src/lib/cx-description/cx-description.vue";
 
 script.install = function (app) {
     app.component(script.name, script);
 };
-var _CX_SWITCH = script;
+var _CX_DESCRIPTION = script;
+
+script$1.install = function (app) {
+    app.component(script$1.name, script$1);
+};
+var _CX_DESCRIPTION_ITEM = script$1;
 
 var components = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -10067,7 +10376,9 @@ var components = /*#__PURE__*/Object.freeze({
   CxTable: _CX_TABLE,
   CxUniPopper: _CX_UNI_POPPER,
   CxTag: _CX_TAG,
-  CxSwitch: _CX_SWITCH
+  CxSwitch: _CX_SWITCH,
+  CxDescription: _CX_DESCRIPTION,
+  cxDescriptionItem: _CX_DESCRIPTION_ITEM
 });
 
 var CxUI = {
@@ -10079,4 +10390,4 @@ var CxUI = {
 };
 
 export default CxUI;
-export { ARROW_KEY, COLUMN_FLAG, _CX_PAGINATION as CXPagination, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DIALOG as CxDialog, _CX_ELLIPSIS as CxEllipsis, _CX_FORM as CxForm, _CX_NUMBER_INPUT as CxNumberInput, _CX_OVERLAY as CxOverlay, _CX_SWITCH as CxSwitch, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_TAG as CxTag, _CX_UNI_POPPER as CxUniPopper, PATCH_FLAG, TypeOption, arrFlat, assignAttrs, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, changeDynamicIdToText, copySort, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, domShare, filterOnlyFormItem, findAncestor, formatDate, formatFormDefaultValue, formatTime, formatWidth, getColumnSelectText, getCxDynamicHead, getEvalResult, getFunctionAttrs, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, invokeLayeredRow, pick, staticConfigList, toggleArrState, updateCxTableWidth, useAutoWidth, useBroadcast, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useCxTableEvent, useDynamicConfig, useExpandConfig, useLazyLoad, usePriorityConfig, useRadioConfig, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useStyle, useTableClass, useTableId, useTableStyle, useValidator, useWatch };
+export { ARROW_KEY, COLUMN_FLAG, _CX_PAGINATION as CXPagination, CX_ADAPTOR_INT_PRECISION, CX_ADAPTOR_LOSS_PRECISION, CX_ADAPTOR_PRECISION_TYPE, CX_SORT_STATUS, CX_SPAN_METHOD_TYPE, CX_STYLE_SETTING, CX_TABLE_CACHE_PENDING, CX_TABLE_COLUMN_ID_PREPEND, CX_TABLE_COLUMN_KEY, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_EMPTY_INDEX, CX_TABLE_EVENT_LIST, CX_TABLE_ID_PREPEND, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_PER_CHAR_WIDTH, CX_TABLE_ROW_ID_PREPEND, CX_TABLE_ROW_KEY, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, CX_TABLE_THROTTLE_DURATION, CX_TABLE_VISUAL_ROW_KEY, CxBroadcast, _CX_BTN as CxBtn, CxConfigAdaptor, CxControlConfig, _CX_DESCRIPTION as CxDescription, _CX_DIALOG as CxDialog, _CX_ELLIPSIS as CxEllipsis, _CX_FORM as CxForm, _CX_NUMBER_INPUT as CxNumberInput, _CX_OVERLAY as CxOverlay, _CX_SWITCH as CxSwitch, _CX_TAB as CxTab, _CX_TABLE as CxTable, CxTableActiveControl, CxTableRendererMap, _CX_TAG as CxTag, _CX_UNI_POPPER as CxUniPopper, PATCH_FLAG, TypeOption, arrFlat, assignAttrs, calcInnerFormula, calcInnerItem, calcInnerOptions, calcInnerValidator, calcInvoker, changeDynamicIdToText, copySort, _CX_DESCRIPTION_ITEM as cxDescriptionItem, cxFormRender, cxTableWarn, decimalFixed, decimals, deepMerge, domShare, filterOnlyFormItem, findAncestor, formatDate, formatFormDefaultValue, formatTime, formatWidth, getColumnSelectText, getCxDynamicHead, getEvalResult, getFunctionAttrs, getOptionsDeps, getParentColumn, getPreOrNextItem, getPrecision, getStatusAttrs, getStringDepends, getStringWidth, getSums, getTargetColumn, getTemplateResult, getTotalSumData, invokeLayeredRow, staticConfigList, toggleArrState, updateCxTableWidth, useAutoWidth, useBroadcast, useCSSVariable, useCalcSpanMethod, useColumn, useColumnValidity, useCopy, useCxDialog, useCxForm, useCxPagination, useCxSort, useCxTable, useCxTableCompose, useCxTableEvent, useDynamicConfig, useExpandConfig, useLazyLoad, usePriorityConfig, useRadioConfig, useRegister, useRowDataValidity, useScrollState, useSelectConfig, useStyle, useTableClass, useTableId, useTableStyle, useValidator, useWatch };

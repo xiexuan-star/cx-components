@@ -64,6 +64,7 @@ export type CxFormItemConfig = {
   width: string | number
   rule: AnyObject | AnyObject[]
   hide: boolean
+  span?:number
   onChange: CxFormChangeHandle
   /**
    * @description 绑定在ElFormItem上的属性

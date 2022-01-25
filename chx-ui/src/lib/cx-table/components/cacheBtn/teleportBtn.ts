@@ -13,7 +13,7 @@ const renderInnerBtn = ({ $attrs, $slots }: ComponentPublicInstance) => {
     CxBtn,
     {
       ...$attrs,
-      level: $attrs.level ?? 2,
+      level: $attrs.level ?? 4,
       loading: ($attrs as AnyObject).loadingState?.loading,
       disabled: ($attrs as AnyObject).disabledState?.disabled
     },

@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody">
+  <teleport to="#cx-dialog-teleport-container" :disabled="!appendToBody">
     <transition
       name="dialog-fade"
       @after-enter="afterEnter"
