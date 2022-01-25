@@ -797,7 +797,9 @@ var script$g = defineComponent({
         var wrapRef = ref(null);
         var slotRef = ref(null);
         var getBadgeValue = function (item) {
-            var badgeValue = props.badgeObj[item.badgeKey || ''] || 0;
+            if (item.badgeKey == void 0)
+                return 0;
+            var badgeValue = +props.badgeObj[item.badgeKey] || 0;
             return badgeValue >= 100 ? '99+' : badgeValue;
         };
         var showArrow = ref(false);
@@ -896,7 +898,7 @@ const _hoisted_1$6 = { class: "cx-tabs" };
 
 function render$9(_ctx, _cache) {
   return (openBlock(), createBlock("div", {
-    class: ['cx-tab', `level-${_ctx.level}`,+_ctx.level===1?'cx_mb_16':'']
+    class: ['cx-tab', `level-${_ctx.level}`, +_ctx.level === 1 ? 'cx_mb_16' : '']
   }, [
     createVNode("div", {
       class: {
@@ -935,7 +937,7 @@ function render$9(_ctx, _cache) {
             }
             }, [
               createTextVNode(toDisplayString(item.name) + " ", 1 /* TEXT */),
-              (item.badgeKey)
+              (item.badgeKey && _ctx.getBadgeValue(item))
                 ? (openBlock(), createBlock("div", {
                     key: 0,
                     class: `cx-tab_badge_${_ctx.level}`

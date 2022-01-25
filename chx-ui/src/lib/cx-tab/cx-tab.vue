@@ -1,5 +1,5 @@
 <template>
-  <div :class="['cx-tab', `level-${level}`,+level===1?'cx_mb_16':'']">
+  <div :class="['cx-tab', `level-${level}`, +level === 1 ? 'cx_mb_16' : '']">
     <div
       :class="{
         'cx-tab_scroll_wrapper': true,
@@ -37,12 +37,12 @@
             }"
           >
             {{ item.name }}
-            <div v-if="item.badgeKey" :class="`cx-tab_badge_${level}`">
+            <div v-if="item.badgeKey && getBadgeValue(item)" :class="`cx-tab_badge_${level}`">
               {{ `${getBadgeValue(item)}${item.unit || ''}` }}
             </div>
           </div>
         </div>
-        <i class="cx-tab_cursor" v-if="level < 2" :style="cursorStyle"/>
+        <i class="cx-tab_cursor" v-if="level < 2" :style="cursorStyle" />
       </div>
       <template v-if="showArrow">
         <i
@@ -66,7 +66,7 @@
           height: level === 4 ? '33px' : '42px'
         }"
       >
-        <slot name="operation"/>
+        <slot name="operation" />
       </div>
     </div>
   </div>
@@ -134,7 +134,7 @@ export default defineComponent({
       await nextTick();
       if (!wrapRef.value) return;
       const id = props.modelValue;
-      const currentTab = wrapRef.value.querySelector<HTMLElement>(`.cx-tab_item[id="${ id }"]`);
+      const currentTab = wrapRef.value.querySelector<HTMLElement>(`.cx-tab_item[id="${id}"]`);
       if (!currentTab) return;
       const left = currentTab.offsetLeft + 'px';
       const width = currentTab.offsetWidth + 'px';
@@ -145,7 +145,8 @@ export default defineComponent({
     const slotRef = ref<HTMLElement | null>(null);
 
     const getBadgeValue = (item: CxTabOption) => {
-      let badgeValue = props.badgeObj[item.badgeKey || ''] || 0;
+      if (item.badgeKey == void 0) return 0;
+      let badgeValue = +props.badgeObj[item.badgeKey] || 0;
       return badgeValue >= 100 ? '99+' : badgeValue;
     };
 
