@@ -3,7 +3,7 @@
 
 $size: (
         large: '9px 16px',
-        medium: '5px 16px',
+        medium: '4px 16px',
         mini: '0 5px'
 );
 
@@ -154,10 +154,10 @@ $theme: (
       $hover: map-get($value, 'hover');
       $active: map-get($value, 'active');
 
-      @include colorGroup($key, $main, $hover, $active, 'rgba(0, 0, 0, 0.3)', 'color', 'border-color');
+      @include colorGroup($key, $main, $hover, $active, 'rgba(0, 0, 0, 0.3)', 'color');
 
       &.cx-btn_#{$key} {
-        border-color: rgba($color: #000000, $alpha: 0.3);
+        border-color: rgba($color: #000000, $alpha: 0.08);
       }
     }
   }

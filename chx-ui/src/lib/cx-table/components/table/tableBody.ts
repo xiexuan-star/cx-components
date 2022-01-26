@@ -179,15 +179,11 @@ export default defineComponent({
     // 合计行渲染
     const renderTotalSum = () => {
       const getRowData = () => {
-        const rowData = isObject(rootProp.customTotalSum)
+        return isObject(rootProp.customTotalSum)
           ? Object.assign({}, rootProp.customTotalSum)
           : isObject(CxTable.entireTotalSum)
             ? R.mergeLeft(transferOtherSum(CxTable.flatColumns), CxTable.entireTotalSum)
             : getTotalSumData(CxTable.flatColumns, rootProp.tableData ?? []);
-        CxTable.flatColumns.forEach(col => {
-          col.calculate && Reflect.set(rowData, col.prop, col.calculate(rowData));
-        });
-        return rowData;
       };
       return (openBlock(), createBlock(Fragment, null, [hideTotalSum.value
         ? createCommentVNode('v-if', true)

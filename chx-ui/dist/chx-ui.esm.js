@@ -5227,15 +5227,11 @@ var CxTableBody = defineComponent({
         var renderTotalSum = function () {
             var getRowData = function () {
                 var _a;
-                var rowData = isObject$1(rootProp.customTotalSum)
+                return isObject$1(rootProp.customTotalSum)
                     ? Object.assign({}, rootProp.customTotalSum)
                     : isObject$1(CxTable.entireTotalSum)
                         ? R.mergeLeft(transferOtherSum(CxTable.flatColumns), CxTable.entireTotalSum)
                         : getTotalSumData(CxTable.flatColumns, (_a = rootProp.tableData) !== null && _a !== void 0 ? _a : []);
-                CxTable.flatColumns.forEach(function (col) {
-                    col.calculate && Reflect.set(rowData, col.prop, col.calculate(rowData));
-                });
-                return rowData;
             };
             return (openBlock(), createBlock(Fragment, null, [hideTotalSum.value
                     ? createCommentVNode('v-if', true)
@@ -6565,7 +6561,7 @@ var cacheListDialog = defineComponent({
         var _hoisted_class_3 = 'cx_of_auto';
         var _hoisted_class_4 = 'cx_ml_5 cx_mr_16';
         var _hoisted_class_5 = 'cx_flex_center cx_ptb_12 cx_plr_16 cx_bb';
-        var _hoisted_class_6 = 'cx_p_16 cx_flex_center cx_justify_between';
+        var _hoisted_class_6 = 'cx_plr_16 cx_mtb_5 cx_flex_center cx_justify_between';
         var _hoisted_class_7 = 'cx_dp_flex cx_bt cx_w_100p';
         var _hoisted_class_8 = 'cx_w_200 cx_br';
         var _hoisted_class_9 = 'cx_bb cx_ptb_16';
@@ -6686,7 +6682,7 @@ var cacheListDialog = defineComponent({
                                         createBlock(Fragment, null, [
                                             R.compose(needTypeTab, getTabCondition)()
                                                 ? createVNode(_CX_TAB, {
-                                                    level: 3,
+                                                    level: 4,
                                                     options: typeOptionList,
                                                     modelValue: currentType(),
                                                     'onUpdate:modelValue': setCurrentType

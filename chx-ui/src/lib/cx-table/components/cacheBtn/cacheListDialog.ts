@@ -343,7 +343,7 @@ export default defineComponent({
     const _hoisted_class_3 = 'cx_of_auto';
     const _hoisted_class_4 = 'cx_ml_5 cx_mr_16';
     const _hoisted_class_5 = 'cx_flex_center cx_ptb_12 cx_plr_16 cx_bb';
-    const _hoisted_class_6 = 'cx_p_16 cx_flex_center cx_justify_between';
+    const _hoisted_class_6 = 'cx_plr_16 cx_mtb_5 cx_flex_center cx_justify_between';
     const _hoisted_class_7 = 'cx_dp_flex cx_bt cx_w_100p';
     const _hoisted_class_8 = 'cx_w_200 cx_br';
     const _hoisted_class_9 = 'cx_bb cx_ptb_16';
@@ -587,7 +587,7 @@ export default defineComponent({
                             ? createVNode(
                               CxTab,
                               {
-                                level: 3,
+                                level: 4,
                                 options: typeOptionList,
                                 modelValue: currentType(),
                                 'onUpdate:modelValue': setCurrentType
