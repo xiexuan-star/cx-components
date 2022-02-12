@@ -611,7 +611,7 @@ export default defineComponent({
                     createVNode('section', { class: _hoisted_class_7 }, [
                       // 订单列表
                       createVNode('div', { class: _hoisted_class_8 }, [
-                        cache[0] || (cache[0] = renderTitle('订单列表')),
+                        cache[0] || (cache[0] = renderTitle('单据列表')),
                         R.compose(renderList, orderList as () => AnyObject[])()
                       ]),
                       // 明细列表

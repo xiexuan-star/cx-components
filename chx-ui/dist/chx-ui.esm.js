@@ -9785,7 +9785,7 @@ var cacheListDialog = defineComponent({
                                 createVNode('section', { "class": _hoisted_class_7 }, [
                                     // 订单列表
                                     createVNode('div', { "class": _hoisted_class_8 }, [
-                                        cache[0] || (cache[0] = renderTitle('订单列表')),
+                                        cache[0] || (cache[0] = renderTitle('单据列表')),
                                         R.compose(renderList, orderList)()
                                     ]),
                                     // 明细列表
@@ -12763,14 +12763,13 @@ var script$7 = defineComponent({
                 var prop = _a.prop, rowData = _a.rowData, rowIndex = _a.rowIndex;
                 return __awaiter(_this, void 0, void 0, function () {
                     var rowHeight, column, cell;
-                    var _b;
-                    return __generator(this, function (_c) {
-                        switch (_c.label) {
+                    var _b, _c;
+                    return __generator(this, function (_d) {
+                        switch (_d.label) {
                             case 0:
-                                if (!prop)
-                                    return [2 /*return*/];
                                 if (!rowData && rowIndex == undefined)
                                     return [2 /*return*/];
+                                prop = prop || ((_b = $CxTable.flatColumns[0]) === null || _b === void 0 ? void 0 : _b.prop);
                                 if (!props.virtualScroll) return [3 /*break*/, 2];
                                 rowIndex = rowIndex !== null && rowIndex !== void 0 ? rowIndex : props.tableData.findIndex(function (data) { return data === rowData; });
                                 if (!isNumber(rowIndex) || !$CxTable.wrapperEle)
@@ -12779,11 +12778,11 @@ var script$7 = defineComponent({
                                 $CxTable.wrapperEle.scrollTop = rowHeight * rowIndex;
                                 return [4 /*yield*/, nextTick()];
                             case 1:
-                                _c.sent();
-                                _c.label = 2;
+                                _d.sent();
+                                _d.label = 2;
                             case 2:
                                 rowData = rowData !== null && rowData !== void 0 ? rowData : props.tableData[rowIndex];
-                                column = (_b = $CxTable.flatColumns) === null || _b === void 0 ? void 0 : _b.find(function (col) { return col.prop === prop; });
+                                column = (_c = $CxTable.flatColumns) === null || _c === void 0 ? void 0 : _c.find(function (col) { return col.prop === prop; });
                                 if (!column)
                                     return [2 /*return*/];
                                 cell = domShare.getCell($CxTable, column, rowData);
