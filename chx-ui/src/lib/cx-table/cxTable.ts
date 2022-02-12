@@ -15,6 +15,7 @@ import {
   withDirectives
 } from 'vue';
 import { CXPagination } from '../index';
+import { useSortable } from './hooks/useSortable';
 
 import { createCxTableConfig } from './static';
 import { CxTableExpose, Nullable } from './types';
@@ -78,6 +79,7 @@ export default defineComponent({
       toggleRowSelection,
       toggleAllSelection,
       getSelectValue,
+      getSelectRowData,
       getSelectAllValue,
       setSelectDisabled,
       updateSelectConfig
@@ -118,6 +120,10 @@ export default defineComponent({
     });
 
     const exposeMethods: CxTableExpose = {
+      isCxTableRef: true,
+      getTableData() {
+        return props.tableData;
+      },
       // radio
       removeRadio,
       setRadio,
@@ -128,6 +134,7 @@ export default defineComponent({
       toggleRowSelection,
       toggleAllSelection,
       getSelectValue,
+      getSelectRowData,
       getSelectAllValue,
       setSelectDisabled,
       updateSelectConfig,
@@ -152,9 +159,8 @@ export default defineComponent({
         broadcast.trigger(prop, rowData, { prop, rowData });
       },
       focusCell: async ({ prop, rowData, rowIndex }) => {
-        if (!prop) return;
         if (!rowData && rowIndex == undefined) return;
-
+        prop = prop || $CxTable.flatColumns[0]?.prop;
         if (props.virtualScroll) {
           rowIndex = rowIndex ?? props.tableData.findIndex(data => data === rowData);
           if (!isNumber(rowIndex) || !$CxTable.wrapperEle) return;
@@ -217,6 +223,7 @@ export default defineComponent({
       onSetConfig.push(updateData);
       props.lazy && useLazyLoad(tableWrapper.value, tableVisible);
     });
+    useSortable($CxTable, props, radioValue, selectConfig, tableVisible, emit);
 
     useRegister($CxTable, props, tableDataVisitor, tableWrapper, bus, tid);
 

@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("//at.alicdn.com/t/font_1831856_bnrnjzk7n4o.css");
+@import url("//at.alicdn.com/t/font_2898473_dq736hhqtf.css");
 .cx-btn {
   font-family: PingFang SC;
   font-style: normal;
@@ -802,7 +802,7 @@
     height: var(--height);
     border-radius: calc(var(--height) / 2);
     border: 1px solid var(--border-color);
-    background-color: #c4c4c4;
+    background-color: #f0f2f5;
     cursor: pointer; }
 
 .cx-description {
@@ -913,6 +913,16 @@
 .cx_break_card {
   margin-left: -16px !important;
   margin-right: -16px !important; }
+
+.cx_header {
+  font-style: normal;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 16px !important;
+  padding: 0 16px;
+  height: 42px;
+  display: flex;
+  align-items: center; }
 
 .clickable {
   cursor: pointer !important; }
@@ -1327,6 +1337,12 @@
 
 .cx_h_100p {
   height: 100% !important; }
+
+.cx_w_42 {
+  width: 42px !important; }
+
+.cx_h_42 {
+  height: 42px !important; }
 
 .cx_w_56 {
   width: 56px !important; }

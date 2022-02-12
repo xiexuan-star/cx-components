@@ -1,5 +1,5 @@
 import { CxCheckSelectFun, SelectConfig, TableDataVisitor } from '../types';
-import { nextTick, reactive, watch } from 'vue';
+import { nextTick, reactive, watch, watchEffect } from 'vue';
 import { onSelectItemChange } from '../helper/eventHelper';
 import { isFunction } from 'chx-utils';
 
@@ -14,6 +14,15 @@ export const useSelectConfig = (tableDataVisitor: TableDataVisitor, emit: Func<a
     disabledItem: []
   });
 
+  watchEffect(()=>{
+    selectConfig.disabledItem.length = 0;
+    tableDataVisitor.sortedData?.forEach((row: any) => {
+      selectConfig.disabledItem.push(
+        isFunction(selectConfig.checkSelect) && !!selectConfig.checkSelect?.(row)
+      );
+    });
+  })
+
   watch(
     () => tableDataVisitor.sortedData.length,
     async () => {
@@ -22,13 +31,7 @@ export const useSelectConfig = (tableDataVisitor: TableDataVisitor, emit: Func<a
       tableDataVisitor.sortedData?.forEach((row: any, index: number) => {
         selectConfig.selectItem[index] = !!selectConfig.selectItem[index];
       });
-      await nextTick();
-      selectConfig.disabledItem.length = 0;
-      tableDataVisitor.sortedData?.forEach((row: any) => {
-        selectConfig.disabledItem.push(
-          isFunction(selectConfig.checkSelect) && !!selectConfig.checkSelect?.(row)
-        );
-      });
+      selectConfig.selectItem.splice(tableDataVisitor.sortedData.length);
     },
     { immediate: true }
   );
@@ -56,6 +59,7 @@ export const useSelectConfig = (tableDataVisitor: TableDataVisitor, emit: Func<a
 
   const clearSelection = () => {
     toggleAllSelection(false);
+    selectConfig.selectItem.splice(0);
   };
 
   const toggleRowSelection = (index: number, state?: boolean) => {
@@ -87,6 +91,12 @@ export const useSelectConfig = (tableDataVisitor: TableDataVisitor, emit: Func<a
     return selectConfig.selectItem;
   };
 
+  const getSelectRowData = ()=>{
+    return tableDataVisitor.sortedData.filter((_,index)=>{
+      return selectConfig.selectItem[index]
+    })
+  }
+
   const setSelectDisabled = (val: boolean) => {
     selectConfig.disabled = val;
   };
@@ -103,6 +113,7 @@ export const useSelectConfig = (tableDataVisitor: TableDataVisitor, emit: Func<a
     selectConfig,
     setCheckSelect,
     updateSelectConfig,
+    getSelectRowData,
     clearSelection,
     setSelectDisabled,
     toggleRowSelection,

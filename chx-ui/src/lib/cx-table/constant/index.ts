@@ -20,7 +20,8 @@ export const CX_TABLE_EVENT_LIST = [
   'dynamicUpdate',
   'columnUpdate',
   'dynamicSetting',
-  'cached'
+  'cached',
+  'dragSort'
 ];
 export const CX_TABLE_INPUT_TYPE = ['input', 'select', 'search', 'numberInput', 'specification'];
 export const CX_TABLE_SUM_INDEX = -100;

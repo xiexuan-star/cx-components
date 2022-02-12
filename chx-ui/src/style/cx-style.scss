@@ -64,6 +64,15 @@
   margin-right: -16px !important;
 }
 
+.cx_header {
+  @include cxTitle;
+  font-size: $secondary-title-ft-sz !important;
+  padding: 0 16px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+}
+
 // --------------- 元素样式类 ---------------
 // 兼容旧写法,勿删
 .clickable {
@@ -150,7 +159,7 @@ $val in (
 }
 
 // 特殊数值的宽高,待补充
-@each $val in 56, 54, 28, 600, 1200 {
+@each $val in 42,56, 54, 28, 600, 1200 {
   .cx_w_#{$val} {
     width: #{$val}px !important;
   }

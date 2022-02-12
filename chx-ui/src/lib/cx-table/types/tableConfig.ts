@@ -13,6 +13,8 @@ export type CxTableExpose = ReturnType<typeof useValidator> &
   Omit<ReturnType<typeof useSelectConfig>, 'selectConfig' | 'setCheckSelect'> &
   Omit<ReturnType<typeof usePriorityConfig>, 'onSetConfig'> &
   Pick<ReturnType<typeof useDynamicConfig>, 'forceUpdate'> & {
+  isCxTableRef: true,
+  getTableData: () => AnyObject[],
   triggerBroadcast: (prop: string, rowData: AnyObject) => void;
   /**
    * @param params[rowData] 与rowIndex二者取其一即可

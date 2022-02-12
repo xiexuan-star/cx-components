@@ -70,7 +70,7 @@ export const useDynamicConfigDialog = () => {
     return cols.reduce((res, col) => {
       if (col.jsonData?.onlyForm) {
         res.onlyFormItem.push(col);
-        onlyFormItemMap[col.label] = true;
+        onlyFormItemMap[col.prop] = true;
       } else {
         res.normalItem.push(col);
       }
@@ -79,14 +79,14 @@ export const useDynamicConfigDialog = () => {
     }, { onlyFormItem: [] as any[], normalItem: [] as any[] });
   };
   const getData = async (dynamicConfig?: AnyObject) => {
-    if (!dynamicConfig) return console.warn('[dynamicConfigDialog]: invalid dynamicConfig');
+    if (!dynamicConfig) return console.warn('[DynamicConfigDialog]: invalid dynamicConfig');
     const { data } = await context.dynamicRequestInstance.get('/table/settings/get', dynamicConfig);
     const { normalItem, onlyFormItem } = filterOnlyForm(data?.itemList ?? []);
     totalList.value = normalItem;
     onlyFormItemCache = onlyFormItem;
     Object.assign(listMap, getDefaultData());
     data?.displayList?.forEach((item: AnyObject) => {
-      if (onlyFormItemMap[item.label]) return;
+      if (onlyFormItemMap[item.prop]) return;
       switch (item.fixed) {
         case 'left':
           listMap['居左固定字段'].push(item);

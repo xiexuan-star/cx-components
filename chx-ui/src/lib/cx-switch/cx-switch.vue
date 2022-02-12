@@ -52,7 +52,7 @@ export default defineComponent({
     inactiveValue: { type: [String, Boolean, Number], default: false },
     loading: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
-    beforeChange: { type: Function }
+    beforeChange: { type: Function },
   },
   emits: ['update:modelValue', 'change'],
   setup(props, { emit }) {

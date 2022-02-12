@@ -1,6 +1,6 @@
 {
   "name": "chx-ui",
-  "version": "1.7.0-beta.59",
+  "version": "1.7.1-beta.11",
   "description": "",
   "author": "xiexuan",
   "types": "dist/index.d.ts",
@@ -39,6 +39,7 @@
   "dependencies": {
     "@popperjs/core": "^2.10.2",
     "@types/lodash-es": "^4.17.5",
+    "@types/sortablejs": "^1.10.7",
     "chx-utils": "^1.0.9",
     "cx-store": "^1.0.3",
     "d": "^1.0.1",
@@ -47,6 +48,7 @@
     "pinyin-match": "^1.2.2",
     "ramda": "^0.27.1",
     "resize-observer-polyfill": "^1.5.1",
+    "sortablejs": "^1.14.0",
     "vuedraggable": "^4.1.0"
   }
 }
