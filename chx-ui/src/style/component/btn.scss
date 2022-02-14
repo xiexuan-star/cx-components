@@ -55,6 +55,16 @@ $theme: (
   }
 }
 
+@mixin shallowBorder($key){
+  &.cx-btn_#{$key} {
+    border-color: rgba($color: #000000, $alpha: 0.08);
+
+    &.cx-btn_disabled {
+      border-color: rgba($color: #000000, $alpha: 0.08) !important;
+    }
+  }
+}
+
 @include b(btn) {
   font-family: PingFang SC;
   font-style: normal;
@@ -122,9 +132,7 @@ $theme: (
 
       @include colorGroup($key, 'rgba(0, 0, 0, 0.65)', $hover, $active, 'rgba(0, 0, 0, 0.3)', 'color', 'border-color');
 
-      &.cx-btn_#{$key} {
-        border-color: rgba($color: #000000, $alpha: 0.08);
-      }
+      @include shallowBorder($key);
     }
   }
 
@@ -132,10 +140,6 @@ $theme: (
     border-color: rgba($color: #000000, $alpha: 0);
     padding-left: 4px !important;
     padding-right: 4px !important;
-
-    &:hover {
-      text-decoration-line: underline;
-    }
 
     @each $key, $value in $theme {
       $main: map-get($value, 'main');
@@ -156,9 +160,7 @@ $theme: (
 
       @include colorGroup($key, $main, $hover, $active, 'rgba(0, 0, 0, 0.3)', 'color');
 
-      &.cx-btn_#{$key} {
-        border-color: rgba($color: #000000, $alpha: 0.08);
-      }
+      @include shallowBorder($key);
     }
   }
 }

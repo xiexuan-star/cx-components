@@ -159,7 +159,7 @@ $val in (
 }
 
 // 特殊数值的宽高,待补充
-@each $val in 42,56, 54, 28, 600, 1200 {
+@each $val in 42, 56, 54, 28, 600, 1200 {
   .cx_w_#{$val} {
     width: #{$val}px !important;
   }
@@ -358,7 +358,7 @@ $val in (
 .cx_line {
   height: 1px;
   margin: 0 -16px;
-  background-color: #d9d9d9;
+  background-color: rgba($color: #000, $alpha: 0.08);
   width: calc(100% + 32px);
 }
 
