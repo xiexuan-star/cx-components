@@ -1,3 +1,4 @@
+import { nextTimeout } from 'chx-utils';
 import { defineComponent, nextTick, onBeforeUnmount, onMounted, ref, watch, watchEffect } from 'vue';
 import { createVNode, VNode } from 'vue';
 import { CxFormControl } from './constructor';
@@ -47,6 +48,9 @@ export default defineComponent({
     onMounted(async () => {
       await nextTick();
       cancelEffect = watch(() => props.items, updateRows, { immediate: true, deep: true });
+      setTimeout(()=>{
+        instance.getFormRef().value?.clearValidate();
+      })
       window.addEventListener('resize', updateRows);
     });
     onBeforeUnmount(() => {

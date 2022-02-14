@@ -289,6 +289,8 @@
   .cx-tab.level-1 {
     margin: -19px -20px 0 -20px;
     padding: 0 20px; }
+  .cx-tab.level-2 {
+    padding: 0 16px; }
   .cx-tab.level-2, .cx-tab.level-3 {
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     margin: 0 -16px; }
@@ -364,7 +366,8 @@
       line-height: 42px;
       font-size: 14px; }
       .cx-tab_scroll_wrapper.level-2_wrapper .cx-tab_item.cx-tab_item_active {
-        color: #0084ff; }
+        color: #0084ff;
+        background: #f0f5ff; }
   .cx-tab_scroll_wrapper.level-3_wrapper {
     padding: 10px 16px 0 16px; }
     .cx-tab_scroll_wrapper.level-3_wrapper .cx-tab_item {
@@ -405,9 +408,9 @@
     cursor: pointer;
     z-index: 300; }
   .cx-tab_scroll_wrapper .cx-tab_left_arrow {
-    left: 0px; }
+    left: 0; }
   .cx-tab_scroll_wrapper .cx-tab_right_arrow {
-    right: 0px; }
+    right: 0; }
   .cx-tab_scroll_wrapper .cx-tabs {
     display: flex; }
   .cx-tab_scroll_wrapper .cx-tab_item {
@@ -514,8 +517,9 @@
           -webkit-line-clamp: 1;
           -webkit-box-orient: vertical;
           padding: 0 calc(var(--padding) * 1px);
-          vertical-align: baseline;
           box-sizing: border-box;
+          max-height: calc(var(--cellHeight) * 1px);
+          vertical-align: baseline;
           position: relative; }
           .cx-table_wrapper .cx-table_scrollWrapper table td .cx-table_cell img,
           .cx-table_wrapper .cx-table_scrollWrapper table th .cx-table_cell img {

@@ -1271,7 +1271,9 @@ var CxForm$1 = /** @class */ (function (_super) {
         Reflect.set(this.attrs, 'ref', this.ref);
         Reflect.set(this.attrs, 'model', (_b = (_a = this.config) === null || _a === void 0 ? void 0 : _a.form) !== null && _b !== void 0 ? _b : {});
         Reflect.set(this.attrs, 'rules', (_d = (_c = this.config) === null || _c === void 0 ? void 0 : _c.items) === null || _d === void 0 ? void 0 : _d.reduce(function (res, item) {
-            item.rule && Reflect.set(res, item.prop, item.rule);
+            if (item.rule) {
+                Reflect.set(res, item.prop, item.rule);
+            }
             return res;
         }, {}));
         return this;
@@ -1378,6 +1380,10 @@ var CxForm = defineComponent({
                     case 1:
                         _a.sent();
                         cancelEffect = watch(function () { return props.items; }, updateRows, { immediate: true, deep: true });
+                        setTimeout(function () {
+                            var _a;
+                            (_a = instance.getFormRef().value) === null || _a === void 0 ? void 0 : _a.clearValidate();
+                        });
                         window.addEventListener('resize', updateRows);
                         return [2 /*return*/];
                 }

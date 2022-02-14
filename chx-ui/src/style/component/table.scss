@@ -107,8 +107,9 @@ $color-primary: #0084ff;
           -webkit-line-clamp: 1;
           -webkit-box-orient: vertical;
           padding: 0 calc(var(--padding) * 1px);
-          vertical-align: baseline;
           box-sizing: border-box;
+          max-height: calc(var(--cellHeight) * 1px);
+          vertical-align: baseline;
           position: relative;
 
           img {

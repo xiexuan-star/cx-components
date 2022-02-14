@@ -4,7 +4,7 @@ import { cxFormDefaultConfig } from '../const';
 import { CxFormConfig, ElFormExpose } from '../types';
 
 import { CxFormTemplate } from '.';
-import { omit } from 'chx-utils';
+import { isArray, isObject, omit } from 'chx-utils';
 import { useCxForm } from '../hooks';
 
 export class CxForm extends CxFormTemplate {
@@ -32,7 +32,9 @@ export class CxForm extends CxFormTemplate {
       this.attrs,
       'rules',
       this.config?.items?.reduce((res, item) => {
-        item.rule && Reflect.set(res, item.prop, item.rule);
+        if (item.rule) {
+          Reflect.set(res, item.prop, item.rule);
+        }
         return res;
       }, {})
     );

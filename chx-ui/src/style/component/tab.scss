@@ -9,6 +9,10 @@
     padding: 0 20px;
   }
 
+  &.level-2 {
+    padding: 0 16px;
+  }
+
   &.level-2, &.level-3 {
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     margin: 0 -16px;
@@ -106,6 +110,7 @@
 
       &.cx-tab_item_active {
         color: #{$color-primary};
+        background: rgb(240, 245, 255);
       }
     }
   }
@@ -164,11 +169,11 @@
   }
 
   .cx-tab_left_arrow {
-    left: 0px;
+    left: 0;
   }
 
   .cx-tab_right_arrow {
-    right: 0px;
+    right: 0;
   }
 
   .cx-tabs {
