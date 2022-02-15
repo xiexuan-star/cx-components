@@ -223,7 +223,7 @@ export function amount({
   if (/^-/.test(arr[0])) {
     arr[0] = arr[0].replace(/-/g, '');
     sign = '-';
-    maxLen++;
+    if(maxLen)maxLen++;
   }
   if (maxLen && arr[0].length > maxLen) arr[0] = arr[0].slice(0, maxLen);
   if (arr[0]) arr[0] = Number(arr[0].toString()) as any;
