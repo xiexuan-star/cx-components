@@ -17,6 +17,7 @@ export const createCxTableConfig = (): CxTableBaseObj => {
       activedCell: null
     },
     priorityColumnMap: new Map<string, Partial<CxTableItem>>(),
+    calculateCacheMap: new WeakMap<AnyObject, AnyObject>(),
     columns: [] as CxTableColumnObj[],
     flatColumns: [] as CxTableColumnObj[],
     columnStore: {

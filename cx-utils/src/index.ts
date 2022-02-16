@@ -198,7 +198,7 @@ export function amount({
                          max,
                          maxLen,
                          decimal
-                       }: Record<string,number|string>) {
+                       }: Record<string, number | string>) {
   val = (val + '').trim();
   if (val === '') return '';
   if (min >= 0) val = val.replace(/-/g, '');
@@ -209,21 +209,20 @@ export function amount({
     [/(?!(\B-))-/g, ''], // 去掉两个以上负号
     [/^\./g, '0.'], // 直接输入小数点默认为0.
     [/(\d+\.\d+)\./, '$1'] // 屏蔽如1.1.1类似的情况
-  ] as [RegExp,string][];
+  ] as [RegExp, string][];
   regStrs.forEach(reg => (val = (val as string).replace(reg[0], reg[1])));
 
   const arr = val.split('.');
-  decimal = parseInt(decimal+'') || 0;
+  decimal = parseInt(decimal + '') || 0;
   if (arr.length > 1 && arr[1] && decimal && arr[1].length > decimal) {
     arr[1] = arr[1].slice(0, decimal);
   }
 
   let sign = '';
-  maxLen = parseInt(maxLen+"") || 0;
+  maxLen = parseInt(maxLen + '') || 0;
   if (/^-/.test(arr[0])) {
     arr[0] = arr[0].replace(/-/g, '');
     sign = '-';
-    maxLen++;
   }
   if (maxLen && arr[0].length > maxLen) arr[0] = arr[0].slice(0, maxLen);
   if (arr[0]) arr[0] = Number(arr[0].toString()) as any;

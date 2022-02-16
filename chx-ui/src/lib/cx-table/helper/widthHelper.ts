@@ -6,40 +6,18 @@ import { decimalFixed } from '../utils';
 
 const selectType = ['search', 'select', 'optionSelect', 'sourceSelect'];
 
-// 旧方法,专用于适配vxe,vxe完全弃用后可删除
-export const widthTypeAdaptor = (
-  item: string | CxTableItem
-): ReturnType<typeof CxTableWidthMap.get> & { isMin: boolean } => {
-  const label = (isObject(item) ? item.label : item) ?? '';
-  const { required, icon, slot, width: itemWidth } = (isObject(item) && item) || {};
-
-  // 映射关系
-  const targetItem = [...CxTableWidthMap.values()].find(item => item.rule(label))!;
-
-  // 表头字符长度(与映射值取最大值)
-  const textWidth = getStringWidth(label) + 20 + (+!!required + +!!icon) * 10;
-  const width = targetItem.important ? targetItem.width : Math.max(targetItem.width, textWidth);
-
-  const result = {
-    ...targetItem,
-    // 对于插槽的情况, 无法判断具体长度, 故单独处理(取配置项当中的值)
-    width: +(slot && itemWidth ? itemWidth : width),
-    // 是否允许拉伸
-    isMin: !targetItem.static
-  };
-
-  return result;
-};
-
 // 表格内容区字符宽度(基准宽度)
-export const contentWidthAdaptor = (column: CxTableItem, props: CxTablePropType) => {
+export const contentWidthAdaptor = (column: CxTableItem, props: CxTablePropType, calcMap: CxTableBaseObj['calculateCacheMap']) => {
   return Math.max(
     ...props.tableData?.map(rowData => {
       let content: undefined | string = rowData[column.prop],
         append = 0;
       const type = column?.control?.type;
       // 当处于特殊字段时,直接取最大宽度
-      if (['备注'].includes(column.label) && column?.control?.type === 'input') {
+      if (column.calculate) {
+        const calc = calcMap.get(rowData) || {};
+        content = `${ calc[column.prop] || content }`;
+      } else if (['备注'].includes(column.label) && column?.control?.type === 'input') {
         return +Infinity;
       } else if (type === 'input') {
         append = 40;
@@ -196,7 +174,7 @@ export const getColumnWidth = (
     Reflect.set(result, 'width', column.configWidth);
   } else if (!result.width) {
     // 四级
-    const L_CONTENT = contentWidthAdaptor(column, props);
+    const L_CONTENT = contentWidthAdaptor(column, props, $CxTable.calculateCacheMap);
 
     // 三级
     const L_MIN = headWidthAdaptor(column);

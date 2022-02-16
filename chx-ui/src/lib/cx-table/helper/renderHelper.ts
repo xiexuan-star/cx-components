@@ -4,7 +4,7 @@ import { EventBus } from 'chx-utils';
 import { CxEllipsis } from '../../index';
 import { COLUMN_FLAG, PATCH_FLAG } from '../constant';
 import { CxBroadcast, CxTableRendererMap } from '../hooks';
-import { CxCellProp, CxIgnoreControl, PaginationModel, SelectConfig } from '../types';
+import { CxCellProp, CxIgnoreControl, CxTableBaseObj, PaginationModel, SelectConfig } from '../types';
 import { decimalFixed, getColumnSelectText } from '../utils';
 
 interface Params extends CxCellProp {
@@ -45,7 +45,8 @@ export const renderCellContent = (
   broadcast: CxBroadcast,
   pagination?: PaginationModel,
   ignoreControl?: CxIgnoreControl,
-  forceControl?: CxIgnoreControl
+  forceControl?: CxIgnoreControl,
+  calculateCacheMap?: CxTableBaseObj['calculateCacheMap']
 ): any => {
   const params: Params = {
     ...props,
@@ -67,7 +68,7 @@ export const renderCellContent = (
             : props.column.columnFlag & COLUMN_FLAG.CONTROL_COLUMN
               ? renderCustomCell(params, isActived, disabled, ignoreControl, forceControl)
               : props.column.columnFlag & COLUMN_FLAG.CALC_COLUMN
-                ? renderCalcCell(params)
+                ? renderCalcCell(params, calculateCacheMap)
                 : renderDefaultNode(params),
       ])
   );
@@ -134,13 +135,15 @@ const renderCellSlot = (
     : null;
 };
 
-const renderCalcCell = (params: Params) => {
+const renderCalcCell = (params: Params, cacheMap: CxTableBaseObj['calculateCacheMap']) => {
   const { column, rowData } = params;
+  const rowCache = cacheMap.get(rowData) || {};
+  cacheMap.set(rowData, rowCache);
   return (
     openBlock(),
       createBlock(Fragment, null, [
         isFunction(column.calculate)
-          ? createVNode(CxEllipsis, { content: column.calculate(rowData) }, null, PATCH_FLAG.PROPS, ['content'])
+          ? createVNode(CxEllipsis, { content: rowCache[column.prop] = column.calculate(rowData) }, null, PATCH_FLAG.PROPS, ['content'])
           : createCommentVNode('v-if', true),
       ])
   );

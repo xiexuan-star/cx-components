@@ -132,7 +132,8 @@ export default defineComponent({
           broadcast,
           rootProp.pagination,
           rootProp.ignoreControl,
-          rootProp.forceControl
+          rootProp.forceControl,
+          CxTable.calculateCacheMap
         );
       };
       invalidContent.value;

@@ -235,6 +235,7 @@ export type CxTableItem = {
 export interface CxTableBaseObj {
   wrapperEle: Nullable<HTMLElement>;
   priorityColumnMap: Map<string, Partial<CxTableItem>>;
+  calculateCacheMap: WeakMap<AnyObject, AnyObject>;
   columns: CxTableColumnObj[];
   flatColumns: CxTableColumnObj[];
   hoveringRowid: string;
