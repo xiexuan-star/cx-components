@@ -101,10 +101,11 @@ export default defineComponent({
 
     const directionOption = reactive({
       visible: false,
-      classList: ['cx-table_wrong_msg', 'cx_mtb_8'],
+      classList: ['cx-table_wrong_msg', 'cx_m_8'],
       text: invalidContent.value,
       controlType: 'handle',
       placement: 'top-start',
+      arrow: false,
       key: 'errorMsg'
     });
     watch(invalidContent, val => {

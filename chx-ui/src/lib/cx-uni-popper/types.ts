@@ -4,9 +4,10 @@ export type UniPopperOption = Partial<{
   placement: Placement;
   list: PopperContentListItem[];
   text: string;
+  arrow: boolean;
   visible: boolean;
   key: string;
-  classList: string[]
+  classList: string[],
 }> & PopperOption;
 
 export type PopperInstance = ReturnType<typeof createPopper>;

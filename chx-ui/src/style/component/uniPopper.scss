@@ -1,4 +1,4 @@
-.cx_uni_popper {
+@include b(uni-popper) {
   position: absolute;
   z-index: 2500;
   background-color: rgba(28, 28, 28, 1);
@@ -13,6 +13,49 @@
     }
   }
   animation: show 0.6s;
+
+  @include e(arrow) {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    z-index: -1;
+
+    &::before {
+      background: rgb(28, 28, 28);
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      z-index: -1;
+      content: ' ';
+      transform: rotate(45deg);
+      box-sizing: border-box;
+    }
+  }
+
+  $arrow-selector: #{& + '__arrow'};
+
+  $placements: (
+          'top': 'bottom',
+          'bottom': 'top',
+          'left': 'right',
+          'right': 'left',
+  );
+
+  @each $placement, $opposite in $placements {
+    &[data-popper-placement^='#{$placement}'] > #{$arrow-selector} {
+      #{$opposite}: -5px;
+    }
+  }
+
+  @each $placement,
+  $adjacency in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top') {
+    &[data-popper-placement^='#{$placement}'] {
+      #{$arrow-selector}::before {
+        border-#{$placement}-color: transparent;
+        border-#{$adjacency}-color: transparent;
+      }
+    }
+  }
 }
 
 .hover_bg_black_75:hover {

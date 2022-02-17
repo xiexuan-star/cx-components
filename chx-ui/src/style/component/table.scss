@@ -381,4 +381,8 @@ $color-primary: #0084ff;
 .cx-table_wrong_msg {
   color: #fff !important;
   background-color: #f56c6c !important;
+
+  .cx-uni-popper__arrow::before {
+    background: #f56c6c;
+  }
 }

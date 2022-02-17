@@ -1,26 +1,11 @@
 import { createPopper, Instance, Placement } from '@popperjs/core';
-import * as R from 'ramda';
 import {
-  appendChild,
-  appendToBody,
-  clearClassList,
-  clearInnerHTML,
-  clearTimer, copyInnerText,
-  createTag,
-  curryAddListener,
-  curryRemoveListener,
-  curryTimeout,
-  hideEle,
-  IO,
-  map,
-  Maybe,
-  setClassByArr,
-  setInnerText,
-  showEle,
-  truthy,
+  appendChild, appendToBody, clearClassList, clearInnerHTML, clearTimer, copyInnerText, createTag, curryAddListener,
+  curryRemoveListener, curryTimeout, hideEle, IO, map, Maybe, setClassByArr, setInnerText, showEle, truthy,
   unsafePerformIO
 } from 'chx-utils';
-import { WatchStopHandle, watch } from 'vue';
+import * as R from 'ramda';
+import { watch, WatchStopHandle } from 'vue';
 import { PopperContentListItem, PopperHandleType, PopperInstance, PopperOption, UniPopperOption } from './types';
 
 // ------------------------------ timer ------------------------------
@@ -68,6 +53,9 @@ const alienateInstance = (popper: Instance, key: string) => {
   return popper;
 };
 
+// ----------------------------------- arrow --------------------------------------------
+const createArrow = R.converge(R.compose(setClassByArr(['cx-uni-popper__arrow']), R.tap(ele => ele.setAttribute('data-popper-arrow', '')), createTag), [R.always('i')]);
+
 // ------------------------------ popElement ------------------------------
 const popEleMap: Record<string, HTMLElement> = {};
 
@@ -78,16 +66,20 @@ const usePopEle = (key: string) => {
   };
 };
 const bindBaseAttr = R.compose(
-  setClassByArr(['cx_b_radius_4', 'cx_uni_popper']) as (
+  setClassByArr(['cx_b_radius_4', 'cx-uni-popper']) as (
     a: HTMLElement
   ) => HTMLElement
 );
 
 const createPopperEle = R.compose(bindBaseAttr, R.converge(createTag, [R.always('div')]));
 
-const getPopOption = R.compose(R.objOf('placement'), R.defaultTo('right-start')) as (
-  a?: string
-) => { placement: Placement };
+const getPopOption = (placement?: string, arrow?: HTMLElement) => {
+  const option = { placement: placement || 'right-start' };
+  arrow && Reflect.set(option, 'modifiers', [
+    { name: 'arrow', options: { element: arrow, } },
+  ],);
+  return option as any;
+};
 
 const mountPopperEle = (options: PopperOption) => {
   const hasClass = () => R.is(Array, R.prop('classList', options));
@@ -133,16 +125,17 @@ const getPopInstance = (
   ele: HTMLElement,
   key: string,
   placement?: string,
+  arrow?: HTMLElement,
   classList?: string[],
   controlType?: PopperHandleType
 ) => {
-  const element = createPopper(
+  const popper = mountPopperEle({ classList, controlType, key });
+  arrow && appendChild(arrow, popper);
+  return alienateInstance(createPopper(
     ele,
-    mountPopperEle({ classList, controlType, key }),
-    getPopOption(placement)
-  );
-
-  return alienateInstance(element, key);
+    popper,
+    getPopOption(placement, arrow)
+  ), key);
 };
 
 // ------------------------------ patchEle ------------------------------
@@ -196,22 +189,25 @@ const bindClickEvent = R.curryN(2, (ele: HTMLElement, item: PopperContentListIte
     ele
   );
 });
-const patchListEle = (list: PopperContentListItem[], container: HTMLElement) => {
+const patchListEle = (list: PopperContentListItem[], container: HTMLElement, arrow?: HTMLElement) => {
   list.forEach(
     R.compose(
       appendChild(R.__, container),
       R.converge(bindClickEvent, [renderListItem, R.identity])
     )
   );
+  R.when(truthy, appendChild(R.__, container))(arrow);
 };
 
-const renderTextItem = R.compose(
-  setClassByArr(['cx_p_12', 'cx_fc_white', 'cx_fs_12']),
-  R.converge(setInnerText, [R.identity, R.converge(createTag, [R.always('div')])])
-) as (a: string) => HTMLElement;
+const renderTextItem = (a: string): HTMLElement => {
+  const getTag = R.converge(setInnerText, [R.always(a), R.converge(createTag, [R.always('div')])]);
+  const setClass = setClassByArr(['cx_p_12', 'cx_fc_white', 'cx_fs_12']) as (a: HTMLElement) => HTMLElement;
+  return R.compose(setClass, getTag)();
+};
 
-const patchTextEle = (text: string, container: HTMLElement) => {
-  return R.compose(appendChild(R.__, container), renderTextItem)(text);
+const patchTextEle = (text: string, container: HTMLElement, arrow?: HTMLElement) => {
+  const appendArrow = R.tap(R.when(() => truthy(arrow), appendChild(arrow)));
+  return R.compose(appendArrow, appendChild(R.__, container), renderTextItem)(text);
 };
 
 // ------------------------------ direction ------------------------------
@@ -238,15 +234,17 @@ export default {
     const getText = () => R.prop('text')(value);
     const getPlacement = () => R.prop('placement')(value);
     const getClassList = () => R.prop('classList')(value);
-    const getVisible = () => R.prop('visible')(value);
+    const getVisible = () => (R.prop('visible')(value));
+    const getArrowProp = () => (R.prop('arrow')(value) ?? true);
     const visibleIsExist = () => getVisible() != undefined;
     const getControlType = () => R.defaultTo('mouse', R.prop('controlType', value));
 
+    const arrow = R.when(getArrowProp, createArrow)(null);
     const listIsExist = R.compose(truthy, getList);
-    const patchListToPop = R.converge(patchListEle, [getList, getPopEle]);
+    const patchListToPop = R.converge(patchListEle, [getList, getPopEle, R.always(arrow)]);
 
     const textIsExist = R.compose(truthy, getText);
-    const patchTextToPop = R.converge(patchTextEle, [getText, getPopEle]);
+    const patchTextToPop = R.converge(patchTextEle, [getText, getPopEle, R.always(arrow)]);
 
     const show = R.compose(
       R.converge(
@@ -263,6 +261,7 @@ export default {
             R.always(el),
             getKey,
             getPlacement,
+            R.always(arrow),
             getClassList,
             getControlType
           ])

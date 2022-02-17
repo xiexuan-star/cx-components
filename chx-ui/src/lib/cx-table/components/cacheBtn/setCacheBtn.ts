@@ -94,7 +94,8 @@ export default defineComponent({
           clickHandler: setCache,
           dynamicColumn: props.dynamicColumn,
           selector: rootProp.setCacheBtn,
-          disabledState
+          disabledState,
+          level: 2
         },
         R.objOf('default', R.nAry(0, content)),
         PATCH_FLAG.PROPS,
