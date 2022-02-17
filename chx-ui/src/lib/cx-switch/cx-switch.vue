@@ -6,7 +6,7 @@
     }"
   >
     <span
-      class="cx_mr_4 animate"
+      class="cx_mr_4 cx-switch__animate"
       :style="{ color: isActive ? `` : `${inactiveColor}` }"
       v-if="inactiveText"
     >{{ inactiveText }}
@@ -16,7 +16,7 @@
         :class="{
           'cx-switch__slider': true,
           'is-active': isActive,
-          animate: true
+          'cx-switch__animate': true
         }"
       >
         <i v-if="loading" class="el-icon-loading"/>
@@ -24,7 +24,7 @@
       </div>
     </div>
     <span
-      class="cx_ml_4 animate"
+      class="cx_ml_4 cx-switch__animate"
       :style="{ color: isActive ? `${activeColor}` : `` }"
       v-if="activeText"
     >{{ activeText }}
@@ -40,8 +40,8 @@ export default defineComponent({
   props: {
     modelValue: { type: [String, Boolean, Number] },
     size: { type: String as PropType<'large' | 'small'>, default: 'small' },
-    activeColor: { type: String, default: '#6BCFA4' },
-    inactiveColor: { type: String, default: '#FF7875' },
+    activeColor: { type: String, default: 'rgb(149, 222, 100)' },
+    inactiveColor: { type: String, default: 'rgb(255, 163, 158)' },
     width: { type: Number },
     borderColor: { type: String, default: 'white' },
     activeIcon: { type: String, default: 'check-line' },

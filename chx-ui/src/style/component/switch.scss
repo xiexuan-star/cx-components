@@ -7,7 +7,7 @@
   justify-content: center;
   flex-wrap: nowrap;
 
-  .animate {
+  @include e(animate){
     transition: background-color 0.5s ease-in-out, margin 0.3s ease-in-out, color 0.3s ease-in-out;
   }
 
