@@ -47,7 +47,7 @@ export const useCxTableCompose = () => {
       R.reduce((res, prop) => {
         return R.compose(
           R.ifElse(R.isNil, R.always(res), R.compose(R.flip(R.append)(res))),
-          search2sourceSelect,
+          R.when(truthy,search2sourceSelect),
           R.find(R.propEq('prop', prop))
         )(itemList);
       }, [] as CxFormItemConfig[])

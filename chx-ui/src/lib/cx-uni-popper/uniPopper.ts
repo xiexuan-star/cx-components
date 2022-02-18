@@ -74,12 +74,26 @@ const bindBaseAttr = R.compose(
 const createPopperEle = R.compose(bindBaseAttr, R.converge(createTag, [R.always('div')]));
 
 const getPopOption = (placement?: string, arrow?: HTMLElement) => {
-  const option = { placement: placement || 'right-start' };
-  arrow && Reflect.set(option, 'modifiers', [
-    { name: 'arrow', options: { element: arrow, } },
-  ],);
-  return option as any;
-};
+    const option = {
+      placement: placement || 'right', modifiers: [{
+        name: 'offset',
+        options: {
+          offset({ placement }) {
+            if (placement.includes('bottom') || placement.includes('top')) {
+              return [0, 6];
+            }
+            if (placement.includes('left') || placement.includes('right')) {
+              return [0, 6];
+            }
+            return [];
+          }
+        }
+      }] as any[]
+    };
+    arrow && option.modifiers.push({ name: 'arrow', options: { element: arrow, padding: 6 } });
+    return option as any;
+  }
+;
 
 const mountPopperEle = (options: PopperOption) => {
   const hasClass = () => R.is(Array, R.prop('classList', options));
@@ -299,3 +313,4 @@ export default {
     key && unsafeDoUnload(key);
   }
 };
+;

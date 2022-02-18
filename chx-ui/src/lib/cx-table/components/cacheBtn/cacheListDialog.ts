@@ -498,7 +498,6 @@ export default defineComponent({
     const labelContainer = ((label: string) => {
       return R.compose(truthy, R.find(R.includes(R.__, label)))(['操作', '选择', '多选']);
     }) as (a: string) => boolean;
-    const noRequired = invokerWithChildren(R.omit(['required']));
     const setImgsType = R.compose(
       R.when(
         R.compose(R.includes(R.__, ['款型图', '蜡版图', 'CAD版图']), R.prop<string, any>('label')),
@@ -510,10 +509,15 @@ export default defineComponent({
     ) as (a: AnyObject) => AnyObject;
     const setDefaultSlot = R.compose(
       R.when(
-        R.compose(R.all(falsy), R.props<string, string>(['slot', 'calculate', 'dynamicCalculate'])),
+        R.compose(R.all(falsy),
+          R.converge(R.append, [
+            R.compose(R.includes(R.__, ['status', 'tag']), R.path(['control', 'type'])),
+            R.props<string, string>(['slot', 'calculate', 'dynamicCalculate'])
+          ])),
         R.assoc('slot', 'renderWithText')
       )
     );
+    const noRequired = invokerWithChildren(R.omit(['required']));
     const imgsTypeInvoker = invokerWithChildren(setImgsType);
     const slotInvoker = invokerWithChildren(setDefaultSlot);
     const labelNotShow = R.compose(R.not, R.propSatisfies(labelContainer, 'label'));

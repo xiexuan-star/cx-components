@@ -230,6 +230,7 @@ export const registKeyboardEvent = (
   const isEleSelectItem = (ele?: HTMLElement | null) => {
     return ele?.nodeName === 'LI' && ele.classList.contains('el-select-dropdown__item');
   };
+
   const clickHandle = async (event: MouseEvent) => {
     await new Promise(resolve => setTimeout(() => resolve('')));
     let eventTarget = event.target as HTMLElement | undefined | null;
