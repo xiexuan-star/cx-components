@@ -7,9 +7,11 @@ import { decimalFixed } from '../utils';
 const selectType = ['search', 'select', 'optionSelect', 'sourceSelect'];
 
 // 表格内容区字符宽度(基准宽度)
-export const contentWidthAdaptor = (column: CxTableItem, props: CxTablePropType, calcMap: CxTableBaseObj['calculateCacheMap']) => {
+export const contentWidthAdaptor = (column: CxTableItem, props: CxTablePropType, CxTable: CxTableBaseObj) => {
+  const { calculateCacheMap: calcMap, totalSumCache: totalRow } = CxTable;
+  const list = [...props.tableData, totalRow || {}];
   return Math.max(
-    ...props.tableData?.map(rowData => {
+    ...list.map(rowData => {
       let content: undefined | string = rowData[column.prop],
         append = 0;
       const type = column?.control?.type;
@@ -174,7 +176,7 @@ export const getColumnWidth = (
     Reflect.set(result, 'width', column.configWidth);
   } else if (!result.width) {
     // 四级
-    const L_CONTENT = contentWidthAdaptor(column, props, $CxTable.calculateCacheMap);
+    const L_CONTENT = contentWidthAdaptor(column, props, $CxTable);
 
     // 三级
     const L_MIN = headWidthAdaptor(column);

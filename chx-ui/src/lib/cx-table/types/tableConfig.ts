@@ -239,8 +239,9 @@ export interface CxTableBaseObj {
   columns: CxTableColumnObj[];
   flatColumns: CxTableColumnObj[];
   hoveringRowid: string;
-  cacheItemRemove: Nullable<() => void>;
+  // 适用于动态表单自动获取的合计值
   entireTotalSum: Nullable<AnyObject>;
+  totalSumCache: Nullable<AnyObject>,
   editStore: {
     actived: {
       rowData: Nullable<AnyObject>;

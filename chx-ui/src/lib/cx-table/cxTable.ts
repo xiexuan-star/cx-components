@@ -392,30 +392,6 @@ export default defineComponent({
           ),
           (openBlock(),
             createBlock(Fragment, null, [
-              props.floatTotalSum
-                ? createVNode('div', { class: _hoisted_1_class }, [
-                  createVNode('div', { class: `${ _hoisted_2_class } cx_of_hidden` }, [
-                    createVNode(
-                      CxTableBody,
-                      {
-                        tableData: tableDataVisitor.sortedData,
-                        onlyTotal: true,
-                        float: true,
-                        class: 'cx_mt_20',
-                        style: {
-                          right: `${ $CxTable.scrollStore.scrollLeft + '' }px`,
-                          position: 'relative'
-                        }
-                      },
-                      null,
-                      PATCH_FLAG.FULL_PROPS
-                    )
-                  ])
-                ])
-                : createCommentVNode('v-if_float_total_sum', true)
-            ])),
-          (openBlock(),
-            createBlock(Fragment, null, [
               isObject(props.pagination)
                 ? createVNode(
                   CXPagination,

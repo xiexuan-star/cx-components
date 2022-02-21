@@ -12,10 +12,10 @@ export default defineComponent({
   props: {
     type: {
       type: String as PropType<'primary' | 'success' | 'danger' | 'info' | 'red' | 'green' | 'blue' | 'cyan' | 'geekblue'>,
-      default: 'parimary'
+      default: 'primary'
     },
     text: { type: String },
-    size: { type: String as PropType<'mini' | 'small'>, default: 'mini' }
+    size: { type: String as PropType<'small'|'mini'>, default: 'mini' }
   }
 });
 </script>

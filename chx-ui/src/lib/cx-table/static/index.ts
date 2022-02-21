@@ -3,11 +3,11 @@ import { CX_TABLE_NOT_HOVER_ID } from '../constant';
 import { CxTableBaseObj, CxTableColumnObj, CxTableItem } from '../types';
 
 export const createCxTableConfig = (): CxTableBaseObj => {
-  return reactive({
+  return reactive<CxTableBaseObj>({
     wrapperEle: null,
     hoveringRowid: CX_TABLE_NOT_HOVER_ID,
-    cacheItemRemove: null,
     entireTotalSum: null,
+    totalSumCache: null,
     editStore: {
       actived: {
         rowData: null,

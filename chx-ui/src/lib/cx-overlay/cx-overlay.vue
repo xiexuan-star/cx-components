@@ -20,10 +20,11 @@ export default defineComponent({
   name: 'CxOverlay',
   props: {
     disabled: { type: Boolean, default: false },
-    lockScroll: { type: Boolean, default: false }
+    lockScroll: { type: Boolean, default: false },
+    zIndex: { type: Number }
   },
-  setup() {
-    return { zIndex: zIndex++ };
+  setup(props) {
+    return { zIndex: props.zIndex ?? zIndex++ };
   }
 });
 </script>

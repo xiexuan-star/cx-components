@@ -9,8 +9,8 @@ const script = defineComponent({
   name: 'CxBtn',
   props: {
     size: {
-      type: String as PropType<'large' | 'medium' | 'mini'>,
-      default: 'medium',
+      type: String as PropType<'large' | 'middle' | 'small'>,
+      default: 'middle',
     },
     level: { type: [String, Number], default: '2' },
     type: {
@@ -38,11 +38,11 @@ const script = defineComponent({
 
     const classList = computed(() => {
       const result: string[] = ['cx-btn'];
-      if (props.disabled) result.push('cx-btn_disabled');
-      result.push(`cx-btn_${ props.size }`);
-      result.push(`cx-btn_level_${ props.level }`);
-      result.push(`cx-btn_${ props.type }`);
-      if (props.loading) result.push(`cx-btn_loading`);
+      if (props.disabled) result.push('cx-btn__disabled');
+      result.push(`cx-btn__${ props.size }`);
+      result.push(`cx-btn__level__${ props.level }`);
+      result.push(`cx-btn__${ props.type }`);
+      if (props.loading) result.push(`cx-btn__loading`);
       return result;
     });
 

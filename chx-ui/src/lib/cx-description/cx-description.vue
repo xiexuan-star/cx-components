@@ -18,7 +18,7 @@ import {
   defineComponent,
   nextTick,
   onBeforeUnmount,
-  onMounted,
+  onMounted, PropType,
   ref,
   VNode,
   watchEffect
@@ -32,7 +32,7 @@ export default defineComponent({
   props: {
     minWidth: { type: Number, default: 240 },
     maxWidth: { type: Number, default: 320 },
-    size: { type: String, default: 'middle' }
+    size: { type: String as PropType<'middle'|'large'>, default: 'middle' }
   },
   setup(props, { slots }) {
     const getVNodeProp = (node: VNode, prop: string): any => {

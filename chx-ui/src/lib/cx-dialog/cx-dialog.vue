@@ -8,6 +8,7 @@
     >
       <cx-overlay
         v-show="visible"
+        :z-index="zIndex"
         :disabled="!modal"
         :lockScroll='lockScroll'
         @click="closeOnClickModal && openDialog(false)"
@@ -89,7 +90,8 @@ export default defineComponent({
     appendToBody: { type: Boolean, default: false },
     modal: { type: Boolean, default: true },
     lockScroll: { type: Boolean, default: false },
-    bodyStyle: { type: Object, default: () => ({}) }
+    bodyStyle: { type: Object, default: () => ({}) },
+    zIndex: { type: Number }
   },
   setup(props, { expose, emit }) {
     const visible = ref(false);

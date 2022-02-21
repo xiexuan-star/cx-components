@@ -2,7 +2,7 @@ import { isFunction, isNumber, isObject, isString } from 'chx-utils';
 import * as R from 'ramda';
 import {
   computed, createBlock, createCommentVNode, createVNode, CSSProperties, defineComponent, Fragment, inject, openBlock,
-  PropType, ref, watchEffect
+  PropType, ref, toRaw, watchEffect
 } from 'vue';
 import { CX_TABLE_EMPTY_INDEX, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, PATCH_FLAG } from '../../constant';
 import { CxBroadcast, useTableId, useTableStyle } from '../../hooks';
@@ -179,11 +179,13 @@ export default defineComponent({
     // 合计行渲染
     const renderTotalSum = () => {
       const getRowData = () => {
-        return isObject(rootProp.customTotalSum)
+        const res = isObject(rootProp.customTotalSum)
           ? Object.assign({}, rootProp.customTotalSum)
           : isObject(CxTable.entireTotalSum)
             ? R.mergeLeft(transferOtherSum(CxTable.flatColumns), CxTable.entireTotalSum)
             : getTotalSumData(CxTable.flatColumns, rootProp.tableData ?? []);
+        CxTable.totalSumCache = toRaw(res);
+        return res;
       };
       return (openBlock(), createBlock(Fragment, null, [hideTotalSum.value
         ? createCommentVNode('v-if', true)

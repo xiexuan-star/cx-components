@@ -24,10 +24,6 @@ export default {
    */
   showTotalSum: { type: Boolean, default: false },
   /**
-   * @description 显示悬浮底部总计
-   */
-  floatTotalSum: { type: Boolean, default: false },
-  /**
    * @description 固定底部总计
    */
   fixTotalSum: { type: Boolean, default: false },

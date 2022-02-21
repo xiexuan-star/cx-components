@@ -45,7 +45,6 @@ export type CxTablePropType = {
   pagination: PaginationModel;
   disabled: boolean;
   showTotalSum: boolean;
-  floatTotalSum: boolean;
   fixTotalSum: boolean;
   customTotalSum: Nullable<AnyObject>;
   emptyLimit: number;
