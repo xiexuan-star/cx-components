@@ -57,7 +57,7 @@ export default defineComponent({
                         'div',
                         {
                           onClick:
-                            cache[0] || (cache[0] = () => bus.emit('addNewRow', 'addNewRow')),
+                            cache[0] || (cache[0] = () => bus.emit('addNewRow')),
                           class: classList.value
                         },
                         rootProp.showAddBtn,

@@ -23,7 +23,8 @@ export const CX_TABLE_EVENT_LIST = [
   'cached',
   'dragSort'
 ];
-export const CX_TABLE_INPUT_TYPE = ['input', 'select', 'search', 'numberInput', 'specification'];
+export const CX_TABLE_INPUT_TYPE = ['input', 'numberInput', 'note'];
+export const CX_TABLE_SELECT_TYPE = ['select', 'search', 'inscription', ''];
 export const CX_TABLE_SUM_INDEX = -100;
 export const CX_TABLE_EMPTY_INDEX = -200;
 export const CX_TABLE_PER_CHAR_WIDTH = 20;

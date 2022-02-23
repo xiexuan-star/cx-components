@@ -37,35 +37,31 @@ $theme: (
 );
 
 @mixin colorGroup($theme, $main, $hover, $active, $disabled, $params...) {
-  @include b(#{$block}) {
-    @each $key in $params {
-      @include e(#{$theme}) {
-        #{$key}: #{$main};
+  @each $key in $params {
+    @include e(#{$theme}) {
+      #{$key}: #{$main};
 
-        &:hover {
-          #{$key}: #{$hover};
-        }
+      &:hover {
+        #{$key}: #{$hover};
+      }
 
-        &:active {
-          #{$key}: #{$active};
-        }
+      &:active {
+        #{$key}: #{$active};
+      }
 
-        @include e(disabled) {
-          #{$key}: #{$main} !important;
-          opacity: .5;
-        }
+      @include e(disabled) {
+        #{$key}: #{$main} !important;
+        opacity: .5;
       }
     }
   }
 }
 
 @mixin shallowBorder($key) {
-  @include b(#{$block}) {
-    @include e(#{$key}) {
-      border-color: rgba($color: #000000, $alpha: 0.08);
-      @include e(disabled) {
-        border-color: rgba($color: #000000, $alpha: 0.08) !important;
-      }
+  @include e(#{$key}) {
+    border-color: rgba($color: #000000, $alpha: 0.08);
+    @include e(disabled) {
+      border-color: rgba($color: #000000, $alpha: 0.08) !important;
     }
   }
 }
@@ -109,11 +105,9 @@ $theme: (
     }
   }
 
-  @at-root {
-    @each $key, $value in $size {
-      @include e(#{$key}) {
-        padding: #{$value};
-      }
+  @each $key, $value in $size {
+    @include e(#{$key}) {
+      padding: #{$value};
     }
   }
 

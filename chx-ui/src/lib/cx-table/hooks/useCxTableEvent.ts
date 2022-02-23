@@ -3,13 +3,13 @@ import { EventBus } from 'chx-utils';
 
 export const useCxTableEvent = ($CxTable: CxTableBaseObj, props: CxTablePropType, emit: Func<any>) => {
   const bus = new EventBus();
-  bus.on('addNewRow', (content: string) => {
+  bus.on('addNewRow', () => {
     if (props.disabled) return;
     const emptyRow = $CxTable.flatColumns.reduce((res, column) => {
       Reflect.set(res, column.prop, '');
       return res;
     }, {} as AnyObject);
-    emit(content, emptyRow);
+    emit('addNewRow', emptyRow);
   });
   bus.on('expandCheck', (params: any) => {
     emit('expandCheck', params);

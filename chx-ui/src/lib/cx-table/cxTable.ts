@@ -23,7 +23,6 @@ import { CX_TABLE_EVENT_LIST } from './constant';
 import { domShare, formatWidth, invokeLayeredRow } from './utils';
 
 import CxTableContent from './components/table';
-import CxTableBody from './components/table/tableBody';
 import CxTableEmpty from './components/table/empty';
 import TeleForm from './components/teleForm/index';
 import { SetCacheBtn } from './components/cacheBtn';
@@ -101,8 +100,6 @@ export default defineComponent({
     const { setConfig, removeConfig, clearConfig, onSetConfig } = usePriorityConfig($CxTable);
 
     // 缓存
-    // const { removeCache, setCache, getCache } = useCache(props);
-
     const { broadcast } = useBroadcast();
 
     const updateWidth = debounce(async () => {

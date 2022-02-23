@@ -1,12 +1,12 @@
-import { nextTick, onBeforeUnmount, onMounted, onUnmounted, Ref } from 'vue';
+import { EventBus } from 'chx-utils';
 import { debounce, throttle } from 'lodash-es';
-import { CX_TABLE_NOT_HOVER_ID } from '../constant';
-import { ARROW_KEY, CX_SPAN_METHOD_TYPE } from '../constant';
+import { nextTick, onBeforeUnmount, onMounted, onUnmounted, Ref } from 'vue';
+import {
+  ARROW_KEY, CX_SPAN_METHOD_TYPE, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_SELECT_TYPE
+} from '../constant';
 import { CxTableActiveControl } from '../hooks';
 import { CxCellProp, CxTableBaseObj, CxTablePropType, Nullable, SelectConfig, TableDataVisitor } from '../types';
-import { getColumnSelectText, getPreOrNextItem } from '../utils';
-import { domShare } from '../utils';
-import { EventBus } from 'chx-utils';
+import { domShare, getColumnSelectText, getPreOrNextItem } from '../utils';
 
 export const registResponsive = (wrapper: Ref<Nullable<HTMLElement>>, callbacks: Func<any>[]) => {
   onMounted(() => {
@@ -287,6 +287,60 @@ export const registKeyboardEvent = (
     );
   };
 
+  const isArrowKey = (key: string): key is ARROW_KEY => {
+    return [ARROW_KEY.U, ARROW_KEY.D, ARROW_KEY.L, ARROW_KEY.R].includes(key as any);
+  };
+  const triggerTdMoveEvent = (td: HTMLElement, key: ARROW_KEY) => {
+    if (!isArrowKey(key)) return;
+    const { actived } = editStore;
+    const { flatColumns } = $CxTable;
+    editStore.activedControl = null;
+    switch (key) {
+      case ARROW_KEY.L:
+        actived.column = getPreOrNextItem(flatColumns, actived.column, 'pre', '_colid');
+        break;
+      case ARROW_KEY.R:
+        actived.column = getPreOrNextItem(flatColumns, actived.column, 'next', '_colid');
+        break;
+      case ARROW_KEY.U:
+        actived.rowData = getPreOrNextItem(tableDataVisitor.sortedData, actived.rowData, 'pre');
+        break;
+      case ARROW_KEY.D:
+        actived.rowData = getPreOrNextItem(tableDataVisitor.sortedData, actived.rowData, 'next');
+        break;
+    }
+    updateActivedCell(td);
+  };
+  const triggerFocusTd = () => {
+    editStore.activedControl = null;
+
+    const { actived } = $CxTable.editStore;
+
+    if (actived.column && actived.rowData) {
+      editStore.activedCell = domShare.getCell($CxTable, actived.column, actived.rowData);
+    }
+  };
+  const triggerFocusInput = async () => {
+    const { activedCell } = editStore;
+    editStore.activedControl = true;
+    await nextTick();
+    setTimeout(() => {
+      if (!editStore.activedCell) return;
+      const inputEle = domShare.getEle(activedCell, 'input') as HTMLInputElement;
+      if (inputEle) {
+        const td = editStore.activedCell;
+        editStore.activedControl = inputEle;
+        editStore.activedCell = inputEle;
+        if (+inputEle.value === 0) {
+          inputEle.select();
+        }
+        inputActiveHandle(inputEle as HTMLInputElement, td);
+      } else {
+        editStore.activedControl = false;
+      }
+    });
+  };
+
   const keydownEventHandle = throttle(
     async (event: KeyboardEvent) => {
       if (!isTableActived) return;
@@ -302,7 +356,7 @@ export const registKeyboardEvent = (
         if (
           actived.rowData === tableDataVisitor.sortedData[tableDataVisitor.sortedData.length - 1]
         ) {
-          bus.emit('addNewRow', 'addNewRow');
+          bus.emit('addNewRow');
         }
         await nextTick();
         editStore.activedControl = null;
@@ -310,6 +364,7 @@ export const registKeyboardEvent = (
         updateActivedCell(target);
         return;
       }
+
 
       if (isTd) {
         if (ctrlKey) {
@@ -340,87 +395,73 @@ export const registKeyboardEvent = (
           if (['input', 'numberInput'].includes(control?.type)) {
             Reflect.set(rowData, prop, '');
           }
-        } else if (key === ARROW_KEY.L) {
-          editStore.activedControl = null;
-          actived.column = getPreOrNextItem(flatColumns, actived.column, 'pre', '_colid');
-          updateActivedCell(target);
-        } else if (key === ARROW_KEY.R) {
-          editStore.activedControl = null;
-          actived.column = getPreOrNextItem(flatColumns, actived.column, 'next', '_colid');
-          updateActivedCell(target);
-        } else if (key === ARROW_KEY.U) {
-          editStore.activedControl = null;
-          actived.rowData = getPreOrNextItem(tableDataVisitor.sortedData, actived.rowData, 'pre');
-          updateActivedCell(target);
-        } else if (key === ARROW_KEY.D) {
-          editStore.activedControl = null;
-          actived.rowData = getPreOrNextItem(tableDataVisitor.sortedData, actived.rowData, 'next');
-          updateActivedCell(target);
+        } else if (isArrowKey(key)) {
+          triggerTdMoveEvent(target, key as ARROW_KEY);
         } else if ((key === ' ' || /[0-9A-Za-z]/.test(key)) && !['Escape', 'Enter'].includes(key)) {
           if (isSilentCell()) {
             return;
           }
-          editStore.activedControl = true;
-          setTimeout(() => {
-            const inputEle = domShare.getEle(target, 'input');
-            if (inputEle) {
-              editStore.activedControl = inputEle;
-              editStore.activedCell = inputEle;
-              (inputEle as HTMLInputElement).select();
-              inputActiveHandle(inputEle as HTMLInputElement, target);
-            } else {
-              editStore.activedControl = null;
-            }
-          });
+          await triggerFocusInput();
+        } else if (key === 'Enter') {
+          let control;
+          if (control = domShare.getEle(target, 'a')) {
+            control.click();
+          } else if (control = domShare.getEle(target, 'button')) {
+            control.click();
+          } else if (control = domShare.getEle(target, 'input'), control?.type === 'checkbox') {
+            control.click();
+          } else {
+            await triggerFocusInput();
+          }
         }
       } else if (isInput) {
-        if (key === 'Escape') {
-          editStore.activedControl = null;
-
-          const { actived } = $CxTable.editStore;
-
-          if (actived.column && actived.rowData) {
-            editStore.activedCell = domShare.getCell($CxTable, actived.column, actived.rowData);
-          }
-        }
-      }
-      if (key === 'Enter') {
-        requestAnimationFrame(async () => {
-          const nextColumn = getPreOrNextItem(flatColumns, actived.column, 'next', '_colid');
-          if (nextColumn === actived.column) {
-            const nextRowData = getPreOrNextItem(
-              tableDataVisitor.sortedData,
-              actived.rowData,
-              'next'
-            );
-            if (nextRowData === actived.rowData) {
-              return;
+        if (key === 'Enter') {
+          requestAnimationFrame(async () => {
+            if (CX_TABLE_SELECT_TYPE.includes(actived.column.control?.type)) {
+              await triggerFocusTd();
             } else {
-              actived.rowData = nextRowData;
-              actived.column = flatColumns[0];
-            }
-          } else {
-            actived.column = nextColumn;
-          }
-          updateActivedCell(target);
-          if (isSilentCell()) {
-            return (editStore.activedControl = false);
-          }
-          editStore.activedControl = true;
-          await nextTick();
-          setTimeout(() => {
-            if (!editStore.activedCell) return;
-            const inputEle = domShare.getEle(editStore.activedCell, 'input');
-            if (inputEle) {
-              const td = editStore.activedCell;
-              editStore.activedControl = inputEle;
-              editStore.activedCell = inputEle;
-              inputActiveHandle(inputEle as HTMLInputElement, td);
-            } else {
-              editStore.activedControl = false;
+              const nextColumn = getPreOrNextItem(flatColumns, actived.column, 'next', '_colid');
+              if (nextColumn === actived.column) {
+                const nextRowData = getPreOrNextItem(
+                  tableDataVisitor.sortedData,
+                  actived.rowData,
+                  'next'
+                );
+                if (nextRowData === actived.rowData) {
+                  return;
+                } else {
+                  actived.rowData = nextRowData;
+                  actived.column = flatColumns[0];
+                }
+              } else {
+                actived.column = nextColumn;
+              }
+              updateActivedCell(target);
+              if (isSilentCell()) {
+                return (editStore.activedControl = false);
+              }
+              await triggerFocusInput();
             }
           });
-        });
+        } else if (key === 'Escape') {
+          triggerFocusTd();
+        } else if (isArrowKey(key) && (
+          CX_TABLE_INPUT_TYPE.includes(actived.column.control?.type)
+          || ['input'].includes(actived.column?.slotType)
+        )) {
+          const inputEle = target as HTMLInputElement;
+          const inputValue = inputEle.value;
+          const pointer = inputEle.selectionStart;
+          if (
+            [ARROW_KEY.U, ARROW_KEY.D].includes(key)
+            || (pointer === 0 && key === ARROW_KEY.L)
+            || (pointer === inputValue.length && key === ARROW_KEY.R)
+          ) {
+            const td = domShare.getCell($CxTable, actived.column, actived.rowData);
+            event.preventDefault();
+            triggerTdMoveEvent(td, key);
+          }
+        }
       }
     },
     50,

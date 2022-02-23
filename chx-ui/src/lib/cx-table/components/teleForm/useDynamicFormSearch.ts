@@ -11,7 +11,6 @@ import { changeDynamicIdToText, cxTableWarn } from '../../utils';
 import { Rule, useCxTable, useCxTableCompose } from '../../hooks';
 import * as R from 'ramda';
 import {
-  defaultPromise,
   either,
   getMaybeValue,
   Left,
@@ -28,7 +27,7 @@ import {
 } from 'chx-utils';
 
 export const useDynamicFormSearch = () => {
-  const { getParamsItems, getConfigByDynamicConfig, arrNotEmpty } = useCxTableCompose();
+  const { getParamsItems, getConfigByDynamicConfig } = useCxTableCompose();
   const context = useCxTable().getContext();
 
   const devTip = R.tap(
@@ -42,6 +41,11 @@ export const useDynamicFormSearch = () => {
   const errorDevTip = unsafeWhenDevCall((dynamic: CxDynamicProps) => {
     cxTableWarn(`can't match api by config `, changeDynamicIdToText(dynamic));
   });
+
+  const updateTotal = R.useWith(unsafeClearAssign, [
+    R.identity,
+    R.prop<string, any>('entireTotalSum')
+  ]);
 
   const initRequestParams = (
     rootProp: CxTablePropType,
@@ -73,8 +77,8 @@ export const useDynamicFormSearch = () => {
     )(rootProp as Required<CxTablePropType>);
   };
 
-  const updateTableData = R.curryN(2, (data: AnyObject, rootProp: CxTablePropType) => {
-    const { rows, total } = data;
+  const updateTableData = R.curryN(3, (data: AnyObject, rootProp: CxTablePropType, CxTable: CxTableBaseObj) => {
+    const { rows, total, summary } = data;
     isNumber(total) && Maybe.of(rootProp.pagination).map(unsafeSet(R.__, 'total', total));
     if (!Array.isArray(rows)) return;
     if (R.isEmpty(rows) && R.gt(R.defaultTo(0, rootProp.pagination?.currentPage), 1)) {
@@ -85,12 +89,10 @@ export const useDynamicFormSearch = () => {
         R.ifElse(R.is(Function), (cb: Func<any>) => cb(rows, data), R.always(rows))
       )(rootProp.hooks?.onSearch);
     }
+    if (!!summary) {
+      updateTotal(summary, CxTable);
+    }
   });
-
-  const updateTotal = R.useWith(unsafeClearAssign, [
-    R.identity,
-    R.prop<string, any>('entireTotalSum')
-  ]);
 
   const checkDynamic = (dynamic?: DYNAMIC_CONFIG) => {
     if (!dynamic) {
@@ -114,11 +116,22 @@ export const useDynamicFormSearch = () => {
     rootProp: CxTablePropType,
     form: AnyObject,
     currentFormItems: string[],
-    tableDataVisitor: TableDataVisitor
+    tableDataVisitor: TableDataVisitor,
+    CxTable: CxTableBaseObj,
+    withTotal?: boolean
   ) => {
     const { dynamic } = rootProp;
     checkDynamic(dynamic);
     const matchedRuleEither = R.compose(R.ifElse(R.isNil, Left.of, Right.of), matchedRule);
+    const needTotals = () => !!withTotal;
+    const getTotals = R.compose(
+      getMaybeValue,
+      map(R.objOf('totals')) as (a: AnyObject) => Maybe<any>,
+      map(R.map(R.prop<string, any>('prop'))),
+      map(R.filter(R.compose(truthy, R.prop<string, any>('sum')))),
+      map(R.prop<string, any>('flatColumns')),
+      Maybe.of
+    ) as (a: CxTableBaseObj) => { totals: string[] };
     return either(
       withParams(errorDevTip, [dynamic]),
       async (rule: Rule) => {
@@ -127,11 +140,14 @@ export const useDynamicFormSearch = () => {
         const stateEq200 = R.propEq('state', 200);
         R.when(
           stateEq200,
-          R.compose(updateTableData(R.__, rootProp), R.prop<string, any>('data'))
+          R.compose(updateTableData(R.__, rootProp, CxTable), R.prop<string, any>('data'))
         )(
           await rulePropVal('requestInstance').postJSON(
             rulePropVal('api'),
-            initRequestParams(rootProp, form, currentFormItems, tableDataVisitor)
+            R.when(
+              needTotals,
+              R.converge(R.mergeRight, [getTotals, R.identity])
+            )(initRequestParams(rootProp, form, currentFormItems, tableDataVisitor))
           )
         );
       },
@@ -139,54 +155,54 @@ export const useDynamicFormSearch = () => {
     );
   };
 
-  const searchTotal = async (
-    rootProp: CxTablePropType,
-    form: AnyObject,
-    currentFormItems: string[],
-    tableDataVisitor: TableDataVisitor,
-    CxTable: CxTableBaseObj
-  ) => {
-    const { dynamic } = rootProp;
-    checkDynamic(dynamic);
-    const matchedRuleEither = R.compose(R.ifElse(R.isNil, Left.of, Right.of), matchedRule);
-    return either(
-      R.converge(errorDevTip, [R.always(dynamic)]),
-      async (rule: Rule) => {
-        const rulePropVal = R.prop(R.__, rule);
-        const stateEq200 = R.propEq('state', 200);
-        const requestInstance = rulePropVal('requestInstance');
-        const getTotals = R.compose(
-          getMaybeValue,
-          map(R.objOf('totals')) as (a: AnyObject) => Maybe<any>,
-          map(R.map(R.prop<string, any>('prop'))),
-          map(R.filter(R.compose(truthy, R.prop<string, any>('sum')))),
-          map(R.prop<string, any>('flatColumns')),
-          Maybe.of
-        ) as (a: CxTableBaseObj) => { totals: string[] };
+  // const searchTotal = async (
+  //   rootProp: CxTablePropType,
+  //   form: AnyObject,
+  //   currentFormItems: string[],
+  //   tableDataVisitor: TableDataVisitor,
+  //   CxTable: CxTableBaseObj
+  // ) => {
+  //   const { dynamic } = rootProp;
+  //   checkDynamic(dynamic);
+  //   const matchedRuleEither = R.compose(R.ifElse(R.isNil, Left.of, Right.of), matchedRule);
+  //   return either(
+  //     R.converge(errorDevTip, [R.always(dynamic)]),
+  //     async (rule: Rule) => {
+  //       const rulePropVal = R.prop(R.__, rule);
+  //       const stateEq200 = R.propEq('state', 200);
+  //       const requestInstance = rulePropVal('requestInstance');
+  //       const getTotals = R.compose(
+  //         getMaybeValue,
+  //         map(R.objOf('totals')) as (a: AnyObject) => Maybe<any>,
+  //         map(R.map(R.prop<string, any>('prop'))),
+  //         map(R.filter(R.compose(truthy, R.prop<string, any>('sum')))),
+  //         map(R.prop<string, any>('flatColumns')),
+  //         Maybe.of
+  //       ) as (a: CxTableBaseObj) => { totals: string[] };
+  //
+  //       R.when(
+  //         stateEq200,
+  //         R.compose(R.curryN(3, R.call)(updateTotal, R.__, CxTable), R.prop<string, any>('data'))
+  //       )(
+  //         await R.compose(
+  //           R.ifElse(
+  //             R.compose(arrNotEmpty, R.prop<string, any>('totals')),
+  //             R.compose(
+  //               R.converge(requestInstance.postJSON.bind(requestInstance), [
+  //                 R.always('/header/total'),
+  //                 R.identity
+  //               ]),
+  //               R.mergeLeft(initRequestParams(rootProp, form, currentFormItems, tableDataVisitor))
+  //             ),
+  //             defaultPromise({})
+  //           ),
+  //           getTotals
+  //         )(CxTable)
+  //       );
+  //     },
+  //     matchedRuleEither(dynamic!)
+  //   );
+  // };
 
-        R.when(
-          stateEq200,
-          R.compose(R.curryN(3, R.call)(updateTotal, R.__, CxTable), R.prop<string, any>('data'))
-        )(
-          await R.compose(
-            R.ifElse(
-              R.compose(arrNotEmpty, R.prop<string, any>('totals')),
-              R.compose(
-                R.converge(requestInstance.postJSON.bind(requestInstance), [
-                  R.always('/header/total'),
-                  R.identity
-                ]),
-                R.mergeLeft(initRequestParams(rootProp, form, currentFormItems, tableDataVisitor))
-              ),
-              defaultPromise({})
-            ),
-            getTotals
-          )(CxTable)
-        );
-      },
-      matchedRuleEither(dynamic!)
-    );
-  };
-
-  return { initRequestParams, updateTableData, search, searchTotal };
+  return { initRequestParams, updateTableData, search };
 };

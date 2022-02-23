@@ -55,6 +55,8 @@ export interface CxFormChangeHandle {
 export type option = { name: string; id: string | number; disabled?: boolean }
 export type CxFormSelectOptions = option[] | ((payload: { form: AnyObject }) => option[])
 
+export type CxFormSlotType = string | (() => VNode[]) | VNode[] | VNode
+
 export type CxFormItemConfig = {
   prop: string
 } & Partial<{
@@ -64,7 +66,7 @@ export type CxFormItemConfig = {
   width: string | number
   rule: AnyObject | AnyObject[]
   hide: boolean
-  span?:number
+  span?: number
   onChange: CxFormChangeHandle
   /**
    * @description 绑定在ElFormItem上的属性
@@ -78,11 +80,11 @@ export type CxFormItemConfig = {
   /**
    * @description control中的插槽名, 如 slot: { default:defaultSlotName,append:appendSlotName }
    */
-  slot: Record<string, string>
+  slot: Record<string, CxFormSlotType>
   labelSlot: string
   custom: {
     // slot 为custom状态下对应的控件插槽名,与一般的插槽不同,该插槽会自动为最外层的所有元素绑定v-model与custom对象中的的其他属性,无需手动绑定
-    slot: string
+    slot: CxFormSlotType
     [propName: string]: any
   }
   /**

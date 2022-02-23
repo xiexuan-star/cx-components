@@ -72,7 +72,8 @@ export type CxTablePropType = {
   setCacheBtn: string;
   cacheListBtn: string;
   stripe: boolean;
-  sticky: string | number;
+  stickyHead: string | number;
+  scrollWrapper: HTMLElement | (() => HTMLElement)
 }>;
 
 export interface CxTableHooks<Cache = any> {

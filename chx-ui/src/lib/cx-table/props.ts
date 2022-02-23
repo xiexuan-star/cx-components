@@ -153,7 +153,11 @@ export default {
    */
   stripe: { type: Boolean, default: true },
   /**
-   * @description 表头是否sticky固定
+   * @description 表头是否sticky固定, 值为离顶部的height值
    */
-  stickyHead: { type: [Number, String] }
+  stickyHead: { type: [Number, String] },
+  /**
+   * @description 滚动容器或者获取滚动容器的函数
+   */
+  scrollWrapper: { type: [Object, Function] as PropType<[HTMLElement, () => HTMLElement]> },
 };

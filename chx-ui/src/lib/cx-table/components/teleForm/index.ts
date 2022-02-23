@@ -45,7 +45,7 @@ export default defineComponent({
       arrayIsNotEmpty,
       getTargetColumnDefault
     } = useCxTableCompose();
-    const { search, searchTotal } = useDynamicFormSearch();
+    const { search } = useDynamicFormSearch();
 
     // 当前展示的表单项
     const currentFormItems = reactive<string[]>(
@@ -67,7 +67,7 @@ export default defineComponent({
         ) as (a: any[]) => boolean;
         R.when(
           R.allPass([arrayIsNotEmpty, defaultNotEmpty]),
-          R.compose(fetchAllData, R.forEach(setDefaultValueByProp))
+          R.compose(fetchDataAndTotals, R.forEach(setDefaultValueByProp))
         )(R.difference(currentFormItems, oldCurrentFormItems));
         unsafeClearPush(currentFormItems, oldCurrentFormItems);
       },
@@ -117,30 +117,17 @@ export default defineComponent({
       { deep: true }
     );
 
-    const fetchTableData = debounce(() => {
+    const fetchTableData = debounce((withTotal?: boolean) => {
       setLoading(true);
       unsafeClearArray(rootProp.tableData);
-      search(rootProp, form, currentFormItems, props.tableDataVisitor).finally(() => {
+      search(rootProp, form, currentFormItems, props.tableDataVisitor, CxTable, withTotal).finally(() => {
         setLoading(false);
       });
     }, 100);
 
-    const fetchAllData = debounce(async () => {
-      fetchTableData();
-
-      await nextTick();
-
+    const fetchDataAndTotals = debounce(async () => {
       CxTable.entireTotalSum = {};
-      R.when(
-        R.prop<string, any>('showForm'),
-        R.converge(searchTotal, [
-          R.always(rootProp),
-          R.always(form),
-          R.always(currentFormItems),
-          R.always(props.tableDataVisitor),
-          R.always(CxTable)
-        ])
-      )(rootProp);
+      fetchTableData(true);
     }, 50);
 
     const onSearch = nextTimeout((payload?: AnyObject) => {
@@ -157,7 +144,7 @@ export default defineComponent({
           R.pick(R.map(R.prop<string, any>('id'), getOptionListFromColumn(props.dynamicColumn)))
         )
       )(payload);
-      fetchAllData();
+      fetchDataAndTotals();
     });
     bus.on('search', onSearch);
 
@@ -170,7 +157,7 @@ export default defineComponent({
       const value = form[prop];
       const removeItemFromConfig = unsafeRemoveItem(R.__, formConfig);
       const removePropFromForm = () => Reflect.deleteProperty(form, prop);
-      const reFetchData = R.compose(R.unless(isEmptyValue, fetchAllData), R.always(value));
+      const reFetchData = R.compose(R.unless(isEmptyValue, fetchDataAndTotals), R.always(value));
       const initForm = R.compose(removePropFromForm, removeItemFromConfig);
       R.compose(
         R.when(isPositive, R.compose(reFetchData, initForm)),
@@ -197,7 +184,7 @@ export default defineComponent({
     // const states = reactive(
     //   cache.getVisibleCacheIO.map(R.compose(R.objOf('visible'), R.ifElse(R.isNil, R.T, R.identity))).unsafePerformIO()
     // );
-    const states = reactive({visible:true});
+    const states = reactive({ visible: true });
     // const toggleVisibleStates = () => (states.visible = !states.visible);
     // watch(
     //   () => states.visible,
@@ -223,7 +210,7 @@ export default defineComponent({
           withDirectives(
             createVNode(
               TeleFormInstance,
-              { states, form, items: formConfig, onChange: fetchAllData, onClose },
+              { states, form, items: formConfig, onChange: fetchDataAndTotals, onClose },
               { add: renderDynamicFormAdd },
               PATCH_FLAG.FULL_PROPS
             ),
@@ -270,7 +257,7 @@ export default defineComponent({
         initForm(form);
         setSearchableOptionList(getOptionListFromColumn(props.dynamicColumn));
         setFormLoading(false);
-        fetchAllData();
+        fetchDataAndTotals();
         R.ifElse(
           isRenderInTeleport,
           R.always(updateComponentIO),
@@ -291,7 +278,7 @@ export default defineComponent({
 
     watch(
       [() => rootProp.pagination?.currentPage, () => rootProp.pagination?.pageCapacity],
-      fetchTableData
+      () => fetchTableData()
     );
 
     return withParams(R.ifElse(isRenderInTeleport, R.always(''), renderForm), [rootProp]);

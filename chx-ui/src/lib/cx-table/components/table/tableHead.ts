@@ -1,25 +1,32 @@
+import { isFunction, isString } from 'chx-utils';
 import {
   computed,
   createBlock,
   createCommentVNode,
-  createVNode,
+  createVNode, CSSProperties,
   defineComponent,
   Fragment,
-  inject,
-  openBlock
+  inject, onMounted,
+  openBlock, Prop, PropType, watch
 } from 'vue';
 import { PATCH_FLAG } from '../../constant';
 import { useTableStyle } from '../../hooks';
-import { CxTableBaseObj } from '../../types';
+import { CxTableBaseObj, CxTablePropType } from '../../types';
 import { invokeLayeredRow } from '../../utils';
 import HeadCell from './headCell';
 
 export default defineComponent({
   name: 'CxTableHead',
-  props: { fixed: { type: String, default: '' }, left: { type: Number, default: 0 } },
+  props: {
+    fixed: { type: String, default: '' },
+    left: { type: Number, default: 0 },
+    class: { type: Array as PropType<string[] | string>, default: () => [] },
+    style: { type: Object as PropType<CSSProperties>, default: () => ({}) }
+  },
   components: { HeadCell },
   setup(props) {
     const CxTable = inject<CxTableBaseObj>('CxTable')!;
+    const rootProp = inject<CxTablePropType>('rootProp')!;
 
     const style = useTableStyle(props, CxTable, 'head');
 
@@ -30,15 +37,28 @@ export default defineComponent({
 
     const hoisted_2 = 'cx-table_head';
 
+    watch(() => rootProp.stickyHead, v => {
+      if (!v || !rootProp.scrollWrapper) return;
+      if (isFunction(rootProp.scrollWrapper)) {
+        //
+      }
+    }, { immediate: true });
+
     return () => {
-        return createVNode(
+      const classList = [hoisted_2];
+      isString(props.class) ? classList.push(props.class) : classList.push(...props.class);
+      return [
+        createVNode(
           'div',
-          { class: hoisted_2, style: {
+          {
+            class: [hoisted_2, ...classList], style: {
               'top': style.value.top,
               'height': style.value.height,
               'width': style.value.width,
               'right': style.value.right,
-            } },
+              ...props.style
+            }
+          },
           [
             createVNode(
               'table',
@@ -82,7 +102,8 @@ export default defineComponent({
             )
           ],
           PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
-        );
+        )
+      ];
     };
   }
 });

@@ -1,10 +1,11 @@
 import { Slot, Slots } from '@vue/runtime-core';
+import { isVNode } from 'vue';
 
-import { CxFormConfig, CxFormItemConfig } from '../types';
+import { CxFormConfig, CxFormItemConfig, CxFormSlotType } from '../types';
 import { useCxForm } from '../hooks';
 
 import { CxFormTemplate } from '.';
-import { isFunction, isObject } from 'chx-utils';
+import { isArray, isFunction, isObject, isString } from 'chx-utils';
 
 export class CxFormControl extends CxFormTemplate {
   name = 'CxFormControl';
@@ -37,14 +38,29 @@ export class CxFormControl extends CxFormTemplate {
     return this;
   }
 
+  private getSlot(slotType: CxFormSlotType, slots: Slots | Slot) {
+    if (isFunction(slotType)) {
+      return slotType;
+    } else if (isArray(slotType)) {
+      return () => slotType.filter(node => isVNode(node));
+    } else if (isVNode(slotType)) {
+      return () => slotType;
+    } else if (isString(slotType)) {
+      return Reflect.get(slots, slotType);
+    }
+    return null;
+  }
+
   addSlots(slots: Slots | Slot) {
     if (!isObject(slots)) return this;
     isObject(this.config?.slot) &&
     Object.entries(this.config!.slot).forEach(([key, val]) => {
-      Reflect.set(this.slots, key, Reflect.get(slots, val));
+      Reflect.set(this.slots, key, this.getSlot(val, slots));
     });
     const customSlot = this.config?.custom?.slot;
-    customSlot && Reflect.set(this.slots, customSlot, Reflect.get(slots, customSlot));
+    if (customSlot) {
+      Reflect.set(this.slots, `__${ this.config.prop }`, this.getSlot(customSlot, slots));
+    }
     return this;
   }
 
@@ -106,7 +122,7 @@ export class CxFormControl extends CxFormTemplate {
   render() {
     let Control;
     if (this.type === 'custom') {
-      Control = Reflect.get(this.slots, this.config?.custom?.slot ?? '');
+      Control = Reflect.get(this.slots, `__${ this.config.prop }`);
     } else {
       const comp = useCxForm().getRenderer(this.type)?.comp;
       Control = isFunction(comp) ? (comp as Function)() : comp;
