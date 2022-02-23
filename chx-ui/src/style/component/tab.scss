@@ -13,7 +13,8 @@
     padding: 0 16px;
   }
 
-  &.level-2, &.level-3 {
+  &.level-2,
+  &.level-3 {
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     margin: 0 -16px;
   }
@@ -77,6 +78,31 @@
       span {
         zoom: 0.9;
       }
+
+      .cx-tab_badge_dot_wrapper {
+        position: relative;
+        height: 1em;
+        .cx-tab_badge_dot {
+          position: absolute;
+          top: 0;
+          right: -6px;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background-color: #f9463f;
+        }
+      }
+    }
+
+    .cx-tab_badge_dot {
+      display: inline-block;
+      position: relative;
+      margin-left: 2px;
+      height: 5px;
+      width: 5px;
+      border-radius: 50%;
+      background-color: #f9463f;
+      vertical-align: top;
     }
   }
 
