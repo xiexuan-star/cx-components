@@ -146,7 +146,7 @@ export const useDynamicFormSearch = () => {
             rulePropVal('api'),
             R.when(
               needTotals,
-              R.converge(R.mergeRight, [getTotals, R.identity])
+              R.converge(R.mergeRight, [() => getTotals(CxTable), R.identity])
             )(initRequestParams(rootProp, form, currentFormItems, tableDataVisitor))
           )
         );

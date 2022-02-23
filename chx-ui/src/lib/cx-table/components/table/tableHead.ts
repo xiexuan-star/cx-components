@@ -20,7 +20,7 @@ export default defineComponent({
   props: {
     fixed: { type: String, default: '' },
     left: { type: Number, default: 0 },
-    class: { type: Array as PropType<string[] | string>, default: () => [] },
+    class: { type: [Array, String] as PropType<string[] | string>, default: () => [] },
     style: { type: Object as PropType<CSSProperties>, default: () => ({}) }
   },
   components: { HeadCell },

@@ -1,8 +1,6 @@
 @import '../mixins/mixin.scss';
 @import '../mixins/config.scss';
 
-$block: btn;
-
 $size: (
         large: '9px 16px',
         middle: '4px 16px',
@@ -36,9 +34,11 @@ $theme: (
         )
 );
 
+$block: cx-btn;
+
 @mixin colorGroup($theme, $main, $hover, $active, $disabled, $params...) {
   @each $key in $params {
-    @include e(#{$theme}) {
+    &.#{$block + '__' + $theme} {
       #{$key}: #{$main};
 
       &:hover {
@@ -49,7 +49,7 @@ $theme: (
         #{$key}: #{$active};
       }
 
-      @include e(disabled) {
+      &.#{$block + '__disabled'} {
         #{$key}: #{$main} !important;
         opacity: .5;
       }
@@ -58,15 +58,15 @@ $theme: (
 }
 
 @mixin shallowBorder($key) {
-  @include e(#{$key}) {
+   &.#{$block + '__' + $key} {
     border-color: rgba($color: #000000, $alpha: 0.08);
-    @include e(disabled) {
+    &.#{$block + '__disabled'} {
       border-color: rgba($color: #000000, $alpha: 0.08) !important;
     }
   }
 }
 
-@include b(#{$block}) {
+@include b(btn) {
   font-family: PingFang SC;
   font-style: normal;
   font-weight: 500;

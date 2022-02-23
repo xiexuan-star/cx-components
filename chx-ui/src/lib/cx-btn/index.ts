@@ -41,7 +41,7 @@ const script = defineComponent({
       if (props.disabled) result.push('cx-btn__disabled');
       result.push(`cx-btn__${ props.size }`);
       result.push(`cx-btn__level__${ props.level }`);
-      result.push(`cx-btn__level__${ props.level }__${ props.type }`);
+      result.push(`cx-btn__${ props.type }`);
       if (props.loading) result.push(`cx-btn__loading`);
       return result;
     });

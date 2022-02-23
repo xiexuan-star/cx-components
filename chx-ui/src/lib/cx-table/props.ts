@@ -159,5 +159,5 @@ export default {
   /**
    * @description 滚动容器或者获取滚动容器的函数
    */
-  scrollWrapper: { type: [Object, Function] as PropType<[HTMLElement, () => HTMLElement]> },
+  scrollWrapper: { type: [Object, Function] as PropType<HTMLElement | (() => HTMLElement)> },
 };
