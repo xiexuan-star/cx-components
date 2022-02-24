@@ -18,6 +18,8 @@ export const useTableClass = (props: AnyObject, CxTable: CxTableBaseObj) => {
       } else if (showBottomShadow && props.fixed === 'bottom') {
         result.push('cx-table_bottom_shadow');
       }
+    }else {
+      result.push('cx-table_center')
     }
 
     return result;

@@ -1,4 +1,5 @@
 import { isFunction, isString } from 'chx-utils';
+import { throttle } from 'lodash-es';
 import {
   computed,
   createBlock,
@@ -6,8 +7,8 @@ import {
   createVNode, CSSProperties,
   defineComponent,
   Fragment,
-  inject, onMounted,
-  openBlock, Prop, PropType, watch
+  inject, nextTick,
+  openBlock, PropType, ref, watch
 } from 'vue';
 import { PATCH_FLAG } from '../../constant';
 import { useTableStyle } from '../../hooks';
@@ -20,13 +21,13 @@ export default defineComponent({
   props: {
     fixed: { type: String, default: '' },
     left: { type: Number, default: 0 },
-    class: { type: [Array, String] as PropType<string[] | string>, default: () => [] },
-    style: { type: Object as PropType<CSSProperties>, default: () => ({}) }
+    classList: { type: [Array, String] as PropType<string[] | string>, default: () => [] },
+    styleProperty: { type: Object as PropType<CSSProperties>, default: () => ({}) },
+    needStickyHeader: { type: Boolean, default: false },
   },
   components: { HeadCell },
   setup(props) {
     const CxTable = inject<CxTableBaseObj>('CxTable')!;
-    const rootProp = inject<CxTablePropType>('rootProp')!;
 
     const style = useTableStyle(props, CxTable, 'head');
 
@@ -36,28 +37,33 @@ export default defineComponent({
     });
 
     const hoisted_2 = 'cx-table_head';
+    const headerRef = ref<HTMLElement>();
 
-    watch(() => rootProp.stickyHead, v => {
-      if (!v || !rootProp.scrollWrapper) return;
-      if (isFunction(rootProp.scrollWrapper)) {
-        //
-      }
-    }, { immediate: true });
+    if (!props.fixed) {
+      watch([() => CxTable.scrollStore.scrollLeft, () => props.needStickyHeader], ([left, need]: any[]) => {
+        if (!headerRef.value || !need) return;
+        headerRef.value.scrollLeft = left;
+      });
+    }
 
     return () => {
       const classList = [hoisted_2];
-      isString(props.class) ? classList.push(props.class) : classList.push(...props.class);
+      isString(props.classList) ? classList.push(props.classList) : classList.push(...props.classList);
+      if (props.needStickyHeader) {
+        classList.push('cx-table__sticky');
+      }
       return [
         createVNode(
           'div',
           {
-            class: [hoisted_2, ...classList], style: {
+            class: classList, style: {
               'top': style.value.top,
               'height': style.value.height,
               'width': style.value.width,
               'right': style.value.right,
-              ...props.style
-            }
+              ...props.styleProperty
+            },
+            ref: headerRef
           },
           [
             createVNode(
@@ -102,7 +108,12 @@ export default defineComponent({
             )
           ],
           PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
-        )
+        ),
+        (openBlock(), createBlock(Fragment, null, [
+          props.needStickyHeader && !props.fixed
+            ? createVNode('div', { style: { height: CxTable.styleStore.CX_TABLE_HEIGHT * layeredHeadItems.value.length + 'px' } })
+            : createCommentVNode('v-if_sticky_header', true)
+        ]))
       ];
     };
   }

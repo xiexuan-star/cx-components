@@ -11,11 +11,12 @@ import {
   openBlock,
   provide,
   ref,
-  resolveDirective,
+  resolveDirective, watch,
   withDirectives
 } from 'vue';
 import { CXPagination } from '../index';
 import { useSortable } from './hooks/useSortable';
+import { useSticky } from './hooks/useSticky';
 
 import { createCxTableConfig } from './static';
 import { CxTableExpose, Nullable } from './types';
@@ -52,8 +53,8 @@ import {
 } from './hooks';
 import { scrollUpdateShadow } from './helper/eventHelper';
 import { PATCH_FLAG } from './constant';
-import { debounce } from 'lodash-es';
-import { isNumber, isObject } from 'chx-utils';
+import { debounce, throttle } from 'lodash-es';
+import { isFunction, isNumber, isObject } from 'chx-utils';
 
 export default defineComponent({
   name: 'CxTable',
@@ -229,13 +230,15 @@ export default defineComponent({
     const _hoisted_3_class = 'cx-table_border_line';
     const _hoisted_directive = resolveDirective('loading')!;
 
+    const { needStickyHeader, wrapperWidth, wrapperRight, wrapperLeft } = useSticky(props, $CxTable);
+
     const renderContent = (fixed?: string) => {
       return createVNode(
         CxTableContent,
-        { tableData: tableDataVisitor.sortedData, fixed },
+        { tableData: tableDataVisitor.sortedData, fixed, needStickyHeader: needStickyHeader.value },
         null,
         PATCH_FLAG.PROPS,
-        ['tableData']
+        ['tableData', 'needStickyHeader', 'wrapperWidth']
       );
     };
 
@@ -320,7 +323,13 @@ export default defineComponent({
     });
 
     const innerStyle = computed(() => {
-      return { maxHeight: isNumber(props.height) ? props.height + 'px' : props.height };
+      return {
+        maxHeight: isNumber(props.height) ? props.height + 'px' : props.height,
+        '--sticky-width': wrapperWidth.value,
+        '--sticky-top': props.stickyHead,
+        '--sticky-left': wrapperLeft.value,
+        '--sticky-right': wrapperRight.value,
+      };
     });
 
     const { cssVariable } = useCSSVariable($CxTable);

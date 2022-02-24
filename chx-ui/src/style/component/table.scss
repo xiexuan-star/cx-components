@@ -38,10 +38,27 @@ $color-primary: #0084ff;
     border-radius: 5px;
   }
 
-  .cx-table_head.sticky {
-    position: fixed;
-    z-index: 100;
-    top: calc(var(--sticky-top) * 1px)
+  .cx-table_head {
+    &.cx-table__sticky {
+      position: fixed !important;
+      z-index: 100 !important;
+      overflow: hidden !important;
+      top: calc(var(--sticky-top) * 1px) !important;
+
+      &.cx-table_center {
+        width: calc(var(--sticky-width) * 1px) !important;
+        left: calc(var(--sticky-left) * 1px) !important
+      }
+
+      &.cx-table_fixed_left {
+        left: calc(var(--sticky-left) * 1px) !important
+      }
+
+      &.cx-table_fixed_right {
+        right: calc(100vw - var(--sticky-right) * 1px) !important;
+      }
+    }
+
   }
 
   .cx-table_scrollWrapper {

@@ -19,7 +19,8 @@ export default defineComponent({
   name: 'CxTableContent',
   props: {
     fixed: { type: String, default: '' },
-    tableData: { type: Array as PropType<AnyObject[]>, default: () => [] }
+    tableData: { type: Array as PropType<AnyObject[]>, default: () => [] },
+    needStickyHeader: { type: Boolean, default: false },
   },
   setup(props) {
     const CxTable = inject<CxTableBaseObj>('CxTable')!;
@@ -43,7 +44,12 @@ export default defineComponent({
                   fixed !== 'bottom'
                     ? createVNode(
                       CxTableHead,
-                      { class: classList.value, style: style.value, fixed },
+                      {
+                        classList: classList.value,
+                        styleProperty: style.value,
+                        fixed,
+                        needStickyHeader: props.needStickyHeader
+                      },
                       null,
                       PATCH_FLAG.FULL_PROPS | PATCH_FLAG.CLASS | PATCH_FLAG.STYLE
                     )
