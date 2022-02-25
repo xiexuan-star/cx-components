@@ -57,11 +57,12 @@ $block: cx-btn;
   }
 }
 
-@mixin shallowBorder($key) {
-   &.#{$block + '__' + $key} {
-    border-color: rgba($color: #000000, $alpha: 0.08);
+@mixin shallowBorder($key,$alpha: 0.08) {
+  &.#{$block + '__' + $key} {
+    border-color: rgba($color: #000000, $alpha: $alpha);
+
     &.#{$block + '__disabled'} {
-      border-color: rgba($color: #000000, $alpha: 0.08) !important;
+      border-color: rgba($color: #000000, $alpha: $alpha) !important;
     }
   }
 }
@@ -132,7 +133,7 @@ $block: cx-btn;
       $active: map-get($value, 'active');
 
       @include colorGroup($key, 'rgba(0, 0, 0, 0.65)', $hover, $active, 'rgba(0, 0, 0, 0.3)', 'color', 'border-color');
-      @include shallowBorder($key);
+      @include shallowBorder($key, 0.85);
     }
   }
 
