@@ -1,4 +1,4 @@
-import { createPopper, Instance, Placement } from '@popperjs/core';
+import { createPopper, Instance } from '@popperjs/core';
 import {
   appendChild, appendToBody, clearClassList, clearInnerHTML, clearTimer, copyInnerText, createTag, curryAddListener,
   curryRemoveListener, curryTimeout, hideEle, IO, map, Maybe, setClassByArr, setInnerText, showEle, truthy,

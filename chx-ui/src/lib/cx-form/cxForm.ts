@@ -1,5 +1,4 @@
-import { nextTimeout } from 'chx-utils';
-import { defineComponent, nextTick, onBeforeUnmount, onMounted, ref, watch, watchEffect } from 'vue';
+import { defineComponent, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { createVNode, VNode } from 'vue';
 import { CxFormControl } from './constructor';
 import { CxForm } from './constructor';
@@ -74,14 +73,14 @@ export default defineComponent({
       const capacity = +floatCapacity.toFixed(0);
       const rowNum = parseInt(length / capacity + 1 + '');
       column.value = rowNum === 1 ? Math.min(length, capacity) : parseInt(floatCapacity + '');
-      renderWidth.value = Math.min(parseInt(width / column.value + ''), props.maxWidth) - props.marginRigth;
+      renderWidth.value = Math.min(parseInt(width / column.value + ''), props.maxWidth) - props.marginRight;
     }
 
     return () => {
       return createVNode('div', {
         class: 'cx-form',
         ref: wrapperRef,
-        style: `--render-width:${ renderWidth.value };--margin-right:${ props.marginRigth }`
+        style: `--render-width:${ renderWidth.value };--margin-right:${ props.marginRight }`
       }, [renderForm()]);
     };
   },

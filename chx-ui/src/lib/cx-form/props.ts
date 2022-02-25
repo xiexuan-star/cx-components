@@ -11,5 +11,5 @@ export const CxFormProps = {
   formAttrs: { type: Object as PropType<AnyObject> },
   minWidth: { type: Number, default: 190 },
   maxWidth: { type: Number, default: 280 },
-  marginRigth: { type: Number, default: 10 }
+  marginRight: { type: Number, default: 10 }
 };
