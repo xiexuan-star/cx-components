@@ -2,10 +2,21 @@ import { EventBus } from 'chx-utils';
 import { debounce, throttle } from 'lodash-es';
 import { nextTick, onBeforeUnmount, onMounted, onUnmounted, Ref } from 'vue';
 import {
-  ARROW_KEY, CX_SPAN_METHOD_TYPE, CX_TABLE_INPUT_TYPE, CX_TABLE_NOT_HOVER_ID, CX_TABLE_SELECT_TYPE
+  ARROW_KEY,
+  CX_SPAN_METHOD_TYPE,
+  CX_TABLE_INPUT_TYPE,
+  CX_TABLE_NOT_HOVER_ID,
+  CX_TABLE_SELECT_TYPE
 } from '../constant';
 import { CxTableActiveControl } from '../hooks';
-import { CxCellProp, CxTableBaseObj, CxTablePropType, Nullable, SelectConfig, TableDataVisitor } from '../types';
+import {
+  CxCellProp,
+  CxTableBaseObj,
+  CxTablePropType,
+  Nullable,
+  SelectConfig,
+  TableDataVisitor
+} from '../types';
 import { domShare, getColumnSelectText, getPreOrNextItem } from '../utils';
 
 export const registResponsive = (wrapper: Ref<Nullable<HTMLElement>>, callbacks: Func<any>[]) => {
@@ -50,7 +61,6 @@ export const registResponsive = (wrapper: Ref<Nullable<HTMLElement>>, callbacks:
   if (supportMutation) {
     observer = new MutationObserver(updateWidth);
   }
-
 };
 
 const scrollUpdateVisualScroll = ($CxTable: CxTableBaseObj, props: CxTablePropType) => {
@@ -68,7 +78,7 @@ const scrollUpdateVisualScroll = ($CxTable: CxTableBaseObj, props: CxTablePropTy
       while (
         renderStartIndex > 0 &&
         virtualStore.rowSpanMap[renderStartIndex] & CX_SPAN_METHOD_TYPE.MISSING
-        ) {
+      ) {
         topRowSpanPrepend++;
         renderStartIndex--;
       }
@@ -83,7 +93,7 @@ const scrollUpdateVisualScroll = ($CxTable: CxTableBaseObj, props: CxTablePropTy
       while (
         renderStartIndex + renderLength < rowNum &&
         virtualStore.rowSpanMap[renderStartIndex + renderLength] & CX_SPAN_METHOD_TYPE.MISSING
-        ) {
+      ) {
         renderLength++;
       }
     }
@@ -99,14 +109,8 @@ const scrollUpdateVisualScroll = ($CxTable: CxTableBaseObj, props: CxTablePropTy
 export const scrollUpdateShadow = ($CxTable: CxTableBaseObj) => {
   const { wrapperEle, scrollStore } = $CxTable;
   if (!wrapperEle) return;
-  const {
-    scrollLeft,
-    scrollWidth,
-    scrollHeight,
-    scrollTop,
-    clientWidth,
-    clientHeight
-  } = wrapperEle;
+  const { scrollLeft, scrollWidth, scrollHeight, scrollTop, clientWidth, clientHeight } =
+    wrapperEle;
 
   scrollStore.scrollLeft = scrollLeft;
   scrollStore.scrollTop = scrollTop;
@@ -224,7 +228,7 @@ export const registKeyboardEvent = (
 
   const dblclickHandle = async () => {
     await new Promise(resolve => setTimeout(() => resolve('')));
-    keydownHandle(({ key: ' ', preventDefault: () => ({}) } as unknown) as KeyboardEvent);
+    keydownHandle({ key: ' ', preventDefault: () => ({}) } as unknown as KeyboardEvent);
   };
 
   const isEleSelectItem = (ele?: HTMLElement | null) => {
@@ -331,9 +335,7 @@ export const registKeyboardEvent = (
         const td = editStore.activedCell;
         editStore.activedControl = inputEle;
         editStore.activedCell = inputEle;
-        if (+inputEle.value === 0) {
-          inputEle.select();
-        }
+        inputEle.select();
         inputActiveHandle(inputEle as HTMLInputElement, td);
       } else {
         editStore.activedControl = false;
@@ -364,7 +366,6 @@ export const registKeyboardEvent = (
         updateActivedCell(target);
         return;
       }
-
 
       if (isTd) {
         if (ctrlKey) {
@@ -404,11 +405,11 @@ export const registKeyboardEvent = (
           await triggerFocusInput();
         } else if (key === 'Enter') {
           let control;
-          if (control = domShare.getEle(target, 'a')) {
+          if ((control = domShare.getEle(target, 'a'))) {
             control.click();
-          } else if (control = domShare.getEle(target, 'button')) {
+          } else if ((control = domShare.getEle(target, 'button'))) {
             control.click();
-          } else if (control = domShare.getEle(target, 'input'), control?.type === 'checkbox') {
+          } else if (((control = domShare.getEle(target, 'input')), control?.type === 'checkbox')) {
             control.click();
           } else {
             await triggerFocusInput();
@@ -445,17 +446,18 @@ export const registKeyboardEvent = (
           });
         } else if (key === 'Escape') {
           triggerFocusTd();
-        } else if (isArrowKey(key) && (
-          CX_TABLE_INPUT_TYPE.includes(actived.column.control?.type)
-          || ['input'].includes(actived.column?.slotType)
-        )) {
+        } else if (
+          isArrowKey(key) &&
+          (CX_TABLE_INPUT_TYPE.includes(actived.column.control?.type) ||
+            ['input'].includes(actived.column?.slotType))
+        ) {
           const inputEle = target as HTMLInputElement;
           const inputValue = inputEle.value;
           const pointer = inputEle.selectionStart;
           if (
-            [ARROW_KEY.U, ARROW_KEY.D].includes(key)
-            || (pointer === 0 && key === ARROW_KEY.L)
-            || (pointer === inputValue.length && key === ARROW_KEY.R)
+            [ARROW_KEY.U, ARROW_KEY.D].includes(key) ||
+            (pointer === 0 && key === ARROW_KEY.L) ||
+            (pointer === inputValue.length && key === ARROW_KEY.R)
           ) {
             const td = domShare.getCell($CxTable, actived.column, actived.rowData);
             event.preventDefault();
