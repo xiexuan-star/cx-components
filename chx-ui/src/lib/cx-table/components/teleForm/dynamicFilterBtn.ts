@@ -17,6 +17,7 @@ export default defineComponent({
         {
           onClick: cache[0] || (cache[0] = () => emit('click')),
           icon: 'filtershaixuan',
+
           content: '筛选',
           style: { color: color.value, borderColor: color.value }
         },

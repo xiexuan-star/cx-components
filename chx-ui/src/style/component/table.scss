@@ -1,182 +1,185 @@
-$table-head-bg-color: #f5f5f5;
-$color-primary: #0084ff;
+@import '../mixins/mixin.scss';
+@import '../mixins/config.scss';
 
-@mixin cx-table-head {
+%cx-table-head {
   background-color: $table-head-bg-color;
   font-style: normal;
   font-weight: bold !important;
   font-size: 14px;
-  .ellipsis::before {
-    background-color: $table-head-bg-color;
+}
+
+$block: #{$namespace}-table;
+
+@function append-to-block ($args...) {
+  @return #{block-join($element-separator,$block,$args...)}
+}
+
+@mixin sticky-prop($property) {
+  @if index(['top','bottom','left','right','width','height'],$property) != null {
+    #{$property}: calc(var(--sticky-#{$property}) * 1px) !important;
+  } @else {
+    @error "Error type in sticky-prop argument => #{$property}"
   }
 }
 
-.cx-table_wrapper {
+%common-cell {
+  height: calc(var(--cell-height) * 1px);
+  max-height: calc(var(--cell-height) * 1px);
+  box-sizing: border-box;
+  background-image: linear-gradient(#dfe2e9, #dfe2e9), linear-gradient(#dfe2e9, #dfe2e9);
+  background-repeat: no-repeat;
+  background-size: 1px 100%, 100% 1px;
+  background-position: right top, right bottom;
+  padding: 0;
+  font-size: 14px;
+  border-spacing: 0;
+  border-collapse: separate;
+
+  .#{append-to-block(cell)} {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    padding: 0 calc(var(--padding) * 1px);
+    box-sizing: border-box;
+    max-height: calc(var(--cell-height) * 1px);
+    vertical-align: baseline;
+    position: relative;
+
+    img {
+      vertical-align: middle;
+    }
+
+    .el-input .el-input__inner {
+      border: 0 !important;
+      background-color: transparent;
+      box-shadow: none !important;
+    }
+  }
+}
+
+@mixin fixed-table($pick...) {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  @content;
+  z-index: 10;
+
+  @if index($pick,head) != null {
+    &.#{append-to-block(head)} {
+      z-index: 15;
+    }
+  }
+
+  @if index($pick,body) != null {
+    &.#{append-to-block(body)} {
+      z-index: 15;
+    }
+  }
+
+  > table {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    @content;
+    z-index: 15;
+  }
+}
+
+%box-shadow {
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+@include b(table) {
   position: relative;
   overflow: hidden;
-  /* 整个滚动条 */
-  ::-webkit-scrollbar {
-    width: calc(var(--scrollWidth) * 1px) !important;
-    height: calc(var(--scrollWidth) * 1px) !important;
+
+  @include e(wrapper) {
+    position: relative;
   }
 
-  /* 滚动条滑块(竖向:vertical 横向:horizontal) */
-  ::-webkit-scrollbar-thumb {
-    cursor: pointer;
-    background-color: rgb(217, 217, 217);
-    border-radius: 5px;
-  }
+  @include scrollType(var(--scroll-width), var(--scroll-width));
 
-  /* 滚动条滑块hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(191, 191, 191);
-  }
-
-  /* 滚动条有滑块的轨道部分 */
-  ::-webkit-scrollbar-track-piece {
-    background-color: #eee;
-    border-radius: 5px;
-  }
-
-  .cx-table_head {
-    &.cx-table__sticky {
+  @include e(head) {
+    @include when(sticky) {
       position: fixed !important;
       z-index: 100 !important;
       overflow: hidden !important;
-      top: calc(var(--sticky-top) * 1px) !important;
-
-      &.cx-table_center {
-        width: calc(var(--sticky-width) * 1px) !important;
-        left: calc(var(--sticky-left) * 1px) !important
-      }
-
-      &.cx-table_fixed_left {
-        left: calc(var(--sticky-left) * 1px) !important
-      }
-
-      &.cx-table_fixed_right {
-        right: calc(100vw - var(--sticky-right) * 1px) !important;
-      }
+      @include sticky-prop(top);
     }
-
+    @include when(center) {
+      @include sticky-prop(width);
+      @include sticky-prop(left);
+    }
+    @include when(block-join($element-separator, fixed, left)) {
+      @include sticky-prop(left);
+    }
+    @include when(block-join($element-separator, fixed, right)) {
+      @include sticky-prop(right);
+    }
   }
 
-  .cx-table_scrollWrapper {
-    overflow: auto;
+  @include e(block-join($element-separator, scroll, wrapper)) {
     position: static !important;
+    overflow: auto;
 
     table {
       border-collapse: separate !important;
       width: 100%;
 
-      &.stripe {
+      @include when(stripe) {
         tr:nth-of-type(2n) {
           td {
             background-color: #f9fafc;
-
-            .ellipsis::before {
-              background-color: #f9fafc;
-            }
           }
         }
       }
 
       tr {
-        &.cx-table_footer {
-          > td {
-            @include cx-table-head;
-          }
+        &.#{append-to-block(footer)} > td {
+          @extend %cx-table-head;
         }
 
-        .cx-table_expand {
+        .#{append-to-block(expend)} {
           overflow: auto;
         }
 
-        &.cx-table_row_hover {
-          .cx-table_hover_show {
+        .#{append-to-block(hover,show)} {
+          visibility: hidden;
+        }
+
+        &.#{append-to-block(row,hover)} {
+          .#{append-to-block(hover,show)} {
             visibility: visible;
           }
         }
 
-        .cx-table_hover_show {
-          visibility: hidden;
-        }
-      }
-
-      td,
-      th {
-        height: calc(var(--cellHeight) * 1px);
-        max-height: calc(var(--cellHeight) * 1px);
-        box-sizing: border-box;
-        background-image: linear-gradient(#dfe2e9, #dfe2e9), linear-gradient(#dfe2e9, #dfe2e9);
-        background-repeat: no-repeat;
-        background-size: 1px 100%, 100% 1px;
-        background-position: right top, right bottom;
-        padding: 0;
-        font-size: 14px;
-        border-spacing: 0;
-        border-collapse: separate;
-
-        .cx-table_cell {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;
-          padding: 0 calc(var(--padding) * 1px);
-          box-sizing: border-box;
-          max-height: calc(var(--cellHeight) * 1px);
-          vertical-align: baseline;
-          position: relative;
-
-          img {
-            vertical-align: middle;
-          }
-
-          input {
-            border: 0 !important;
-            background-color: transparent;
-          }
-        }
-      }
-
-      th {
-        @include cx-table-head;
-
-        span {
-          @include cx-table-head;
+        @include when(active) {
+          background-color: #f0f5ff !important;
         }
       }
 
       td {
+        @extend %common-cell;
         background-color: white;
         position: relative;
 
-        .ellipsis::before {
-          background-color: #fff;
-        }
-
-        &.actived {
+        @include when(active) {
           box-shadow: inset 0 0 0 2px $color-primary;
-        }
-
-        &.wrong::after {
-          position: absolute;
-          left: 3px;
-          top: 3px;
-          width: 5px;
-          height: 5px;
-          font-family: 'iconfont' !important;
-          content: '\e622';
-          color: red;
-        }
-
-        input {
-          font-size: 14px;
         }
       }
 
-      &.cx-table_empty {
+      th {
+        @extend %common-cell;
+        @extend %cx-table-head;
+
+        span {
+          @extend %cx-table-head;
+        }
+      }
+
+      &.#{append-to-block(empty)} {
         position: absolute;
         left: 0;
 
@@ -190,7 +193,7 @@ $color-primary: #0084ff;
       }
     }
 
-    .cx-table_border_line {
+    .#{append-to-block(border,line)} {
       box-sizing: border-box;
       position: absolute;
       top: 0;
@@ -202,149 +205,36 @@ $color-primary: #0084ff;
       border: 1px solid #dfe2e9;
     }
 
-    .cx-table_fixed_left {
-      position: absolute;
-      overflow: hidden;
-      top: 0;
-      left: 0;
-      z-index: 10;
-
-      &.cx-table_head {
-        z-index: 15;
-      }
-
-      &.cx-table_body {
-        z-index: 15;
-      }
-
-      > table {
-        position: absolute;
-        overflow: hidden;
-        top: 0;
+    .#{append-to-block(fixed,left)} {
+      @include fixed-table(head, body) {
         left: 0;
-        z-index: 15;
       }
     }
-
-    .cx-table_fixed_right {
-      position: absolute;
-      overflow: hidden;
-      top: 0;
-      right: 0;
-      z-index: 5;
-
-      &.cx-table_body {
-        z-index: 15;
-      }
-
-      &.cx-table_head {
-        z-index: 15;
-      }
-
-      > table {
-        position: absolute;
-        overflow: hidden;
-        top: 0;
+    .#{append-to-block(fixed,right)} {
+      @include fixed-table(head, body) {
         right: 0;
-        z-index: 15;
       }
     }
-
-    .cx-table_fixed_top {
-      position: absolute;
-      overflow: hidden;
-      top: 0;
-      left: 0;
-      z-index: 10;
-
-      > table {
-        position: absolute;
-        overflow: hidden;
-        top: 0;
+    .#{append-to-block(fixed,top)} {
+      @include fixed-table() {
         left: 0;
-        z-index: 10;
-      }
-    }
-
-    .cx-table_fixed_bottom {
-      position: absolute;
-      overflow: hidden;
-      bottom: 0;
-      left: 0;
-      height: calc(var(--cellHeight) * 1px);
-      z-index: 15;
-
-      > table {
-        position: absolute;
-        overflow: hidden;
-        z-index: 15;
-        left: 0;
-        top: 0;
       }
     }
   }
 
-  .cx-table_left_shadow,
-  .cx-table_right_shadow,
-  .cx-table_top_shadow,
-  .cx-table_bottom_shadow {
-    box-shadow: 0px 2px 12px 0 rgba(0, 0, 0, 0.1);
+  @each $position in left, right, top, bottom {
+    .#{append-to-block($position,shadow)} {
+      @extend %box-shadow;
+    }
   }
-
-  .cx-table_right_shadow {
+  .#{append-to-block(right,shadow)} {
     border-left: 1px solid #d9d9d9;
   }
-
-  .cx-table_bottom_shadow {
+  .#{append-to-block(bottom,shadow)} {
     border-top: 1px solid #d9d9d9;
   }
 
-  table tbody tr.active td {
-    background-color: #f0f5ff !important;
-
-    .ellipsis::before {
-      background-color: #f0f5ff;
-    }
-  }
-
-  .el-radio {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .el-radio__label {
-    display: none;
-  }
-
-  .cx-table_expand_switch {
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 15px;
-    height: 15px;
-    border: 1px solid #d5d5d5;
-    border-radius: 3px;
-    font-size: 12px;
-
-    &.cx-table_expand_active {
-      transform: rotate(180deg);
-    }
-  }
-
-  .cx-table_add_btn {
-    border: 1px dashed $color-primary !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: $color-primary;
-    margin: 10px 0;
-  }
-
-  .cx-table_sort {
-    display: inline-block;
+  .#{append-to-block(sort)} {
     width: 14px;
     height: 14px;
     cursor: pointer;
@@ -376,30 +266,40 @@ $color-primary: #0084ff;
     }
   }
 
-  .cx-table_sort_positive {
+  .#{append-to-block(sort,positive)} {
     &::after {
       border-top-color: $color-primary !important;
     }
   }
 
-  .cx-table_sort_reverse {
+  .#{append-to-block(sort,reverse)} {
     &::before {
       border-bottom-color: $color-primary !important;
     }
   }
+
+  .el-radio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .el-radio__label {
+    display: none;
+  }
 }
 
-.cx-table_tele_form {
+.#{append-to-block(tele,form)} {
   label.el-form-item__label {
     padding: 0;
   }
 }
 
-.cx-table_wrong_msg {
+.#{append-to-block(wrong,msg)} {
   color: #fff !important;
   background-color: #f56c6c !important;
 
   .cx-uni-popper__arrow::before {
-    background: #f56c6c;
+    background-color: #f56c6c !important;
   }
 }

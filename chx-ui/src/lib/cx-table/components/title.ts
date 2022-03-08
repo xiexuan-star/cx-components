@@ -1,35 +1,17 @@
-import {
-  createBlock,
-  createCommentVNode,
-  createVNode,
-  defineComponent,
-  Fragment,
-  inject,
-  openBlock
-} from 'vue';
-import { PATCH_FLAG } from '../constant';
-import { CxTablePropType } from '../types';
+import { createVNode, defineComponent, inject, renderSlot, Slots } from 'vue';
 
 export default defineComponent({
   name: 'CxTableTitle',
-  setup() {
-    const rootProp = inject<CxTablePropType>('rootProp')!;
-    const hoisted_1 = { class: 'cx_secondary_title cx_ptb_16' };
-
+  props: { title: { type: String } },
+  setup(props) {
+    const rootSlots = inject('rootSlots') as Slots;
     return () => {
-      return (
-        openBlock(),
-          createBlock(
-            Fragment,
-            null,
-            [
-              rootProp.title
-                ? createVNode('h3', hoisted_1, rootProp.title, PATCH_FLAG.TEXT)
-                : createCommentVNode('v-if_title', true)
-            ],
-            PATCH_FLAG.STABLE_FRAGMENT
-          )
-      );
+      if (rootSlots.tableTitle) {
+        return renderSlot(rootSlots, 'tableTitle');
+      } else if (props.title) {
+        return createVNode('div', { class: 'cx_secondary_title cx_ptb_16' }, props.title);
+      }
+      return null;
     };
   }
 });

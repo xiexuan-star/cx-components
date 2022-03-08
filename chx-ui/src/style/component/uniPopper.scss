@@ -1,15 +1,16 @@
 @include b(uni-popper) {
   position: absolute;
   z-index: 2500;
-  background-color: rgba(28, 28, 28, 1);
+  background-color: #1c1c1c;
   max-width: 250px;
   word-break: break-all;
+  opacity: 0.75;
   @keyframes show {
     from {
       opacity: 0;
     }
     to {
-      opacity: 1;
+      opacity: 0.75;
     }
   }
   animation: show 0.6s;
@@ -21,7 +22,7 @@
     z-index: -1;
 
     &::before {
-      background: rgb(28, 28, 28);
+      background: #1c1c1c;
       position: absolute;
       width: 10px;
       height: 10px;
@@ -59,5 +60,9 @@
 }
 
 .hover_bg_black_75:hover {
-  background-color: rgba(67, 67, 67, 1) !important;
+  background-color: rgb(67, 67, 67) !important;
+}
+
+*[data-popper-reference-hidden] {
+  visibility: hidden;
 }

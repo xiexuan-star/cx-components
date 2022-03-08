@@ -12,7 +12,7 @@ import {
 } from 'vue';
 import { PATCH_FLAG } from '../../constant';
 import { useTableStyle } from '../../hooks';
-import { CxTableBaseObj, CxTablePropType } from '../../types';
+import { CxTableBaseObj } from '../../types';
 import { invokeLayeredRow } from '../../utils';
 import HeadCell from './headCell';
 
@@ -36,7 +36,7 @@ export default defineComponent({
       return invokeLayeredRow(CxTable.columns);
     });
 
-    const hoisted_2 = 'cx-table_head';
+    const hoisted_2 = 'cx-table__head';
     const headerRef = ref<HTMLElement>();
 
     if (!props.fixed) {

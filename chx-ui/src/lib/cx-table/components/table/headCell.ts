@@ -44,13 +44,13 @@ export default defineComponent({
       };
     });
 
-    const hoisted_1 = 'cx-table_cell';
+    const hoisted_1 = 'cx-table__cell';
     // const hoisted_2 = 'iconfont';
     const hoisted_3 = 'color:red';
     const hoisted_4 = 'cx_w_10';
-    const hoisted_5 = 'cx-table_sort';
-    const hoisted_6 = 'cx-table_sort_positive';
-    const hoisted_7 = 'cx-table_sort_reverse';
+    const hoisted_5 = 'cx-table__sort';
+    const hoisted_6 = 'cx-table__sort__positive';
+    const hoisted_7 = 'cx-table__sort__reverse';
 
     return (_: any, cache: any[]) => {
       const { column } = props;
@@ -78,7 +78,7 @@ export default defineComponent({
                     PATCH_FLAG.PROPS,
                     ['content']
                   )
-                  : createCommentVNode('c-if_tip', true),
+                  : createCommentVNode('v-if_tip', true),
                 column.headSlot && rootSlots?.[column.headSlot]
                   ? createVNode(rootSlots?.[column.headSlot], { column })
                   : column.control?.type === 'nativeCheckbox'

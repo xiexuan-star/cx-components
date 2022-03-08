@@ -1,0 +1,24 @@
+@import "./config.scss";
+
+@function px($number) {
+  @if unitless($number) {
+    @return calc(#{$number} * 1px)
+  } @else if unit($number) != px {
+    @warn "Prefer a number type argument in function px, current arg is #{$number}";
+    $one-with-unit: '1' + unit($number);
+    @return calc(#{ $number / $one-with-unit } * 1px);
+  } @else {
+    @return $number;
+  }
+}
+
+@function block-join ($separator,$args...) {
+  $result: '';
+  $i: 1;
+  @while ($i<=length($args)) {
+    $current: nth($args, $i);
+    $result: if($i==1, $current, $result + $separator + $current);
+    $i: $i+1;
+  }
+  @return $result;
+}

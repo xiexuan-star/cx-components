@@ -28,7 +28,7 @@ export default defineComponent({
 
     const classList = computed(() => {
       return [
-        'cx-table_add_btn',
+        'cx-table__add__btn',
         'cx_mlr_10',
         props.tableData.length ? 'cx_h_80' : 'cx_h_160',
         props.fixed ? hoisted_1 : null

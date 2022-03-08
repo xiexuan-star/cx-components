@@ -1,4 +1,4 @@
-import { isObject, isString } from 'chx-utils';
+import { isString } from 'chx-utils';
 import { CxTableWidthMap } from '../constant/width';
 import { CxTableBaseObj, CxTableColumnObj, CxTableItem, CxTablePropType } from '../types';
 import { cxTableWarn, getColumnSelectText, getStatusAttrs, getStringWidth, } from '../utils';

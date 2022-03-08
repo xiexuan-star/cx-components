@@ -23,10 +23,10 @@
         ref="wrapRef"
       >
         <div class="cx-tabs">
-          <div
+          <a
             v-for="item in tabs"
             :key="item.id"
-            @click="clickHandle(item.id)"
+            @click.prevent="clickHandle(item.id)"
             :id="item.id"
             :class="{
               clickable: true,
@@ -44,7 +44,7 @@
               <span class="cx-tab_badge_dot" v-if="item.isDot"></span>
               <template v-else>{{ `${getBadgeValue(item)}${item.unit || ''}` }}</template>
             </div>
-          </div>
+          </a>
         </div>
         <i class="cx-tab_cursor" v-if="level < 2" :style="cursorStyle" />
       </div>

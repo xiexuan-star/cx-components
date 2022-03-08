@@ -24,8 +24,8 @@ export default defineComponent({
             },
             fixed: 'right',
             class: {
-              'cx-table_fixed_right': true,
-              'cx-table_right_shadow': CxTable.scrollStore.showRightShadow,
+              'cx-table__fixed__right': true,
+              'cx-table__right__shadow': CxTable.scrollStore.showRightShadow,
               'cx-bt': true
             },
             onlyTotal: true
@@ -40,8 +40,8 @@ export default defineComponent({
             },
             fixed: 'left',
             class: {
-              'cx-table_fixed_left': true,
-              'cx-table_left_shadow': CxTable.scrollStore.showLeftShadow,
+              'cx-table__fixed__left': true,
+              'cx-table__left__shadow': CxTable.scrollStore.showLeftShadow,
               'cx-bt': true
             },
             onlyTotal: true

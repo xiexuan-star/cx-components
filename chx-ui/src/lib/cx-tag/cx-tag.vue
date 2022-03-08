@@ -1,5 +1,5 @@
 <template>
-  <span class="cx-tag" :class="['cx-tag--' + type, 'cx-tag--' + size]">
+  <span class="cx-tag" :class="['cx-tag__' + type, 'cx-tag__' + size]">
     <slot>{{ text }}</slot>
   </span>
 </template>
@@ -15,7 +15,7 @@ export default defineComponent({
       default: 'primary'
     },
     text: { type: String },
-    size: { type: String as PropType<'small'|'mini'>, default: 'mini' }
+    size: { type: String as PropType<'middle'|'small'>, default: 'small' }
   }
 });
 </script>

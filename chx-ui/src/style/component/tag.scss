@@ -1,5 +1,20 @@
+$color-map: (
+        sucess:($color-primary, #E6F7FF, #7ACCFF),
+        danger:(#F5222D, #FFF1F0, #FFA39E),
+        primary:(#67c23a, #f0f9eb, #e1f3d8),
+        info:(#2F54EB, #F0F5FF, #ADC6FF),
+        cyan:(#13C2C2, #E6FFFB, #87E8DE)
+);
 
-.cx-tag {
+$color-map: map-merge($color-map, (
+        blue:map-get($color-map, sucess),
+        red:map-get($color-map, danger),
+        green:map-get($color-map, primary),
+        geekblue:map-get($color-map, info)
+));
+
+
+@include b(tag) {
   background-color: #e6f3ff;
   border-color: #cce6ff;
   color: $color-primary;
@@ -12,44 +27,17 @@
   box-sizing: border-box;
   white-space: nowrap;
 
-  &--mini {
+  @include e(mini) {
     padding: 1px 8px;
     line-height: 18px;
     height: 22px;
   }
 
-  &--success,
-  &--blue {
-    color: $color-primary;
-    background-color: #E6F7FF;
-    border-color: #7ACCFF;
+  @each $key, $val in $color-map {
+    @include e($key) {
+      color: nth($val, 1);
+      background-color: nth($val, 2);
+      border-color: nth($val, 3);
+    }
   }
-
-  &--danger,
-  &--red {
-    color: #F5222D;
-    background-color: #FFF1F0;
-    border-color: #FFA39E;
-  }
-
-  &--primary,
-  &--green {
-    background-color: #f0f9eb;
-    border-color: #e1f3d8;
-    color: #67c23a;
-  }
-
-  &--info,
-  &--geekblue {
-    background-color: #F0F5FF;
-    border-color: #ADC6FF;
-    color: #2F54EB;
-  }
-
-  &--cyan {
-    background-color: #E6FFFB;
-    border-color: #87E8DE;
-    color: #13C2C2;
-  }
-
 }

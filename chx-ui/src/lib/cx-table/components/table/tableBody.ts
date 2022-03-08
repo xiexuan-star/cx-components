@@ -27,8 +27,8 @@ export default defineComponent({
     const broadcast = inject<CxBroadcast>('broadcast')!;
     const rootProp = inject<CxTablePropType>('rootProp')!;
 
-    const hoisted_1 = 'cx-table_footer';
-    const hoisted_2 = 'cx-table_body';
+    const hoisted_1 = 'cx-table__footer';
+    const hoisted_2 = 'cx-table__body';
 
     const { getRowIdFromMap } = useTableId();
 
@@ -224,7 +224,7 @@ export default defineComponent({
     // 不宜使用computed
     const tableClass = ref('');
     watchEffect(() => {
-      tableClass.value = rootProp.stripe || rootProp.showForm ? 'stripe' : '';
+      tableClass.value = rootProp.stripe? 'is-stripe' : '';
     });
 
     return () => (

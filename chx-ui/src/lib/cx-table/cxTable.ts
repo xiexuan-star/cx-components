@@ -11,7 +11,7 @@ import {
   openBlock,
   provide,
   ref,
-  resolveDirective, watch,
+  resolveDirective,
   withDirectives
 } from 'vue';
 import { CXPagination } from '../index';
@@ -53,8 +53,8 @@ import {
 } from './hooks';
 import { scrollUpdateShadow } from './helper/eventHelper';
 import { PATCH_FLAG } from './constant';
-import { debounce, throttle } from 'lodash-es';
-import { isFunction, isNumber, isObject } from 'chx-utils';
+import { debounce } from 'lodash-es';
+import { isNumber, isObject } from 'chx-utils';
 
 export default defineComponent({
   name: 'CxTable',
@@ -225,9 +225,9 @@ export default defineComponent({
 
     useRegister($CxTable, props, tableDataVisitor, tableWrapper, bus, tid);
 
-    const _hoisted_1_class = 'cx-table_wrapper';
-    const _hoisted_2_class = 'cx-table_scrollWrapper';
-    const _hoisted_3_class = 'cx-table_border_line';
+    const _hoisted_1_class = 'cx-table__wrapper';
+    const _hoisted_2_class = 'cx-table__scroll__wrapper';
+    const _hoisted_3_class = 'cx-table__border__line';
     const _hoisted_directive = resolveDirective('loading')!;
 
     const { needStickyHeader, wrapperWidth, wrapperRight, wrapperLeft } = useSticky(props, $CxTable);
@@ -337,9 +337,8 @@ export default defineComponent({
     return (_: any, cache: any[]) => {
       return createVNode(
         'div',
-        { style: cssVariable.value, class: 'cx-table_container' },
+        { style: cssVariable.value, class: 'cx-table' },
         [
-          createVNode(CxTableTitle),
           (openBlock(),
             createBlock(Fragment, null, [
               props.setCacheBtn
@@ -366,6 +365,7 @@ export default defineComponent({
                 )
                 : createCommentVNode('v-if_form', true)
             ])),
+          createVNode(CxTableTitle, { title: props.title }, null, PATCH_FLAG.PROPS, ['title']),
           createVNode(
             'div',
             { tid, class: _hoisted_1_class },

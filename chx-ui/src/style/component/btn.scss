@@ -133,7 +133,7 @@ $block: cx-btn;
       $active: map-get($value, 'active');
 
       @include colorGroup($key, 'rgba(0, 0, 0, 0.65)', $hover, $active, 'rgba(0, 0, 0, 0.3)', 'color', 'border-color');
-      @include shallowBorder($key, 0.85);
+      @include shallowBorder($key, 0.18);
     }
   }
 

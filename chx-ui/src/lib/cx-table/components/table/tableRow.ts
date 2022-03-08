@@ -42,10 +42,10 @@ export default defineComponent({
       const result: AnyObject = { rowid: props.rowid, class: [] };
 
       if (isActive.value) {
-        result.class.push('active');
+        result.class.push('is-active');
       }
       if (isHover.value) {
-        result.class.push('cx-table_row_hover');
+        result.class.push('cx-table__row__hover');
       }
       return result;
     });

@@ -54,7 +54,7 @@ export default defineComponent({
       return result;
     });
 
-    const hoisted_1 = 'cx-table_expand';
+    const hoisted_1 = 'cx-table__expand';
 
     return () => {
       return (

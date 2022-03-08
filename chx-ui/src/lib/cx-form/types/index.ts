@@ -61,6 +61,7 @@ export type CxFormItemConfig = {
   prop: string
 } & Partial<{
   label: string
+  labelTip: string
   labelWidth: string | number
   closable: boolean
   width: string | number

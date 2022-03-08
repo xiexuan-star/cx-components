@@ -6,8 +6,8 @@ export const useCSSVariable = ($CxTable: CxTableBaseObj) => {
     cssVariable: computed(() => {
       return {
         '--padding': $CxTable.styleStore.CX_TABLE_PADDING,
-        '--cellHeight': $CxTable.styleStore.CX_TABLE_HEIGHT,
-        '--scrollWidth': $CxTable.styleStore.CX_TABLE_SCROLL_BAR
+        '--cell-height': $CxTable.styleStore.CX_TABLE_HEIGHT,
+        '--scroll-width': $CxTable.styleStore.CX_TABLE_SCROLL_BAR
       };
     })
   };

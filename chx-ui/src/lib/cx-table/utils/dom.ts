@@ -8,7 +8,7 @@ export const domShare = {
   getCell($CxTable: CxTableBaseObj, column: CxTableColumnObj, rowData: AnyObject) {
     const wrapperEle = $CxTable.wrapperEle!;
     return wrapperEle.querySelector<HTMLTableCellElement>(
-      `.cx-table_wrapper tr[rowid=${ useTableId().getRowIdFromMap(rowData) }] td[colid=${
+      `.cx-table__wrapper tr[rowid=${ useTableId().getRowIdFromMap(rowData) }] td[colid=${
         column._colid
       }]`
     );

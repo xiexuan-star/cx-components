@@ -1,4 +1,5 @@
-import { resolveComponent, Slots } from 'vue';
+import { createTextVNode, createVNode, resolveComponent, Slots, withDirectives } from 'vue';
+import UniPopper from '../../cx-uni-popper/uniPopper';
 
 import { CxFormItemConfig } from '../types';
 
@@ -21,7 +22,21 @@ export class CxFormItem extends CxFormTemplate {
     if (isObject(slots)) {
       const itemSlot = { default: slots.default };
 
-      this.config.labelSlot && Reflect.set(itemSlot, 'label', () => slots[this.config.labelSlot!]?.({ ...this.config }));
+      if (this.config.labelSlot) {
+        Reflect.set(itemSlot, 'label', () => slots[this.config.labelSlot!]?.({ ...this.config }));
+      } else if (this.config.labelTip) {
+        Reflect.set(itemSlot, 'label', () => [
+          createVNode('span', null, [
+            createTextVNode(this.config.label),
+            withDirectives(createVNode('i', { class: 'iconfont icon-help cx_ml_4' }),
+              [
+                [UniPopper, { text: this.config.labelTip,placement:'top' }]
+              ]
+            )
+          ])
+        ]);
+      }
+
       Object.assign(this.slots, itemSlot);
     }
     return this;

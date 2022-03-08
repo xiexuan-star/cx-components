@@ -75,6 +75,8 @@ const createPopperEle = R.compose(bindBaseAttr, R.converge(createTag, [R.always(
 
 const getPopOption = (placement?: string, arrow?: HTMLElement) => {
     const option = {
+      isReferenceHidden: true,
+      hasPopperEscaped:true,
       placement: placement || 'right', modifiers: [{
         name: 'offset',
         options: {
@@ -313,4 +315,3 @@ export default {
     key && unsafeDoUnload(key);
   }
 };
-;

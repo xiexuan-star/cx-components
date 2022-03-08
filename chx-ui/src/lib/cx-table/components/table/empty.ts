@@ -16,7 +16,7 @@ export default defineComponent({
     const CxTable = inject<CxTableBaseObj>('CxTable')!;
 
     const hoisted_1 = { style: { height: '150px' } };
-    const hoisted_2 = { class: 'cx-table_empty' };
+    const hoisted_2 = { class: 'cx-table__empty' };
 
     return () => {
       const rowspan = CxTable.flatColumns.length;

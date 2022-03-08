@@ -12,41 +12,41 @@
   box-sizing: border-box;
   white-space: nowrap;
 
-  &--mini {
+  &__small {
     padding: 1px 8px;
     line-height: 18px;
     height: 22px;
   }
 
-  &--success,
-  &--blue {
+  &__success,
+  &__blue {
     color: $color-primary;
     background-color: #E6F7FF;
     border-color: #7ACCFF;
   }
 
-  &--danger,
-  &--red {
+  &__danger,
+  &__red {
     color: #F5222D;
     background-color: #FFF1F0;
     border-color: #FFA39E;
   }
 
-  &--primary,
-  &--green {
+  &__primary,
+  &__green {
     background-color: #f0f9eb;
     border-color: #e1f3d8;
     color: #67c23a;
   }
 
-  &--info,
-  &--geekblue {
+  &__info,
+  &__geekblue {
     background-color: #F0F5FF;
     border-color: #ADC6FF;
     color: #2F54EB;
   }
 
-  &--cyan {
+  &__cyan {
     background-color: #E6FFFB;
     border-color: #87E8DE;
     color: #13C2C2;

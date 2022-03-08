@@ -15,7 +15,7 @@ export const CxTableWidthMap = new Map<string,
 
   ['手寸', { width: 80, rule: equal('手寸') }],
   ['导入', { width: 255, rule: equal('失败原因') }],
-  ['cc不给号', { width: 250, rule: label => ['石号', '证书号'].includes(label) }],
+  ['aa', { width: 250, rule: label => ['石号', '证书号'].includes(label) }],
   ['名称', { width: 180, rule: equal('名称') }],
   ['款型', { width: 80, rule: equal('款型') }],
   ['刻字', { width: 180, rule: equal('刻字') }],
@@ -44,7 +44,6 @@ export const CxTableWidthMap = new Map<string,
     '商户类',
     {
       width: 240,
-
       rule: label => {
         return (
           (['采购单位', '销售对象', '结算对象', '业务对象'].includes(label) ||

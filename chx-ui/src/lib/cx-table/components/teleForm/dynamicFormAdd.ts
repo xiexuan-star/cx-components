@@ -6,7 +6,7 @@ import {
   Fragment,
   openBlock,
   PropType,
-  resolveComponent, withCtx
+  resolveComponent, withCtx, withModifiers
 } from 'vue';
 import { PATCH_FLAG } from '../../constant';
 import PinyinMatch from 'pinyin-match';
@@ -30,12 +30,8 @@ export default defineComponent({
       },
       set(val) {
         emit('update:modelValue', val);
-        setVisible(false);
       }
     });
-
-    const [visible, setVisible] = useState(false);
-    const toggleVisible = R.compose(setVisible, R.not, visible);
 
     const addItem = (id: string) => {
       R.compose(setModelProxy, R.uniq as (a: string[]) => string[], R.append(id), modelProxy)();
@@ -57,7 +53,7 @@ export default defineComponent({
 
 
     const _hoisted_class_1 = 'cx_mb_5';
-    const _hoisted_class_2 = 'hover-highlight cx_ptb_8 cx_plr_12';
+    const _hoisted_class_2 = 'hover-highlight cx_ptb_8 cx_plr_12 cx_dp_b';
     const _hoisted_class_3 = 'cx_plr_7';
     const _hoisted_class_4 = 'cx_flex_center cx_justify_center cx_mt_8';
 
@@ -80,9 +76,18 @@ export default defineComponent({
               createVNode(
                 _hoisted_component_1,
                 {
-                  visible: visible(),
-                  'onUpdate:visible': setVisible,
+                  trigger: 'click',
                   placement: 'right-start',
+                  'popper-options': {
+                    modifiers: [
+                      {
+                        name: 'flip',
+                        options: {
+                          fallbackPlacements: ['left-start', 'bottom', 'top'],
+                        },
+                      },
+                    ]
+                  },
                   width: 240,
                   showArrow: false
                 },
@@ -91,11 +96,10 @@ export default defineComponent({
                     return createVNode(
                       _hoisted_component_2,
                       {
-                        onClick: toggleVisible,
                         icon: 'tianjia',
                         class: _hoisted_class_3,
                         style: {
-                          marginTop: props.modelValue.length ? '32px' : 0,
+                          marginTop: props.modelValue.length ? '24px' : 0,
                           backgroundColor: '#f0f5ff'
                         }
                       },
@@ -110,7 +114,7 @@ export default defineComponent({
                           createVNode(
                             _hoisted_component_3,
                             {
-                              size: 'mini',
+                              size: 'small',
                               class: _hoisted_class_1,
                               modelValue: searchContent(),
                               'onUpdate:modelValue': setSearchContent,
@@ -131,11 +135,11 @@ export default defineComponent({
                                         null,
                                         currentOptions().map(option => {
                                           return createVNode(
-                                            'div',
+                                            'a',
                                             {
                                               key: option.id,
                                               class: _hoisted_class_2,
-                                              onClick: R.useWith(addItem, [R.always(option.id)])
+                                              onClick: withModifiers(R.useWith(addItem, [R.always(option.id)]), ["prevent"])
                                             },
                                             option.name,
                                             PATCH_FLAG.PROPS,

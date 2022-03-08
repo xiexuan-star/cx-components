@@ -101,7 +101,7 @@ export default defineComponent({
 
     const directionOption = reactive({
       visible: false,
-      classList: ['cx-table_wrong_msg'],
+      classList: ['cx-table__wrong__msg'],
       text: invalidContent.value,
       controlType: 'handle',
       placement: 'top',
@@ -216,13 +216,13 @@ export default defineComponent({
           ...mergeSpan.value,
           style: tdStyle.value,
           colid: props.column._colid,
-          class: { actived: isActived.value }
+          class: { "is-active": isActived.value }
         },
         [
           createVNode(
             'div',
             {
-              class: 'cx-table_cell',
+              class: 'cx-table__cell',
               style: { width: props.column.renderWidth + 'px' }
             },
             [renderContent()],

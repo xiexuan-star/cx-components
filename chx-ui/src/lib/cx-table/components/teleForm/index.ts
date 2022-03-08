@@ -198,7 +198,7 @@ export default defineComponent({
     // const _hoisted_node_1 = createVNode('div', _hoisted_attrs_2);
 
     const renderForm = () =>
-      createVNode('div', { class: 'cx-table_tele_form' }, [
+      createVNode('div', { class: 'cx-table__tele__form' }, [
         // createVNode('div', _hoisted_attrs_1, [
         //   createVNode(DynamicFilterBtn, {
         //     onClick: toggleVisibleStates,
