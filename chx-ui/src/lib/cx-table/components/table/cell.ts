@@ -1,9 +1,6 @@
 import { EventBus, isArray, isDeepObjectEqual, isEmpty, isFunction, } from 'chx-utils';
 import {
-  computed, createBlock, createCommentVNode, createVNode, CSSProperties, defineComponent, Fragment, inject, openBlock,
-  PropType, reactive,
-  ref, Ref,
-  resolveDirective, watch,
+  computed, createVNode, CSSProperties, defineComponent, inject, PropType, reactive, ref, Ref, resolveDirective, watch,
   watchEffect, withDirectives
 } from 'vue';
 import { COLUMN_FLAG, CX_SPAN_METHOD_TYPE, CX_TABLE_COLUMN_KEY, PATCH_FLAG } from '../../constant';

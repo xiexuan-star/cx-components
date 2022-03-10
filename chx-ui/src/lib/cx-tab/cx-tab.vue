@@ -37,6 +37,7 @@
             }"
           >
             {{ item.name }}
+            <i v-if="item.tip" class="iconfont icon-help cx_fs_16 cx_ml_5" v-uni-popper="{text:item.tip}"/>
             <div
               v-if="item.badgeKey && getBadgeValue(item)"
               :class="`cx-tab_badge_${item.isDot ? 'dot_wrapper' : level}`"
@@ -46,7 +47,7 @@
             </div>
           </a>
         </div>
-        <i class="cx-tab_cursor" v-if="level < 2" :style="cursorStyle" />
+        <i class="cx-tab_cursor" v-if="level < 2" :style="cursorStyle"/>
       </div>
       <template v-if="showArrow">
         <i
@@ -70,7 +71,7 @@
           height: level === 4 ? '33px' : '42px'
         }"
       >
-        <slot name="operation" />
+        <slot name="operation"/>
       </div>
     </div>
   </div>
@@ -138,7 +139,7 @@ export default defineComponent({
       await nextTick();
       if (!wrapRef.value) return;
       const id = props.modelValue;
-      const currentTab = wrapRef.value.querySelector<HTMLElement>(`.cx-tab_item[id="${id}"]`);
+      const currentTab = wrapRef.value.querySelector<HTMLElement>(`.cx-tab_item[id="${ id }"]`);
       if (!currentTab) return;
       const left = currentTab.offsetLeft + 'px';
       const width = currentTab.offsetWidth + 'px';

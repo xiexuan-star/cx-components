@@ -25,7 +25,7 @@ const script = defineComponent({
   },
   setup(props, { slots }) {
     const renderLoadingEle = () => {
-      return createVNode('i', { class: 'el-icon is-loading cx_mr_5' });
+      return createVNode('i', { class: 'el-icon-loading iconfont icon-loading cx_mr_5' });
     };
 
     const renderIconEle = (className: string) => {

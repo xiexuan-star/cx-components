@@ -1,6 +1,6 @@
 {
   "name": "chx-utils",
-  "version": "1.0.11",
+  "version": "1.1.1",
   "description": "",
   "author": "xiexuan",
   "types": "dist/index.d.ts",
@@ -15,18 +15,18 @@
     "clean": "rimraf ./dist"
   },
   "devDependencies": {
-    "rollup": "^2.38.5",
-    "rollup-plugin-typescript2": "^0.29.0",
     "@rollup/plugin-node-resolve": "^11.1.1",
+    "@types/ramda": "^0.27.66",
+    "dayjs": "^1.10.7",
+    "ramda": "^0.27.2",
+    "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^3.0.2",
-    "@types/ramda": "^0.27.46",
-    "typescript": "4.3.5",
+    "rollup": "^2.38.5",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-terser": "^7.0.2",
-    "dayjs": "^1.10.7",
-    "ramda": "^0.27.1",
-    "vue": "3.0.5",
-    "resize-observer-polyfill": "^1.5.1"
+    "rollup-plugin-typescript2": "^0.29.0",
+    "typescript": "4.3.5",
+    "vue": "3.0.5"
   },
   "dependencies": {
     "cx-store": "^1.0.3",

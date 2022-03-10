@@ -19,7 +19,7 @@
           'cx-switch__animate': true
         }"
       >
-        <i v-if="loading" class="el-icon-loading"/>
+        <i v-if="loading" class="el-icon-loading iconfont icon-loading"/>
         <i v-else :class="`iconfont icon-${isActive ? activeIcon : inactiveIcon}`"/>
       </div>
     </div>
