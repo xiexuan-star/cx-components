@@ -26,7 +26,6 @@ export type withUndefined<T> = T | undefined;
 
 export interface SelectConfig {
   selectAll: boolean;
-  actualAll: boolean;
   selectItem: boolean[];
   indeterminate: boolean;
   disabled: boolean;

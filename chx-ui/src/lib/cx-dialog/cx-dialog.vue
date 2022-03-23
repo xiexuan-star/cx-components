@@ -1,5 +1,5 @@
 <template>
-  <teleport to="#cx-dialog-teleport-container" :disabled="!appendToBody">
+  <teleport :to="renderTo" :disabled="!appendToBody">
     <transition
       name="dialog-fade"
       @after-enter="afterEnter"
@@ -21,7 +21,7 @@
             v-bind="$attrs"
             @click.stop
           >
-            <header class="cx-dialog__header">
+            <header v-if="!hideTitle" class="cx-dialog__header">
               <h2 class="cx-dialog__title cx_fs_18">
                 <slot name="title">{{ title }}</slot>
               </h2>
@@ -35,12 +35,12 @@
                 <i v-if="showClose" class="iconfont icon-close" @click="openDialog(false)" title="关闭弹窗"/>
               </div>
             </header>
-            <div class="cx_line cx_mlr_0 cx_w_100p"/>
+            <div v-if="!hideTitle" class="cx_line cx_mlr_0 cx_w_100p"/>
             <section class="cx-dialog__body" :style="renderBodyStyle" v-if="bodyExist">
               <slot :isFullscreen="isFullscreen"/>
             </section>
-            <div class="cx_line cx_mlr_0 cx_w_100p"/>
-            <footer class="cx-dialog__footer">
+            <div class="cx_line cx_mlr_0 cx_w_100p" v-if="!hideFooter"/>
+            <footer class="cx-dialog__footer" v-if="!hideFooter">
               <slot name="footer">
                 <div class="cx_flex_center cx_justify_end">
                   <cx-btn v-if="cancelText" @click="openDialog(false),$emit('cancel')">{{ cancelText }}</cx-btn>
@@ -72,6 +72,7 @@ export default defineComponent({
   components: { CxOverlay },
   emits: ['register', 'close', 'closed', 'open', 'opened', 'ok', 'cancel'],
   props: {
+    renderTo: { type: String, default: '#cx-dialog-teleport-container' },
     cancelText: { type: String, default: '取消', },
     okText: { type: String, default: '确认', },
     disabledOk: { type: Boolean, default: false },
@@ -91,7 +92,9 @@ export default defineComponent({
     modal: { type: Boolean, default: true },
     lockScroll: { type: Boolean, default: false },
     bodyStyle: { type: Object, default: () => ({}) },
-    zIndex: { type: Number }
+    zIndex: { type: Number },
+    hideFooter: { type: Boolean },
+    hideTitle: { type: Boolean },
   },
   setup(props, { expose, emit }) {
     const visible = ref(false);
@@ -99,9 +102,9 @@ export default defineComponent({
     const isFullscreen = ref(false);
 
     const renderBodyStyle = computed(() => {
-      return Object.assign({}, props.bodyStyle, {
+      return Object.assign({}, {
         height: (isFullscreen.value || props.size === 'fullscreen') ? 'calc(100vh - 283px)' : ''
-      });
+      }, props.bodyStyle);
     });
 
     const renderWidth = computed(() => {

@@ -12,6 +12,7 @@ export const CX_TABLE_EVENT_LIST = [
   'register',
   'radioChange',
   'selectChange',
+  'selectItemChange',
   'paging',
   'addNewRow',
   'tdFocus',
