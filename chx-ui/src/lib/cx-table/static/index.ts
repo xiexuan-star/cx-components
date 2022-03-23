@@ -57,7 +57,7 @@ export const createCxTableConfig = (): CxTableBaseObj => {
     styleStore: {
       CX_TABLE_MIN_WIDTH: 110,
       CX_TABLE_HEIGHT: 32,
-      CX_TABLE_SCROLL_BAR: 8,
+      CX_TABLE_SCROLL_BAR: 10,
       CX_TABLE_PADDING: 8,
       CX_VISUAL_CACHE: 5
     }

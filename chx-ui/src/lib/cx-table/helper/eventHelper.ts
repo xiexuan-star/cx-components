@@ -78,7 +78,7 @@ const scrollUpdateVisualScroll = ($CxTable: CxTableBaseObj, props: CxTablePropTy
       while (
         renderStartIndex > 0 &&
         virtualStore.rowSpanMap[renderStartIndex] & CX_SPAN_METHOD_TYPE.MISSING
-      ) {
+        ) {
         topRowSpanPrepend++;
         renderStartIndex--;
       }
@@ -93,7 +93,7 @@ const scrollUpdateVisualScroll = ($CxTable: CxTableBaseObj, props: CxTablePropTy
       while (
         renderStartIndex + renderLength < rowNum &&
         virtualStore.rowSpanMap[renderStartIndex + renderLength] & CX_SPAN_METHOD_TYPE.MISSING
-      ) {
+        ) {
         renderLength++;
       }
     }
@@ -449,7 +449,7 @@ export const registKeyboardEvent = (
         } else if (
           isArrowKey(key) &&
           (CX_TABLE_INPUT_TYPE.includes(actived.column.control?.type) ||
-            ['input'].includes(actived.column?.slotType))
+           ['input'].includes(actived.column?.slotType))
         ) {
           const inputEle = target as HTMLInputElement;
           const inputValue = inputEle.value;
@@ -508,14 +508,11 @@ export const registKeyboardEvent = (
 // 全选联动处理
 export const onSelectItemChange = (config: SelectConfig) => {
   if (config.selectItem.length === 0) {
-    config.actualAll = config.selectAll = false;
     config.indeterminate = false;
   } else {
     if (config.selectItem.every(item => item)) {
-      config.actualAll = config.selectAll = true;
       config.indeterminate = false;
     } else {
-      config.actualAll = config.selectAll = false;
       config.indeterminate = config.selectItem.some(item => item);
     }
   }
