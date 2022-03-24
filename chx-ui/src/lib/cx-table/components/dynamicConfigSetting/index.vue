@@ -2,7 +2,7 @@
   <div :style="{ position: 'absolute', right, top: 0, zIndex: 1500 }">
     <div class="setting_btn cx_flex_center cx_justify_center">
       <cx-btn
-        v-uni-popper="{placement:'left-start',text:'设置表头字段'}"
+        v-uni-popper="{ placement: 'left-start', text: '设置表头字段' }"
         class="cx_p_0"
         icon="shezhi1"
         @click="open"
@@ -20,15 +20,23 @@
 <script lang="ts">
 import { computed, defineComponent, inject, ref } from 'vue';
 import { loadingDecorator } from 'chx-utils';
-import uniPopper from '../../../cx-uni-popper/uniPopper';
 import { CxTableBaseObj } from '../../types';
 import ColumnSettingDialog from './dialog.vue';
 
 export default defineComponent({
   name: 'DynamicConfigSettings',
   components: { ColumnSettingDialog },
-  props: { dynamicConfig: { type: Object, requred: true } },
-  directives: { uniPopper: uniPopper },
+  props: {
+    dynamicConfig: {
+      type: Object,
+      default: () => ({
+        moduleType: 41,
+        businessType: 89,
+        priceType: 1,
+        modelType: 5
+      })
+    }
+  },
   emits: ['submit'],
   setup(_, { emit }) {
     const dialogRef = ref<null | AnyObject>(null);
@@ -41,7 +49,6 @@ export default defineComponent({
       if (!CxTable) return 0;
       return CxTable.scrollStore.rightScrollBar ? CxTable.styleStore.CX_TABLE_SCROLL_BAR + 'px' : 0;
     });
-
     return {
       open,
       openLoading,
@@ -54,25 +61,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style lang="scss" scoped>
-.setting_btn {
-  background-color: #f5f5f5;
-  height: 32px;
-  width: 32px;
-  font-style: normal;
-  font-weight: 700 !important;
-  font-size: 14px;
-  border: 1px solid #d9d9d9 !important;
-  box-sizing: border-box;
-
-  button {
-    border: 0 !important;
-  }
-
-  :deep(.iconfont) {
-    margin: 0 !important;
-    font-size: 20px !important;
-  }
-}
-</style>
