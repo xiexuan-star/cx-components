@@ -8,7 +8,7 @@ import {
   openBlock,
   PropType
 } from 'vue';
-import CxTableHead from './tableHead';
+import CxTableHead from './tableHead.vue';
 import CxTableBody from './tableBody';
 import { CxTableBaseObj } from '../../types';
 import { useTableStyle } from '../../hooks';

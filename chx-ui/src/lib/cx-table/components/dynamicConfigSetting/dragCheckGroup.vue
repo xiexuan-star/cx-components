@@ -77,7 +77,7 @@
 <script lang="ts">
 import { Ref, computed, inject, defineComponent } from 'vue';
 import VueDraggable from 'vuedraggable';
-import DragItem from 'views/test/dragItem.vue';
+import DragItem from './dragItem.vue';
 import { useDynamicDrag } from './useDynamicDialogConfig';
 
 export default defineComponent({

@@ -107,16 +107,16 @@ $block: #{$namespace}-table;
       z-index: 100 !important;
       overflow: hidden !important;
       @include sticky-prop(top);
-    }
-    @include when(center) {
-      @include sticky-prop(width);
-      @include sticky-prop(left);
-    }
-    @include when(block-join($element-separator, fixed, left)) {
-      @include sticky-prop(left);
-    }
-    @include when(block-join($element-separator, fixed, right)) {
-      @include sticky-prop(right);
+      &.#{block-join($element-separator,$block, center)} {
+        @include sticky-prop(width);
+        @include sticky-prop(left);
+      }
+      &.#{block-join($element-separator,$block, fixed, left)} {
+        @include sticky-prop(left);
+      }
+      &.#{block-join($element-separator,$block, fixed, right)} {
+        right: calc(100vw - var(--sticky-right) * 1px) !important;
+      }
     }
   }
 
