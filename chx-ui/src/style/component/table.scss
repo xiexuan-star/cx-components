@@ -220,6 +220,22 @@ $block: #{$namespace}-table;
         left: 0;
       }
     }
+    .#{append-to-block(fixed,bottom)} {
+      position: absolute;
+      overflow: hidden;
+      bottom: 0;
+      left: 0;
+      height: calc(var(--cellHeight) * 1px);
+      z-index: 15;
+
+      > table {
+        position: absolute;
+        overflow: hidden;
+        z-index: 15;
+        left: 0;
+        top: 0;
+      }
+    }
   }
 
   @each $position in left, right, top, bottom {
