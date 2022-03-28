@@ -23,8 +23,8 @@ import { CxTableExpose, Nullable } from './types';
 import { CX_TABLE_EVENT_LIST } from './constant';
 import { domShare, formatWidth, invokeLayeredRow } from './utils';
 
-import CxTableContent from './components/table';
-import CxTableEmpty from './components/table/empty';
+import CxTableContent from './components/table/index.vue';
+import CxTableEmpty from './components/table/empty.vue';
 import TeleForm from './components/teleForm/index';
 import { SetCacheBtn } from './components/cacheBtn';
 import { CacheListBtn } from './components/cacheBtn';

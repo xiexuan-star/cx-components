@@ -5,7 +5,6 @@
         <cx-table-head-cell v-for="col in headerFilter(headers)" :column="col"
                             :layeredLevel="layeredHeadItems.length-index"/>
       </tr>
-
     </table>
   </div>
   <div v-if="needStickyHeader && !fixed"
@@ -39,7 +38,6 @@ export default defineComponent({
       ['top', 'height', 'width', 'right'].forEach(name => {
         style.value[name] && (result[name] = style.value[name]);
       });
-      console.log(result);
       return result;
     }
 

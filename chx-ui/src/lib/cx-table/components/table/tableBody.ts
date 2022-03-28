@@ -1,18 +1,17 @@
 import { isFunction, isNumber, isObject, isString } from 'chx-utils';
 import * as R from 'ramda';
 import {
-  computed, createBlock, createCommentVNode, createVNode, CSSProperties, defineComponent, Fragment, inject, openBlock,
-  PropType, ref, toRaw, watchEffect
+  computed, createBlock, createCommentVNode, createElementBlock, createVNode, CSSProperties, defineComponent, Fragment,
+  inject, normalizeClass, normalizeStyle, openBlock, PropType, ref, resolveComponent, toRaw, watchEffect
 } from 'vue';
 import { CX_TABLE_EMPTY_INDEX, CX_TABLE_SUM_INDEX, CX_TABLE_SUM_ROW_KEY, PATCH_FLAG } from '../../constant';
 import { CxBroadcast, useTableId, useTableStyle } from '../../hooks';
 import { CxTableBaseObj, CxTableColumnObj, CxTablePropType } from '../../types';
-import { getFunctionAttrs, getTotalSumData } from '../../utils';
+import { getFunctionAttrs, getSums, getTotalSumData } from '../../utils';
 import Cell from './cell';
 import Expand from './expand';
-import FixedBottom from './fixedBottom';
 import TableAddBtn from './tableAddBtn';
-import TableRow from './tableRow';
+import TableRow from './tableRow.vue';
 
 export default defineComponent({
   name: 'CxTableBody',
@@ -224,9 +223,27 @@ export default defineComponent({
     // 不宜使用computed
     const tableClass = ref('');
     watchEffect(() => {
-      tableClass.value = rootProp.stripe? 'is-stripe' : '';
+      tableClass.value = rootProp.stripe ? 'is-stripe' : '';
     });
-
+    const isRenderLeft = computed(() => {
+      return !!CxTable.columnStore.leftFixedColumns.length;
+    });
+    const isRenderRight = computed(() => {
+      return !!CxTable.columnStore.rightFixedColumns.length;
+    });
+    const rightWidth = computed(() => {
+      return getSums(CxTable.columnStore.rightFixedColumns) + 'px';
+    });
+    const leftWidth = computed(() => {
+      return getSums(CxTable.columnStore.leftFixedColumns) + 'px';
+    });
+    const showRightShadow = computed(() => {
+      return CxTable.scrollStore.showRightShadow;
+    });
+    const showLeftShadow = computed(() => {
+      return CxTable.scrollStore.showLeftShadow;
+    });
+    const CxTableBody = resolveComponent('cx-table-body');
     return () => (
       openBlock(),
         createBlock(
@@ -245,12 +262,30 @@ export default defineComponent({
                 null,
                 [
                   props.fixed === 'bottom'
-                    ? createVNode(
-                      FixedBottom,
-                      { tableData: props.tableData },
-                      null,
-                      PATCH_FLAG.PROPS | PATCH_FLAG.NEED_PATCH,
-                      ['tableData']
+                    ? (
+                      (openBlock(), createElementBlock(Fragment, null, [
+                        (isRenderRight.value)
+                          ? (openBlock(), createBlock(CxTableBody, {
+                            key: 0,
+                            'only-total': true,
+                            fixed: 'right',
+                            'table-data': props.tableData,
+                            style: normalizeStyle({ zIndex: 15, width: rightWidth.value }),
+                            class: normalizeClass(['cx-table__fixed__right', { 'cx-table__right__shadow': showRightShadow.value }])
+                          }, null, PATCH_FLAG.PROPS, ['table-data', 'style', 'class']))
+                          : createCommentVNode('v-if', true),
+                        (isRenderLeft.value)
+                          ? (openBlock(), createBlock(CxTableBody, {
+                            key: 1,
+                            'only-total': true,
+                            fixed: 'left',
+                            'table-data': props.tableData,
+                            style: normalizeStyle({ zIndex: 15, width: leftWidth.value }),
+                            class: normalizeClass(['cx-table__fixed__left', { 'cx-table__left__shadow': showLeftShadow.value }])
+                          }, null, PATCH_FLAG.PROPS, ['table-data', 'style', 'class']))
+                          : createCommentVNode('v-if', true)
+                      ], PATCH_FLAG.STABLE_FRAGMENT))
+
                     )
                     : createCommentVNode('v-if_fixed_bottom', true)
                 ],

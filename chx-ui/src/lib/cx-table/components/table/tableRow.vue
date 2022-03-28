@@ -1,14 +1,13 @@
-import {
-  computed,
-  createVNode,
-  defineComponent,
-  inject,
-  PropType,
-  Ref,
-  ref,
-  watchEffect
-} from 'vue';
-import { PATCH_FLAG } from '../../constant';
+<template>
+  <tr
+    :rowid="rowid"
+    :class="{'is-active':isActive,'cx-table__row__hover':isHover}"
+  >
+    <slot/>
+  </tr>
+</template>
+<script lang="ts">
+import { defineComponent, inject, PropType, ref, Ref, watchEffect } from 'vue';
 import { CxTableBaseObj } from '../../types';
 
 export default defineComponent({
@@ -20,7 +19,7 @@ export default defineComponent({
     sum: { type: Boolean, default: false },
     rowid: { type: [String, Number], default: '' }
   },
-  setup(props, { slots }) {
+  setup(props) {
     const selectConfig = inject<AnyObject>('selectConfig', { selectItem: [] });
     const radioValue = inject<Ref<number>>('radioValue', ref(-1));
     const CxTable = inject<CxTableBaseObj>('CxTable')!;
@@ -37,23 +36,7 @@ export default defineComponent({
         radioValue.value === props.rowIndex ||
         props.activedRow?.includes(props.rowIndex);
     });
-
-    const trAttrs = computed(() => {
-      const result: AnyObject = { rowid: props.rowid, class: [] };
-
-      if (isActive.value) {
-        result.class.push('is-active');
-      }
-      if (isHover.value) {
-        result.class.push('cx-table__row__hover');
-      }
-      return result;
-    });
-
-    return () => {
-      return createVNode('tr', trAttrs.value, slots, PATCH_FLAG.PROPS | PATCH_FLAG.CLASS, [
-        'rowid'
-      ]);
-    };
+    return { isActive, isHover };
   }
 });
+</script>
