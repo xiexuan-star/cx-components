@@ -6,7 +6,7 @@ $color-map: (
         cyan:(#13C2C2, #E6FFFB, #87E8DE)
 );
 
-$color-map: map-merge($color-map, (
+$color-name-map: map-merge($color-map, (
         blue:map-get($color-map, sucess),
         red:map-get($color-map, danger),
         green:map-get($color-map, primary),
@@ -33,7 +33,7 @@ $color-map: map-merge($color-map, (
     height: 22px;
   }
 
-  @each $key, $val in $color-map {
+  @each $key, $val in $color-name-map {
     @include e($key) {
       color: nth($val, 1);
       background-color: nth($val, 2);
