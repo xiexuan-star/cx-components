@@ -103,7 +103,9 @@ export const useDynamicConfigDialog = () => {
         });
         if (item.children) {
           _res.push(
-            ...item.children.map((child: AnyObject) => ({
+            ...item.children.filter((child:AnyObject)=>{
+              return child.checked;
+            }).map((child: AnyObject) => ({
               id: child.id,
               name: child.label,
               fixed: key.includes('左') ? 'left' : key.includes('右') ? 'right' : undefined

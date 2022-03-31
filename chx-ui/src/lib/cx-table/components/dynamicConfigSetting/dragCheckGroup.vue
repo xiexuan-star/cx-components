@@ -27,7 +27,7 @@
     >
       <template #item="{element:wrapperElement}">
         <section
-          v-if="wrapperElement.children&&wrapperElement.children.length && (!isRight || wrapperElement.checked)"
+          v-if="wrapperElement.children&&wrapperElement.children.length && (!isRightSide || wrapperElement.checked)"
           class="dynamic-dialog__child__wrapper"
         >
           <header>
@@ -47,7 +47,7 @@
             ghostClass="cx_opacity_20"
           >
             <template #item="{element}">
-              <div class="dynamic-dialog__item" v-if="!isRight || element.checked">
+              <div class="dynamic-dialog__item" v-if="!isRightSide || element.checked">
                 <drag-item
                   :side="side"
                   :item="element"
@@ -60,7 +60,7 @@
             </template>
           </vue-draggable>
         </section>
-        <div v-else-if="!isRight || wrapperElement.checked" class="dynamic-dialog__item">
+        <div v-else-if="!isRightSide || wrapperElement.checked" class="dynamic-dialog__item">
           <drag-item
             :item="wrapperElement"
             drag-target-class="dynamic-drag__item"
@@ -85,7 +85,7 @@ export default defineComponent({
   props: { side: { type: String, default: 'left' } },
   components: { VueDraggable, DragItem },
   setup(props) {
-    const isRight = computed(() => props.side === 'right');
+    const isRightSide = computed(() => props.side === 'right');
     const totalItemMap = inject<Ref<Record<string, AnyObject[]>>>('totalItemMap')!;
 
     const {
@@ -101,7 +101,7 @@ export default defineComponent({
       childAreaDragStart,
       onDragOver,
       onDragLeave,
-      isRight,
+      isRightSide,
       totalItemMap
     };
   }

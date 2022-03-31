@@ -86,7 +86,7 @@ export function deepMerge<T = any>(src: any, target: any): T {
 
 const format = (val: Date) => dayjs(val).format('YYYY-MM-DD');
 export const formatDate = R.ifElse(R.is(Array), R.map(format), format);
-const format2 = (val: Date) => dayjs(val).format('YYYY-MM-DD HH-mm-ss');
+const format2 = (val: Date) => dayjs(val).format('YYYY-MM-DD HH:mm:ss');
 export const formatTime = R.ifElse(R.is(Array), R.map(format2), format2);
 
 export function formatFormDefaultValue(defaultEnum: string, searchType: string) {
@@ -106,7 +106,7 @@ export function formatFormDefaultValue(defaultEnum: string, searchType: string) 
     case 'now':
       return formatTime(Date.now());
     case 'lastMonth':
-      return formatTime(getDateRange(30, 'date', true));
+      return formatDate(getDateRange(30, 'date', true));
     default:
       return +defaultEnum || defaultEnum;
   }

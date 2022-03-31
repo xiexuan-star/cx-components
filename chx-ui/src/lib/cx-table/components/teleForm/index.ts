@@ -83,7 +83,7 @@ export default defineComponent({
 
     const getDefaultValueByProp = R.compose(
       getTargetColumnDefault,
-      R.converge(getTargetColumn, [R.identical, () => props.dynamicColumn]) as (
+      R.converge(getTargetColumn, [R.identity, () => props.dynamicColumn]) as (
         a: string
       ) => CxTableDynamicColumn
     );

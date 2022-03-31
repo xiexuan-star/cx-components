@@ -25,7 +25,7 @@ export default defineComponent({
       return createVNode(
         Pagination,
         {
-          class: 'cx_align_right cx_pt_12',
+          class: 'cx_justify_end cx_pt_12',
           background: true,
           currentPage: props.pagination.currentPage,
           pageSizes: props.pagination.pageSizes,

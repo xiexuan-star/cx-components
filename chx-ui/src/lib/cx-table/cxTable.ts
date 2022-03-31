@@ -373,28 +373,25 @@ export default defineComponent({
             'div',
             { tid, class: _hoisted_1_class },
             [
-              withDirectives(
-                createVNode(
-                  'div',
-                  { class: _hoisted_2_class, style: innerStyle.value, ref: tableWrapper },
-                  [
-                    (openBlock(),
-                      createBlock(
-                        Fragment,
-                        null,
-                        tableVisible.value
-                          ? [
-                            renderTables(),
-                            renderEmpty(),
-                            cache[0] || (cache[0] = renderBorderLine()),
-                            renderDynamicConfigSetting()
-                          ]
-                          : [createVNode('div', placeHolderAttrs.value)]
-                      ))
-                  ],
-                  PATCH_FLAG.STYLE | PATCH_FLAG.NEED_PATCH
-                ),
-                [[_hoisted_directive ?? {}, loading.value || searchLoading.value]]
+              createVNode(
+                'div',
+                { class: _hoisted_2_class, style: innerStyle.value, ref: tableWrapper },
+                [
+                  (openBlock(),
+                    createBlock(
+                      Fragment,
+                      null,
+                      tableVisible.value
+                        ? [
+                          renderTables(),
+                          renderEmpty(),
+                          cache[0] || (cache[0] = renderBorderLine()),
+                          renderDynamicConfigSetting()
+                        ]
+                        : [createVNode('div', placeHolderAttrs.value)]
+                    ))
+                ],
+                PATCH_FLAG.STYLE | PATCH_FLAG.NEED_PATCH
               )
             ],
             PATCH_FLAG.STYLE

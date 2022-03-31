@@ -31,8 +31,7 @@ export const useCxForm = () => {
     }
 
     if (Reflect.has(item, attr)) {
-      return Reflect.set(item, attr, val)
-        ;
+      return Reflect.set(item, attr, val);
     }
     [...CxFormRenderMap.keys()].find((type) => {
       const typeAttrs = Reflect.get(item, type);
