@@ -1,16 +1,21 @@
 $color-map: (
-        sucess:($color-primary, #E6F7FF, #7ACCFF),
+        success:($color-primary, #E6F7FF, #7ACCFF),
         danger:(#F5222D, #FFF1F0, #FFA39E),
         primary:(#67c23a, #f0f9eb, #e1f3d8),
         info:(#2F54EB, #F0F5FF, #ADC6FF),
-        cyan:(#13C2C2, #E6FFFB, #87E8DE)
+        cyan:(#13C2C2, #E6FFFB, #87E8DE),
+        orange:(#FA8C16, #FFF7E6, #FFD591),
+        dark-orange:(#FA541C, #FFF2E8, #FFBB96),
+        purple:(#722ED1, #F9F0FF, #D3ADF7),
+        gray:(#000000, #FAFAFA, #D9D9D9)
 );
 
 $color-name-map: map-merge($color-map, (
-        blue:map-get($color-map, sucess),
+        blue:map-get($color-map, success),
         red:map-get($color-map, danger),
         green:map-get($color-map, primary),
-        geekblue:map-get($color-map, info)
+        geekblue:map-get($color-map, info),
+        // orange:map-get($color-map, orange),
 ));
 
 
@@ -27,7 +32,7 @@ $color-name-map: map-merge($color-map, (
   box-sizing: border-box;
   white-space: nowrap;
 
-  @include e(mini) {
+  @include e(small) {
     padding: 1px 8px;
     line-height: 18px;
     height: 22px;

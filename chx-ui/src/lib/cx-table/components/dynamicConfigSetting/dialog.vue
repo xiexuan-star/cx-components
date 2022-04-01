@@ -51,7 +51,7 @@
    </template>
   </cx-dialog>
   <cx-dialog @register="registerPreview" title="预览" append-to-body size="large" okText="">
-    <cx-table class="cx_m_16" close-on-click-modal :empty-limit="5" :table-config="previewConfig"/>
+    <cx-table class="cx_m_16" :close-on-click-modal="true" :empty-limit="5" :table-config="previewConfig"/>
   </cx-dialog>
 </template>
 

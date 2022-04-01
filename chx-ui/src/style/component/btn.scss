@@ -127,13 +127,20 @@ $block: cx-btn;
 
   @include e(level__2) {
     color: rgba(0, 0, 0, 0.65);
-
+    background: linear-gradient(144.65deg, #DCE8FF 4.69%, #FFFFFF 77.27%);
+    border-radius: 6px;
     @each $key, $value in $theme {
       $hover: map-get($value, 'hover');
       $active: map-get($value, 'active');
 
       @include colorGroup($key, 'rgba(0, 0, 0, 0.65)', $hover, $active, 'rgba(0, 0, 0, 0.3)', 'color', 'border-color');
       @include shallowBorder($key, 0.18);
+    }
+    &:hover ,&:focus ,&:active {
+      background: transparent;
+    }
+    &.#{$block + '__disabled'} {
+      background: transparent;
     }
   }
 

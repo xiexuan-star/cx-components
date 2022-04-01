@@ -134,6 +134,11 @@ $block: #{$namespace}-table;
             background-color: #f9fafc;
           }
         }
+        tbody tr.#{append-to-block(row,hover)} {
+          td {
+            background-color: #e3f3fe;
+          }
+        }
       }
 
       tr {
@@ -149,14 +154,19 @@ $block: #{$namespace}-table;
           visibility: hidden;
         }
 
-        &.#{append-to-block(row,hover)} {
-          .#{append-to-block(hover,show)} {
-            visibility: visible;
+        @include when(active) {
+          td {
+            background-color: #b2c5fa !important;
           }
         }
+      }
 
-        @include when(active) {
-          background-color: #f0f5ff !important;
+      tbody tr.#{append-to-block(row,hover)} {
+        .#{append-to-block(hover,show)} {
+          visibility: visible;
+        }
+        td {
+          background-color: #e3f3fe;
         }
       }
 

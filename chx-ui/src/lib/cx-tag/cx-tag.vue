@@ -11,7 +11,7 @@ export default defineComponent({
   name: 'CxTag',
   props: {
     type: {
-      type: String as PropType<'primary' | 'success' | 'danger' | 'info' | 'red' | 'green' | 'blue' | 'cyan' | 'geekblue'>,
+      type: String as PropType<'primary' | 'success' | 'danger' | 'info' | 'red' | 'green' | 'blue' | 'cyan' | 'geekblue' | 'orange' | 'purple' | 'gray'>,
       default: 'primary'
     },
     text: { type: String },
