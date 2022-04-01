@@ -14,7 +14,8 @@ $color-name-map: map-merge($color-map, (
         blue:map-get($color-map, success),
         red:map-get($color-map, danger),
         green:map-get($color-map, primary),
-        geekblue:map-get($color-map, info)
+        geekblue:map-get($color-map, info),
+        // orange:map-get($color-map, orange),
 ));
 
 
