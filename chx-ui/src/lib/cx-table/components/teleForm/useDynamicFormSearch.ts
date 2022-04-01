@@ -42,9 +42,9 @@ export const useDynamicFormSearch = () => {
     cxTableWarn(`can't match api by config `, changeDynamicIdToText(dynamic));
   });
 
-  const updateTotal = R.useWith(unsafeClearAssign, [
+  const updateTotal = R.useWith(Object.assign, [
+    R.prop<string, any>('entireTotalSum'),
     R.identity,
-    R.prop<string, any>('entireTotalSum')
   ]);
 
   const initRequestParams = (
@@ -90,7 +90,7 @@ export const useDynamicFormSearch = () => {
       )(rootProp.hooks?.onSearch);
     }
     if (!!summary) {
-      updateTotal(summary, CxTable);
+      updateTotal(CxTable, summary);
     }
   });
 

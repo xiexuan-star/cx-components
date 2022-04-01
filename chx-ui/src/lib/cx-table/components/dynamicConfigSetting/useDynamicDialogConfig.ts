@@ -95,19 +95,18 @@ export const useDynamicConfigDialog = () => {
     if (!dynamicConfig) return console.warn('[dynamicConfigDialog]: invalid dynamicConfig');
     const columnList = Object.entries(totalItemMap.value).reduce((res, [key, val]) => {
       const items: AnyObject[] = val.reduce((_res: AnyObject[], item: AnyObject) => {
-        if (!item.checked) return _res;
         _res.push({
           id: item.id,
+          checked: item.checked,
           name: item.label,
           fixed: key.includes('左') ? 'left' : key.includes('右') ? 'right' : undefined
         });
         if (item.children) {
           _res.push(
-            ...item.children.filter((child:AnyObject)=>{
-              return child.checked;
-            }).map((child: AnyObject) => ({
+            ...item.children.map((child: AnyObject) => ({
               id: child.id,
               name: child.label,
+              checked:child.checked,
               fixed: key.includes('左') ? 'left' : key.includes('右') ? 'right' : undefined
             }))
           );

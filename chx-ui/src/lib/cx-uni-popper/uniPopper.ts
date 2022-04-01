@@ -76,7 +76,7 @@ const createPopperEle = R.compose(bindBaseAttr, R.converge(createTag, [R.always(
 const getPopOption = (placement?: string, arrow?: HTMLElement) => {
     const option = {
       isReferenceHidden: true,
-      hasPopperEscaped:true,
+      hasPopperEscaped: true,
       placement: placement || 'right', modifiers: [{
         name: 'offset',
         options: {
@@ -185,12 +185,14 @@ const renderListItem = (item: PopperContentListItem) => {
     appendChild(setInnerText(item.text, createTag('span')))(wrapper);
   return R.compose(R.when(hasText, appendText), R.when(hasIcon, appendIcon), createWrapper)();
 };
-const bindClickEvent = R.curryN(2, (ele: HTMLElement, item: PopperContentListItem) => {
+const bindClickEvent = R.curryN(3, (ele: HTMLElement, item: PopperContentListItem, bindEle: HTMLElement) => {
   const { type, callback } = item;
   const isCopyType = () => R.equals(type, 'copy');
   const isJumpType = () => R.equals(type, 'jump');
   const cbIsFunction = () => R.is(Function, callback);
+  const key = EleKeyMap.get(bindEle);
   const copyHandle = R.compose(
+    () => unsafeDoUnload(key),
     copyInnerText as any,
     getCurrentEle
   );
@@ -205,11 +207,11 @@ const bindClickEvent = R.curryN(2, (ele: HTMLElement, item: PopperContentListIte
     ele
   );
 });
-const patchListEle = (list: PopperContentListItem[], container: HTMLElement, arrow?: HTMLElement) => {
+const patchListEle = (list: PopperContentListItem[], container: HTMLElement, arrow: undefined | HTMLElement, bindEle: HTMLElement) => {
   list.forEach(
     R.compose(
       appendChild(R.__, container),
-      R.converge(bindClickEvent, [renderListItem, R.identity])
+      R.converge(bindClickEvent, [renderListItem, R.identity, R.always(bindEle)])
     )
   );
   R.when(truthy, appendChild(R.__, container))(arrow);
@@ -257,7 +259,7 @@ export default {
 
     const arrow = R.when(getArrowProp, createArrow)(null);
     const listIsExist = R.compose(truthy, getList);
-    const patchListToPop = R.converge(patchListEle, [getList, getPopEle, R.always(arrow)]);
+    const patchListToPop = R.converge(patchListEle, [getList, getPopEle, R.always(arrow), R.always(el)]);
 
     const textIsExist = R.compose(truthy, getText);
     const patchTextToPop = R.converge(patchTextEle, [getText, getPopEle, R.always(arrow)]);

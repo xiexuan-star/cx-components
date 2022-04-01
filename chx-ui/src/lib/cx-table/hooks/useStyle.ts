@@ -16,7 +16,7 @@ export function useStyle(
   props: CxTablePropType
 ): (params?: AnyObject, type?: 'body' | 'head') => CSSProperties {
   return (params, type, rowData?: AnyObject, rowIndex?: number) => {
-    const result: CSSProperties = { textAlign: col.align === 'center' ? 'center' : 'left' };
+    const result: CSSProperties = { textAlign: col.align };
     if (type === 'body') {
       props.cellStyle && assignStyle(result, props.cellStyle, { column: col, rowData, rowIndex });
       col.cellStyle && assignStyle(result, col.cellStyle, { column: col, rowData, rowIndex });

@@ -14,8 +14,8 @@
       >
         <div>
           <div class="cx_flex_center cx_justify_between">
-            <div class="cx_ptb_12 cx_pl_16 cx_flex_1">全部属性({{ rawList.length }})</div>
-            <div class="cx_ptb_12 cx_w_250 cx_pr_16">已选属性({{ checkedList.length }})</div>
+            <div class="cx_ptb_10 cx_pl_16 cx_flex_1">全部属性({{ rawList.length }})</div>
+            <div class="cx_ptb_10 cx_w_250 cx_pr_16">已选属性({{ checkedList.length }})</div>
           </div>
           <div class="cx_line cx_w_100p cx_m_0"/>
         </div>

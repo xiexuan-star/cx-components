@@ -27,6 +27,9 @@
 
     .el-form-item__label {
       padding-bottom: 0;
+      height: 32px!important;
+      display: inline-flex!important;
+      align-items: center;
     }
   }
 }
