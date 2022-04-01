@@ -91,6 +91,30 @@ export const useDynamicConfigDialog = () => {
     onlyFormItemCache = onlyFormItem;
   };
 
+  const getCheckedTree = () => {
+    return Object.entries(totalItemMap.value).reduce((res, [key, val]) => {
+      const items: AnyObject[] = val.reduce((_res: AnyObject[], item: AnyObject) => {
+        if (item.checked) {
+          _res.push({
+            ...item,
+            fixed: key.includes('左') ? 'left' : key.includes('右') ? 'right' : undefined
+          });
+        }
+        if (item.children) {
+          _res.push(
+            ...item.children.map((child: AnyObject) => ({
+              ...child,
+              fixed: key.includes('左') ? 'left' : key.includes('右') ? 'right' : undefined
+            }))
+          );
+        }
+        return _res;
+      }, [] as AnyObject[]) as AnyObject[];
+      res.push(...items);
+      return res;
+    }, [] as AnyObject[]);
+  };
+
   const submit = async (dynamicConfig?: AnyObject) => {
     if (!dynamicConfig) return console.warn('[dynamicConfigDialog]: invalid dynamicConfig');
     const columnList = Object.entries(totalItemMap.value).reduce((res, [key, val]) => {
@@ -106,7 +130,7 @@ export const useDynamicConfigDialog = () => {
             ...item.children.map((child: AnyObject) => ({
               id: child.id,
               name: child.label,
-              checked:child.checked,
+              checked: child.checked,
               fixed: key.includes('左') ? 'left' : key.includes('右') ? 'right' : undefined
             }))
           );
@@ -130,6 +154,7 @@ export const useDynamicConfigDialog = () => {
     rawList,
     checkedList,
     updateCheckedList,
+    getCheckedTree,
     getData,
     submit
   };

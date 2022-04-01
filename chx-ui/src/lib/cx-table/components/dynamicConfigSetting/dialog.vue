@@ -1,8 +1,6 @@
 <template>
   <cx-dialog
-    :okLoading="submitLoading"
     @register="register"
-    @ok="submitData"
     :title="header"
     append-to-body
     size="large"
@@ -35,31 +33,50 @@
         </div>
       </section>
     </template>
+   <template #footer>
+     <div class="cx_flex_center cx_justify_between">
+       <cx-btn @click="preview">预览</cx-btn>
+       <section>
+         <cx-btn @click="openDialog(false)">取消</cx-btn>
+         <cx-btn
+           level="1"
+           class="cx_ml_16"
+           :loading="submitLoading"
+           @click="submitData"
+         >
+           确认
+         </cx-btn>
+       </section>
+     </div>
+   </template>
+  </cx-dialog>
+  <cx-dialog @register="registerPreview" title="预览" append-to-body size="large" okText="">
+    <cx-table class="cx_m_16" close-on-click-modal :empty-limit="5" :table-config="previewConfig"/>
   </cx-dialog>
 </template>
 
 <script lang="ts">
 import DragCheckGroup from './dragCheckGroup.vue';
-import { PropType, defineComponent, computed, ref, watch, provide } from 'vue';
+import { PropType, defineComponent, computed, ref, watch, provide, nextTick } from 'vue';
 import { loadingDecorator } from 'chx-utils';
 import { useCxDialog } from '../../../cx-dialog/useCxDialog';
 import { useCxTable } from '../../hooks';
 import { useDynamicConfigDialog } from './useDynamicDialogConfig';
-import { CxDialog } from '../../../index';
+import { CxBtn, CxDialog, CxTable } from '../../../index';
 
 export default defineComponent({
   props: {
     dynamicList: { type: Array as PropType<AnyObject[]>, required: true }
   },
   components: {
-    DragCheckGroup, CxDialog
+    DragCheckGroup, CxDialog, CxBtn, CxTable
   },
   emits: ['submit'],
   setup(props, { emit, expose }) {
     const [register, { openDialog }] = useCxDialog();
     const { DYNAMIC_BUSINESS_TYPE } = useCxTable().getContext().dynamicType;
 
-    const { rawList, totalItemMap, getData, submit, checkedList } = useDynamicConfigDialog();
+    const { rawList, totalItemMap, getData, submit, checkedList, getCheckedTree } = useDynamicConfigDialog();
     provide('totalItemMap', totalItemMap);
     const activeTab = ref(0);
     const activeDynamicConfig = computed(() => {
@@ -101,8 +118,20 @@ export default defineComponent({
     const header = computed(() => {
       return `设置${ DYNAMIC_BUSINESS_TYPE[activeDynamicConfig.value?.dataType] ?? '' }显示字段`;
     });
+    const [registerPreview, { openDialog: openPreviewDialog }] = useCxDialog();
+    const previewConfig = ref({
+      items: []
+    });
+    const preview = async () => {
+      previewConfig.value = { items: getCheckedTree() };
+      await nextTick();
+      openPreviewDialog();
+    };
     return {
       header,
+      preview,
+      previewConfig,
+      registerPreview,
       submitData,
       submitLoading,
       activeTab,
@@ -111,6 +140,7 @@ export default defineComponent({
       openLoading,
       tabOptionList,
       activeDynamicConfig,
+      openDialog,
       rawList,
       totalItemMap,
       getData,
