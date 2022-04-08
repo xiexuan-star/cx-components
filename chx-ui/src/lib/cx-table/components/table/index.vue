@@ -16,7 +16,7 @@
 import { defineComponent, inject, PropType } from 'vue';
 import { useTableClass, useTableStyle } from '../../hooks';
 import { CxTableBaseObj } from '../../types';
-import CxTableBody from './tableBody';
+import CxTableBody from './tableBody.vue';
 
 import CxTableHead from './tableHead.vue';
 

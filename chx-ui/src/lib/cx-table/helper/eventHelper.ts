@@ -122,9 +122,9 @@ export const scrollUpdateShadow = ($CxTable: CxTableBaseObj) => {
 };
 
 export const wrapperScrollEventHandle = ($CxTable: CxTableBaseObj, props: CxTablePropType) => {
-  const throttleVisual = throttle(scrollUpdateVisualScroll, 100, { leading: true, trailing: true });
+  const throttleVisual = throttle(scrollUpdateVisualScroll, 100, { leading: false, trailing: true });
 
-  const throttleShadow = throttle(scrollUpdateShadow, 20, { leading: true, trailing: true });
+  const throttleShadow = throttle(scrollUpdateShadow, 50);
   throttleShadow($CxTable);
   throttleVisual($CxTable, props);
 };
@@ -135,6 +135,11 @@ export const registScrollEvent = ($CxTable: CxTableBaseObj, props: CxTablePropTy
     if (!wrapperEle) return;
     wrapperEle!.onscroll = () => wrapperScrollEventHandle($CxTable, props);
     setTimeout(() => wrapperScrollEventHandle($CxTable, props));
+  });
+  onBeforeUnmount(() => {
+    const { wrapperEle } = $CxTable;
+    if (!wrapperEle) return;
+    wrapperEle!.onscroll = null;
   });
 };
 
@@ -185,8 +190,7 @@ export const registMouseEvent = ($CxTable: CxTableBaseObj) => {
           }
         }
       },
-      100,
-      { leading: true, trailing: true }
+      100
     );
     wrapperEle!.onmouseleave = () => {
       $CxTable.hoveringRowid = CX_TABLE_NOT_HOVER_ID;
