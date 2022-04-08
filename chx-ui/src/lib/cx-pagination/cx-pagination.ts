@@ -4,7 +4,7 @@ import { PatchFlags } from '../../constant/enum';
 export default defineComponent({
   name: 'CxPagination',
   props: { pagination: { type: Object, default: () => ({}) } },
-  setup(props, { emit }) {
+  setup(props, { emit,attrs }) {
     const handleSizeChange = (size: number) => {
       const { pagination } = props;
       pagination.currentPage = 1;
@@ -33,7 +33,8 @@ export default defineComponent({
           layout: hoisted_1,
           total: props.pagination.total,
           onSizeChange: handleSizeChange,
-          onCurrentChange: handleCurrentChange
+          onCurrentChange: handleCurrentChange,
+          ...attrs
         },
         null,
         PatchFlags.FULL_PROPS
