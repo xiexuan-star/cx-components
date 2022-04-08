@@ -99,12 +99,14 @@ export function formatFormDefaultValue(defaultEnum: string, searchType: string) 
       return searchType === 'dateRange'
         ? formatDate(getDateRange(1, 'date'))
         : formatDate(Date.now());
-    case 'mouth':
+    case 'month':
       return searchType === 'dateRange'
         ? formatDate(getDateRange(0, 'month', true))
         : formatDate(Date.now());
     case 'now':
       return formatTime(Date.now());
+    case 'lastMonth':
+      return formatTime(getDateRange(30, 'date', true));
     default:
       return +defaultEnum || defaultEnum;
   }

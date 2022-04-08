@@ -1,7 +1,7 @@
 <template>
   <cx-dialog
     :okLoading="submitLoading"
-    width="1020px"
+    size="fullscreen"
     @register="register"
     :title="header"
     @ok="submitData"
@@ -23,7 +23,8 @@
         <div class="cx_line cx_w_100p cx_m_0"></div>
       </div>
       <div class="cx_dp_flex cx_justify_between" v-loading="openLoading">
-        <section class="cx_flex_1 cx_br cx_p_16" :style="{overflow: 'auto', position: 'relative',height:isFullscreen?'calc(100vh - 181px)':'500px'}">
+        <section class="cx_flex_1 cx_br cx_p_16"
+                 :style="{overflow: 'auto', position: 'relative',height:isFullscreen?'calc(100vh - 181px)':'500px'}">
           <div v-for="(item, key) in departmentMap" :key="key" class="cx_mtb_5">
             <h3 class="cx_fs_16 cx_pl_12 cx_ptb_8" style="font-weight: 500">{{ key }}</h3>
             <div v-for="option in item" :key="option.id" class="cx_dp_ib cx_mtb_16 cx_w_130 cx_pl_12">

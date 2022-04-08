@@ -6,7 +6,6 @@ import { isFunction } from 'chx-utils';
 export const useSelectConfig = (tableDataVisitor: TableDataVisitor, emit: Func<any>) => {
   const selectConfig = reactive<SelectConfig>({
     selectAll: false,
-    actualAll: false,
     indeterminate: false,
     selectItem: [],
     disabled: false,
@@ -27,7 +26,6 @@ export const useSelectConfig = (tableDataVisitor: TableDataVisitor, emit: Func<a
     () => tableDataVisitor.sortedData.length,
     async () => {
       selectConfig.selectItem.length = tableDataVisitor.sortedData.length;
-      selectConfig.actualAll = false;
       tableDataVisitor.sortedData?.forEach((row: any, index: number) => {
         selectConfig.selectItem[index] = !!selectConfig.selectItem[index];
       });
@@ -63,23 +61,11 @@ export const useSelectConfig = (tableDataVisitor: TableDataVisitor, emit: Func<a
   };
 
   const toggleRowSelection = (index: number, state?: boolean) => {
-    const { disabledItem } = selectConfig;
-
-    selectConfig.actualAll = !selectConfig.selectItem.some(
-      (selectVal, index) => !disabledItem[index] && selectVal
-    );
     selectConfig.selectItem[index] = state ?? !selectConfig.selectItem[index];
     updateSelectAllStatus();
   };
 
   const toggleAllSelection = (state: boolean) => {
-    if (state && !selectConfig.actualAll) {
-      selectConfig.actualAll = true;
-    } else if (selectConfig.actualAll && state) {
-      selectConfig.actualAll = state = false;
-    } else if (!state) {
-      selectConfig.actualAll = false;
-    }
     const items = [...selectConfig.selectItem];
     selectConfig.selectItem = selectConfig.disabledItem.map((bool, index) =>
       bool ? items[index] : state

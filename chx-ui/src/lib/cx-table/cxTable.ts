@@ -87,7 +87,10 @@ export default defineComponent({
     setCheckSelect(props.checkSelect);
 
     bus.on('toggleAllSelection', toggleAllSelection);
-    bus.on('toggleRowSelection', toggleRowSelection);
+    bus.on('toggleRowSelection', (index: number, state: boolean) => {
+      toggleRowSelection(index, state);
+      emit('selectItemChange', { index, state });
+    });
 
     // 集成单选
     const { radioValue, removeRadio, setRadio, getRadio } = useRadioConfig(emit);
