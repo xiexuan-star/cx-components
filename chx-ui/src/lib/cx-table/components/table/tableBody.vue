@@ -2,17 +2,19 @@
   <div class='cx-table__body' :style="bodyWrapperStyle">
     <table :style="tableStyle" :class="tableClass">
       <tbody>
-      <template v-for="(rowData,rowIndex) in renderDataInfo.data" :key="getRowDataKey(rowData)">
-        <cx-table-row :index-prepend="renderDataInfo.indexPrepend" :fixed="fixed" :row-data="rowData"
-                      :row-index="rowIndex+renderDataInfo.indexPrepend"
-                      :actived-row="rootProp.activeRows" :rowid="getRowDataKey(rowData)"
-        >
-        </cx-table-row>
-        <cx-table-expand v-if="rootProp.expand" :row-index="rowIndex+renderDataInfo.indexPrepend" :fixed="fixed"/>
+      <template :key="getRowDataKey(rowData)" v-for="(rowData,rowIndex) in renderDataInfo.data">
+        <template v-if="!onlyTotal&&!(fixed ==='bottom')">
+          <cx-table-row
+            :index-prepend="renderDataInfo.indexPrepend" :fixed="fixed" :row-data="rowData"
+            :row-index="rowIndex+renderDataInfo.indexPrepend"
+            :actived-row="rootProp.activeRows" :rowid="getRowDataKey(rowData)"
+          />
+          <cx-table-expand v-if="rootProp.expand" :row-index="rowIndex+renderDataInfo.indexPrepend" :fixed="fixed"/>
+        </template>
       </template>
       <cx-table-row :index-prepend="renderDataInfo.indexPrepend" :fixed="fixed" :rowid="getRowDataKey(col)"
                     v-for="col in emptyRows" :key="getRowDataKey(col)"
-                    :row-data="{}" empty
+                    :row-data="{}" :empty="true"
                     :row-index="CX_TABLE_EMPTY_INDEX"></cx-table-row>
       <cx-table-row :index-prepend="renderDataInfo.indexPrepend" :fixed="fixed" class="cx-table__footer"
                     :key="CX_TABLE_SUM_ROW_KEY" v-if="!hideTotalSum"
@@ -23,10 +25,10 @@
       </tbody>
     </table>
     <template v-if="fixed==='bottom'">
-      <cx-table-body v-if="isRenderLeft" :key="0" only-total fixed="left" :table-data="tableData"
+      <cx-table-body v-if="isRenderLeft" :key="0" :only-total="true" fixed="left" :table-data="tableData"
                      :style="{zIndex:15,width:leftWidth}"
                      :class="['cx-table__fixed__left',{'cx-table__left__shadow':showLeftShadow}]"/>
-      <cx-table-body v-if="isRenderRight" :key="0" only-total fixed="right" :table-data="tableData"
+      <cx-table-body v-if="isRenderRight" :key="0" :only-total="true" fixed="right" :table-data="tableData"
                      :style="{zIndex:15,width:rightWidth}"
                      :class="['cx-table__fixed__right',{'cx-table__right__shadow':showRightShadow}]"/>
     </template>
