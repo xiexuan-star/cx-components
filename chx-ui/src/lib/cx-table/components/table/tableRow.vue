@@ -5,7 +5,7 @@
   >
     <cx-table-cell :empty="empty" :sum="sum" v-for="col in renderCellList" :row-data="rowData"
                    :row-index="rowIndex+indexPrepend" :column="col"
-                   :key="col._colid"></cx-table-cell>
+                   :key="col._colid" />
   </tr>
 </template>
 <script lang="ts">
