@@ -41,6 +41,7 @@
             <div
               v-if="item.badgeKey && getBadgeValue(item)"
               :class="`cx-tab_badge_${item.isDot ? 'dot_wrapper' : level}`"
+              v-bind="{[item.badgeKey]:''}"
             >
               <span class="cx-tab_badge_dot" v-if="item.isDot"></span>
               <template v-else>{{ `${getBadgeValue(item)}${item.unit || ''}` }}</template>

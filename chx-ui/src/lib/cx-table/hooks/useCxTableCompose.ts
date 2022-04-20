@@ -47,7 +47,7 @@ export const useCxTableCompose = () => {
       R.reduce((res, prop) => {
         return R.compose(
           R.ifElse(R.isNil, R.always(res), R.compose(R.flip(R.append)(res))),
-          R.when(truthy,search2sourceSelect),
+          R.when(truthy, search2sourceSelect),
           R.find(R.propEq('prop', prop))
         )(itemList);
       }, [] as CxFormItemConfig[])
@@ -108,18 +108,27 @@ export const useCxTableCompose = () => {
     Maybe.none
   ) as (a: CxTableDynamicColumn) => Maybe<any>;
 
+
   // getParamsItems::Object->string[]->ParamsItem[]
   const getParamsItems = (form: AnyObject, currentFormItems: string[]) => {
     if (!form || !currentFormItems) return [];
     return currentFormItems.reduce((res, prop) => {
+      const unsafePushItem = R.compose(unsafePush(R.__, res), R.of) as (item: ParamsItem) => ParamsItem[];
       return Maybe.of(form[prop])
         .map(
           R.ifElse(
             R.compose(R.not, isEmptyValue),
             R.compose(
-              unsafePush(R.__, res),
-              R.of,
-              R.mergeRight(R.objOf('prop', R.replace(/(Text|Name)$/, 'Id', prop))),
+              unsafePushItem,
+              R.mergeRight(R.objOf('prop', prop)),
+              R.tap(
+                R.when(
+                  R.converge(R.test(/(Text|Name)$/), [R.always(prop)]),
+                  R.compose(
+                    unsafePushItem,
+                    R.mergeRight(R.objOf('prop', R.replace(/(Text|Name)$/, 'Id', prop))),
+                  )
+                )),
               formValueFormat
             ),
             R.always(res)
