@@ -10,9 +10,11 @@ export default defineComponent({
   name: 'SetCacheBtn',
   props: {
     dynamicColumn: { type: Array as PropType<CxTableDynamicColumn[]>, required: true },
-    tableDataVisitor: { type: Object as PropType<TableDataVisitor>, required: true }
+    tableDataVisitor: { type: Object as PropType<TableDataVisitor>, required: true },
+    badgeUpdate: { type: Function }
   },
-  setup(props) {
+  emits: ['badgeUpdate'],
+  setup(props, { emit }) {
     const rootProp = inject<CxTablePropType>('rootProp')!;
     const bus = inject<EventBus>('bus')!;
 
@@ -66,7 +68,10 @@ export default defineComponent({
       )
     );
 
-    const handleResult = R.when(stateEq200, R.converge(getMessageInstance().success, [R.always('暂存成功')]));
+    const handleResult = R.when(stateEq200, R.converge(getMessageInstance().success, [R.always({
+      message: '暂存成功',
+      animeTo: '[cache-btn-badge]'
+    })]));
     const sendRequest = R.converge(getDefaultRequestInstance().postJSON.bind(getDefaultRequestInstance()), [
       R.always('/draft/manager/save'),
       R.identity
@@ -80,9 +85,12 @@ export default defineComponent({
     );
     const setCache = R.compose(
       R.andThen(() => afterSetCacheIO.map(map(R.call)).unsafePerformIO(rootProp)),
-      R.andThen(() => bus.emit('removeCacheItem')),
-      R.andThen(R.compose(setTimer, R.converge(setDisabledTime, [R.always(10)]))),
       R.andThen(handleResult),
+      R.andThen(() => {
+        bus.emit('removeCacheItem');
+        return props.badgeUpdate?.();
+      }),
+      R.andThen(R.compose(setTimer, R.converge(setDisabledTime, [R.always(10)]))),
       R.andThen(sendRequest),
       getParams
     );

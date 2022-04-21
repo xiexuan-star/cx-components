@@ -17,6 +17,8 @@ const script = defineComponent({
       type: String as PropType<'primary' | 'success' | 'danger'>,
       default: 'primary',
     },
+    badge: { type: [Number, String] as PropType<Number | String> },
+    badgeAttrs: { type: Object as PropType<AnyObject> },
     content: { type: String, default: '' },
     icon: { type: String, default: '' },
     loading: { type: Boolean, default: false },
@@ -46,6 +48,11 @@ const script = defineComponent({
       return result;
     });
 
+    function renderBadge() {
+      const attrs: AnyObject = props.badgeAttrs || {};
+      return createVNode('i', { class: 'cx-btn__badge', ...attrs }, props.badge, PatchFlags.TEXT);
+    }
+
     return (_: any, cache: any[]) => {
       return withDirectives(createVNode(
         'button',
@@ -60,6 +67,7 @@ const script = defineComponent({
             }),
         },
         [
+          props.badge != null ? renderBadge() : createCommentVNode('v-if__badge', true),
           props.loading ? (cache[1] ? cache[1] : (cache[1] = renderLoadingEle())) : createCommentVNode('v-if', true),
           props.icon ? renderIconEle(props.icon) : createCommentVNode('v-if', true),
           (slots.default ? slots.default({}) : props.content)

@@ -73,7 +73,7 @@ export default defineComponent({
     // 如果设置了spanMethod,则计算其colspan/rowspan
     const mergeSpan = computed(() => {
       if (!isFunction(rootProp.spanMethod) || props.sum) return {};
-      let result: AnyObject =
+      let result: { rowspan?: number, colspan?: number } | [number, number] =
         rootProp.spanMethod?.({
           rowData: props.rowData,
           column: props.column,
@@ -213,7 +213,7 @@ export default defineComponent({
           ...mergeSpan.value,
           style: tdStyle.value,
           colid: props.column._colid,
-          class: { "is-active": isActived.value }
+          class: { 'is-active': isActived.value }
         },
         [
           createVNode(

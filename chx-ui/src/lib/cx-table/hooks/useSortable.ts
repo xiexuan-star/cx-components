@@ -1,4 +1,4 @@
-import { nextTick, onMounted, onUnmounted, PropType, Ref, ref, watch } from 'vue';
+import { nextTick, onMounted, onUnmounted, Ref, ref, watch } from 'vue';
 import { CxTableBaseObj, CxTablePropType, SelectConfig } from '../types';
 import Sortable from 'sortablejs';
 
@@ -13,7 +13,7 @@ export const useSortable = ($CxTable: CxTableBaseObj, props: CxTablePropType, ra
     const container = $CxTable.wrapperEle;
     cancelWatch = watch(updateInstance, async v => {
       await nextTick();
-      v ? createInstance(container.querySelector('.cx-table_body>table>tbody')) : destroyInstance();
+      v ? createInstance(container.querySelector('.cx-table__body>table>tbody')) : destroyInstance();
     });
   });
   onUnmounted(() => {

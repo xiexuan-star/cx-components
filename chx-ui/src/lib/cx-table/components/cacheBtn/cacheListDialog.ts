@@ -1,30 +1,32 @@
 import {
-  enum2Options, EventBus, falsy, getMaybeValue, IO, isPromise, map, Maybe, nextTimeout, preventDefault, stateEq200,
-  stopPropagation, truthy, unsafeClearArray, unsafeClearObj, unsafeClearPush, unsafePush, unsafeRemoveItem, useComputed,
-  useState
+  EventBus, falsy, getMaybeValue, IO, map, Maybe, nextTimeout, preventDefault, stateEq200, stopPropagation, truthy,
+  unsafeClearArray, unsafeClearObj, unsafeClearPush, unsafePush, unsafeRemoveItem, useComputed, useState
 } from 'chx-utils';
 import { debounce } from 'lodash-es';
 import * as R from 'ramda';
 import {
-  createBlock, createVNode, defineComponent, Fragment, inject, openBlock, reactive, resolveDirective, watch,
+  computed,
+  createBlock, createVNode, defineComponent, Fragment, inject, openBlock, reactive, ref, resolveDirective, watch,
   withDirectives
 } from 'vue';
-import { CxForm, CxFormItemConfig, CxTab, CxTable } from '../../../..';
+import { CxForm, CxFormItemConfig, CxTab, CxTable, TypeOption } from '../../../..';
 import _CX_DIALOG from '../../../cx-dialog';
 import { useCxDialog } from '../../../cx-dialog/useCxDialog';
 import _CX_ELLIPSIS from '../../../cx-ellipsis';
-import { PATCH_FLAG, TypeOption } from '../../constant';
+import { PATCH_FLAG } from '../../constant';
 import { CacheRule, useCxTable, useCxTableCompose } from '../../hooks';
 import { CxTableBaseObj, CxTablePropType, DYNAMIC_CONFIG, ParamsItem } from '../../types';
 import { CxConfigAdaptor, decimalFixed, getColumnSelectText } from '../../utils';
 
 import Empty from '../empty.vue';
+import { INJECT_BADGE_KEY } from './constant';
 
 const DEFAULT_CAPACITY = 10;
 
 export default defineComponent({
   name: 'CacheListDialog',
-  setup(_, { expose }) {
+  emits: ['updateBadge'],
+  setup(_, { expose, emit }) {
     const rootProp = inject<CxTablePropType>('rootProp')!;
     const rootSlots = inject<AnyObject>('rootSlots')!;
     const $CxTable = inject<CxTableBaseObj>('CxTable')!;
@@ -60,7 +62,14 @@ export default defineComponent({
     });
 
     const [currentType, setCurrentType] = useState(TypeOption.未提交);
-    const typeOptionList = enum2Options(TypeOption);
+    const typeOptionList = [
+      { id: TypeOption.未提交, name: '未提交', badgeKey: 'notCommitNum' },
+      {
+        id: TypeOption.已驳回,
+        name: '已驳回',
+        badgeKey: 'rejectNum'
+      },
+      { id: TypeOption.已反审, name: '已反审', badgeKey: 'revokeNum' }];
 
     const resetPage = () => {
       setActiveItem(null);
@@ -243,7 +252,7 @@ export default defineComponent({
       return instance.bind(getDefaultRequestInstance())(urlWithId, query);
     }
 
-    const removeItemIO = IO.of(R.compose(Maybe.run, getSendRequestWithId('delete')));
+    const removeItemIO = IO.of(R.compose(() => emit('updateBadge'), Maybe.run, getSendRequestWithId('delete')));
 
     const doRemove = (id: number) => {
       const index = R.findIndex(R.pathEq(['form', 'id'], id), orderList());
@@ -273,7 +282,6 @@ export default defineComponent({
     // 使用数组绑定会出现异常触发的情况
     watch(() => rootProp.dynamic!.businessType, setBusOff);
     watch(() => rootProp.dynamic!.modelType, setBusOff);
-
     // ------------------------------ 提交 ------------------------------
     const getOmitRows = R.curryN(
       3,
@@ -563,6 +571,8 @@ export default defineComponent({
       );
     };
 
+    const badgeMap = inject(INJECT_BADGE_KEY);
+
     return (_: any, cache: any[]) => {
       return (
         openBlock(),
@@ -587,20 +597,19 @@ export default defineComponent({
                       // tab切换
                       (openBlock(),
                         createBlock(Fragment, null, [
-                          R.compose(needTypeTab, getTabCondition)()
-                            ? createVNode(
-                              CxTab,
-                              {
-                                level: 4,
-                                options: typeOptionList,
-                                modelValue: currentType(),
-                                'onUpdate:modelValue': setCurrentType
-                              },
-                              null,
-                              PATCH_FLAG.PROPS,
-                              R.of('modelValue')
-                            )
-                            : cache[2] || (cache[2] = createVNode('div', null, '未提交'))
+                          createVNode(
+                            CxTab,
+                            {
+                              level: 4,
+                              options: R.compose(needTypeTab, getTabCondition)() ? typeOptionList : typeOptionList.slice(0, 1),
+                              badgeObj: badgeMap.value,
+                              modelValue: currentType(),
+                              'onUpdate:modelValue': setCurrentType
+                            },
+                            null,
+                            PATCH_FLAG.PROPS,
+                            R.of('modelValue')
+                          )
                         ])),
                       // 搜索项
                       createVNode(

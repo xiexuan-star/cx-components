@@ -26,8 +26,7 @@ import { domShare, formatWidth, invokeLayeredRow } from './utils';
 import CxTableContent from './components/table/index.vue';
 import CxTableEmpty from './components/table/empty.vue';
 import TeleForm from './components/teleForm/index';
-import { SetCacheBtn } from './components/cacheBtn';
-import { CacheListBtn } from './components/cacheBtn';
+import CacheBtn from './components/cacheBtn';
 import CxTableTitle from './components/title';
 import CxDynamicConfigDialog from './components/dynamicConfigSetting/index.vue';
 
@@ -303,16 +302,6 @@ export default defineComponent({
       );
     };
 
-    const renderTeleBtn = (comp: Component) => {
-      return createVNode(
-        comp,
-        { dynamicColumn: dynamicColumn.value, tableDataVisitor },
-        null,
-        PATCH_FLAG.PROPS,
-        ['dynamicColumn', 'tableDataVisitor']
-      );
-    };
-
     const placeHolderAttrs = computed(() => {
       const dataHeight =
         (props.tableData.length +
@@ -342,15 +331,12 @@ export default defineComponent({
         'div',
         { style: cssVariable.value, class: 'cx-table' },
         [
-          (openBlock(),
-            createBlock(Fragment, null, [
-              props.setCacheBtn
-                ? renderTeleBtn(SetCacheBtn)
-                : createCommentVNode('v-if_set_cache_btn', true),
-              props.cacheListBtn
-                ? renderTeleBtn(CacheListBtn)
-                : createCommentVNode('v-if_cache_list_btn', true)
-            ])),
+          createVNode(CacheBtn, {
+            setCacheBtn: props.setCacheBtn,
+            cacheListBtn: props.cacheListBtn,
+            dynamicColumn: dynamicColumn.value,
+            tableDataVisitor
+          }, null, PATCH_FLAG.FULL_PROPS),
           (openBlock(),
             createBlock(Fragment, null, [
               props.showForm

@@ -1,6 +1,7 @@
 node_modules
 build
 test
+.idea
 docs
 src
 tsconfig.json

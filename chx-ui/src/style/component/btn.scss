@@ -69,6 +69,7 @@ $block: cx-btn;
 
 @include b(btn) {
   font-family: PingFang SC;
+  position: relative;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -79,6 +80,20 @@ $block: cx-btn;
   outline: 0;
   cursor: pointer;
   background-color: rgba($color: #000000, $alpha: 0);
+
+  @include e(badge) {
+    color: white;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    position: absolute;
+    height: 16px;
+    padding: 2px;
+    border-radius: 10px;
+    background-color: #f56c6c;
+    right: -7px;
+    top: -7px;
+  }
 
   @include e(disabled) {
     position: relative;
@@ -136,7 +151,7 @@ $block: cx-btn;
       @include colorGroup($key, 'rgba(0, 0, 0, 0.65)', $hover, $active, 'rgba(0, 0, 0, 0.3)', 'color', 'border-color');
       @include shallowBorder($key, 0.18);
     }
-    &:hover ,&:focus ,&:active {
+    &:hover, &:focus, &:active {
       background: transparent;
     }
     &.#{$block + '__disabled'} {
