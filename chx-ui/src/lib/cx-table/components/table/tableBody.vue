@@ -9,7 +9,7 @@
             :row-index="rowIndex+renderDataInfo.indexPrepend"
             :actived-row="rootProp.activeRows" :rowid="getRowDataKey(rowData)"
           />
-          <cx-table-expand v-if="rootProp.expand" :row-index="rowIndex+renderDataInfo.indexPrepend" :fixed="fixed"/>
+          <cx-table-expand v-if="rootProp.expand"  :row-data="rowData" :row-index="rowIndex+renderDataInfo.indexPrepend" :fixed="fixed"/>
         </template>
       </template>
       <cx-table-row :index-prepend="renderDataInfo.indexPrepend" :fixed="fixed" :rowid="getRowDataKey(col)"

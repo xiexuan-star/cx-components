@@ -1,10 +1,10 @@
 import { EventBus, IO, map, Maybe, stateEq200, truthy, unsafeSet, useComputed, useState } from 'chx-utils';
 import * as R from 'ramda';
-import { createVNode, defineComponent, inject, PropType, reactive, watch } from 'vue';
+import { createVNode, defineComponent, inject, PropType, ref, watch } from 'vue';
 import { PATCH_FLAG } from '../../constant';
 import { useCxTable, useCxTableCompose } from '../../hooks';
 import { CxTableDynamicColumn, CxTablePropType, TableDataVisitor } from '../../types';
-import TeleportBtn from './teleportBtn';
+import TeleportBtn from './teleportBtn.vue';
 
 export default defineComponent({
   name: 'SetCacheBtn',
@@ -49,8 +49,8 @@ export default defineComponent({
     };
 
     const [disabledTime, setDisabledTime] = useState(0);
-    const disabledState = reactive(R.objOf('disabled', false));
-    const setDisabledState = unsafeSet(disabledState, 'disabled');
+    const disabledState = ref(false);
+    const setDisabledState = unsafeSet(disabledState, 'value');
     watch(disabledTime, R.compose(setDisabledState, R.not, R.gte(0)));
     const decrease = R.compose(setDisabledTime, R.dec, disabledTime);
     const setTimer = () => {
@@ -100,12 +100,11 @@ export default defineComponent({
         TeleportBtn,
         {
           clickHandler: setCache,
-          dynamicColumn: props.dynamicColumn,
           selector: rootProp.setCacheBtn,
-          disabledState,
-          level: 2
-        },
-        R.objOf('default', R.nAry(0, content)),
+          disabled: disabledState.value,
+          level: 2,
+          content: content()
+        }, null,
         PATCH_FLAG.PROPS,
         ['selector', 'dynamicColumn']
       );

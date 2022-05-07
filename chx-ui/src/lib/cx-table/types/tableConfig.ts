@@ -14,6 +14,7 @@ export type CxTableExpose = ReturnType<typeof useValidator> &
   Omit<ReturnType<typeof usePriorityConfig>, 'onSetConfig'> &
   Pick<ReturnType<typeof useDynamicConfig>, 'forceUpdate'> & {
   isCxTableRef: true,
+  updateSizeState: () => void;
   getTableData: () => AnyObject[],
   triggerBroadcast: (prop: string, rowData: AnyObject) => void;
   /**

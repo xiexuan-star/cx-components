@@ -14,6 +14,7 @@ export function formatBarcode(str: string) {
 
 export const dataInitPlugin: CxTableFormAdaptorPlugin = {
   onOutput: config => {
+    // ⭐️⭐️⭐️⭐️⭐️ 业务相关
     if (config.label === '生产单号') {
       config.onChange = ({ prop, form }) => {
         form[prop] = formatBarcode(form[prop]);

@@ -48,7 +48,7 @@ import {
   updateCxTableWidth,
   useAutoWidth,
   useCxTableEvent,
-  useCSSVariable
+  useCSSVariable, useScrollState
 } from './hooks';
 import { scrollUpdateShadow } from './helper/eventHelper';
 import { PATCH_FLAG } from './constant';
@@ -123,6 +123,9 @@ export default defineComponent({
       isCxTableRef: true,
       getTableData() {
         return props.tableData;
+      },
+      updateSizeState(){
+        useScrollState($CxTable)
       },
       // radio
       removeRadio,

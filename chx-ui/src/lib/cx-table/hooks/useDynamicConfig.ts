@@ -5,7 +5,7 @@ import { nextTick, ref, watch } from 'vue';
 import {
   CX_TABLE_CACHE_PENDING, CX_TABLE_DYNAMIC_CACHE, CX_TABLE_DYNAMIC_PROPS, CX_TABLE_THROTTLE_DURATION
 } from '../constant';
-import { CxTableBaseObj, CxTableDynamicColumn, CxTableItem, CxTablePropType, DYNAMIC_CONFIG } from '../types';
+import { CxTableBaseObj, CxTableItem, CxTablePropType, DYNAMIC_CONFIG } from '../types';
 import { CxConfigAdaptor, cxTableWarn } from '../utils';
 import { useColumnValidity } from './useAuthorization';
 import { useColumn } from './useColumn';
@@ -17,10 +17,9 @@ const cacheMap: Record<string, Func<any>[]> = {};
 const resolveColumns = async (cols: CxTableItem[], props: CxTablePropType): Promise<CxTableItem[]> => {
   const context = useCxTable().getContext();
 
-  const result = [...context.dynamicInject, props.dynamicInject].reduce(async (res, inject, index) => {
+  return [...context.dynamicInject, props.dynamicInject].reduce(async (res, inject, index) => {
     return isFunction(inject) ? inject(await res) : res;
   }, Promise.resolve(cols));
-  return result;
 };
 
 export const getCxDynamicHead = async (dynamic: DYNAMIC_CONFIG) => {

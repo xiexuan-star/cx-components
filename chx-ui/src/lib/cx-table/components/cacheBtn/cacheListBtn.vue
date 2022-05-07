@@ -1,0 +1,49 @@
+<template>
+  <TeleportBtn
+    content="暂存列表"
+    :badge="badge"
+    :badge-attrs="{'cache-btn-badge': '',badgeNum: badgeTotal}"
+    :click-handler="openDialog"
+    :selector="rootProp.cacheListBtn" level="4" dynamicColumn></TeleportBtn>
+  <cache-list-dialog ref="dialogRef"/>
+</template>
+
+<script lang="ts">
+import { computed, defineComponent, inject, ref } from 'vue';
+import { CxDialogActions } from '../../../cx-dialog/types';
+import { CxTablePropType } from '../../types';
+import CacheListDialog from './cacheListDialog';
+import { INJECT_BADGE_KEY } from './constant';
+import TeleportBtn from './teleportBtn.vue';
+
+export default defineComponent({
+  name: 'CacheListBtn',
+  components: { TeleportBtn, CacheListDialog },
+  emits: ['badgeUpdate'],
+  setup(_, { emit }) {
+    const rootProp = inject<CxTablePropType>('rootProp')!;
+    const dialogRef = ref<CxDialogActions>();
+
+    function openDialog() {
+      dialogRef.value?.openDialog();
+      emit('badgeUpdate');
+    }
+
+    const badgeMap = inject(INJECT_BADGE_KEY);
+    const badgeTotal = computed(() => {
+      return Object.values(badgeMap.value).reduce((res, value) => {
+        return res + value;
+      }, 0);
+    });
+    const badge = computed(() => {
+      return badgeTotal.value >= 100 ? '99+'
+        : badgeTotal.value === 0
+          ? undefined
+          : badgeTotal.value;
+    });
+    return {
+      rootProp, dialogRef, badgeTotal, openDialog, badge
+    };
+  }
+});
+</script>

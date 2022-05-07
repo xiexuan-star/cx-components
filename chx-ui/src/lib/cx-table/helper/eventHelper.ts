@@ -190,7 +190,7 @@ export const registMouseEvent = ($CxTable: CxTableBaseObj) => {
           }
         }
       },
-      100
+      100,
     );
     wrapperEle!.onmouseleave = () => {
       $CxTable.hoveringRowid = CX_TABLE_NOT_HOVER_ID;

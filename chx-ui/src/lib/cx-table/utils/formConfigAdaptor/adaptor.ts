@@ -66,7 +66,13 @@ export class FormConfigAdaptor {
     // options::NameWithId a=>object->a[]
     const options = R.curryN(
       2,
-      R.compose(R.prepend({ name: '全部', id: -1 }), calcInnerOptions)
+      R.compose(
+        R.when(
+          // ⭐️⭐️⭐️⭐️⭐️ 业务相关
+          // 多选组件自带全部选项所以需要排除
+          R.complement(() => R.equals('selectMultiply', searchStates.searchType)),
+          R.prepend({ name: '全部', id: -1 })),
+        calcInnerOptions)
     )(searchStates.searchOptions ?? []);
 
     if (Array.isArray(searchStates.searchOptions)) {
