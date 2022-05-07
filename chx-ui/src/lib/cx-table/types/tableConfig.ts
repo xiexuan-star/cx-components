@@ -26,7 +26,9 @@ export type CxTableExpose = ReturnType<typeof useValidator> &
   // getCache: () => void;
   // removeCache: () => void;
   search: (payload?: AnyObject) => void;
-  removeCacheItem: () => void;
+  removeCacheItem(): void;
+  openCacheListDialog(): void
+  toggleCacheListTab(v:number): void
 };
 
 export interface rendererConfig {

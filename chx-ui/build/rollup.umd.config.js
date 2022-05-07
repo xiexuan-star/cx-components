@@ -4,6 +4,7 @@ export default {
   ...basicConfig,
   output: {
     name: 'well-bricks',
+    dir: 'lib',
     file: file('umd'),
     format: 'umd',
     globals: {

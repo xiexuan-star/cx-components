@@ -1,10 +1,10 @@
-import dayjs from 'dayjs';
-import { COLUMN_FLAG } from '../constant';
 import { ControlAttrs, CxTableColumnObj, CxTableItem, DYNAMIC_CONFIG, Nullable } from '../types';
-import * as R from 'ramda';
-import { useCxTable } from '../hooks';
 import { isFunction, isNumber, isObject, getDateRange } from 'chx-utils';
 import { decimalFixed } from './configAdaptor';
+import { COLUMN_FLAG } from '../constant';
+import { useCxTable } from '../hooks';
+import * as R from 'ramda';
+import dayjs from 'dayjs';
 
 export * from './dom';
 export * from './configAdaptor';

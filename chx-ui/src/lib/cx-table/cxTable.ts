@@ -1,5 +1,4 @@
 import {
-  Component,
   computed,
   createBlock,
   createCommentVNode,
@@ -12,7 +11,6 @@ import {
   provide,
   ref,
   resolveDirective,
-  withDirectives
 } from 'vue';
 import { CXPagination } from '../index';
 import { useSortable } from './hooks/useSortable';
@@ -124,8 +122,8 @@ export default defineComponent({
       getTableData() {
         return props.tableData;
       },
-      updateSizeState(){
-        useScrollState($CxTable)
+      updateSizeState() {
+        useScrollState($CxTable);
       },
       // radio
       removeRadio,
@@ -187,6 +185,12 @@ export default defineComponent({
       },
       search(payload?: AnyObject) {
         bus.emit('search', payload);
+      },
+      openCacheListDialog() {
+        bus.emit('openCacheListDialog');
+      },
+      toggleCacheListTab(v: number) {
+        bus.emit('toggleCacheListTab', v);
       }
     };
 

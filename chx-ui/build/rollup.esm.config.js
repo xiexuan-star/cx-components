@@ -4,6 +4,7 @@ export default {
   ...basicConfig,
   output: {
     name,
+    // dir: 'dist',
     file: file('esm'),
     format: 'es'
   }

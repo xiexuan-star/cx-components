@@ -38,11 +38,12 @@
     min-width: max-content;
 
     .cx-tab_badge_1 {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       height: 20px;
       min-width: 20px;
-      line-height: 18px;
       padding: 0 5px;
       text-align: center;
       border-radius: 10px;
@@ -60,12 +61,13 @@
     .cx-tab_badge_2,
     .cx-tab_badge_3,
     .cx-tab_badge_4 {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       margin-left: 5px;
       height: 20px;
       min-width: 20px;
-      line-height: 18px;
       padding: 0 5px;
       text-align: center;
       border-radius: 10px;

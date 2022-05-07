@@ -9,7 +9,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref } from 'vue';
+import { EventBus } from 'chx-utils';
+import { computed, defineComponent, inject, onUnmounted, ref } from 'vue';
 import { CxDialogActions } from '../../../cx-dialog/types';
 import { CxTablePropType } from '../../types';
 import CacheListDialog from './cacheListDialog';
@@ -22,7 +23,15 @@ export default defineComponent({
   emits: ['badgeUpdate'],
   setup(_, { emit }) {
     const rootProp = inject<CxTablePropType>('rootProp')!;
+
+    const bus = inject<EventBus>('bus');
     const dialogRef = ref<CxDialogActions>();
+
+    bus.on('openCacheListDialog', openDialog);
+
+    onUnmounted(() => {
+      bus.off('openCacheListDialog');
+    });
 
     function openDialog() {
       dialogRef.value?.openDialog();

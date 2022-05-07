@@ -6,7 +6,8 @@ import { debounce } from 'lodash-es';
 import * as R from 'ramda';
 import {
   computed,
-  createBlock, createVNode, defineComponent, Fragment, inject, openBlock, reactive, ref, resolveDirective, watch,
+  createBlock, createTextVNode, createVNode, defineComponent, Fragment, inject, openBlock, reactive, ref,
+  resolveDirective, watch,
   withDirectives
 } from 'vue';
 import { CxForm, CxFormItemConfig, CxTab, CxTable, TypeOption } from '../../../..';
@@ -62,6 +63,9 @@ export default defineComponent({
     });
 
     const [currentType, setCurrentType] = useState(TypeOption.未提交);
+    bus.on('toggleCacheListTab', (v: TypeOption) => {
+      setCurrentType(v);
+    });
     const typeOptionList = [
       { id: TypeOption.未提交, name: '未提交', badgeKey: 'notCommitNum' },
       {
@@ -555,7 +559,8 @@ export default defineComponent({
         },
         {
           ...rootSlots,
-          renderWithText: ({ rowData, column }: AnyObject) => {
+          renderWithText: ({ rowData, column, rowIndex }: AnyObject) => {
+            if (column.label === '序号') return createTextVNode(rowIndex + 1);
             const prop = column.prop ?? '';
             let content: any = prop.endsWith('Id')
               ? rowData[getColumnSelectText(column)] ?? rowData[getColumnSelectText(column, 'Name')]

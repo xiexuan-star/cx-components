@@ -99,7 +99,7 @@ export default defineComponent({
                         icon: 'tianjia',
                         class: _hoisted_class_3,
                         style: {
-                          marginTop: props.modelValue.length ? '24px' : 0,
+                          marginTop: props.modelValue.length ? '35px' : 0,
                           backgroundColor: '#f0f5ff'
                         }
                       },
