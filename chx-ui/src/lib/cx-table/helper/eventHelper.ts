@@ -180,7 +180,7 @@ export const registMouseEvent = ($CxTable: CxTableBaseObj) => {
   onMounted(() => {
     const { wrapperEle } = $CxTable;
     if (!wrapperEle) return;
-    wrapperEle!.onmousemove = throttle(
+    wrapperEle!.onmouseenter = throttle(
       (event: MouseEvent) => {
         const target = domShare.getAncestor(event.target as HTMLElement, 'TR') as HTMLElement;
         if (target) {
@@ -193,7 +193,10 @@ export const registMouseEvent = ($CxTable: CxTableBaseObj) => {
       100,
     );
     wrapperEle!.onmouseleave = () => {
-      $CxTable.hoveringRowid = CX_TABLE_NOT_HOVER_ID;
+      setTimeout(()=>{
+        $CxTable.hoveringRowid = CX_TABLE_NOT_HOVER_ID;
+
+      },/* 这里需要规避与mousemove事件的冲突 */105)
     };
   });
 };
