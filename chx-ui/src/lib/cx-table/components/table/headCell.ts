@@ -45,7 +45,6 @@ export default defineComponent({
     });
 
     const hoisted_1 = 'cx-table__cell';
-    // const hoisted_2 = 'iconfont';
     const hoisted_3 = 'color:red';
     const hoisted_4 = 'cx_w_10';
     const hoisted_5 = 'cx-table__sort';

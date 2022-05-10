@@ -14,7 +14,6 @@ import { PATCH_FLAG } from '../../constant';
 import { useCxTableCompose } from '../../hooks';
 import { CxTableBaseObj, CxTableDynamicColumn, CxTablePropType, Nullable, TableDataVisitor } from '../../types';
 import { cxTableWarn, getTargetColumn } from '../../utils';
-import DynamicFilterBtn from './dynamicFilterBtn';
 import DynamicFormAdd from './dynamicFormAdd';
 import TeleFormInstance from './formInstance';
 import { useDynamicFormCache } from './useDynamicFormCache';

@@ -106,7 +106,7 @@ export function formatFormDefaultValue(defaultEnum: string, searchType: string) 
     case 'now':
       return formatTime(Date.now());
     case 'lastMonth':
-      return formatDate(getDateRange(30, 'date', true));
+      return formatDate(getDateRange(1, 'month', true));
     default:
       return +defaultEnum || defaultEnum;
   }
