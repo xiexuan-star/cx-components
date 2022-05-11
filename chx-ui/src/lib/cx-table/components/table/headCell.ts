@@ -60,7 +60,7 @@ export default defineComponent({
           (openBlock(),
             createBlock(
               'div',
-              { class: hoisted_1, style: { width: formatWidth(cellWidth.value) } },
+              { class: `${hoisted_1} ${column.align==='right'?'is-right':''}`, style: { width: formatWidth(cellWidth.value) } },
               [
                 column.headTip
                   ? createVNode(

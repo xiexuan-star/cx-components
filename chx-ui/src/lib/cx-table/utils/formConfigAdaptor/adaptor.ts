@@ -54,6 +54,11 @@ export class FormConfigAdaptor {
     (['label', 'prop'] as Extract<keyof CxTableDynamicColumn,
       keyof CxFormItemConfig & { register: CxTableFormRegist[] }>[]).forEach(key => unsafeSet(this.__items, key, config[key]));
 
+    R.compose(
+      R.when(R.is(String), unsafeSet(this.__items, 'label')),
+      R.path(['jsonData', 'formLabel'])
+    )(config);
+
     // 动态部分
     const searchStates = R.prop('searchStates', config)!;
     // options

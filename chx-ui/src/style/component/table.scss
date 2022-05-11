@@ -159,6 +159,7 @@ $block: #{$namespace}-table;
         .#{append-to-block(hover,show)} {
           visibility: visible;
         }
+
         td {
           background-color: #e3f3fe;
         }
@@ -177,6 +178,10 @@ $block: #{$namespace}-table;
       th {
         @extend %common-cell;
         @extend %cx-table-head;
+
+        &:last-of-type .is-right{
+          padding-right: 35px;
+        }
 
         span {
           @extend %cx-table-head;

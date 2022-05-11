@@ -1,5 +1,6 @@
 import {
-  EventBus, falsy, getMaybeValue, IO, map, Maybe, nextTimeout, preventDefault, stateEq200, stopPropagation, truthy,
+  EventBus, falsy, getDateRange, getMaybeValue, IO, map, Maybe, nextTimeout, preventDefault, stateEq200,
+  stopPropagation, truthy,
   unsafeClearArray, unsafeClearObj, unsafeClearPush, unsafePush, unsafeRemoveItem, useComputed, useState
 } from 'chx-utils';
 import { debounce } from 'lodash-es';
@@ -82,10 +83,13 @@ export default defineComponent({
     };
 
     // ------------------------------ 表单 ------------------------------
-    const form = reactive({ gmtCreate: [] });
+    function getDefaultDateString(){
+      return getDateRange(30,'date').map(date=>date.toISOString().slice(0,10))
+    }
+    const form = reactive({ gmtCreate: getDefaultDateString() });
     const resetForm = () => {
       unsafeClearObj(form);
-      form.gmtCreate = [];
+      form.gmtCreate = getDefaultDateString();
     };
     const items: CxFormItemConfig[] = [{ label: '提交日期', prop: 'gmtCreate', dateRange: {} }];
 

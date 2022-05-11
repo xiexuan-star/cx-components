@@ -48,7 +48,7 @@ export type CxTableDynamicColumn = {
   control: CxTableDynamicControl;
   searchStates: CxTableFormConfig;
   headTip: string;
-  jsonData: { defaultItem: boolean, onlyForm: boolean };
+  jsonData: { defaultItem: boolean, onlyForm: boolean, formLabel?: string };
   sideEffect: {
     request?: {
       url: string;

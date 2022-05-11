@@ -58,6 +58,7 @@ export const renderCellContent = (
     pagination,
     broadcast,
   };
+  const renderer = CxTableRendererMap.get('default');
   return (
     openBlock(),
       createBlock(Fragment, null, [
@@ -69,7 +70,16 @@ export const renderCellContent = (
               ? renderCustomCell(params, isActived, disabled, ignoreControl, forceControl)
               : props.column.columnFlag & COLUMN_FLAG.CALC_COLUMN
                 ? renderCalcCell(params, calculateCacheMap)
-                : renderDefaultNode(params),
+                : renderer
+                  ? renderer({
+                    ...params,
+                    prop: params.column.prop,
+                    ignore: false,
+                    force: false,
+                    isActived: false,
+                    disabled: false
+                  })
+                  : renderDefaultNode(params)
       ])
   );
 };
@@ -139,12 +149,23 @@ const renderCalcCell = (params: Params, cacheMap: CxTableBaseObj['calculateCache
   const { column, rowData } = params;
   const rowCache = cacheMap.get(rowData) || {};
   cacheMap.set(rowData, rowCache);
+  isFunction(column.calculate)
+  && (rowCache[column.prop] = column.calculate(rowData));
+  const renderer = CxTableRendererMap.get('default');
   return (
     openBlock(),
       createBlock(Fragment, null, [
-        isFunction(column.calculate)
-          ? createVNode(CxEllipsis, { content: rowCache[column.prop] = column.calculate(rowData) }, null, PATCH_FLAG.PROPS, ['content'])
-          : createCommentVNode('v-if', true),
+        renderer
+          ? renderer({
+            ...params,
+            rowData: { ...params.rowData, [column.prop]: rowCache[column.prop] },
+            prop: params.column.prop,
+            ignore: false,
+            force: false,
+            isActived: false,
+            disabled: false
+          })
+          : renderDefaultNode(params)
       ])
   );
 };

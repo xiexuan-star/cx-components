@@ -180,7 +180,7 @@ export const registMouseEvent = ($CxTable: CxTableBaseObj) => {
   onMounted(() => {
     const { wrapperEle } = $CxTable;
     if (!wrapperEle) return;
-    wrapperEle!.onmouseenter = throttle(
+    wrapperEle!.onmousemove = throttle(
       (event: MouseEvent) => {
         const target = domShare.getAncestor(event.target as HTMLElement, 'TR') as HTMLElement;
         if (target) {

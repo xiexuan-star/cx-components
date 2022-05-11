@@ -18,7 +18,6 @@ import {
   Maybe,
   Right,
   truthy,
-  unsafeClearAssign,
   unsafeClearPush,
   unsafeSet,
   unsafeWhenDevCall,

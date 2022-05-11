@@ -1,3 +1,4 @@
+import { isNumber } from 'chx-utils';
 import * as R from 'ramda';
 import {
   Component, createBlock, createCommentVNode, createVNode, defineComponent, Fragment, inject, openBlock,
@@ -21,7 +22,7 @@ const renderTeleBtn = (comp: Component, props) => {
 };
 
 const cacheBtn = defineComponent({
-  name:'CacheBtn',
+  name: 'CacheBtn',
   props: {
     setCacheBtn: { type: String },
     cacheListBtn: { type: String },
@@ -53,11 +54,11 @@ const cacheBtn = defineComponent({
     watch(() => rootProp.dynamic, () => {
       const dynamic = rootProp.dynamic;
       if (!dynamic) return;
-      if (!dynamic.modelType || !dynamic.businessType || !dynamic.moduleType || !dynamic.priceType) {
+      if (!isNumber(dynamic.modelType) || !isNumber(dynamic.businessType) || !isNumber(dynamic.moduleType) || !isNumber(dynamic.priceType)) {
         return;
       }
       doUpdateBadge();
-    }, { immediate: true });
+    }, { immediate: true, deep: true });
 
     return () => {
       return (openBlock(),

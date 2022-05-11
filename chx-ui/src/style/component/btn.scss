@@ -153,7 +153,7 @@ $block: cx-btn;
       @include colorGroup($key, 'rgba(0, 0, 0, 0.65)', $hover, $active, 'rgba(0, 0, 0, 0.3)', 'color', 'border-color');
       @include shallowBorder($key, 0.18);
     }
-    &:hover, &:focus, &:active {
+    &:hover {
       background: transparent;
     }
     &.#{$block + '__disabled'} {
