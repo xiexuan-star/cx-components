@@ -25,7 +25,7 @@ export default defineComponent({
     watchEffect(() => {
       const arrChildren = props.column.columnFlag & COLUMN_FLAG.ARRAY_CHILDREN;
       cellWidth.value = arrChildren
-        ? getSums(props.column.children ?? [])
+        ? Math.max(getSums(props.column.children ?? []),props.column.renderWidth)
         : props.column.renderWidth;
     });
 
@@ -60,7 +60,10 @@ export default defineComponent({
           (openBlock(),
             createBlock(
               'div',
-              { class: `${hoisted_1} ${column.align==='right'?'is-right':''}`, style: { width: formatWidth(cellWidth.value) } },
+              {
+                class: `${ hoisted_1 } ${ column.align === 'right' ? 'is-right' : '' }`,
+                style: { width: formatWidth(cellWidth.value) }
+              },
               [
                 column.headTip
                   ? createVNode(
@@ -117,7 +120,10 @@ export default defineComponent({
                           //       PATCH_FLAG.CLASS
                           //     )
                           //   : createCommentVNode('v-if_icon', true),
-                          createVNode('span', { key: 3 }, column.label, PATCH_FLAG.TEXT),
+                          createVNode('span', {
+                            key: 3,
+                            title: column.label
+                          }, column.label, PATCH_FLAG.PROPS | PATCH_FLAG.TEXT, ['title']),
                           column.sortable
                             ? cache[3] || (cache[3] = createVNode('i', { class: hoisted_4, key: 4 }))
                             : createCommentVNode('v-if_sortable_space', true),

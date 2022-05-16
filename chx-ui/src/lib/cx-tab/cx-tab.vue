@@ -111,6 +111,10 @@ export default defineComponent({
     },
     disabled: { type: Boolean, default: false },
     /**
+     *
+     */
+    cacheKey: { type: [Symbol, String] },
+    /**
      * badge数据源,对应tab项中的badgeKey
      */
     badgeObj: { type: Object as PropType<AnyObject>, default: () => ({}) }

@@ -184,18 +184,19 @@ export function copySort(arr: AnyObject[], sortFun: any) {
 
 export const getTotalSumData = (cols: CxTableColumnObj[], data: AnyObject[]): AnyObject => {
   const result: AnyObject = {};
+  const sumData:AnyObject[] = data.map(item=>({...item}));
   cols.forEach(col => {
     if (col.columnFlag & COLUMN_FLAG.TEXT_SUM_COLUMN) {
       result[col.prop] = '总计';
     } else if (col.columnFlag & COLUMN_FLAG.ADD_SUM_COLUMN) {
       if (col.columnFlag & COLUMN_FLAG.CALC_COLUMN) {
-        data.forEach(rowData => {
-          rowData[col.prop] = col.calculate?.(rowData) ?? rowData[col.prop];
+        sumData.forEach(rowData => {
+          sumData[col.prop] = col.calculate?.(rowData) ?? rowData[col.prop];
         });
       }
-      result[col.prop] = isNumber(col.accuracy) ? decimalFixed(getSums(data, col.prop), col.accuracy, true) : getSums(data, col.prop);
+      result[col.prop] = isNumber(col.accuracy) ? decimalFixed(getSums(sumData, col.prop), col.accuracy, true) : getSums(sumData, col.prop);
     } else if (col.columnFlag & COLUMN_FLAG.CUSTOM_SUM_COLUMN) {
-      result[col.prop] = isFunction(col.sum) ? col.sum(data) : null;
+      result[col.prop] = isFunction(col.sum) ? col.sum(sumData) : null;
     }
   });
   return result;

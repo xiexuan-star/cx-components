@@ -181,7 +181,9 @@ export const getColumnWidth = (
     // 三级
     const L_MIN = headWidthAdaptor(column);
 
-    result.width = L_CONTENT < L_MIN ? L_MIN : L_CONTENT > L_MAX ? L_MAX : L_CONTENT;
+    result.width = L_CONTENT > L_MIN ? (
+      L_CONTENT > L_MAX ? Math.max(L_MIN, L_MAX) : L_CONTENT
+    ) : L_MIN;
   }
   result.isMin = isMin;
   return result;

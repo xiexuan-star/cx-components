@@ -149,8 +149,7 @@ const renderCalcCell = (params: Params, cacheMap: CxTableBaseObj['calculateCache
   const { column, rowData } = params;
   const rowCache = cacheMap.get(rowData) || {};
   cacheMap.set(rowData, rowCache);
-  isFunction(column.calculate)
-  && (rowCache[column.prop] = column.calculate(rowData));
+  isFunction(column.calculate) && (rowCache[column.prop] = column.calculate(rowData));
   const renderer = CxTableRendererMap.get('default');
   return (
     openBlock(),

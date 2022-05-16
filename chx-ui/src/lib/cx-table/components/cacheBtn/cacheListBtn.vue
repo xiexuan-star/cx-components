@@ -5,7 +5,7 @@
     :badge-attrs="{'cache-btn-badge': '',badgeNum: badgeTotal}"
     :click-handler="openDialog"
     :selector="rootProp.cacheListBtn" level="4" dynamicColumn></TeleportBtn>
-  <cache-list-dialog ref="dialogRef"/>
+  <cache-list-dialog ref="dialogRef" @badgeUpdate="$emit('badgeUpdate')"/>
 </template>
 
 <script lang="ts">

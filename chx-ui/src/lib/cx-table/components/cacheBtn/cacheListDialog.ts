@@ -6,7 +6,6 @@ import {
 import { debounce } from 'lodash-es';
 import * as R from 'ramda';
 import {
-  computed,
   createBlock, createTextVNode, createVNode, defineComponent, Fragment, inject, openBlock, reactive, ref,
   resolveDirective, watch,
   withDirectives
@@ -27,7 +26,7 @@ const DEFAULT_CAPACITY = 10;
 
 export default defineComponent({
   name: 'CacheListDialog',
-  emits: ['updateBadge'],
+  emits: ['badgeUpdate'],
   setup(_, { expose, emit }) {
     const rootProp = inject<CxTablePropType>('rootProp')!;
     const rootSlots = inject<AnyObject>('rootSlots')!;
@@ -260,7 +259,7 @@ export default defineComponent({
       return instance.bind(getDefaultRequestInstance())(urlWithId, query);
     }
 
-    const removeItemIO = IO.of(R.compose(() => emit('updateBadge'), Maybe.run, getSendRequestWithId('delete')));
+    const removeItemIO = IO.of(R.compose(Maybe.run, getSendRequestWithId('delete')));
 
     const doRemove = (id: number) => {
       const index = R.findIndex(R.pathEq(['form', 'id'], id), orderList());
@@ -270,6 +269,7 @@ export default defineComponent({
         R.converge(setActiveItem, [R.always(null)])
       )(activeItem());
       R.when(R.compose(R.gte(10), R.length), removeFetch)(orderList());
+      emit('badgeUpdate');
     };
     const removeItem = (id: number) => {
       removeItemIO

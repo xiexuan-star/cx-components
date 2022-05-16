@@ -175,13 +175,15 @@ $block: #{$namespace}-table;
         }
       }
 
+      tr:first-of-type {
+        th:last-of-type .is-right {
+          padding-right: 35px;
+        }
+      }
+
       th {
         @extend %common-cell;
         @extend %cx-table-head;
-
-        &:last-of-type .is-right{
-          padding-right: 35px;
-        }
 
         span {
           @extend %cx-table-head;

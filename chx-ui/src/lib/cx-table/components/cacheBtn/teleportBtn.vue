@@ -1,7 +1,6 @@
 <template>
   <Teleport v-if="rendered" :to="selector">
-    <cx-btn v-bind="$attrs" :badge-attrs="badgeAttrs" :badge="badge" :loading="loading" @click="onClick">
-    </cx-btn>
+    <cx-btn v-bind="$attrs" :badge-attrs="badgeAttrs" :badge="badge" :loading="loading" @click="onClick" />
   </Teleport>
 </template>
 
@@ -31,6 +30,8 @@ export default defineComponent({
 
     const loading = ref(false);
     const rendered = ref(false);
+    // 延迟加载, 因为一般情况teleport的目标元素是在html文件中写死的
+    // 但此处的目标元素大概率是由vue组件渲染的
     onMounted(() => {
       rendered.value = true;
     });

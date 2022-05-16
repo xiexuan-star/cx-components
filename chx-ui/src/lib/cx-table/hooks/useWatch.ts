@@ -1,14 +1,12 @@
 import { nextTick, Ref, watch } from 'vue';
 import { debounce } from 'lodash-es';
 import { CX_STYLE_SETTING } from '../constant';
-import { scrollUpdateShadow, wrapperScrollEventHandle } from '../helper/eventHelper';
+import { wrapperScrollEventHandle } from '../helper/eventHelper';
 import { CxTableBaseObj, CxTableItem, CxTablePropType } from '../types';
 import { useColumnValidity, useRowDataValidity } from './useAuthorization';
-import { updateCxTableWidth, useAutoWidth } from './useAutoWidth';
-import { useCalcSpanMethod } from './useCalcSpanMethod';
 import { useColumn } from './useColumn';
 import { useScrollState } from './useScrollState';
-import { awaitTimeout, isNumber } from 'chx-utils';
+import { isNumber } from 'chx-utils';
 import { useUpdateState } from './useUpdateState';
 
 export const useWatch = (
@@ -52,6 +50,7 @@ export const useWatch = (
       const settingKey = Reflect.get(CX_STYLE_SETTING, key);
       settingKey && isNumber(val) && Reflect.set($CxTable.styleStore, settingKey, val);
     });
+    updateTableState()
   };
   watch(() => props.styleSetting, updateStyleSetting, { immediate: true, deep: true });
 
