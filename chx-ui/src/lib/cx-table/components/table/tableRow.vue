@@ -4,7 +4,7 @@
     :class="{'is-active':isActive,'cx-table__row__hover':isHover}"
   >
     <cx-table-cell :empty="empty" :sum="sum" v-for="col in renderCellList" :row-data="rowData"
-                   :row-index="rowIndex+indexPrepend" :column="col"
+                   :row-index="rowIndex" :column="col"
                    :key="col._colid" />
   </tr>
 </template>
@@ -23,7 +23,6 @@ export default defineComponent({
     rowData: { type: Object as PropType<AnyObject>, default: () => ({}) },
     rowIndex: { type: Number, default: -1 },
     activedRow: { type: Array as PropType<number[]>, default: () => [] },
-    indexPrepend: { type: Number },
     sum: { type: Boolean, default: false },
     empty: { type: Boolean, default: false },
     fixed: { type: String, default: '' },

@@ -8,7 +8,6 @@ export const useTableStyle = (
   type: 'head' | 'body' | 'table'
 ) => {
   const { scrollStore, styleStore, columnStore } = CxTable;
-  const { CX_TABLE_SCROLL_BAR, CX_TABLE_HEIGHT } = styleStore;
   if (type === 'head') {
     return computed(() => {
       const result: CSSProperties = {};
@@ -23,7 +22,7 @@ export const useTableStyle = (
           result.left = 0;
         }
         if (props.fixed === 'right') {
-          result.right = scrollStore.rightScrollBar ? CX_TABLE_SCROLL_BAR + 'px' : 0;
+          result.right = scrollStore.rightScrollBar ? styleStore.CX_TABLE_SCROLL_BAR + 'px' : 0;
         }
       }
       return result;
@@ -37,17 +36,17 @@ export const useTableStyle = (
           result.left = 0;
           result.top = props.onlyTotal ? 0 : topFixedHeight + 'px';
           if (props.onlyTotal) {
-            result.height = CX_TABLE_HEIGHT + 'px';
+            result.height = styleStore.CX_TABLE_HEIGHT + 'px';
           } else {
             result.height = bottomScrollBar ? clientHeight - topFixedHeight + 'px' : 0;
           }
         }
         if (props.fixed === 'right') {
           const { topFixedHeight, rightScrollBar, bottomScrollBar, clientHeight } = scrollStore;
-          result.right = rightScrollBar && !props.onlyTotal ? CX_TABLE_SCROLL_BAR + 'px' : 0;
+          result.right = rightScrollBar && !props.onlyTotal ? styleStore.CX_TABLE_SCROLL_BAR + 'px' : 0;
           result.top = props.onlyTotal ? 0 : topFixedHeight + 'px';
           if (props.onlyTotal) {
-            result.height = CX_TABLE_HEIGHT + 'px';
+            result.height = styleStore.CX_TABLE_HEIGHT + 'px';
           } else {
             result.height = bottomScrollBar ? clientHeight - topFixedHeight + 'px' : 0;
           }
@@ -55,9 +54,9 @@ export const useTableStyle = (
         if (props.fixed === 'bottom') {
           const { bottomScrollBar } = scrollStore;
           result.left = 0;
-          result.bottom = bottomScrollBar ? CX_TABLE_SCROLL_BAR + 'px' : 0;
+          result.bottom = bottomScrollBar ? styleStore.CX_TABLE_SCROLL_BAR + 'px' : 0;
           result.width = scrollStore.clientWidth + 'px';
-          result.height = CX_TABLE_HEIGHT + 'px';
+          result.height = styleStore.CX_TABLE_HEIGHT + 'px';
           result.left = -scrollStore.scrollLeft + 'px';
         }
       }
@@ -66,7 +65,7 @@ export const useTableStyle = (
   } else {
     return computed(() => {
       const result: CSSProperties = {};
-      const fixedHeight = invokeLayeredRow(CxTable.columns).length * CX_TABLE_HEIGHT;
+      const fixedHeight = invokeLayeredRow(CxTable.columns).length * styleStore.CX_TABLE_HEIGHT;
       scrollStore.topFixedHeight = fixedHeight;
       if (props.fixed === 'left') {
         const width = getSums(columnStore.leftFixedColumns);
@@ -82,7 +81,7 @@ export const useTableStyle = (
         result.height = fixedHeight + 'px';
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       } else if (props.fixed === 'bottom') {
-        result.height = CX_TABLE_HEIGHT + 'px';
+        result.height = styleStore.CX_TABLE_HEIGHT + 'px';
       }
       return result;
     });

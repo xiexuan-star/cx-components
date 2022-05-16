@@ -5,18 +5,18 @@
       <template :key="getRowDataKey(rowData)" v-for="(rowData,rowIndex) in renderDataInfo.data">
         <template v-if="!onlyTotal&&!(fixed ==='bottom')">
           <cx-table-row
-            :index-prepend="renderDataInfo.indexPrepend" :fixed="fixed" :row-data="rowData"
+            :fixed="fixed" :row-data="rowData"
             :row-index="rowIndex+renderDataInfo.indexPrepend"
             :actived-row="rootProp.activeRows" :rowid="getRowDataKey(rowData)"
           />
           <cx-table-expand v-if="rootProp.expand"  :row-data="rowData" :row-index="rowIndex+renderDataInfo.indexPrepend" :fixed="fixed"/>
         </template>
       </template>
-      <cx-table-row :index-prepend="renderDataInfo.indexPrepend" :fixed="fixed" :rowid="getRowDataKey(col)"
+      <cx-table-row :fixed="fixed" :rowid="getRowDataKey(col)"
                     v-for="col in emptyRows" :key="getRowDataKey(col)"
                     :row-data="{}" :empty="true"
                     :row-index="CX_TABLE_EMPTY_INDEX"></cx-table-row>
-      <cx-table-row :index-prepend="renderDataInfo.indexPrepend" :fixed="fixed" class="cx-table__footer"
+      <cx-table-row :fixed="fixed" class="cx-table__footer"
                     :key="CX_TABLE_SUM_ROW_KEY" v-if="!hideTotalSum"
                     :row-data="sumData"
                     :row-index="CX_TABLE_SUM_INDEX"
