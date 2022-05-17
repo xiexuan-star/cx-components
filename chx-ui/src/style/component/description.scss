@@ -49,13 +49,8 @@ $size: (
   .th {
     text-align: left;
     position: relative;
-
-    &:after {
-      content: ':';
-      position: absolute;
-      right: 4px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+  }
+  .td {
+    color: rgba(0, 0, 0, .45);
   }
 }

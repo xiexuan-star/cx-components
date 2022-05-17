@@ -1,4 +1,4 @@
-export declare const enum PatchFlags {
+export enum PatchFlags {
   /**
    * Indicates an element with dynamic textContent (children fast path)
    */
@@ -86,4 +86,4 @@ export declare const enum PatchFlags {
    * OR manually cloneVNodes
    */
   BAIL = -2
-}
+};
