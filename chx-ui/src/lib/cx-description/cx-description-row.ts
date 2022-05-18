@@ -67,35 +67,32 @@ export default defineComponent({
         'div',
         { class: 'tr' },
         props.row.reduce((res, node, index, arr) => {
-          const ratio = getVNodeProp(node, 'ratio');
-          const thWidth = props.renderWidth * (1 - ratio);
-          const label = getSlot(node, thWidth + 'px', 'label', 'th');
+          const thWidth = 'fit-content';
+          const label = getSlot(node, thWidth, 'label', 'th');
+          const wrapperChildren = []
           if (label) {
-            res.push(label);
+            wrapperChildren.push(label);
           } else if (node.props?.label) {
-            res.push(
+            wrapperChildren.push(
               h(
                 'div',
-                { style: { width: thWidth + 'px' }, class: 'th' },
-                withContainer(getVNodeProp(node, 'type'), thWidth - (props.size === 'large' ? 16 : 8) + 'px', [node.props.label])
+                { style: { width: thWidth }, class: 'th' },
+                withContainer(getVNodeProp(node, 'type'), thWidth, [node.props.label])
               )
             );
           }
           const span = +getVNodeProp(node, 'span') || 1;
           let colspan = span > 1 ? (span - 1) * 2 + 1 : 1;
-          let tdWidth = span * props.renderWidth - thWidth;
+          let tdWidth = 'fit-content';
           colspanStat += span;
-          if (index === arr.length - 1) {
-            const diff = props.columnNum - colspanStat;
-            colspan += diff * 2;
-            tdWidth += diff * props.renderWidth;
-          }
 
           const defaultSlot =
-            getSlot(node, tdWidth + 'px', 'default', 'td') ??
-            h('div', { style: { width: tdWidth + 'px' }, class: 'td' });
+            getSlot(node, tdWidth, 'default', 'td') ??
+            h('div', { style: { width: tdWidth}, class: 'td' });
           defaultSlot.props = Object.assign({}, defaultSlot.props, { colspan });
-          res.push(defaultSlot);
+          wrapperChildren.push(defaultSlot);
+          const wrapper = h('section', {style:{width:props.renderWidth+'px'},class:'cx_flex_center'}, wrapperChildren);
+          res.push(wrapper);
           return res;
         }, [] as VNode[])
       );
