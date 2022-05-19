@@ -15,7 +15,7 @@ $size: (
 @mixin sizeGroup($theme,$height,$padding) {
   @include e($theme) {
     .tr {
-      height: $height;
+      min-height: $height;
       line-height: $height;
     }
 
@@ -49,8 +49,16 @@ $size: (
   .th {
     text-align: left;
     position: relative;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+
+    &:after {
+      content: ':';
+    }
   }
   .td {
     color: rgba(0, 0, 0, .45);
+    padding: 0 4px;
   }
 }
