@@ -164,7 +164,7 @@ const renderCalcCell = (params: Params, cacheMap: CxTableBaseObj['calculateCache
             isActived: false,
             disabled: false
           })
-          : renderDefaultNode(params)
+          : renderDefaultNode({ ...params, rowData: { ...params.rowData, [column.prop]: rowCache[column.prop] }, })
       ])
   );
 };

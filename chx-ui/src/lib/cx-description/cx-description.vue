@@ -1,5 +1,5 @@
 <template>
-  <div :class="`cx-description cx-description__${size}`" ref="wrapperRef">
+  <div :style="{'--wrapper-width':wrapperWidth}" :class="`cx-description cx-description__${size}`" ref="wrapperRef">
     <section :style="{ width: tableWidth }" class="table">
       <cx-description-row
         :size="size"
@@ -30,9 +30,10 @@ export default defineComponent({
   name: 'CxDescription',
   components: { CxDescriptionRow },
   props: {
-    minWidth: { type: Number, default: 240 },
+    minWidth: { type: Number, default: 180 },
     maxWidth: { type: Number, default: 320 },
-    size: { type: String as PropType<'middle'|'large'>, default: 'middle' }
+    wrapperWidth: { type: Number, default: 840 },
+    size: { type: String as PropType<'middle' | 'large'>, default: 'middle' }
   },
   setup(props, { slots }) {
     const getVNodeProp = (node: VNode, prop: string): any => {

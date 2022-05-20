@@ -216,10 +216,10 @@ export type CxTableItem = {
    * @description 该列普通单元格样式,值为一个CSSProperties对象或一个返回CSSProperties对象的函数,入参为column,rowData
    */
   cellStyle: CSSProperties | CxCellStyleFun;
-  /**
-   * @description 该列是否可排序,true为默认表现(即将列数据视为数字进行排序),或一个排序函数,入参为相比较的两个行数据,如(a,b)=>{ return a-b } 注意此处a,b并不是行数据而是rowData[column.prop]的值, 传入后可通过表头右侧的按钮进行排序, 支持正序/逆序与原排序,但是按钮与表头插槽冲突,待完善
-   */
-  sortable: boolean | CxTableSortFun;
+  // /**
+  //  * @description 该列是否可排序,true为默认表现(即将列数据视为数字进行排序),或一个排序函数,入参为相比较的两个行数据,如(a,b)=>{ return a-b } 注意此处a,b并不是行数据而是rowData[column.prop]的值, 传入后可通过表头右侧的按钮进行排序, 支持正序/逆序与原排序,但是按钮与表头插槽冲突,待完善
+  //  */
+  // sortable: boolean | CxTableSortFun;
   broadcastRegister: (broadcast: CxBroadcast) => void;
   /**
    * @description 是否按selectText显示, 查找顺序: 1. selectText 2. replace Id to Text

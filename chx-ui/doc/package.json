@@ -9,8 +9,10 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "sass": "^1.51.0",
     "vitepress": "^0.22.4",
     "vitepress-theme-demoblock": "^1.4.2"
+  },
+  "dependencies": {
+    "node-sass": "^7.0.1"
   }
 }
