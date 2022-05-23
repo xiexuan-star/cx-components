@@ -1,5 +1,7 @@
+import { localStore } from 'chx-utils';
 import { createVNode, defineComponent, resolveComponent } from 'vue';
 import { PatchFlags } from '../../constant/enum';
+import { PAGE_CAPACITY } from '../cx-table/hooks';
 
 export default defineComponent({
   name: 'CxPagination',
@@ -9,6 +11,7 @@ export default defineComponent({
       const { pagination } = props;
       pagination.currentPage = 1;
       pagination.pageCapacity = size;
+      localStore.set(PAGE_CAPACITY, size)
       emit('paging');
     };
 
