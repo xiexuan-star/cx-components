@@ -8,7 +8,7 @@
   flex-wrap: nowrap;
 
   @include e(animate){
-    transition: background-color 0.5s ease-in-out, margin 0.3s ease-in-out, color 0.3s ease-in-out;
+    transition: background-color 0.5s ease-in-out, margin 0.5s ease-in-out, color 0.5s ease-in-out;
   }
 
   @include e(slider) {
@@ -20,11 +20,12 @@
     height: calc(var(--height) - 2px);
     width: calc(var(--height) - 2px);
     border-radius: 50%;
-    background-color: var(--inactive-color);
+    // background-color: var(--inactive-color);
+    background-color: white;
     margin-left: 0;
 
     @include when(active) {
-      background-color: var(--active-color);
+      // background-color: var(--active-color);
       margin-left: calc(var(--width) - var(--height));
     }
   }
@@ -41,8 +42,14 @@
     width: var(--width);
     height: var(--height);
     border-radius: calc(var(--height) / 2);
-    border: 1px solid var(--border-color);
-    background-color: rgb(240, 242, 245);
+    border: 1px solid var(--inactive-color);
+    background-color: var(--inactive-color);
     cursor: pointer;
+    @include when(active) {
+      background-color: var(--active-color);
+      border-color: var(--active-color);
+
+    }
+
   }
 }

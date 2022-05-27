@@ -11,7 +11,7 @@
       v-if="inactiveText"
     >{{ inactiveText }}
     </span>
-    <div class="cx-switch__wrapper" :style="style" @click.stop.prevent="clickHandler">
+    <div :class="{'cx-switch__wrapper': true, 'is-active': isActive}" :style="style" @click.stop.prevent="clickHandler">
       <div
         :class="{
           'cx-switch__slider': true,
