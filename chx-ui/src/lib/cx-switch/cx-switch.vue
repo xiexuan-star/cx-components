@@ -40,10 +40,10 @@ export default defineComponent({
   props: {
     modelValue: { type: [String, Boolean, Number] },
     size: { type: String as PropType<'large' | 'small'>, default: 'small' },
-    activeColor: { type: String, default: '#299FFF' },
-    inactiveColor: { type: String, default: '#C0C2C4' },
+    activeColor: { type: String, default: '#0084FF' },
+    inactiveColor: { type: String, default: '#DCDFE6' },
     width: { type: Number },
-    borderColor: { type: String, default: 'white' },
+    // borderColor: { type: String, default: 'white' },
     activeIcon: { type: String, default: 'check-line' },
     inactiveIcon: { type: String, default: 'jianshao' },
     activeText: { type: String },
@@ -62,7 +62,7 @@ export default defineComponent({
         '--width': props.width ? `${ props.width }px` : (props.size === 'large' ? '44px' : '28px'),
         '--active-color': props.activeColor,
         '--inactive-color': props.inactiveColor,
-        '--border-color': props.borderColor
+        // '--border-color': props.borderColor
       };
     });
     const isActive = computed(() => {
