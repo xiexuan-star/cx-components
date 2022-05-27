@@ -20,7 +20,7 @@
         }"
       >
         <i v-if="loading" class="el-icon-loading iconfont icon-loading"/>
-        <i v-else :class="`iconfont icon-${isActive ? activeIcon : inactiveIcon}`"/>
+        <!-- <i v-else :class="`iconfont icon-${isActive ? activeIcon : inactiveIcon}`"/> -->
       </div>
     </div>
     <span
@@ -40,8 +40,8 @@ export default defineComponent({
   props: {
     modelValue: { type: [String, Boolean, Number] },
     size: { type: String as PropType<'large' | 'small'>, default: 'small' },
-    activeColor: { type: String, default: 'rgb(149, 222, 100)' },
-    inactiveColor: { type: String, default: 'rgb(255, 163, 158)' },
+    activeColor: { type: String, default: '#299FFF' },
+    inactiveColor: { type: String, default: '#C0C2C4' },
     width: { type: Number },
     borderColor: { type: String, default: 'white' },
     activeIcon: { type: String, default: 'check-line' },
